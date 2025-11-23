@@ -15,7 +15,7 @@ import {
 import { toCapitalize } from "@/utils/formatters/to-capitalize";
 import { generateSKU } from "@/utils/generate/generate-sku";
 import { formatOptionalField } from "@/utils/formatters/format-optional-field";
-import { productInsertOrUpdate } from "@/actions/products/mutations/product.insert-or-update.action";
+import { productInsertOrUpdate } from "@/actions/products/product.insert-or-update.action";
 import { warehouseInsertMany } from "@/actions/warehouses/mutations/warehouse.insert-many.action";
 import { warehouseGetAllByProductCached } from "@/actions/warehouses/cache/warehouse.cache";
 

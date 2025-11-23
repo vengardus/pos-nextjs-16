@@ -1,5 +1,3 @@
-"use server"
-
 import prisma from "@/infrastructure/db/prisma";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import type { Category } from "@/types/interfaces/category/category.interface";

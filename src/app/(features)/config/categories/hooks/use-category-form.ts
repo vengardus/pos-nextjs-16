@@ -9,7 +9,7 @@ import {
   CategoryFormSchemaType,
 } from "@/app/(features)/config/categories/schemas/category-form.schema";
 import { toCapitalize } from "@/utils/formatters/to-capitalize";
-import { categoryInsertOrUpdate } from "@/actions/categories/mutations/category.insert-or-update.action";
+import { categoryInsertOrUpdate } from "@/actions/categories/category.insert-or-update.action";
 
 const defaultValues: CategoryFormSchemaType = {
   name: "",

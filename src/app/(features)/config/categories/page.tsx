@@ -1,7 +1,7 @@
 import { CategoryList } from "@/app/(features)/config/categories/components/category-list";
 import { ShowPageMessage } from "@/components/common/messages/show-page-message";
 import { ModuleEnum } from "@/types/enums/module.enum";
-import { categoryGetAllByCompanyCached } from "@/actions/categories/cache/category.cache";
+import { categoryGetAllByCompanyCached } from "@/lib/data/categories/category.cache";
 import { checkAuthenticationAndPermission } from "@/services/auth/check-authentication-and-permission.use-case";
 
 export default async function ConfigCategoriesPage() {

@@ -13,7 +13,7 @@ import {
 import { ProductForm } from "./product-form";
 import { ListTable } from "@/components/tables/list-table";
 import { Modal } from "@/components/common/modals/modal";
-import { productDeleteById } from "@/actions/products/mutations/product.delete-by-id.action";
+import { productDeleteById } from "@/actions/products/product.delete-by-id.action";
 
 interface ProductListProps {
   companyId: string;

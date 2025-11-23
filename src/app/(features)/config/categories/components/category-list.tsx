@@ -11,7 +11,7 @@ import {
 import { CategoryForm } from "./category-form";
 import { Modal } from "../../../../../components/common/modals/modal";
 import { ListTable } from "../../../../../components/tables/list-table";
-import { categoryDeleteById } from "@/actions/categories/mutations/category.delete-by-id.action";
+import { categoryDeleteById } from "@/actions/categories/category.delete-by-id.action";
 
 interface CategoryListProps {
   categories: Category[];

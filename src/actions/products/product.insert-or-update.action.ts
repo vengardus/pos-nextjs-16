@@ -1,4 +1,4 @@
-"use server";
+  "use server";
 
 import { revalidatePath, updateTag } from "next/cache";
 import prisma from "@/infrastructure/db/prisma";

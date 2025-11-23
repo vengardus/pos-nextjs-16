@@ -1,5 +1,6 @@
 "use cache"
 
+import 'server-only'
 import {
   cacheLife,
   cacheTag,

@@ -1,0 +1,486 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")     // no se requiere para veriones recientes (VERIFICAR)
+}
+
+// enum UserRoleEnum {
+//   SUPER_ADMIN
+//   ADMIN
+//   USER
+//   GUEST
+
+//   @@map("user_role_enum")
+// }
+
+model UserModel {
+  id          String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email       String @unique
+  password    String
+  name        String
+  imageUrl    String? @map("image_url")
+  authId      String? @unique @map("auth_id")
+  authType    String @default("credentials") @map("auth_type")
+  documentNumber  String? @map("document_number")
+  phone       String?
+  address     String?
+  status      String @default("ACTIVE")
+  //roleId      UserRoleEnum @default(USER) @map("role_id")
+  roleId      String @default("CASHIER") @map("role_id")
+
+  // relations
+  documentType DocumentTypeModel? @relation(fields: [documentTypeId], references: [id])
+  documentTypeId  String? @map("document_type_id") @db.Uuid
+  Company     CompanyModel[]
+  BranchUser  BranchUserModel[]
+  Sale        SaleModel[]
+  Kardex      KardexModel[]
+  CashRegisterClosure CashRegisterClosureModel[]
+  CashRegisterMovement CashRegisterMovementModel[]
+
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime? @map("updated_at")
+
+  @@index([authId])
+  @@map("users")
+}
+
+model CompanyModel {
+  id              String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name            String @default("Genérica")
+  taxId           String? @map("tax_id")
+  taxAddress      String? @map("tax_address")
+  currencySymbol  String @map("currency_symbol")
+  imageUrl        String? @map("image_url")
+  authId          String @map("auth_id")
+  isDefault       Boolean @default(false) @map("is_default")
+  iso             String @default("PE")
+  country         String @default("Perú")
+  currency        String @default("PEN") 
+  taxGlose        String @default("IGV") @map("tax_glose")
+  taxValue        Float @default(18.00) @map("tax_value")
+
+
+  // relations
+  User            UserModel @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId          String @map("user_id") @db.Uuid
+  Branch          BranchModel[]
+  DocumentType    DocumentTypeModel[]
+  Category        CategoryModel[]
+  Brand           BrandModel  []
+  Product         ProductModel[]
+  Sale            SaleModel[]
+  ClientSuplier   ClientSupplierModel[]
+  PaymentMethod   PaymentMethodModel[]
+  Permission      PermissionModel[]
+  Role            RoleModel[]
+
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime? @updatedAt @map("updated_at")
+
+  @@map("companies")
+  @@unique([name, authId])
+}
+
+model BranchModel {
+  id              String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name            String
+  taxAddress      String? @map("tax_address")
+  currencySymbol  String @map("currency_symbol")  
+  isDefault       Boolean @default(false) @map("is_default")
+
+  // relations
+  Company         CompanyModel @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId       String @map("company_id") @db.Uuid
+  BranchUser      BranchUserModel[]
+  Warehouse       WarehouseModel[]
+  Sale            SaleModel[]
+  CashRegister    CashRegisterModel[]
+
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime? @map("updated_at")
+
+  @@map("branches")
+  @@unique([name, companyId])
+}
+
+model DocumentTypeModel {
+  id              String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name            String
+  isDefault       Boolean @default(false) @map("is_default")
+
+  // relations
+  User            UserModel[]
+  Company         CompanyModel @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId       String @map("company_id") @db.Uuid
+
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime? @map("updated_at")
+
+  @@map("document_types")
+  @@unique([name, companyId])
+}
+
+model BranchUserModel {
+  id            String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+
+  // relations
+  Branch        BranchModel @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  branchId      String @map("branch_id") @db.Uuid
+  User          UserModel @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        String @map("user_id") @db.Uuid()
+  CashRegister  CashRegisterModel? @relation(fields: [cashRegisterId], references: [id], onDelete: Cascade)
+  cashRegisterId String? @map("cash_register_id") @db.Uuid()
+
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime? @map("updated_at")
+
+  @@map("branch_user")
+  @@index([branchId, userId])
+  @@unique([branchId, userId, cashRegisterId])
+}
+
+model CategoryModel {
+  id          String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name        String 
+  color       String
+  imageUrl    String? @map("image_url")
+  isDefault   Boolean @map("is_default") @default(false)
+
+  // relations
+  Company     CompanyModel @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId   String @map("company_id") @db.Uuid
+  Producto    ProductModel[]
+
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime? @map("updated_at")
+
+  @@map("categories")
+  @@unique([name, companyId])
+}
+
+model BrandModel {
+  id          String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name        String 
+  isDefault   Boolean @map("is_default") @default(false)
+
+  // relations
+  Company     CompanyModel @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId   String @map("company_id") @db.Uuid
+
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime? @map("updated_at")
+
+  @@map("brands")
+  @@unique([name, companyId])
+}
+
+model ProductModel {
+  id                  String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                String
+  salePrice           Float    @default(0) @map("sale_price")
+  purchasePrice       Float    @default(0) @map("purchase_price")
+  barcode             String?  @map("barcode")
+  internalCode        String?   @map("internal_code")
+  unitSale            String   @map("unit_sale")
+  isInventoryControl  Boolean  @default(false) @map("is_inventary_control")
+  isMultiPrice        Boolean  @default(false) @map("is_multi_price")
+  
+  // relations
+  Company             CompanyModel @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId           String @map("company_id") @db.Uuid
+  Category            CategoryModel @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId          String @map("category_id") @db.Uuid
+  WareHouse           WarehouseModel[]
+  MultiPrice          MultiPriceModel[]
+  SaleDetail          SaleDetailModel[]
+  Kardex              KardexModel[]
+
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime? @map("updated_at") @updatedAt 
+
+  @@map("products")
+  @@unique([name, companyId])
+  @@unique([barcode, companyId])
+  @@unique([internalCode, companyId])
+}
+
+model WarehouseModel {
+  id            String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  stock         Float @default(0) @map("stock")
+  minimumStock  Float @default(0) @map("minimum_stock")
+
+  // relations
+  Branch        BranchModel @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  branchId      String @db.Uuid @map("branch_id")
+  Product       ProductModel @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId     String @db.Uuid @map("product_id")
+  
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime? @map("updated_at") @updatedAt 
+
+  @@map("warehouses")
+  @@unique([branchId, productId])
+}
+
+model MultiPriceModel {
+  id            String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  salePrice     Float @map("sale_price")
+  quantity      Float @map("quantity")
+
+  // relations
+  Product       ProductModel @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId     String @db.Uuid @map("product_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+
+  @@map("multi_prices")
+  @@unique([productId, quantity])
+}
+
+model SaleModel {
+  id              String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  totalAmount     Float   @default(0) @map("total_amount")
+  paymentType     String   @default("")@map("payment_type")
+  status          String   @default("A")  @map("status")
+  totalTaxes      Float  @default(0) @map("total_taxes")
+  balance         Float  @default(0) @map("balance")
+  paidWith        Float  @default(0) @map("paid_with")
+  cardReference   String   @default("") @map("card_reference")
+  change          Float    @default(0) @map("change")
+  cash            Float   @default(0)  @map("cash")
+  credit          Float  @default(0)  @map("credit")
+  card            Float  @default(0)  @map("card")
+  productCount    Int     @default(0) @map("product_count")
+  subTotal        Float  @default(0)  @map("sub_total")
+
+  // relations
+  User            UserModel @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId          String @db.Uuid @map("user_id")
+  Branch          BranchModel @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  branchId        String @db.Uuid @map("branch_id")
+  Company         CompanyModel @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId       String @db.Uuid @map("company_id")
+  clientId        String @db.Uuid @map("client_id")
+  SaleDetail      SaleDetailModel[]
+  CashRegisterMovement CashRegisterMovementModel[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+
+  @@map("sales")
+}
+
+model SaleDetailModel {
+  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  quantity       Float  @default(1) @map("quantity")
+  salePrice      Float  @map("sale_price")
+  total          Float  @map("total")
+  description    String   @map("description")
+  purchasePrice  Float  @map("purchase_price")
+  status         String   @default("A") @map("status")
+
+  // relations
+  Sale            SaleModel @relation(fields: [saleId], references: [id], onDelete: Cascade)
+  saleId         String @db.Uuid @map("sale_id")
+  Product       ProductModel @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId      String @db.Uuid @map("product_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+
+  @@map("sale_details")
+  @@unique([saleId, productId])
+}
+
+model KardexModel {
+  id            String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  motive        String  @map("motive")
+  quantity      Float @map("quantity")
+  type          String  @map("type")
+  status        String  @map("status")
+  total         Float @map("total")
+  cost          Float @map("cost")
+  previousStock Float @map("previous_stock")
+  currentStock  Float @map("current_stock")
+
+  // relations
+  User          UserModel @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        String  @db.Uuid @map("user_id")
+  Product       ProductModel @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId     String  @db.Uuid @map("product_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+
+  @@map("kardex")
+}
+
+model ClientSupplierModel {
+  id                    String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                  String
+  address               String?
+  phone                 String?
+  email                 String?
+  naturalIdentifier     String? @map("natural_identifier")
+  legalIdentifier       String? @map("legal_identifier")
+  personType            String @map("person_type")
+  status                String @default("A") 
+  isDefault             Boolean @map("is_default") @default(false)
+
+  // relations
+  Company               CompanyModel @relation(fields: [companyId], references: [id], onDelete:Cascade)
+  companyId             String  @db.Uuid @map("company_id")
+
+  createdAt             DateTime @default(now()) @map("created_at")
+  updatedAt             DateTime? @updatedAt @map("updated_at")
+
+  @@map("clients_suppliers")
+  @@unique([name, companyId])
+  @@unique([naturalIdentifier, personType, companyId])
+  @@unique([legalIdentifier, personType, companyId])
+}
+
+model CashRegisterModel {
+  id                    String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  description           String
+  isDefault             Boolean @default(false) @map("is_default")
+
+  // relations
+  Branch                BranchModel @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  branchId              String @db.Uuid @map("branch_id")
+  CashRegisterClosure   CashRegisterClosureModel[]
+  BranchUser            BranchUserModel[]
+
+  createdAt             DateTime @default(now()) @map("created_at")
+  updatedAt             DateTime? @updatedAt @map("updated_at")
+
+  @@map("cash_register")
+  @@unique([description, branchId])
+
+}
+
+model CashRegisterClosureModel {
+  id                    String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  startDate             DateTime @default(now()) @map("start_date")
+  endDate               DateTime @default(now()) @map("end_date")
+  cashBalance           Float @default(0) @map("cash_balance")
+  
+  calculateTotal        Float @default(0) @map("calculate_total")
+  realTotal             Float @default(0) @map("real_total")
+  status                String
+  difference            Float @default(0)
+  initialCash           Float @default(0) @map("initial_cash")
+
+  // relations
+  User                  UserModel @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId                String @db.Uuid @map("user_id")
+  CashRegister          CashRegisterModel @relation(fields: [cashRegisterId], references: [id], onDelete: Cascade)
+  cashRegisterId        String @db.Uuid @map("cash_register_id")
+  CashRegisterMovement  CashRegisterMovementModel[]
+
+  createdAt             DateTime @default(now()) @map("created_at")
+  updatedAt             DateTime? @map("updated_at")
+
+  @@map("cash_register_closure")
+}
+
+
+model PaymentMethodModel {
+  id                    String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                  String
+  isDefault             Boolean @default(false) @map("is_default")
+  cod                   String 
+  color                 String @default("")
+              
+  // relations
+  Company               CompanyModel @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId             String @db.Uuid @map("company_id")
+  CashRegisterMovemenrt CashRegisterMovementModel[]
+
+  createdAt             DateTime @default(now()) @map("created_at")
+  updatedAt             DateTime? @map("updated_at")
+
+  @@map("payment_methods")
+  @@unique([name, companyId])
+  @@unique([cod, companyId])
+}
+
+model CashRegisterMovementModel {
+  id                    String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  date                  DateTime @default(now())
+  amount                Float
+  description           String
+  movementCategory      String @default("")
+  movementType          String @default("")
+  paymentMethodCod      String @default("")
+  changeDue             Float @map("chamge_due")
+
+  // relations
+  PaymentMethod         PaymentMethodModel @relation(fields: [paymentMethodId], references: [id], onDelete: Cascade)
+  paymentMethodId       String @db.Uuid @map("payment_method_id")
+  User                  UserModel @relation(fields: [userId], references: [id], onDelete: Cascade )  
+  userId                String @db.Uuid @map("user_id")
+  CashRegisterClosure   CashRegisterClosureModel @relation(fields: [cashRegisterClosureId], references: [id], onDelete: Cascade)
+  cashRegisterClosureId String @db.Uuid @map("cash_register_closure_id")
+  Sale                  SaleModel? @relation(fields: [saleId], references: [id], onDelete: Cascade)
+  saleId                String? @db.Uuid @map("sale_id")
+
+  createdAt             DateTime @default(now()) @map("created_at")
+  updatedAt             DateTime? @map("updated_at")
+
+  @@map("cash_register_movements")
+}
+
+model PermissionModel {
+  id                    String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  moduleCod              String @map("module_cod")
+  isGroup               Boolean @default(false) @map("is_group")
+  
+  // auxiliar debido a que UserModel almacena roleCod
+  roleCod               String @map("role_cod") 
+
+   // relations
+  Role                  RoleModel @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  roleId                String @db.Uuid @map("role_id")
+  Company               CompanyModel @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId             String @db.Uuid @map("company_id")
+
+  createdAt             DateTime @default(now()) @map("created_at")
+  updatedAt             DateTime? @map("updated_at")
+
+  @@map("permissions")
+  @@unique([roleId, moduleCod, companyId ])
+  @@index([companyId])
+}
+
+model RoleModel {
+  id                    String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  cod                   String 
+  description           String 
+  isDefault             Boolean @default(false) @map("is_default")
+
+   // relations
+  Company               CompanyModel @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId             String @db.Uuid @map("company_id")
+  Permission            PermissionModel[]
+
+  createdAt             DateTime @default(now()) @map("created_at")
+  updatedAt             DateTime? @map("updated_at")
+
+  @@map("roles")
+  @@unique([cod, companyId ])
+  @@unique([description, companyId ])
+  @@index([companyId])
+}

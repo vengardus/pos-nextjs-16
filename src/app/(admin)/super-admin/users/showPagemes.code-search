@@ -1,0 +1,181 @@
+# Query: showPagemes
+# ContextLines: 1
+
+42 results - 11 files
+
+src/app/(admin)/super-admin/users/page.tsx:
+   1  import { CallAction } from "@/actions/actions";
+   2: import { ShowPageMessage } from "@/components/common/messages/show-page-message";
+   3  import { Title } from "@/components/common/titles/Title";
+
+  11      return (
+  12:       <ShowPageMessage message={`Error: ${respUsers.message}`} />
+  13      );
+
+src/app/(features)/cash-register/closure/[id]/page.tsx:
+   16  import { LinkSS } from "@/components/common/links/link-ss";
+   17: import { ShowPageMessage } from "@/components/common/messages/show-page-message";
+   18  import { RegisterClosureUI } from "@/components/cash-register/closure/register-closure-ui";
+
+   34      return (
+   35:       <ShowPageMessage
+   36          message={`Error: Usuario no autenticado (${respSession.message})`}
+
+   47      return (
+   48:       <ShowPageMessage
+   49          message={`Error: Caja aperturada no encontrada: (${
+
+   55    if (respCashRegisterClosure.data.status === CashRegisterStatusEnum.CLOSING) {
+   56:     return <ShowPageMessage message={`Error: Caja ya fue cerrada.`} />;
+   57    } else if (
+
+   60      return (
+   61:       <ShowPageMessage
+   62          message={`Error: Caja no aperturada: (${respCashRegisterClosure.message})`}
+
+   70      return (
+   71:       <ShowPageMessage
+   72          message={`Error: Compañia no encontrada (${respCompany.message})`}
+
+   83      return (
+   84:       <ShowPageMessage
+   85          message={`Error: Compañia no encontrada (${respPaymentMethods.message})`}
+
+  101      return (
+  102:       <ShowPageMessage
+  103          message={`Error al calcular totales para el Cierre de Caja: ${resp.message}`}
+
+src/app/(features)/cash-register/movement/[type]/page.tsx:
+   6  import { Title } from "@/components/common/titles/Title";
+   7: import { ShowPageMessage } from "@/components/common/messages/show-page-message";
+   8  
+
+  18      return (
+  19:       <ShowPageMessage
+  20          message={`Error: Tipo de movimiento no válido`}
+  21:       ></ShowPageMessage>
+  22      );
+
+src/app/(features)/config/companies/currency/page.tsx:
+   2  import { CallAction } from "@/actions/actions";
+   3: import { ShowPageMessage } from "@/components/common/messages/show-page-message";
+   4  import { CompanyCurrency } from "@/components/companies/company-currency";
+
+  11      return (
+  12:       <ShowPageMessage
+  13          message={`Error: Usuario no autenticado (${respSession.message})`}
+
+  23      return (
+  24:       <ShowPageMessage
+  25          message={`Error: Compañia no encontrada ({respCompany.message})`}
+
+src/app/(features)/config/companies/general/page.tsx:
+   2  import { CallAction } from "@/actions/actions";
+   3: import { ShowPageMessage } from "@/components/common/messages/show-page-message";
+   4  import { CompanyForm } from "@/components/companies/company-form";
+
+  12      return (
+  13:       <ShowPageMessage
+  14          message={`Error: Usuario no autenticado (${respSession.message})`}
+
+  24      return (
+  25:       <ShowPageMessage
+  26          message={`Error: Compañia no encontrada ({respCompany.message})`}
+
+src/app/(features)/config/roles/page.tsx:
+   1  import { CallAction } from "@/actions/actions";
+   2: import { ShowPageMessage } from "@/components/common/messages/show-page-message";
+   3  import { CustomCrud } from "@/components/roles/custom-crud";
+
+  11      return (
+  12:       <ShowPageMessage
+  13          customMessage={`Error: Usuario no autenticado.`}
+
+  23      return (
+  24:       <ShowPageMessage
+  25          modelName={'Compañia'}
+
+  34      return (
+  35:       <ShowPageMessage
+  36          modelName={'Roles'}
+
+src/app/(features)/dashboard/page.tsx:
+   1  import { CallAction } from "@/actions/actions";
+   2: import { ShowPageMessage } from "@/components/common/messages/show-page-message";
+   3  import { Title } from "@/components/common/titles/Title";
+
+  14      return (
+  15:       <ShowPageMessage
+  16          message={`Error: Usuario no autenticado (${respSession.message??""})`}
+
+  27      return (
+  28:       <ShowPageMessage
+  29          message={`Error: Compañia no encontrada (${respCompany.message})`}
+
+  37      return (
+  38:       <ShowPageMessage
+  39          message={`Error: Métodos de pago no encontrados (${respPaymentMethods.message})`}
+
+src/app/(features)/pos/page.tsx:
+   2  import { CallAction } from "@/actions/actions";
+   3: import { ShowPageMessage } from "@/components/common/messages/show-page-message";
+   4  import { PosHeader } from "@/components/pos/pos-header";
+
+  22      return (
+  23:       <ShowPageMessage
+  24          message={`Error: Usuario no autenticado (${respSession.message ?? ""})`}
+
+  34      return (
+  35:       <ShowPageMessage
+  36          message={`Error: Compañia no encontrada (${respCompany.message})`}
+
+  52      return (
+  53:       <ShowPageMessage
+  54          message={`Error al obtener sucursal (${respBranchUsers.message})`}
+
+  59    //   return (
+  60:   //     <ShowPageMessage
+  61    //       message={`No se encontraron clientes (${respClientSupplier.message})`}
+
+  71      return (
+  72:       <ShowPageMessage
+  73          message={`Error al obtener cajas: ${respCashRegister.message}`}
+
+  77    if (!respCashRegister.data) {
+  78:     return <ShowPageMessage message={`No se encontraron cajas`} />;
+  79    }
+
+  86      return (
+  87:       <ShowPageMessage
+  88          message={`Error al obtener caja aperturada: ${respCashRegisterClosure.message}`}
+
+src/components/cash-register/closure/register-closure-ui.tsx:
+  12  import { useRouter } from "next/navigation";
+  13: import { ShowPageMessage } from "@/components/common/messages/show-page-message";
+  14  
+
+  63      return (
+  64:       <ShowPageMessage
+  65          message={`Registro de efectivo en caja es negativo (${(Math.round(amountInRegister*100)/100).toFixed(2)}). Corrija en ingreso de dinero a caja.`}
+
+src/components/common/messages/show-page-message.tsx:
+   1  
+   2: interface ShowPageMessageProps {
+   3    modelName?: string;
+
+   8  const defaultMessage = "Error al consultar ";
+   9: export const ShowPageMessage = ({
+  10    customMessage,
+
+  12    modelName
+  13: }: ShowPageMessageProps) => {
+  14    return (
+
+src/components/dashboard/tops/top-products-by-quantity.tsx:
+   3  import type { SummaryTopSellingProducts } from "@/interfaces/dashboard/summary-top-selling-products.interface";
+   4: import { ShowPageMessage } from "@/components/common/messages/show-page-message";
+   5  import { Title } from "@/components/common/titles/Title";
+
+  21      return (
+  22:       <ShowPageMessage
+  23          message={`Error al obtener productos mas vendidos: ${respTopSellingProducts.message}`}

@@ -1,0 +1,5 @@
+export enum CashRegisterMovementCategoryEnum {
+    PAYMENT_METHOD  = "PAYMENT_METHOD",
+    CASH_REGISTER_STATUS = "CASH_REGISTER_STATUS",
+    MOVEMENT_TYPE = "MOVEMENT_TYPE"
+}

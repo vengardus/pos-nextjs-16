@@ -1,0 +1,1 @@
+export type ProviderOAuth = "google" | "github" | "facebook" | "linkedin"

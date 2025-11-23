@@ -1,0 +1,116 @@
+"use server";
+
+import { revalidatePath, updateTag } from "next/cache";
+import { v2 as cloudinary } from "cloudinary";
+import prisma from "@/infrastructure/db/prisma";
+import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
+import type { Category } from "@/types/interfaces/category/category.interface";
+import { getActionError } from "@/utils/errors/get-action-error";
+import { initResponseAction } from "@/utils/response/init-response-action";
+
+// Configuration Cloudinary
+cloudinary.config(process.env.CLOUDINARY_URL ?? "");
+
+export const categoryInsertOrUpdate = async (
+  category: Category,
+  fileList: FileList | []
+): Promise<ResponseAction> => {
+  const resp = initResponseAction();
+  const { id, createdAt, ...rest } = category;
+  console.log(id, createdAt); //no usada intencionalmente
+
+  try {
+    const prismaTx = await prisma.$transaction(async () => {
+      let proccesCategory: Category = category;
+
+      // Procesa de carga y guardado de imagenes
+      // Convierte FileList a Array de File y filtra los no Files
+      const fileArray = Array.from(fileList).filter(
+        (file) => file instanceof File
+      );
+      const respImages = await uploadImages(fileArray);
+
+      if (!respImages.success || !respImages.data)
+        throw new Error(resp.message);
+
+      // Determinar si es create or update
+      if (id) {
+        // Update
+        proccesCategory = await prisma.categoryModel.update({
+          where: {
+            id,
+          },
+          data: {
+            ...rest,
+            //imageUrl: respImages.data[0],
+          },
+        });
+      } else {
+        // create
+        proccesCategory = await prisma.categoryModel.create({
+          data: {
+            ...rest,
+            imageUrl: respImages.data[0],
+          },
+        });
+      }
+
+      return {
+        proccesCategory,
+      };
+    });
+    resp.data = prismaTx.proccesCategory;
+    resp.success = true;
+
+    revalidatePath("/config/categories");
+    updateTag(`categories-${prismaTx.proccesCategory.companyId}`);
+  } catch (error) {
+    resp.message = getActionError(error);
+  }
+  return resp;
+};
+
+const uploadImages = async (
+  images: File[]
+): Promise<{
+  success: boolean;
+  data: (string | null)[] | null;
+  message?: string;
+}> => {
+  const resp: {
+    success: boolean;
+    data: (string | null)[] | null;
+    message?: string;
+  } = {
+    success: false,
+    data: null,
+  };
+
+  try {
+    const uploadPromises = images.map(async (image) => {
+      try {
+        const buffer = await image.arrayBuffer();
+        const base64Image = Buffer.from(buffer).toString("base64");
+
+        return cloudinary.uploader
+          .upload(`data:image/png;base64,${base64Image}`, {
+            folder: "pos/categories",
+          })
+          .then((r) => r.secure_url);
+      } catch (error) {
+        console.log("Error procesando imagen", error);
+        return null;
+      }
+    });
+
+    // si ocurrió un error en el uploaPromise, el Promise.all emviara al catch externo
+    const uploadImages = await Promise.all(uploadPromises);
+
+    resp.success = true;
+    resp.data = uploadImages;
+  } catch (error) {
+    resp.message = getActionError(error);
+  }
+
+  return resp;
+};

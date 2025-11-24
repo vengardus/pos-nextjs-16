@@ -8,7 +8,7 @@ import type { Company } from "@/types/interfaces/company/company.interface";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Combobox } from "@/components/common/combobox/combobox";
 import { ButtonSave } from "@/components/common/buttons/button-save";
-import { companyUpdateCurrency } from "@/actions/companies/mutations/company.update-currency.action";
+import { companyUpdateCurrency } from "@/actions/companies/company.update-currency.action";
 
 interface CompanyCurrencyProps {
   currencies: Currency[];

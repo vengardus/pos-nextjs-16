@@ -1,7 +1,7 @@
 // utils/company.cache.ts
 'use server'
 
-import { companyGetByUser } from '@/actions/companies/querys/company.get-by-user.action'
+import { companyGetByUser } from '@/lib/data/companies/company.get-by-user'
 import { unstable_cache, cacheTag } from 'next/cache'
 
 export async function company2GetByUserCached(

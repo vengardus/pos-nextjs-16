@@ -9,7 +9,7 @@ import {
   CompanyFormSchemaType,
 } from "@/app/(features)/config/companies/schemas/company-form.schema";
 import { toCapitalize } from "@/utils/formatters/to-capitalize";
-import { companyUpdate } from "@/actions/companies/mutations/company.update.action";
+import { companyUpdate } from "@/actions/companies/company.update.action";
 
 const defaultValues: CompanyFormSchemaType = {
   name: "",

@@ -1,11 +1,11 @@
 import type { Company } from "@/types/interfaces/company/company.interface";
 import { ModuleEnum } from "@/types/enums/module.enum";
-import { companyGetByUserCached } from "@/actions/companies/cache/company.cache";
+import { companyGetByUserCached } from "@/lib/data/companies/company.cache";
 import { hasModulePermission } from "./has-module-permission.use-case";
 import { getAuthCached } from "./get-auth.cached";
 import { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import { cacheTag } from "next/cache";
-import { companyGetByUser } from "@/actions/companies/querys/company.get-by-user.action";
+import { companyGetByUser } from "@/lib/data/companies/company.get-by-user";
 
 
 interface checkAuthenticationAndPermissionResult {

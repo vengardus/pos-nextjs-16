@@ -2,7 +2,7 @@ import { getAllISOCodes } from "iso-country-currency";
 import { ShowPageMessage } from "@/components/common/messages/show-page-message";
 import { CompanyCurrency } from "../../components/company-currency";
 import { CompaniesSidebar } from "../../components/companies-sidebar";
-import { companyGetByUserCached } from "@/actions/companies/cache/company.cache";
+import { companyGetByUserCached } from "@/lib/data/companies/company.cache";
 import { authGetSession } from "@/actions/auth/auth.get-session.action";
 
 export default async function CompanyCurrencyPage() {

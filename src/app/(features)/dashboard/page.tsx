@@ -5,7 +5,7 @@ import { Suspense } from "react";
 import { SalesPieChart } from "./components/charts/sales-pie-chart";
 import { TopProductsByQuantity } from "./components/tops/top-products-by-quantity";
 import { DateRangePicker } from "./components/date-range-picker";
-import { paymentMethodGetAllByCompanyCached } from "@/actions/payment-methods/cache/payment-method.cache";
+import { paymentMethodGetAllByCompanyCached } from "@/lib/data/payment-methods/payment-method.cache";
 import { checkAuthenticationAndPermission } from "@/services/auth/check-authentication-and-permission.use-case";
 
 export default async function DashboardPage() {

@@ -2,7 +2,7 @@ import { ShowPageMessage } from "@/components/common/messages/show-page-message"
 import { ListDef } from "@/app/(features)/config/payment-methods/components/list-def";
 import { ModuleEnum } from "@/types/enums/module.enum";
 import { checkAuthenticationAndPermission } from "@/services/auth/check-authentication-and-permission.use-case";
-import { paymentMethodGetAllByCompanyCached } from "@/actions/payment-methods/cache/payment-method.cache";
+import { paymentMethodGetAllByCompanyCached } from "@/lib/data/payment-methods/payment-method.cache";
 
 export default async function ConfigPaymentMethodsPage() {
   // Verify user authentication and permission

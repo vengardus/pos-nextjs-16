@@ -9,7 +9,7 @@ import {
   BranchFormSchemaType,
 } from "@/app/(features)/config/branches/schemas/branch-form.schema";
 import { toCapitalize } from "@/utils/formatters/to-capitalize";
-import { branchInsertOrUpdate } from "@/actions/branches/mutations/branch.insert-or-update.action";
+import { branchInsertOrUpdate } from "@/actions/branches/branch.insert-or-update.action";
 
 const defaultValues: BranchFormSchemaType = {
   name: "",

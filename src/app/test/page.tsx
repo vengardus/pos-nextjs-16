@@ -1,4 +1,4 @@
-import { authGetSession } from "@/actions/auth/auth.get-session.action";
+import { authGetSession } from "@/lib/data/auth/auth.get-session";
 import { TemplatePage } from "./template-page";
 
 export default async function TestPage() {

@@ -1,7 +1,7 @@
 import "@/styles/home.css";
 import { Features } from "@/app/(root)/components/features";
 import { Footer } from "@/components/layout/footer/footer";
-import { authGetSession } from "@/actions/auth/auth.get-session.action";
+import { authGetSession } from "@/lib/data/auth/auth.get-session";
 
 export default async function HomePage() {
   const resp = await authGetSession();

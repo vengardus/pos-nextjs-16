@@ -6,7 +6,7 @@ import type { ResponseAction } from "@/types/interfaces/common/response-action.i
 import type { CashRegister } from "@/types/interfaces/cash-register/cash-register.interface";
 import { getActionError } from "@/utils/errors/get-action-error";
 import { initResponseAction } from "@/utils/response/init-response-action";
-import { authGetSession } from "@/actions/auth/auth.get-session.action";
+import { authGetSession } from "@/lib/data/auth/auth.get-session";
 
 // Configuration Cloudinary
 

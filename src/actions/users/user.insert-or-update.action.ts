@@ -11,7 +11,7 @@ import type { UserWithRelations } from "@/types/interfaces/user/user-with-relati
 import type { BranchUser } from "@/types/interfaces/branch-user/branch-user.interface";
 import bcrypt from "bcryptjs";
 import { AppConstants } from "@/constants/app.constants";
-import { authGetSession } from "@/actions/auth/auth.get-session.action";
+import { authGetSession } from "@/lib/data/auth/auth.get-session";
 
 export const userInsertOrUpdate = async (
   user: UserWithRelations,

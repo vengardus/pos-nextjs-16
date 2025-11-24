@@ -7,8 +7,8 @@ import {
 } from "@/hooks/auth/schemas/login-form.schema";
 import { useRouter } from "next/navigation";
 import { AppConstants } from "@/constants/app.constants";
-import { authLoginCredentials } from "@/actions/auth/auth.login-credentials.action";
-import { authLoginProvider } from "@/actions/auth/auth.login-provider.action";
+import { authLoginCredentials } from "@/lib/data/auth/auth.login-credentials";
+import { authLoginProvider } from "@/lib/data/auth/auth.login-provider";
 
 
 export const useLoginForm = (isPendignSocial: boolean) => {

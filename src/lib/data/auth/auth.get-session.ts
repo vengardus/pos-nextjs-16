@@ -1,5 +1,4 @@
-"use server";
-
+import "server-only";
 import { auth } from "@/auth";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import { initResponseAction } from "@/utils/response/init-response-action";

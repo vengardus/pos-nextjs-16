@@ -11,7 +11,7 @@ import { AppConstants } from "@/constants/app.constants";
 import { initResponseAction } from "@/utils/response/init-response-action";
 import { getActionError } from "@/utils/errors/get-action-error";
 import {  revalidatePath, updateTag } from "next/cache";
-import { authGetSession } from "@/actions/auth/auth.get-session.action";
+import { authGetSession } from "@/lib/data/auth/auth.get-session";
 
 export const saleInsert = async (
   cartProducts: CartProduct[],

@@ -1,4 +1,4 @@
-import { authGetSession } from "@/actions/auth/auth.get-session.action";
+import { authGetSession } from "@/lib/data/auth/auth.get-session";
 import { Title } from "@/components/common/titles/Title";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import Image from "next/image";

@@ -3,7 +3,7 @@ import { ShowPageMessage } from "@/components/common/messages/show-page-message"
 import { CompanyCurrency } from "../../components/company-currency";
 import { CompaniesSidebar } from "../../components/companies-sidebar";
 import { companyGetByUserCached } from "@/lib/data/companies/company.cache";
-import { authGetSession } from "@/actions/auth/auth.get-session.action";
+import { authGetSession } from "@/lib/data/auth/auth.get-session";
 
 export default async function CompanyCurrencyPage() {
   // authenticated check

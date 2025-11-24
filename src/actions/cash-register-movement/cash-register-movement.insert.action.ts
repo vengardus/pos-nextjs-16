@@ -7,7 +7,7 @@ import type { CashRegisterMovement } from "@/types/interfaces/cash-register-move
 import { getActionError } from "@/utils/errors/get-action-error";
 import { initResponseAction } from "@/utils/response/init-response-action";
 import { updateTag } from "next/cache";
-import { authGetSession } from "@/actions/auth/auth.get-session.action";
+import { authGetSession } from "@/lib/data/auth/auth.get-session";
 
 export const cashRegisterMovementInsert = async (
   cashRegisterMovement: CashRegisterMovement

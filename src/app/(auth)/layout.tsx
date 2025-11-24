@@ -1,4 +1,4 @@
-import { authGetSession } from "@/actions/auth/auth.get-session.action";
+import { authGetSession } from "@/lib/data/auth/auth.get-session";
 import { AppConstants } from "@/constants/app.constants";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";

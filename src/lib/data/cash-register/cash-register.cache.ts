@@ -12,7 +12,6 @@ export const cashRegisterGetByBranchCached = async (
   branchId: string,
   companyId: string
 ): Promise<ResponseAction> => {
-  "use cache";
   cacheTag(`cash-register-${companyId}`);
   cacheLife(CacheConfig.CacheDurations);
   return await cashRegisterGetByBranch(branchId);
@@ -22,7 +21,6 @@ export const cashRegisterDetermineActiveCashRegisterCached = async (
   userId: string,
   branchId: string
 ): Promise<ResponseAction> => {
-  "use cache";
   cacheTag(`cash-register-determine-active-${userId}`);
   cacheLife(CacheConfig.CacheDurations);
   return await cashRegisterDetermineActiveCashRegister({

@@ -20,7 +20,6 @@ interface getCashRegisterTotalsProps {
 export const cashRegisterMovementGetTotalsCached = async (
   props: getCashRegisterTotalsProps
 ): Promise<ResponseAction> => {
-  "use cache";
   cacheTag(
     `cash-register-movements-totals-${
       props.cashRegisterClosureId.length ? props.cashRegisterClosureId : props.companyId

@@ -1,4 +1,4 @@
-"use server";
+import 'server-only'
 
 import prisma from "@/infrastructure/db/prisma";
 import { CashRegisterStatusEnum } from "@/types/enums/cash-register-status.enum";

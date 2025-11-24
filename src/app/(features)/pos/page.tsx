@@ -4,7 +4,7 @@ import { checkAuthenticationAndPermission } from "@/services/auth/check-authenti
 import { ShowPageMessage } from "@/components/common/messages/show-page-message";
 import { PosPageClient } from "./page-client";
 import { branchUserGetAllByUserCached } from "@/lib/data/branch-users/branch-user.cache";
-import { cashRegisterDetermineActiveCashRegisterCached } from "@/actions/cash-register/cache/cash-register.cache";
+import { cashRegisterDetermineActiveCashRegisterCached } from "@/lib/data/cash-register/cash-register.cache";
 
 export default async function PosPage() {
   // Verify user authentication and permission

@@ -11,7 +11,7 @@ import {
 import { toCapitalize } from "@/utils/formatters/to-capitalize";
 import { useBranchStore } from "@/stores/branch/branch.store";
 import { initResponseAction } from "@/utils/response/init-response-action";
-import { cashRegisterInsertOrUpdate } from "@/actions/cash-register/mutations/cash-register.insert-or-update.action";
+import { cashRegisterInsertOrUpdate } from "@/actions/cash-register/cash-register.insert-or-update.action";
 
 const defaultValues: CashRegisterFormSchemaType = {
   description: "",

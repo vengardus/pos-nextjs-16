@@ -5,7 +5,7 @@ import { Edit2Icon, Trash2Icon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { DialogConfirm } from "../../../../../components/common/dialog/dialog-confirm";
 import { toast } from "sonner";
-import { cashRegisterDeleteById } from "@/actions/cash-register/mutations/cash-register.delete-by-id.action";
+import { cashRegisterDeleteById } from "@/actions/cash-register/cash-register.delete-by-id.action";
 
 interface CashRegisterItemProps {
   cashRegister: CashRegister;

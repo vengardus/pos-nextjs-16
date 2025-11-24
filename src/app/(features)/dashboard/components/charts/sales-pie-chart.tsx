@@ -21,7 +21,7 @@ import { useDateRangeStore } from "@/stores/dashboard/date-range.store";
 import { dateToStringLocal } from "@/utils/date/date-to-string-local";
 import GenericPieChart from "@/components/common/charts/generic-pie-chart";
 import { useRealTimeStore } from "@/stores/general/real-time.store";
-import { cashRegisterMovementGetTotalsCached } from "@/actions/cash-register-movement/cache/cash-register-movement.cache";
+import { cashRegisterMovementGetTotalsCached } from "@/lib/data/cash-register-movement/cash-register-movement.cache";
 import { updateTags } from "@/infrastructure/cache/revalidate-tags";
 
 interface SalesPieChartProps {

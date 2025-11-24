@@ -14,7 +14,7 @@ import { usePaymentMethodStore } from "@/stores/payment-method/payment-method.st
 import { useCartStore } from "@/stores/cart/cart.store";
 import { toCapitalize } from "@/utils/formatters/to-capitalize";
 import { initResponseAction } from "@/utils/response/init-response-action";
-import { cashRegisterMovementInsert } from "@/actions/cash-register-movement/mutations/cash-register-movement.insert.action";
+import { cashRegisterMovementInsert } from "@/actions/cash-register-movement/cash-register-movement.insert.action";
 
 const defaultValues: RegisterMovementFormSchemaType = {
   motive: "",

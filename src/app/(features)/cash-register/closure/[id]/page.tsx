@@ -16,7 +16,7 @@ import { ModuleEnum } from "@/types/enums/module.enum";
 import { LinkSS } from "@/components/common/links/link-ss";
 import { paymentMethodGetAllByCompanyCached } from "@/actions/payment-methods/cache/payment-method.cache";
 import { cashRegisterClosureGetByIdCached } from "@/lib/data/cash-register-closure/cash-register-closure.cache";
-import { cashRegisterMovementGetTotalsCached } from "@/actions/cash-register-movement/cache/cash-register-movement.cache";
+import { cashRegisterMovementGetTotalsCached } from "@/lib/data/cash-register-movement/cash-register-movement.cache";
 
 type Params = Promise<{ id: string }>;
 

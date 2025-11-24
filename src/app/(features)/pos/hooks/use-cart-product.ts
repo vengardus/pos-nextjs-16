@@ -9,7 +9,7 @@ import { useClientSupplierStore } from "@/stores/client-supplier/client-supplier
 import { useCompanyStore } from "@/stores/company/company.store";
 import { useProductStore } from "@/stores/product/product.store";
 import { useRealTimeStore } from "@/stores/general/real-time.store";
-import { saleInsert } from "@/actions/sales/mutations/sale.insert.action";
+import { saleInsert } from "@/actions/sales/sale.insert.action";
 import { generateSaleTicket } from "@/services/tickets/sale/sale-ticket.use-case";
 
 export const useCartProdut = () => {

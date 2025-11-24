@@ -5,7 +5,7 @@ import 'server-only'
 import { CacheConfig } from "@/config/cache.config";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import { cacheLife, cacheTag } from "next/cache";
-import { branchGetAllByCompany } from "./branches/branch.get-all-by-company";
+import { branchGetAllByCompany } from "./branch.get-all-by-company";
 
 export const branchGetAllByCompanyCached = async (companyId: string): Promise<ResponseAction> => {
   cacheTag(`branches-${companyId}`);

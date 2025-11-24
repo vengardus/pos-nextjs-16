@@ -7,8 +7,8 @@ import {
 } from "@/hooks/auth/schemas/login-form.schema";
 import { useRouter } from "next/navigation";
 import { AppConstants } from "@/constants/app.constants";
-import { authLoginCredentials } from "@/lib/data/auth/auth.login-credentials";
-import { authLoginProvider } from "@/lib/data/auth/auth.login-provider";
+import { authLoginCredentialsAction } from "@/actions/auth/auth.login-credentials.action";
+import { authLoginProviderAction } from "@/actions/auth/auth.login-provider.action";
 
 
 export const useLoginForm = (isPendignSocial: boolean) => {
@@ -31,7 +31,7 @@ export const useLoginForm = (isPendignSocial: boolean) => {
     Object.entries(values).forEach(([key, value]) => {
       formData.append(key, value.toString());
     });
-    const resp = await authLoginCredentials(formData);
+    const resp = await authLoginCredentialsAction(formData);
     if (!resp.success) {
       console.log("Error:", resp.message?? "");
       setMessageLoginError(`Error: ${resp.message?? ""}`);
@@ -44,7 +44,7 @@ export const useLoginForm = (isPendignSocial: boolean) => {
 
   const handleLoginProvider = async (formData: FormData) => {
     setIsPending(true);
-    const resp = await authLoginProvider(formData);
+    const resp = await authLoginProviderAction(formData);
 
     if (resp.success) {
       console.log("Inicio de sesión exitoso");

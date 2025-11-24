@@ -6,7 +6,7 @@ import { ModuleEnum } from "@/types/enums/module.enum";
 import { ProductList } from "./components/product-list";
 import { categoryGetAllByCompanyCached } from "@/lib/data/categories/category.cache";
 import { productGetAllByCompanyCached } from "@/lib/data/products/product.cache";
-import { branchGetAllByCompanyCached } from "@/actions/branches/cache/branch.cache";
+import { branchGetAllByCompanyCached } from "@/lib/data/branches/branch.cache";
 import { checkAuthenticationAndPermission } from "@/services/auth/check-authentication-and-permission.use-case";
 
 export default async function ConfigProductsPage() {

@@ -10,7 +10,7 @@ import { ButtonSave } from "@/components/common/buttons/button-save";
 import { Title } from "@/components/common/titles/Title";
 import { useRouter } from "next/navigation";
 import { ShowPageMessage } from "@/components/common/messages/show-page-message";
-import { cashRegisterClosureCloseCashRegister } from "@/actions/cash-register-closure/mutations/cash-register-closure.close-cash-register.action";
+import { cashRegisterClosureCloseCashRegister } from "@/actions/cash-register-closure/cash-register-closure.close-cash-register.action";
 
 interface RegisterClosureUIProps {
   cashRegisterClosureId: string;

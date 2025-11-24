@@ -17,7 +17,7 @@ import { generateSKU } from "@/utils/generate/generate-sku";
 import { formatOptionalField } from "@/utils/formatters/format-optional-field";
 import { productInsertOrUpdate } from "@/actions/products/product.insert-or-update.action";
 import { warehouseInsertMany } from "@/actions/warehouses/warehouse.insert-many.action";
-import { warehouseGetAllByProductCached } from "@/lib/data/warehouses/warehouse.cache";
+import { warehouseGetAllByProductAction } from "@/actions/warehouses/warehouse.get-all-by-product.action";
 
 const defaultValues: ProductFormSchemaType = {
   name: "",
@@ -73,7 +73,7 @@ export const useProductForm = ({
 
   useEffect(() => {
     const getAllWarehouse = async (productId: string) => {
-      const resp = await warehouseGetAllByProductCached(productId);
+      const resp = await warehouseGetAllByProductAction(productId);
       console.log({ resp });
       return resp;
     };

@@ -3,7 +3,7 @@ import { ModuleEnum } from "@/types/enums/module.enum";
 import { checkAuthenticationAndPermission } from "@/services/auth/check-authentication-and-permission.use-case";
 import { Suspense } from "react";
 import { CustomCrud } from "./components/custom-crud";
-import { documentTypeGetAllByCompanyCached } from "@/actions/document-types/cache/document-type.cache";
+import { documentTypeGetAllByCompanyCached } from "@/lib/data/document-types/document-type.cache";
 import { userGetAllByCompanyCached } from "@/actions/users/cache/user.cache";
 import { roleGetAllByCompanyCached } from "@/actions/roles/cache/role.cache";
 import { branchGetAllByCompanyCached } from "@/lib/data/branches/branch.cache";

@@ -12,7 +12,7 @@ import { usePermissionStore } from "@/stores/permission/permission.store";
 import { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import { initResponseAction } from "@/utils/response/init-response-action";
 import { roleInsertOrUpdate } from "@/actions/roles/mutatiuons/role.insert-or-update.action";
-import { permissionGetAllByRoleCached } from "@/actions/permissions/cache/permission.cache";
+import { permissionGetAllByRoleCached } from "@/lib/data/permissions/permission.cache";
 
 const defaultValues: RoleFormSchemaType = {
   description: "",

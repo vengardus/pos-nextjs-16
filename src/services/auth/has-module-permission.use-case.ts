@@ -1,4 +1,4 @@
-import { permissionGetAllByCompanyRoleCodCached } from "@/actions/permissions/cache/permission.cache";
+import { permissionGetAllByCompanyRoleCodCached } from "@/lib/data/permissions/permission.cache";
 import { RoleBusiness } from "@/business/role.business";
 import { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import { initResponseAction } from "@/utils/response/init-response-action";

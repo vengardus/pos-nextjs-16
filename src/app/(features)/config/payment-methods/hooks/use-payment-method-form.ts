@@ -9,7 +9,7 @@ import {
   PaymentMethodFormSchemaType,
 } from "@/app/(features)/config/payment-methods/schemas/payment-method-form.schema";
 import { toCapitalize } from "@/utils/formatters/to-capitalize";
-import { paymentMethodInsertOrUpdate } from "@/actions/payment-methods/mutations/payment-method.insert-or-update.action";
+import { paymentMethodInsertOrUpdate } from "@/actions/payment-methods/payment-method.insert-or-update.action";
 
 const defaultValues: PaymentMethodFormSchemaType = {
   name: "",

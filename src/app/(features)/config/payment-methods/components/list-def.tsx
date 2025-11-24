@@ -11,7 +11,7 @@ import {
 import { CustomForm } from "./custom-form";
 import { Modal } from "../../../../../components/common/modals/modal";
 import { ListTable } from "@/components/tables/list-table";
-import { paymentMethodDeleteById } from "@/actions/payment-methods/mutations/payment-method.delete-by-id.action";
+import { paymentMethodDeleteById } from "@/actions/payment-methods/payment-method.delete-by-id.action";
 
 interface ListDefProps {
   data: PaymentMethod[];

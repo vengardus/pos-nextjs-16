@@ -11,7 +11,7 @@ import {
 import { AppConstants } from "@/constants/app.constants";
 import { toCapitalize } from "@/utils/formatters/to-capitalize";
 import { formatOptionalField } from "@/utils/formatters/format-optional-field";
-import { clientSupplierInsertOrUpdate } from "@/actions/clients-suppliers/mutations/client-supplier.insert-or-update.action";
+import { clientSupplierInsertOrUpdate } from "@/actions/clients-suppliers/client-supplier.insert-or-update.action";
 
 const defaultValues: ClientSupplierFormSchemaType = {
   name: "",

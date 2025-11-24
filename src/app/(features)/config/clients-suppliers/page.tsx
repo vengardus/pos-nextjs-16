@@ -1,7 +1,7 @@
 import { ShowPageMessage } from "@/components/common/messages/show-page-message";
 import { ModuleEnum } from "@/types/enums/module.enum";
 import { ClientSupplierList } from "./components/client-supplier-list";
-import { clientSupplierGetAllByCompanyCached } from "@/actions/clients-suppliers/cache/client-supplier.cache";
+import { clientSupplierGetAllByCompanyCached } from "@/lib/data/clients-suppliers/client-supplier.cache";
 import { checkAuthenticationAndPermission } from "@/services/auth/check-authentication-and-permission.use-case";
 
 export default async function ConfigClientsSuppliersPage() {

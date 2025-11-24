@@ -11,7 +11,7 @@ import {
 import { ClientSupplierForm } from "./client-supplier-form";
 import { ListTable } from "@/components/tables/list-table";
 import { Modal } from "@/components/common/modals/modal";
-import { clientSupplierDeleteById } from "@/actions/clients-suppliers/mutations/client-supplier.delete-by-id.action";
+import { clientSupplierDeleteById } from "@/actions/clients-suppliers/client-supplier.delete-by-id.action";
 
 interface ClientSupplierListProps {
   clientssuppliers: ClientSupplier[];

@@ -1,4 +1,4 @@
-import { clientSupplierGetAllByCompanyCached } from "@/actions/clients-suppliers/cache/client-supplier.cache";
+import { clientSupplierGetAllByCompanyCached } from "@/lib/data/clients-suppliers/client-supplier.cache";
 import { PosMainButtons } from "./pos-main-right/pos-main-buttons";
 import { PosMainTotals } from "./pos-main-right/pos-main-totals";
 import { paymentMethodGetAllByCompanyCached } from "@/actions/payment-methods/cache/payment-method.cache";

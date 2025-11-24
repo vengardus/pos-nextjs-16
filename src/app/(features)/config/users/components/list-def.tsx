@@ -13,7 +13,7 @@ import { useCompanyStore } from "@/stores/company/company.store";
 import { UserWithRelations } from "@/types/interfaces/user/user-with-relations.interface";
 import { ListTable } from "@/components/tables/list-table";
 import { Modal } from "@/components/common/modals/modal";
-import { userDeleteById } from "@/actions/users/mutations/user.delete-by-id.action";
+import { userDeleteById } from "@/actions/users/user.delete-by-id.action";
 
 interface ListDefProps {
   data: UserWithRelations[];

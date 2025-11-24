@@ -8,8 +8,8 @@ import { compare } from "bcryptjs";
 import { User } from "./types/interfaces/user/user.interface";
 import { ResponseAction } from "./types/interfaces/common/response-action.interface";
 import { initResponseAction } from "./utils/response/init-response-action";
-import { userGetByColumn } from "./actions/users/querys/user.get-by-column.actioins";
-import { userInsertSuperadmin } from "./actions/users/mutations/user.insert-superadmin.action";
+import { userGetByColumn } from "./lib/data/users/user.get-by-column";
+import { userInsertSuperadmin } from "./actions/users/user.insert-superadmin.action";
 
 const providers: Provider[] = [
   Credentials({

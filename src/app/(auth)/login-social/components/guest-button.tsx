@@ -1,6 +1,6 @@
 "use client";
 
-import { userInsertSuperadmin } from "@/actions/users/mutations/user.insert-superadmin.action";
+import { userInsertSuperadmin } from "@/actions/users/user.insert-superadmin.action";
 import { AppConstants } from "@/constants/app.constants";
 import { useLoginForm } from "@/hooks/auth/use-login-form";
 import { UserRole } from "@/types/enums/user-role.enum";

@@ -15,7 +15,7 @@ import { useRoleStore } from "@/stores/role/role.store";
 import { RoleBusiness } from "@/business/role.business";
 import { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import { AppConstants } from "@/constants/app.constants";
-import { userInsertOrUpdate } from "@/actions/users/mutations/user.insert-or-update.action";
+import { userInsertOrUpdate } from "@/actions/users/user.insert-or-update.action";
 
 const defaultValues: UserFormSchemaType = {
   name: "",

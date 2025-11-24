@@ -2,7 +2,7 @@ import { ShowPageMessage } from "@/components/common/messages/show-page-message"
 import { Title } from "@/components/common/titles/Title";
 import { UserList } from "@/app/(admin)/super-admin/users/components/users/user-list";
 import { UserWithRelations } from "@/types/interfaces/user/user-with-relations.interface";
-import { userGetAllWithRelations } from "@/actions/users/querys/user.get-all-with-relations.action";
+import { userGetAllWithRelations } from "@/lib/data/users/user.get-all-with-relations";
 
 export default async function UsersPage() {
   const respUsers = await userGetAllWithRelations();

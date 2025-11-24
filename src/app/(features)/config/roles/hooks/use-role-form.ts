@@ -12,7 +12,7 @@ import { usePermissionStore } from "@/stores/permission/permission.store";
 import { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import { initResponseAction } from "@/utils/response/init-response-action";
 import { roleInsertOrUpdate } from "@/actions/roles/mutatiuons/role.insert-or-update.action";
-import { permissionGetAllByRoleCached } from "@/lib/data/permissions/permission.cache";
+import { permissionGetAllByRoleAction } from "@/actions/permissions/permission.get-all-by-role.action";
 
 const defaultValues: RoleFormSchemaType = {
   description: "",
@@ -62,7 +62,7 @@ export const useRoleForm = <T extends Role>({
     }
     const getPermissions = async () => {
       setIsLoading(true);
-      const respPermissions = await permissionGetAllByRoleCached(currentRow!.id);
+      const respPermissions = await permissionGetAllByRoleAction(currentRow!.id);
       console.log("respPermissions!!!!!!!", respPermissions);
       if (!respPermissions.success)
         setMessageGeneralError(respPermissions.message + "ERROR");

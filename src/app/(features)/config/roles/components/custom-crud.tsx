@@ -12,7 +12,7 @@ import { createListColumnsDef, createListColumnsResponsiveDef } from "./create-l
 import { CustomForm } from "./custom-form";
 import { ListDef } from "./list-def";
 import { Module } from "@/types/interfaces/module/module.interface";
-import { roleDeleteById } from "@/actions/roles/mutatiuons/role.delete-by-id.action";
+import { roleDeleteById } from "@/actions/roles/role.delete-by-id.action";
 
 interface CustomCrudProps {
   data: {

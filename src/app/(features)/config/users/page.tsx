@@ -5,7 +5,7 @@ import { Suspense } from "react";
 import { CustomCrud } from "./components/custom-crud";
 import { documentTypeGetAllByCompanyCached } from "@/lib/data/document-types/document-type.cache";
 import { userGetAllByCompanyCached } from "@/actions/users/cache/user.cache";
-import { roleGetAllByCompanyCached } from "@/actions/roles/cache/role.cache";
+import { roleGetAllByCompanyCached } from "@/lib/data/roles/role.cache";
 import { branchGetAllByCompanyCached } from "@/lib/data/branches/branch.cache";
 
 export default async function UserConfigPage() {

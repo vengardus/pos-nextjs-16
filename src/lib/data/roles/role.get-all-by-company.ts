@@ -1,4 +1,4 @@
-"use server";
+import 'server-only'
 
 import prisma from "@/infrastructure/db/prisma";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
@@ -8,7 +8,7 @@ import { initResponseAction } from "@/utils/response/init-response-action";
 
 export const roleGetAllByCompany = async (
   companyId: string
-): Promise<ResponseAction> => {  
+): Promise<ResponseAction> => {
   const resp = initResponseAction();
 
   try {

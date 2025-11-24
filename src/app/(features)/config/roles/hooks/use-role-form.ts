@@ -11,7 +11,7 @@ import { useModuleStore } from "@/stores/module/module.store";
 import { usePermissionStore } from "@/stores/permission/permission.store";
 import { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import { initResponseAction } from "@/utils/response/init-response-action";
-import { roleInsertOrUpdate } from "@/actions/roles/mutatiuons/role.insert-or-update.action";
+import { roleInsertOrUpdate } from "@/actions/roles/role.insert-or-update.action";
 import { permissionGetAllByRoleAction } from "@/actions/permissions/permission.get-all-by-role.action";
 
 const defaultValues: RoleFormSchemaType = {

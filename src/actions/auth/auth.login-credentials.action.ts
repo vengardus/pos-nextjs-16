@@ -9,5 +9,5 @@ export async function authLoginCredentialsAction(
 ): Promise<ResponseAction> {
   
 
-  return authLoginCredentials(formData);
+  return await authLoginCredentials(formData);
 }

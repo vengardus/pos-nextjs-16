@@ -6,5 +6,5 @@ export const authLoginProviderAction = async (
   formData: FormData
 ): Promise<ResponseAction> => {
   
-  return authLoginProvider(formData);
+  return await authLoginProvider(formData);
 };

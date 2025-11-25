@@ -45,7 +45,7 @@ export default async function PosPage() {
 
   const cashRegisterDecision = respDetermineActiveCashRegister.data as CashRegisterDecision;
 
-  console.log("cashRegisterDecision:", cashRegisterDecision);
+  //console.log("cashRegisterDecision:", cashRegisterDecision);
 
   return (
     <PosPageClient

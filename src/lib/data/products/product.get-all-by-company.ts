@@ -28,7 +28,7 @@ export const productGetAllByCompany = async (
       categoryName: product.Category?.name,
     })) as Product[];
     resp.success = true;
-    console.log("products-query", `products-${companyId}`);
+    console.log("query=>productGetAllByCompany");
   } catch (error) {
     resp.message = getActionError(error);
   }

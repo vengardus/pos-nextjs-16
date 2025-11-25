@@ -2,7 +2,7 @@
 
 import 'server-only'
 
-import { cacheLife, cacheTag, unstable_cache as cache } from "next/cache";
+import { cacheLife, cacheTag } from "next/cache";
 
 import { CacheConfig } from "@/config/cache.config";
 import { ResponseAction } from "@/types/interfaces/common/response-action.interface";

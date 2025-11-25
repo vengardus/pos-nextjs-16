@@ -60,7 +60,7 @@ export const branchUserGetAllByUser = async (userId: string): Promise<ResponseAc
 
     resp.data = data;
     resp.success = true;
-    console.log("=>branch-users/get-all-by-user");
+    console.log("query=>branchUserGetAllByUser");
   } catch (error) {
     resp.message = getActionError(error);
   }

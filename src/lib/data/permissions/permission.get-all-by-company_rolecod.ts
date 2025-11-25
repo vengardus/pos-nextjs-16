@@ -21,7 +21,7 @@ export const permissionGetAllByCompanyRoleCod = async (
     });
     resp.data = data as Permission[];
     resp.success = true;
-    console.log("=>permissions/get-all-by-company_rolecod", companyId, roleCod);
+    console.log("query=>permissionGetAllByCompanyRoleCod", companyId, roleCod);
   } catch (error) {
     resp.message = getActionError(error);
   }

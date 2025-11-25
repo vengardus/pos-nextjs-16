@@ -52,7 +52,7 @@ export const saleGetTopSellingProducts = async (
         topByAmount
     } as SummaryTopSellingProducts;
 
-    console.log(`getTopSellingProducts-${companyId}`);
+    console.log(`query=>saleGetTopSellingProducts`);
   } catch (error) {
     resp.message = getActionError(error);
   }

@@ -20,7 +20,7 @@ export const categoryGetAllByCompany = async (
     });
     resp.data = data as Category[];
     resp.success = true;
-    console.log("=>categories/get-all-by-company");
+    console.log("query=>categoryGetAllByCompany");
   } catch (error) {
     resp.message = getActionError(error);
   }

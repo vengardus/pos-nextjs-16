@@ -23,6 +23,8 @@ export const warehouseGetAllByProduct = async (
     });
     resp.data = data as Warehouse[];
     resp.success = true;
+
+    console.log("query=>warehouseGetAllByProduct");
   } catch (error) {
     resp.message = getActionError(error);
   }

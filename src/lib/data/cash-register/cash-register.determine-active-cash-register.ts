@@ -19,7 +19,7 @@ export async function cashRegisterDetermineActiveCashRegister(params: {
   const resp = initResponseAction();
 
   try {
-    console.log("=>cash-register/determine-active-cash-register");
+    console.log("query=>cashRegisterDetermineActiveCashRegister");
     
     // 1. Obtener cajas abiertos para la sucursal
     const openClosures = await getOpenCashRegisterClosuresByBranch({ branchId: params.branchId });

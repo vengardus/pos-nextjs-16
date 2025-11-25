@@ -24,7 +24,7 @@ export const cashRegisterClosureGetByCashRegisterStatus = async (
     });
     resp.data = data;
     resp.success = true;
-    console.log("=>cash-register-closure/get-by-cash-register-status")
+    console.log("query=>cashRegisterClosureGetByCashRegisterStatus")
   } catch (error) {
     resp.message = getActionError(error);
   }

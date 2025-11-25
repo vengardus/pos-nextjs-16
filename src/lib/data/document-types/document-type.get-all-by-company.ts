@@ -19,7 +19,7 @@ export const documentTypeGetAllByCompany = async (
         companyId,
       },
     });
-    console.log("=>document-types/get-all-by-company");
+    console.log("query=>documentTypeGetAllByCompany");
     resp.data = data as DocumentType[];
     resp.success = true;
   } catch (error) {

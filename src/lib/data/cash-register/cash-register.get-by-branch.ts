@@ -23,7 +23,7 @@ export const cashRegisterGetByBranch = async (
     });
     resp.data = data;
     resp.success = true;
-    console.log("=>cash-register/get-by-branch");
+    console.log("query=>cashRegisterGetByBranch");
   } catch (error) {
     resp.message = getActionError(error);
   }

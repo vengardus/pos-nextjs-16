@@ -29,7 +29,7 @@ export const userGetAllByCompany = async (
         },
       },
     });
-    console.log("==>users/get-all-by-company:");
+    console.log("query=>userGetAllByCompany");
     resp.data = users as UserWithRelations[];
     resp.success = true;
   } catch (error) {

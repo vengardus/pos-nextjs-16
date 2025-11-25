@@ -1,4 +1,4 @@
-import 'server-only'
+import "server-only";
 
 // import {
 //   unstable_cacheLife as cacheLife,
@@ -116,11 +116,11 @@ export const cashRegisterMovementGetTotals = async ({
           //     },
           //   },
           // },
-          
-          // forma de obtener companyId 
+
+          // forma de obtener companyId
           PaymentMethod: {
             Company: {
-                id: companyId,
+              id: companyId,
             },
           },
         },
@@ -170,26 +170,20 @@ export const cashRegisterMovementGetTotals = async ({
     // console.log("total(1)", totals);
     movements.forEach((mov) => {
       if (
-        mov.movementCategory ===
-          CashRegisterMovementCategoryEnum.MOVEMENT_TYPE &&
+        mov.movementCategory === CashRegisterMovementCategoryEnum.MOVEMENT_TYPE &&
         mov.movementType === CashRegisterMovementTypeEnum.EXPENSE
       )
         totals.overall -= mov.amount;
       else totals.overall += mov.amount - mov.changeDue;
 
-      if (
-        mov.movementCategory === CashRegisterMovementCategoryEnum.PAYMENT_METHOD
-      ) {
+      if (mov.movementCategory === CashRegisterMovementCategoryEnum.PAYMENT_METHOD) {
         // Aquí mov.paymentMethodCod debe corresponder a uno de PaymentMethodEnum
         totals.byPaymentMethod[mov.paymentMethodCod] =
-          (totals.byPaymentMethod[mov.paymentMethodCod] || 0) +
-          (mov.amount - mov.changeDue);
+          (totals.byPaymentMethod[mov.paymentMethodCod] || 0) + (mov.amount - mov.changeDue);
         if (mov.paymentMethodCod === PaymentMethodEnum.CASH) {
           totals.overallCash += mov.amount - mov.changeDue;
         }
-      } else if (
-        mov.movementCategory === CashRegisterMovementCategoryEnum.MOVEMENT_TYPE
-      ) {
+      } else if (mov.movementCategory === CashRegisterMovementCategoryEnum.MOVEMENT_TYPE) {
         // Aquí se acumula el total por tipo de movimiento, desglosado por método de pago
         const movementType = mov.movementType as CashRegisterMovementTypeEnum;
         const paymentMethod = mov.paymentMethodCod;
@@ -201,27 +195,18 @@ export const cashRegisterMovementGetTotals = async ({
           } as MovementTypeTotals;
         }
         const amountWithSign =
-          mov.movementType === CashRegisterMovementTypeEnum.INCOME
-            ? mov.amount
-            : -mov.amount;
+          mov.movementType === CashRegisterMovementTypeEnum.INCOME ? mov.amount : -mov.amount;
         totals.byMovementType[movementType].total += amountWithSign;
         totals.byMovementType[movementType].breakdown[paymentMethod] =
-          (totals.byMovementType[movementType].breakdown[paymentMethod] || 0) +
-          amountWithSign;
+          (totals.byMovementType[movementType].breakdown[paymentMethod] || 0) + amountWithSign;
         if (paymentMethod === PaymentMethodEnum.CASH) {
           totals.overallCash += amountWithSign;
         }
-      } else if (
-        mov.movementCategory ===
-        CashRegisterMovementCategoryEnum.CASH_REGISTER_STATUS
-      ) {
+      } else if (mov.movementCategory === CashRegisterMovementCategoryEnum.CASH_REGISTER_STATUS) {
         // Para estados de caja (por ejemplo, OPENING, CLOSING)
-        totals.byCashRegisterStatus[
-          mov.movementType as CashRegisterStatusEnum
-        ] =
-          (totals.byCashRegisterStatus[
-            mov.movementType as CashRegisterStatusEnum
-          ] || 0) + mov.amount;
+        totals.byCashRegisterStatus[mov.movementType as CashRegisterStatusEnum] =
+          (totals.byCashRegisterStatus[mov.movementType as CashRegisterStatusEnum] || 0) +
+          mov.amount;
         if (mov.paymentMethodCod === PaymentMethodEnum.CASH) {
           totals.overallCash += mov.amount;
         }
@@ -233,48 +218,29 @@ export const cashRegisterMovementGetTotals = async ({
     totals.overallCash = Math.round(totals.overallCash * 100) / 100;
     Object.keys(totals.byPaymentMethod).forEach((key) => {
       totals.byPaymentMethod[key as PaymentMethodEnum] =
-        Math.round(totals.byPaymentMethod[key as PaymentMethodEnum] * 100) /
-        100;
+        Math.round(totals.byPaymentMethod[key as PaymentMethodEnum] * 100) / 100;
     });
     Object.keys(totals.byMovementType).forEach((key) => {
       const movementTypeKey = key as CashRegisterMovementTypeEnum;
       Object.keys(totals.byMovementType[movementTypeKey]).forEach((pmKey) => {
         totals.byMovementType[movementTypeKey].total =
           Math.round(totals.byMovementType[movementTypeKey].total * 100) / 100;
-        totals.byMovementType[movementTypeKey].breakdown[
-          pmKey as PaymentMethodEnum
-        ] =
+        totals.byMovementType[movementTypeKey].breakdown[pmKey as PaymentMethodEnum] =
           Math.round(
-            totals.byMovementType[movementTypeKey].breakdown[
-              pmKey as PaymentMethodEnum
-            ] * 100
+            totals.byMovementType[movementTypeKey].breakdown[pmKey as PaymentMethodEnum] * 100
           ) / 100;
       });
     });
     Object.keys(totals.byCashRegisterStatus).forEach((key) => {
       totals.byCashRegisterStatus[key as CashRegisterStatusEnum] =
-        Math.round(
-          totals.byCashRegisterStatus[key as CashRegisterStatusEnum] * 100
-        ) / 100;
+        Math.round(totals.byCashRegisterStatus[key as CashRegisterStatusEnum] * 100) / 100;
     });
 
     resp.success = true;
     resp.data = formatTotals(totals, paymentMethods, dateStart, dateEnd);
 
-    console.log(
-      "Rango:",
-      startDateUTC,
-      endDateUTC,
-      "companyId:",
-      companyId
-    );
-    console.log(
-      `=>cash-register-movements-totals-${
-        cashRegisterClosureId.length
-          ? cashRegisterClosureId
-          : companyId
-      }`
-    );
+    console.log("Rango:", startDateUTC, endDateUTC, "companyId:", companyId);
+    console.log("query=>cashRegisterMovementGetTotals");
   } catch (error) {
     resp.message = getActionError(error);
   }
@@ -322,16 +288,10 @@ const formatTotals = (
       (key) =>
         ({
           type: "sales",
-          label: `En ${
-            PaymentMethodBusiness.getPaymentMethodsFromCod(paymentMethods, key)
-              ?.name
-          }`,
+          label: `En ${PaymentMethodBusiness.getPaymentMethodsFromCod(paymentMethods, key)?.name}`,
           amount: totals.byPaymentMethod[key as PaymentMethodEnum] ?? 0,
           code: key,
-          color: PaymentMethodBusiness.getPaymentMethodsFromCod(
-            paymentMethods,
-            key
-          )?.color,
+          color: PaymentMethodBusiness.getPaymentMethodsFromCod(paymentMethods, key)?.color,
           isAccumulatedTotal: false,
         } as CashRegisterMovementTotalSummary)
     ),

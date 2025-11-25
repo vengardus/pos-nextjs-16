@@ -23,7 +23,7 @@ export const cashRegisterClosureGetById = async (
     });
     resp.data = data;
     resp.success = true;
-    console.log("=>cash-register-closure/get-by-id")
+    console.log("query=>cashRegisterClosureGetById");
   } catch (error) {
     resp.message = getActionError(error);
   }

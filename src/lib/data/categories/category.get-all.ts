@@ -10,6 +10,7 @@ export const categoryGetAll = async (): Promise<ResponseAction> => {
     const resp = initResponseAction();
 
     try {
+        console
         const data = await prisma.categoryModel.findMany()  
         resp.data = data as Category[]
         resp.success = true  

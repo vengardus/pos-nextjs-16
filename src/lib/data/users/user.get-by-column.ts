@@ -19,6 +19,7 @@ export const userGetByColumn = async (
     });
     resp.data = obj;
     resp.success = true;
+    console.log("query=>userGetByColumn");
   } catch (error) {
     resp.message = getActionError(error);
   }

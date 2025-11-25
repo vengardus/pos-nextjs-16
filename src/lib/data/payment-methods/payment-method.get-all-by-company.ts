@@ -26,7 +26,7 @@ export const paymentMethodGetAllByCompany = async (
 
     resp.data = data as PaymentMethod[];
     resp.success = true;
-    console.log("=>payment-method/get-all-by-company");
+    console.log("query=>paymentMethodGetAllByCompany");
   } catch (error) {
     resp.message = getActionError(error);
   }

@@ -19,7 +19,7 @@ export const permissionGetAllByRole = async (
     });
     resp.data = data as Permission[];
     resp.success = true;
-    console.log("=>permissions/get-all-by-role");
+    console.log("query=>permissionGetAllByRole", roleId);
   } catch (error) {
     resp.message = getActionError(error);
   }

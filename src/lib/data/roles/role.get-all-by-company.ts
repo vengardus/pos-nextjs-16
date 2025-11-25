@@ -21,7 +21,7 @@ export const roleGetAllByCompany = async (
     });
     resp.data = data as Role[];
     resp.success = true;
-    console.log("=>roles/get-all-by-company");
+    console.log("query=>roleGetAllByCompany");
   } catch (error) {
     resp.message = getActionError(error);
   }

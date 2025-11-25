@@ -10,6 +10,7 @@ export const categoryGet = async (id: string): Promise<ResponseAction> => {
     const resp = initResponseAction();
 
     try {
+        console
         const data = await prisma.categoryModel.findUnique(
             {
                 where: {

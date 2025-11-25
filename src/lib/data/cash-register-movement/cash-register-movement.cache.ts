@@ -1,8 +1,9 @@
-"use cache";
+// "use cache";
 
 import 'server-only'
 
-import { cacheLife, cacheTag } from "next/cache";
+// import { cacheLife, cacheTag } from "next/cache";
+import { unstable_cache as cache } from "next/cache";
 
 import { CacheConfig } from "@/config/cache.config";
 import type { PaymentMethod } from "@/types/interfaces/payment-method/payment-method.interface";
@@ -17,68 +18,67 @@ interface getCashRegisterTotalsProps {
   endDateUTC?: Date;
   companyId?: string;
 }
-export const cashRegisterMovementGetTotalsCached = async (
-  props: getCashRegisterTotalsProps
-): Promise<ResponseAction> => {
-  cacheTag(
-    `cash-register-movements-totals-${
-      props.cashRegisterClosureId.length ? props.cashRegisterClosureId : props.companyId
-    }`
-  );
-  cacheLife(CacheConfig.CacheDurations);
-  const { typeQuery, cashRegisterClosureId, paymentMethods, startDateUTC, endDateUTC, companyId } =
-    props;
-
-  //console.log("Rango:", startDateUTC, endDateUTC, "companyId:", props.companyId);
-  console.log(
-    `TAG=>cash-register-movements-totals-${
-      props.cashRegisterClosureId.length ? props.cashRegisterClosureId : props.companyId
-    }`
-  );
-
-  return await cashRegisterMovementGetTotals({
-    typeQuery,
-    cashRegisterClosureId,
-    paymentMethods,
-    startDateUTC,
-    endDateUTC,
-    companyId,
-  });
-};
-
-// export async function cashRegisterMovementGetTotalsCached(
+// export const cashRegisterMovementGetTotalsCachedOld = async (
 //   props: getCashRegisterTotalsProps
-// ): Promise<ResponseAction> {
-//   // Aquí companyId está en scope, así que podemos usarlo en keyParts
-//   console.log("pre(props)", props);
-//   console.log("pre", `cash-register-movements-totals-${props.companyId}`);
-//   const fn = cache(
-//     async () => {
-//       const {
-//         typeQuery,
-//         cashRegisterClosureId,
-//         paymentMethods,
-//         startDateUTC,
-//         endDateUTC,
-//         companyId,
-//       } = props;
-//
-//       return cashRegisterMovementGetTotals({
-//         typeQuery,
-//         cashRegisterClosureId,
-//         paymentMethods,
-//         startDateUTC,
-//         endDateUTC,
-//         companyId,
-//       });
-//     },
-//     [
-//       // `cash-register-movements-totals-${
-//       //   props.cashRegisterClosureId.length ? props.cashRegisterClosureId : props.companyId
-//       // }`,
-//       `cash-register-movements-totals-${props.companyId}`,
-//     ],
-//     { revalidate: CacheConfig.CacheDurations.revalidate }
+// ): Promise<ResponseAction> => {
+//   cacheTag(
+//     `cash-register-movements-totals-${
+//       props.cashRegisterClosureId.length ? props.cashRegisterClosureId : props.companyId
+//     }`
 //   );
-//   return fn();
-// }
+//   cacheLife(CacheConfig.CacheDurations);
+//   const { typeQuery, cashRegisterClosureId, paymentMethods, startDateUTC, endDateUTC, companyId } =
+//     props;
+
+//   //console.log("Rango:", startDateUTC, endDateUTC, "companyId:", props.companyId);
+//   console.log(
+//     `TAG=>cash-register-movements-totals-${
+//       props.cashRegisterClosureId.length ? props.cashRegisterClosureId : props.companyId
+//     }`
+//   );
+
+//   return await cashRegisterMovementGetTotals({
+//     typeQuery,
+//     cashRegisterClosureId,
+//     paymentMethods,
+//     startDateUTC,
+//     endDateUTC,
+//     companyId,
+//   });
+// };
+
+export async function cashRegisterMovementGetTotalsCached(
+  props: getCashRegisterTotalsProps
+): Promise<ResponseAction> {
+  // Aquí companyId está en scope, así que podemos usarlo en keyParts
+  console.log("cache=>cashRegisterMovementGetTotalsCached");
+  const fn = cache(
+    async () => {
+      const {
+        typeQuery,
+        cashRegisterClosureId,
+        paymentMethods,
+        startDateUTC,
+        endDateUTC,
+        companyId,
+      } = props;
+
+      return cashRegisterMovementGetTotals({
+        typeQuery,
+        cashRegisterClosureId,
+        paymentMethods,
+        startDateUTC,
+        endDateUTC,
+        companyId,
+      });
+    },
+    [
+      // `cash-register-movements-totals-${
+      //   props.cashRegisterClosureId.length ? props.cashRegisterClosureId : props.companyId
+      // }`,
+      `cash-register-movements-totals-${props.companyId}`,
+    ],
+    { revalidate: CacheConfig.CacheDurations.revalidate }
+  );
+  return fn();
+}

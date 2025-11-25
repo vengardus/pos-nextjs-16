@@ -26,7 +26,7 @@ export const clientSupplierGetAllByCompany = async (
 
     resp.data = data as ClientSupplier[];
     resp.success = true;
-    console.log("=>clients-suppliers/get-all-by-company");
+    console.log("query=>clientSupplierGetAllByCompany");
   } catch (error) {
     resp.message = getActionError(error);
   }

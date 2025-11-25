@@ -33,7 +33,7 @@ export const branchGetAllByCompany = async (
     });
     resp.data = data as Branch[];
     resp.success = true;
-    console.log("=>branchGetAllByCompany: ", data);
+    console.log("query=>branchGetAllByCompany: ", data);
   } catch (error) {
     resp.message = getActionError(error);
   }

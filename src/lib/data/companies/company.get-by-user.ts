@@ -12,7 +12,7 @@ export const companyGetByUser = async (userId: string, role: string): Promise<Re
   // if (role === UserRole.SUPER_ADMIN || role === UserRole.ADMIN) {
   //   return getByUserForAdmin(userId);
   // } else {
-  console.log("role", role);
+  // console.log("role", role);
     return getByUserForUser(userId);
   // }
 };
@@ -47,7 +47,7 @@ export const getByUserForAdmin = async (
     resp.data = data ? data[0] : (null as Company | null);
     resp.success = resp.data ? true : false;
 
-    console.log("=>company/get-by-user-for-admin");
+    console.log("query=>companyGetByUserForAdmin");
   } catch (error) {
     resp.message = getActionError(error);
   }
@@ -101,7 +101,7 @@ export const getByUserForUser = async (
       : (null as Company | null);
     resp.success = resp.data ? true : false;
 
-    console.log("=>company/get-by-user-for-user");
+    console.log("query=>companyGetByUserForUser");
   } catch (error) {
     resp.message = getActionError(error);
   }

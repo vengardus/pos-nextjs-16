@@ -13,6 +13,7 @@ export const userGetAll = async (): Promise<ResponseAction> => {
         const users = await prisma.userModel.findMany()  
         resp.data = users as User[]
         resp.success = true  
+        console.log("query=>userGetAll");
     } catch (error) {
         resp.message = getActionError(error);
     }

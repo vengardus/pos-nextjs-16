@@ -16,7 +16,7 @@ export const productGetAllByCompanyCached = async (
 ): Promise<ResponseAction> => {
   cacheTag(`products-${companyId}`);
   cacheLife(CacheConfig.CacheDurations);
-  console.log("PRE-QUERY", `products-${companyId}`);
+  console.log("products-cached", `products-${companyId}`);
   return await productGetAllByCompany(companyId);
 };
 

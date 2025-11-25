@@ -12,7 +12,7 @@ export const companyGetByUser = async (userId: string, role: string): Promise<Re
   // if (role === UserRole.SUPER_ADMIN || role === UserRole.ADMIN) {
   //   return getByUserForAdmin(userId);
   // } else {
-  // console.log("role", role);
+  console.log("role", role);
     return getByUserForUser(userId);
   // }
 };

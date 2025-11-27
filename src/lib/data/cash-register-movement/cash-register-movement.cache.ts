@@ -51,7 +51,6 @@ export async function cashRegisterMovementGetTotalsCached(
   props: getCashRegisterTotalsProps
 ): Promise<ResponseAction> {
   // Aquí companyId está en scope, así que podemos usarlo en keyParts
-  console.log("cache=>cashRegisterMovementGetTotalsCached");
   const fn = cache(
     async () => {
       const {
@@ -73,12 +72,16 @@ export async function cashRegisterMovementGetTotalsCached(
       });
     },
     [
-      // `cash-register-movements-totals-${
-      //   props.cashRegisterClosureId.length ? props.cashRegisterClosureId : props.companyId
-      // }`,
       `cash-register-movements-totals-${props.companyId}`,
+      props.startDateUTC?.toISOString() ?? "",
+      props.endDateUTC?.toISOString() ?? "",
+      props.typeQuery,
+      props.cashRegisterClosureId,
     ],
-    { revalidate: CacheConfig.CacheDurations.revalidate }
+    {
+      revalidate: CacheConfig.CacheDurations.revalidate,
+      tags: [`cash-register-movements-totals-${props.companyId}`],
+    }
   );
   return fn();
 }

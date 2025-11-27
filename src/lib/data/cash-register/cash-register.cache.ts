@@ -49,18 +49,15 @@ export async function cashRegisterGetByBranchCached(
 
 export async function cashRegisterDetermineActiveCashRegisterCached(
   userId: string,
-  branchId: string): Promise<ResponseAction> {
-  // Aquí companyId está en scope, así que podemos usarlo en keyParts
-  console.log('cache=>cashRegisterDetermineActiveCashRegisterCached')
-  const fn = cache(
-    async () => {
-      return cashRegisterDetermineActiveCashRegister({
-        userId,
-        branchId,
-      });
-    },
-    [`cash-register-determine-active-${userId}`],
-    { revalidate: CacheConfig.CacheDurations.revalidate }
-  );
-  return fn();
+  branchId: string
+): Promise<ResponseAction> {
+  // No se debe usar caché aquí porque las cajas abiertas cambian minuto a minuto
+  // y el resultado depende tanto del usuario como de la sucursal. Mantener cacheado
+  // provoca que el usuario vea una lista vacía aun cuando se asignó una caja
+  // posteriormente.
+  console.log("nocache=>cashRegisterDetermineActiveCashRegisterCached");
+  return cashRegisterDetermineActiveCashRegister({
+    userId,
+    branchId,
+  });
 }

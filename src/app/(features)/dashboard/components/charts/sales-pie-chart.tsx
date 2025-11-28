@@ -23,6 +23,7 @@ import GenericPieChart from "@/components/common/charts/generic-pie-chart";
 import { useRealTimeStore } from "@/stores/general/real-time.store";
 import { updateTags } from "@/infrastructure/cache/revalidate-tags";
 import { cashRegisterMovementGetTotalsAction } from "@/actions/cash-register-movement/cash-register-movement.get-totals.action";
+import { useCashMovementsBroadcast } from "@/hooks/supabase/use-realtime-broadcast";
 
 interface SalesPieChartProps {
   companyId: string;
@@ -31,7 +32,7 @@ interface SalesPieChartProps {
 
 export function SalesPieChart({ companyId, paymentMethods }: SalesPieChartProps) {
   console.log("[SalesPieChart] MOUNT");
-  
+
   const startDate = useDateRangeStore((state) => state.startDate);
   const endDate = useDateRangeStore((state) => state.endDate);
   const [chartData, setChartData] = useState<any[]>([]);
@@ -40,8 +41,10 @@ export function SalesPieChart({ companyId, paymentMethods }: SalesPieChartProps)
 
   const [revalidate, setRevalidate] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(true);
-  const { reset } = useRealtimeUpdate("cash_register_movements");
-  const updated = useRealTimeStore((state) => state.updated);
+  // const { reset } = useRealtimeUpdate("cash_register_movements");
+  // const updated = useRealTimeStore((state) => state.updated);
+  const { updated, reset } = useCashMovementsBroadcast();
+
 
   useEffect(() => {
     const revalidateMovements = async () => {

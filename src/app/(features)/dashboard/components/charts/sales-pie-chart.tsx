@@ -59,7 +59,9 @@ export function SalesPieChart({ companyId, paymentMethods }: SalesPieChartProps)
     if (updated) {
       console.log("updated real time!!!!");
       revalidateMovements();
-      setRevalidate(true);
+      //setRevalidate(true);
+      setRevalidate((prev) => !prev);
+
       reset(); // Resetea el estado del hook para esperar el siguiente cambio
       console.log("reset real time!!");
     }
@@ -129,7 +131,7 @@ export function SalesPieChart({ companyId, paymentMethods }: SalesPieChartProps)
     if (!paymentMethods.length) return;
 
     getTotals();
-    setRevalidate(false);
+    //setRevalidate(false);
   }, [startDate, endDate, paymentMethods, revalidate, companyId]);
 
   return (

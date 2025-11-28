@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Supabase Realtime Test</title>
+  </head>
+  <body>
+    <h1>Test Realtime</h1>
+    <script type="module">
+      import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+      const url = "https://erdeljvkydoeuvrwnzxg.supabase.co";          // https://xxxx.supabase.co
+      const anon = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVyZGVsanZreWRvZXV2cnduenhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzQwMTk0MDksImV4cCI6MjA0OTU5NTQwOX0.R4Gh7C1BMWTMAnmO9-dBaEXFLrPTQBe9gi1Z3FPJwmk";
+
+      const supabase = createClient(url, anon);
+
+      console.log("Iniciando suscripción...");
+
+      const channel = supabase
+        .channel(`public:cash_register_movements`)
+        .on(
+          "postgres_changes",
+          { event: "*", schema: "public", table: "cash_register_movements" },
+          (payload) => {
+            console.log("[HTML] cambio en BD:", payload);
+          }
+        )
+        .subscribe((status) => {
+          console.log("[HTML] status:", status);
+        });
+    </script>
+  </body>
+</html>

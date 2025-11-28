@@ -230,8 +230,11 @@ export const saleInsert = async (
     //     ? posPayment.cashRegisterClosureId
     //     : sale.companyId
     // }`);
-    revalidatePath("/dashboard");
+
+    console.log(`UPDATE_TAG:cash-register-movements-totals-${sale.companyId}`);
+
     updateTag(`cash-register-movements-totals-${sale.companyId}`);
+    revalidatePath("/dashboard");
   } catch (error) {
     resp.message = getActionError(error);
   }

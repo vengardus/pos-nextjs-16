@@ -73,15 +73,16 @@ export async function cashRegisterMovementGetTotalsCached(
     },
     [
       `cash-register-movements-totals-${props.companyId}`,
-      props.startDateUTC?.toISOString() ?? "",
-      props.endDateUTC?.toISOString() ?? "",
-      props.typeQuery,
-      props.cashRegisterClosureId,
+      // props.startDateUTC?.toISOString() ?? "",
+      // props.endDateUTC?.toISOString() ?? "",
+      // props.typeQuery,
+      // props.cashRegisterClosureId,
     ],
     {
       revalidate: CacheConfig.CacheDurations.revalidate,
       tags: [`cash-register-movements-totals-${props.companyId}`],
     }
   );
+  console.log("cache=>", `cash-register-movements-totals-${props.companyId}`)
   return fn();
 }

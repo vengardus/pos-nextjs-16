@@ -30,6 +30,8 @@ interface SalesPieChartProps {
 }
 
 export function SalesPieChart({ companyId, paymentMethods }: SalesPieChartProps) {
+  console.log("[SalesPieChart] MOUNT");
+  
   const startDate = useDateRangeStore((state) => state.startDate);
   const endDate = useDateRangeStore((state) => state.endDate);
   const [chartData, setChartData] = useState<any[]>([]);

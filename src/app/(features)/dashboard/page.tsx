@@ -7,7 +7,7 @@ import { TopProductsByQuantity } from "./components/tops/top-products-by-quantit
 import { DateRangePicker } from "./components/date-range-picker";
 import { paymentMethodGetAllByCompanyCached } from "@/lib/data/payment-methods/payment-method.cache";
 import { checkAuthenticationAndPermission } from "@/services/auth/check-authentication-and-permission.use-case";
-import { RealtimeDebug } from "./components/debug/real-time-debug";
+// import { RealtimeDebug } from "./components/debug/real-time-debug";
 
 export default async function DashboardPage() {
   // Verify user authentication and permission
@@ -43,7 +43,7 @@ export default async function DashboardPage() {
         <section className="grid grid-cols-1 gap-3">
           {/* <ListCardTotal /> */}
           <div className=" order-first ">
-            <RealtimeDebug />
+            {/* <RealtimeDebug /> */}
             <Suspense fallback={<div>Loading...</div>}>
               <SalesPieChart
                 companyId={company.id}

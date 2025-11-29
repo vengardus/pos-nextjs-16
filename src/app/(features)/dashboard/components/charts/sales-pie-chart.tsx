@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { TrendingUp } from "lucide-react";
 import { toast } from "sonner";
 import {
@@ -43,6 +43,7 @@ export function SalesPieChart({ companyId, paymentMethods }: SalesPieChartProps)
   // const { reset } = useRealtimeUpdate("cash_register_movements");
   // const updated = useRealTimeStore((state) => state.updated);
   const { updated, reset } = useCashMovementsBroadcast();
+  const hasHandledUpdateRef = useRef(false);
 
   const getTotals = useCallback(async () => {
     setIsLoading(true);
@@ -113,13 +114,19 @@ export function SalesPieChart({ companyId, paymentMethods }: SalesPieChartProps)
       ]);
     };
 
-    if (updated) {
-      revalidateMovements();
-
-      getTotals();
-
-      reset(); // Resetea el estado del hook para esperar el siguiente cambio
+    if (!updated) {
+      hasHandledUpdateRef.current = false;
+      return;
     }
+
+    if (hasHandledUpdateRef.current) return;
+    hasHandledUpdateRef.current = true;
+
+    revalidateMovements();
+
+    getTotals();
+
+    reset(); // Resetea el estado del hook para esperar el siguiente cambio
   }, [updated, reset, companyId, getTotals]);
 
   useEffect(() => {

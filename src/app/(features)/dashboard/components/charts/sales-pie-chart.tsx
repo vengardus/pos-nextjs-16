@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { TrendingUp } from "lucide-react";
 import { toast } from "sonner";
 import {
@@ -39,16 +39,73 @@ export function SalesPieChart({ companyId, paymentMethods }: SalesPieChartProps)
   const [chartConfig, setChartConfig] = useState<ChartConfig>({});
   const [totalSales, setTotalSales] = useState(0);
 
-  const [revalidate, setRevalidate] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(true);
   // const { reset } = useRealtimeUpdate("cash_register_movements");
   // const updated = useRealTimeStore((state) => state.updated);
   const { updated, reset } = useCashMovementsBroadcast();
 
+  const getTotals = useCallback(async () => {
+    setIsLoading(true);
+
+    const resp = await cashRegisterMovementGetTotalsAction({
+      typeQuery: "by-date-range",
+      cashRegisterClosureId: "",
+      paymentMethods,
+      startDateUTC: startDate,
+      endDateUTC: endDate,
+      companyId,
+    });
+    if (!resp.success) {
+      toast.error("Error al obtener totales: ", {
+        description: resp.message,
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    const totals = resp.data as CashRegisterMovementTotal;
+    const chartDate = totals.summary
+      .filter((item) => item.type == "sales" && !item.isAccumulatedTotal)
+      .map((item) => {
+        return {
+          tag: item.code,
+          value: item.amount,
+          fill: item.color?.length ? item.color : AppConstants.DEFAULT_VALUES.colors.chart,
+          label: item.label,
+        };
+      });
+
+    const chartConfig = totals.summary
+      .filter(
+        (item) => item.type == "sales" && !item.isAccumulatedTotal && item.code !== undefined
+      )
+      .reduce((acc, item) => {
+        acc[item.code] = {
+          label: item.label,
+          color: item.color?.length ? item.color : AppConstants.DEFAULT_VALUES.colors.chart, // Agrega color solo si está definido
+        };
+        return acc;
+      }, {} as ChartConfig);
+
+    // Agregar la entrada "value" manualmente
+    chartConfig.value = {
+      label: "Ventas S/.",
+    };
+
+    setChartData(chartDate);
+    setChartConfig(chartConfig);
+
+    const totalSales = totals.summary.find(
+      (item) => item.type == "sales" && item.isAccumulatedTotal
+    );
+    if (totalSales) setTotalSales(totalSales.amount);
+
+    setIsLoading(false);
+  }, [companyId, endDate, paymentMethods, startDate]);
+
 
   useEffect(() => {
     const revalidateMovements = async () => {
-      console.log("revalidateMovements!!!");
       // revalidate para forzar consulta a la BD (getTotals() mas abajo en el otro useEffect)
       await updateTags([
         `cash-register-movements-totals-${companyId}`,
@@ -57,82 +114,19 @@ export function SalesPieChart({ companyId, paymentMethods }: SalesPieChartProps)
     };
 
     if (updated) {
-      console.log("updated real time!!!!");
       revalidateMovements();
-      //setRevalidate(true);
-      setRevalidate((prev) => !prev);
+
+      getTotals();
 
       reset(); // Resetea el estado del hook para esperar el siguiente cambio
-      console.log("reset real time!!");
     }
-  }, [updated, reset, setRevalidate, companyId]);
+  }, [updated, reset, companyId, getTotals]);
 
   useEffect(() => {
-    const getTotals = async () => {
-      setIsLoading(true);
-
-      console.log("Execute real time");
-      const resp = await cashRegisterMovementGetTotalsAction({
-        typeQuery: "by-date-range",
-        cashRegisterClosureId: "",
-        paymentMethods,
-        startDateUTC: startDate,
-        endDateUTC: endDate,
-        companyId,
-      });
-      if (!resp.success) {
-        toast.error("Error al obtener totales: ", {
-          description: resp.message,
-        });
-        setIsLoading(false);
-        return;
-      }
-
-      const totals = resp.data as CashRegisterMovementTotal;
-      const chartDate = totals.summary
-        .filter((item) => item.type == "sales" && !item.isAccumulatedTotal)
-        .map((item) => {
-          return {
-            tag: item.code,
-            value: item.amount,
-            fill: item.color?.length ? item.color : AppConstants.DEFAULT_VALUES.colors.chart,
-            label: item.label,
-          };
-        });
-
-      const chartConfig = totals.summary
-        .filter(
-          (item) => item.type == "sales" && !item.isAccumulatedTotal && item.code !== undefined
-        )
-        .reduce((acc, item) => {
-          acc[item.code] = {
-            label: item.label,
-            color: item.color?.length ? item.color : AppConstants.DEFAULT_VALUES.colors.chart, // Agrega color solo si está definido
-          };
-          return acc;
-        }, {} as ChartConfig);
-
-      // Agregar la entrada "value" manualmente
-      chartConfig.value = {
-        label: "Ventas S/.",
-      };
-
-      setChartData(chartDate);
-      setChartConfig(chartConfig);
-
-      const totalSales = totals.summary.find(
-        (item) => item.type == "sales" && item.isAccumulatedTotal
-      );
-      if (totalSales) setTotalSales(totalSales.amount);
-
-      setIsLoading(false);
-    };
-
     if (!paymentMethods.length) return;
 
     getTotals();
-    //setRevalidate(false);
-  }, [startDate, endDate, paymentMethods, revalidate, companyId]);
+  }, [getTotals, paymentMethods.length]);
 
   return (
     <Card className="flex flex-col mx-auto w-full card">

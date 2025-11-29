@@ -1,3 +1,9 @@
+/*
+  ya no se usa este hook, pero lo dejo por si en el futuro se quiere
+  hacer pruebas.
+  Reemplazado por useCashMovementsBroadcast.ts
+*/
+
 import { useEffect } from "react";
 import { supabase } from "@/infrastructure/db/supabase";
 import { useRealTimeStore } from "@/stores/general/real-time.store";

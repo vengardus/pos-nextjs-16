@@ -44,8 +44,11 @@ export function SalesPieChart({ companyId, paymentMethods }: SalesPieChartProps)
   // const updated = useRealTimeStore((state) => state.updated);
   const { updated, reset } = useCashMovementsBroadcast();
   const hasHandledUpdateRef = useRef(false);
+  const requestIdRef = useRef(0);
 
   const getTotals = useCallback(async () => {
+    const currentRequestId = ++requestIdRef.current;
+
     setIsLoading(true);
 
     const resp = await cashRegisterMovementGetTotalsAction({
@@ -56,6 +59,12 @@ export function SalesPieChart({ companyId, paymentMethods }: SalesPieChartProps)
       endDateUTC: endDate,
       companyId,
     });
+
+    if (requestIdRef.current !== currentRequestId) {
+      // Existe una actualización más reciente en curso; ignoramos esta respuesta.
+      return;
+    }
+
     if (!resp.success) {
       toast.error("Error al obtener totales: ", {
         description: resp.message,

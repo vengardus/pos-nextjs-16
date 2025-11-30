@@ -18,7 +18,9 @@ import { productGetAllByCompany } from "./product.get-all-by-company";
 //   return await productGetAllByCompany(companyId);
 // };
 
-export async function productGetAllByCompanyCached(companyId: string): Promise<ResponseAction> {
+export async function productGetAllByCompanyCached(
+  companyId: string
+): Promise<ResponseAction> {
   // Aquí companyId está en scope, así que podemos usarlo en keyParts
   console.log("cache=>productGetAllByCompanyCached");
   const fn = cache(
@@ -26,7 +28,10 @@ export async function productGetAllByCompanyCached(companyId: string): Promise<R
       return productGetAllByCompany(companyId);
     },
     [`products-${companyId}`], // ahora sí existe
-    { revalidate: CacheConfig.CacheDurations.revalidate }
+    {
+      revalidate: CacheConfig.CacheDurations.revalidate,
+      tags: [`products-${companyId}`],
+    }
   );
   return fn();
 }

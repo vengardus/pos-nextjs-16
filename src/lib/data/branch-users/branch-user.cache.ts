@@ -22,7 +22,10 @@ export async function branchUserGetAllByUserCached(userId: string): Promise<Resp
       return branchUserGetAllByUser(userId);
     },
     [`branches-${userId}`],
-    { revalidate: CacheConfig.CacheDurations.revalidate }
+    {
+      revalidate: CacheConfig.CacheDurations.revalidate,
+      tags: [`branches-${userId}`],
+    }
   );
   return fn();
 }

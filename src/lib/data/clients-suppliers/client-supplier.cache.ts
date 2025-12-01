@@ -25,7 +25,10 @@ export async function clientSupplierGetAllByCompanyCached(companyId: string): Pr
       return clientSupplierGetAllByCompany(companyId);
     },
     [`clients-suppliers-${companyId}`],
-    { revalidate: CacheConfig.CacheDurations.revalidate }
+    {
+      revalidate: CacheConfig.CacheDurations.revalidate,
+      tags: [`clients-suppliers-${companyId}`],
+    }
   );
   return fn();
 }

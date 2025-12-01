@@ -29,9 +29,10 @@ export async function companyGetByUserCached(
       return companyGetByUser(userId, role)
     },
     [`company-user-${userId}`], // ahora sí existe
-    { revalidate: CacheConfig.CacheDurations.revalidate,
-
-     }
+    {
+      revalidate: CacheConfig.CacheDurations.revalidate,
+      tags: [`company-user-${userId}`],
+    }
   )
   return fn()
 }

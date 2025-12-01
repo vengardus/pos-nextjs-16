@@ -42,7 +42,10 @@ export async function cashRegisterGetByBranchCached(
       return cashRegisterGetByBranch(branchId);
     },
     [`cash-register-${companyId}`],
-    { revalidate: CacheConfig.CacheDurations.revalidate }
+    {
+      revalidate: CacheConfig.CacheDurations.revalidate,
+      tags: [`cash-register-${companyId}`],
+    }
   );
   return fn();
 }

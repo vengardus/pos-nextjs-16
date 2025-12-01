@@ -24,7 +24,10 @@ export async function paymentMethodGetAllByCompanyCached(companyId: string): Pro
       return paymentMethodGetAllByCompany(companyId);
     },
     [`payment-methods-${companyId}`], // ahora sí existe
-    { revalidate: CacheConfig.CacheDurations.revalidate }
+    {
+      revalidate: CacheConfig.CacheDurations.revalidate,
+      tags: [`payment-methods-${companyId}`],
+    }
   );
   return fn();
 }

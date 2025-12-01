@@ -25,7 +25,10 @@ export async function roleGetAllByCompanyCached(companyId: string): Promise<Resp
       return roleGetAllByCompany(companyId);
     },
     [`roles-${companyId}`],
-    { revalidate: CacheConfig.CacheDurations.revalidate }
+    {
+      revalidate: CacheConfig.CacheDurations.revalidate,
+      tags: [`roles-${companyId}`],
+    }
   );
   return fn();
 }

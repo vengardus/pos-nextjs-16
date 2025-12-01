@@ -21,7 +21,10 @@ export async function userGetAllByCompanyCached(companyId: string): Promise<Resp
       return userGetAllByCompany(companyId);
     },
     [`users-${companyId}`],
-    { revalidate: CacheConfig.CacheDurations.revalidate }
+    {
+      revalidate: CacheConfig.CacheDurations.revalidate,
+      tags: [`users-${companyId}`],
+    }
   );
   return fn();
 }

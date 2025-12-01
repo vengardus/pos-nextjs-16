@@ -34,7 +34,10 @@ export async function permissionGetAllByRoleCached(roleId: string): Promise<Resp
       return permissionGetAllByRole(roleId);
     },
     [`permissions-${roleId}`],
-    { revalidate: CacheConfig.CacheDurations.revalidate }
+    {
+      revalidate: CacheConfig.CacheDurations.revalidate,
+      tags: [`permissions-${roleId}`],
+    }
   );
   return fn();
 }
@@ -50,7 +53,10 @@ export async function permissionGetAllByCompanyRoleCodCached(
       return permissionGetAllByCompanyRoleCod(companyId, roleCod);
     },
     [`permissions-${companyId}-${roleCod}`],
-    { revalidate: CacheConfig.CacheDurations.revalidate }
+    {
+      revalidate: CacheConfig.CacheDurations.revalidate,
+      tags: [`permissions-${companyId}-${roleCod}`],
+    }
   );
   return fn();
 }

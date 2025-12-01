@@ -30,7 +30,7 @@ export async function productGetAllByCompanyCached(
     [`products-${companyId}`], // ahora sí existe
     {
       revalidate: CacheConfig.CacheDurations.revalidate,
-      //tags: [`products-${companyId}`],
+      tags: [`products-${companyId}`],
     }
   );
   return fn();

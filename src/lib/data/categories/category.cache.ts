@@ -26,7 +26,10 @@ export async function categoryGetAllByCompanyCached(companyId: string): Promise<
       return categoryGetAllByCompany(companyId);
     },
     [`categories-${companyId}`],
-    { revalidate: CacheConfig.CacheDurations.revalidate }
+    {
+      revalidate: CacheConfig.CacheDurations.revalidate,
+      tags: [`categories-${companyId}`],
+    }
   );
   return fn();
 }

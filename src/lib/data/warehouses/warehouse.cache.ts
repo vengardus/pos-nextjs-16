@@ -25,7 +25,10 @@ export async function warehouseGetAllByProductCached(productId: string): Promise
       return warehouseGetAllByProduct(productId);
     },
     [`warehouses-${productId}`],
-    { revalidate: CacheConfig.CacheDurations.revalidate }
+    {
+      revalidate: CacheConfig.CacheDurations.revalidate,
+      tags: [`warehouses-${productId}`],
+    }
   );
   return fn();
 }

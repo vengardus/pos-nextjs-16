@@ -27,7 +27,10 @@ export async function documentTypeGetAllByCompanyCached(
       return documentTypeGetAllByCompany(companyId);
     },
     [`document-types-${companyId}`],
-    { revalidate: CacheConfig.CacheDurations.revalidate }
+    {
+      revalidate: CacheConfig.CacheDurations.revalidate,
+      tags: [`document-types-${companyId}`],
+    }
   );
   return fn();
 }

@@ -43,7 +43,10 @@ export async function cashRegisterClosureGetByCashRegisterStatusCached(
       );
     },
     [`cash-register-closure-${cashRegisterId}`],
-    { revalidate: CacheConfig.CacheDurations.revalidate }
+    {
+      revalidate: CacheConfig.CacheDurations.revalidate,
+      tags: [`cash-register-closure-${cashRegisterId}`],
+    }
   );
   return fn();
 }
@@ -58,7 +61,10 @@ export async function cashRegisterClosureGetByIdCached(
       return cashRegisterClosureGetById(cashRegisterClosureId);
     },
     [`cash-register-closure-${cashRegisterClosureId}`],
-    { revalidate: CacheConfig.CacheDurations.revalidate }
+    {
+      revalidate: CacheConfig.CacheDurations.revalidate,
+      tags: [`cash-register-closure-${cashRegisterClosureId}`],
+    }
   );
   return fn();
 }

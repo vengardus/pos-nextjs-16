@@ -31,7 +31,10 @@ export async function saleGetTopSellingProductsCached(
       return saleGetTopSellingProducts(companyId, itemsByQuantity, itemsByAmount);
     },
     [`top-selling-products-${companyId}`],
-    { revalidate: CacheConfig.CacheDurations.revalidate }
+    {
+      revalidate: CacheConfig.CacheDurations.revalidate,
+      tags: [`top-selling-products-${companyId}`],
+    }
   );
   return fn();
 }

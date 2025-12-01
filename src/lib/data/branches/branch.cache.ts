@@ -24,7 +24,10 @@ export async function branchGetAllByCompanyCached(
       return branchGetAllByCompany(companyId);
     },
     [`branches-${companyId}`],
-    { revalidate: CacheConfig.CacheDurations.revalidate }
+    {
+      revalidate: CacheConfig.CacheDurations.revalidate,
+      tags: [`branches-${companyId}`],
+    }
   );
   return fn();
 }

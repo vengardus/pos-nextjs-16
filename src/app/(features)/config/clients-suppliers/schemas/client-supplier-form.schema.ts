@@ -22,7 +22,7 @@ export const ClientSupplierFormSchema = z.object({
       }
     ),
   personType: z.string({
-    required_error: "El tipo de persona es requerido.",
+    error: "El tipo de persona es requerido.",
   }),
   naturalIdentifier: z.string().optional(),
   legalIdentifier: z.string().optional(),

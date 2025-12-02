@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import {
   Card,
@@ -17,33 +16,34 @@ import { useClientSupplierForm } from "@/app/(features)/config/clients-suppliers
 import { ButtonSave } from "@/components/common/buttons/button-save";
 import { ComboboxForm } from "@/components/common/form/combobox-form";
 import { InputFieldForm } from "@/components/common/form/input-field-form";
+import { ButtonCancel } from "@/components/common/buttons/button-cancel";
 
-interface ClientFormProps {
-  currentClientSupplier: ClientSupplier | null;
+interface CustomFormProps {
+  currentRow: ClientSupplier | null;
   companyId: string;
   handleCloseForm: () => void;
 }
 
-export const ClientSupplierForm = ({
-  currentClientSupplier,
+export const CustomForm = ({
+  currentRow,
   companyId,
   handleCloseForm,
-}: ClientFormProps ) => {
+}: CustomFormProps) => {
   const {
     form,
-    handleClientSave,
+    handleSave,
     isPending,
     messageGeneralError,
     setMessageGeneralError,
     isNewRecord,
   } = useClientSupplierForm({
-    currentClientSupplier,
+    currentRow,
     companyId,
   });
 
-  const handleSave = async (values: ClientSupplierFormSchemaType) => {
+  const handleSubmit = async (values: ClientSupplierFormSchemaType) => {
     setMessageGeneralError(null);
-    const resp = await handleClientSave(values);
+    const resp = await handleSave(values);
     if (resp.success) postSave();
   };
 
@@ -62,7 +62,7 @@ export const ClientSupplierForm = ({
           }`}</CardTitle>
         </CardHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSave)}>
+          <form onSubmit={form.handleSubmit(handleSubmit)}>
             <CardContent>
               <div className="grid grid-cols-0 md:grid-cols-2 w-full gap-3 md:gap-x-7">
                 <section className="flex flex-col gap-5">
@@ -131,14 +131,7 @@ export const ClientSupplierForm = ({
                 </p>
               )}
               <div className="flex justify-end gap-7">
-                <Button
-                  type="button"
-                  variant={"secondary"}
-                  onClick={handleCloseForm}
-                  disabled={isPending}
-                >
-                  Cancelar
-                </Button>
+                <ButtonCancel handleCloseForm={handleCloseForm} isPending={isPending} />
                 <ButtonSave isPending={isPending} />
               </div>
             </CardFooter>

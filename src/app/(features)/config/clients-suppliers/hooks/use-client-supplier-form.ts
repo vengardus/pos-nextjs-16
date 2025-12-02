@@ -23,19 +23,19 @@ const defaultValues: ClientSupplierFormSchemaType = {
   phone: "",
 };
 
-interface ClientFormProps {
-  currentClientSupplier: ClientSupplier | null;
+interface ClientSupplierFormProps {
+  currentRow: ClientSupplier | null;
   companyId: string;
 }
 export const useClientSupplierForm = ({
-  currentClientSupplier,
+  currentRow,
   companyId,
-}: ClientFormProps) => {
+}: ClientSupplierFormProps) => {
   const [isPending, setIsPending] = useState(false);
   const [messageGeneralError, setMessageGeneralError] = useState<string | null>(
     null
   );
-  const isNewRecord = !currentClientSupplier;
+  const isNewRecord = !currentRow;
 
   const form = useForm<ClientSupplierFormSchemaType>({
     resolver: zodResolver(ClientSupplierFormSchema),
@@ -47,18 +47,18 @@ export const useClientSupplierForm = ({
       isNewRecord
         ? defaultValues
         : {
-            name: currentClientSupplier!.name,
-            address: currentClientSupplier!.address?? undefined,
-            email: currentClientSupplier!.email ?? undefined,
-            personType: currentClientSupplier!.personType,
-            naturalIdentifier: currentClientSupplier!.naturalIdentifier ?? undefined,
-            legalIdentifier: currentClientSupplier!.legalIdentifier ?? undefined,
-            phone: currentClientSupplier!.phone ?? undefined
+            name: currentRow!.name,
+            address: currentRow!.address ?? undefined,
+            email: currentRow!.email ?? undefined,
+            personType: currentRow!.personType,
+            naturalIdentifier: currentRow!.naturalIdentifier ?? undefined,
+            legalIdentifier: currentRow!.legalIdentifier ?? undefined,
+            phone: currentRow!.phone ?? undefined,
           }
     );
-  }, [isNewRecord, currentClientSupplier, form]);
+  }, [isNewRecord, currentRow, form]);
 
-  const handleClientSave = async (values: ClientSupplierFormSchemaType) => {
+  const handleSave = async (values: ClientSupplierFormSchemaType) => {
     values.name = toCapitalize(values.name);
     // determinar si es insert or update
     setIsPending(true);
@@ -67,7 +67,6 @@ export const useClientSupplierForm = ({
       ? {
           id: "",
           name: values.name,
-          //color: values.color,
           address: formatOptionalField(values.address),
           email: formatOptionalField(values.email),
           naturalIdentifier: formatOptionalField(values.naturalIdentifier),
@@ -80,7 +79,7 @@ export const useClientSupplierForm = ({
           createdAt: new Date(),
         }
       : {
-          ...currentClientSupplier!,
+          ...currentRow!,
           name: values.name,
           address: formatOptionalField(values.address),
           email: formatOptionalField(values.email),
@@ -91,12 +90,10 @@ export const useClientSupplierForm = ({
           updatedAt: new Date(),
         };
 
-    const resp = await clientSupplierInsertOrUpdate(
-      clientSupplier,
-    );
+    const resp = await clientSupplierInsertOrUpdate(clientSupplier);
 
     if (resp.success) {
-      if (isNewRecord) currentClientSupplier = resp.data;
+      if (isNewRecord) currentRow = resp.data;
       toast.success(
         `${ClientSupplierBusiness.metadata.singularName} ${
           isNewRecord ? "se creó" : "se actualizó"
@@ -117,7 +114,7 @@ export const useClientSupplierForm = ({
 
   return {
     form,
-    handleClientSave,
+    handleSave,
     isPending,
     messageGeneralError,
     setMessageGeneralError,

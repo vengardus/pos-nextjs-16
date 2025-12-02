@@ -5,38 +5,37 @@ import { toast } from "sonner";
 import type { ClientSupplier } from "@/types/interfaces/client-supplier/client-supplier.interface";
 import { ClientSupplierBusiness } from "@/business/client-supplier.business";
 import {
-  clientSupplierListColumnsDef,
-  clientSupplierListColumnsResponsiveDef,
-} from "./client-supplier-list-columns-def";
-import { ClientSupplierForm } from "./client-supplier-form";
+  ListColumnsDef,
+  CustomListColumnsResponsiveDef,
+} from "./list-columns-def";
+import { CustomForm } from "./custom-form";
 import { ListTable } from "@/components/tables/list-table";
 import { Modal } from "@/components/common/modals/modal";
 import { clientSupplierDeleteById } from "@/actions/clients-suppliers/client-supplier.delete-by-id.action";
 
-interface ClientSupplierListProps {
-  clientssuppliers: ClientSupplier[];
+interface ListDefProps {
+  data: ClientSupplier[];
   companyId: string;
 }
-export const ClientSupplierList = ({
-  clientssuppliers,
-  companyId,
-}: ClientSupplierListProps) => {
+
+export const ListDef = ({ data, companyId }: ListDefProps) => {
   const [isShowForm, setIsShowForm] = useState(false);
-  const [currentClientSupplier, setCurrentClientSupplier] =
-    useState<ClientSupplier | null>(null);
+  const [currentRow, setCurrentRow] = useState<ClientSupplier | null>(null);
 
   const handleAddRecord = () => {
-    setCurrentClientSupplier(null);
+    setCurrentRow(null);
     setIsShowForm(true);
   };
 
   const handleEditRecord = (id: string) => {
-    const clientsupplier = clientssuppliers.find((c) => c.id === id) ?? null;
-    if (!clientsupplier) {
-      toast.error("Error: No se pudo obtener categoría");
+    const clientSupplier = data.find((c) => c.id === id) ?? null;
+    if (!clientSupplier) {
+      toast.error(
+        `Error: No se pudo obtener ${ClientSupplierBusiness.metadata.singularName}`
+      );
       return;
     }
-    setCurrentClientSupplier(clientsupplier);
+    setCurrentRow(clientSupplier);
     setIsShowForm(true);
   };
 
@@ -52,13 +51,13 @@ export const ClientSupplierList = ({
   return (
     <>
       <ListTable<ClientSupplier>
-        data={clientssuppliers}
-        columnsDef={clientSupplierListColumnsDef({
+        data={data}
+        columnsDef={ListColumnsDef({
           handleEditRecord: handleEditRecord,
           handleDeleteRecord: handleDeleteRecord,
         })}
         handleAddRecord={handleAddRecord}
-        columnsResponsiveDef={clientSupplierListColumnsResponsiveDef}
+        columnsResponsiveDef={CustomListColumnsResponsiveDef}
         modelLabels={{
           singularName: ClientSupplierBusiness.metadata.singularName,
           pluralName: ClientSupplierBusiness.metadata.pluralName,
@@ -67,8 +66,8 @@ export const ClientSupplierList = ({
 
       {isShowForm && (
         <Modal handleCloseForm={() => setIsShowForm(false)}>
-          <ClientSupplierForm
-            currentClientSupplier={currentClientSupplier}
+          <CustomForm
+            currentRow={currentRow}
             companyId={companyId}
             handleCloseForm={() => setIsShowForm(false)}
           />

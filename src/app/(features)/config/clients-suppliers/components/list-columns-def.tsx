@@ -5,14 +5,15 @@ import { ScreenSizeEnum } from "@/utils/browser/get-screen-size";
 import { ListColumnSorting } from "@/components/tables/list-column-sorting";
 import { ListColumnActions } from "@/components/tables/list-column-actions";
 
-interface ClientSupplierListColumnsDefProps {
+interface ListColumnsDefProps {
   handleEditRecord: (id: string) => void;
   handleDeleteRecord: (id: string) => void;
 }
-export const clientSupplierListColumnsDef = ({
+
+export const ListColumnsDef = ({
   handleEditRecord,
   handleDeleteRecord,
-}: ClientSupplierListColumnsDefProps): ColumnDef<ClientSupplier>[] => [
+}: ListColumnsDefProps): ColumnDef<ClientSupplier>[] => [
   {
     accessorKey: "name",
     header: ({ column }) => (
@@ -25,18 +26,11 @@ export const clientSupplierListColumnsDef = ({
       <ListColumnSorting column={column} label="Teléfono" />
     ),
   },
-  
-  // {
-  //   accessorKey: "createdAt",
-  //   header: ({ column }) => {
-  //     return <ListColumnSorting column={column} label="Creado" />;
-  //   },
-  // },
   {
     accessorKey: "id",
     header: () => <div className="text-right">Acciones</div>,
     cell: ({ row }) => (
-      <ListColumnActions 
+      <ListColumnActions
         row={row}
         handleEditRecord={handleEditRecord}
         handleDeleteRecord={handleDeleteRecord}
@@ -45,7 +39,7 @@ export const clientSupplierListColumnsDef = ({
   },
 ];
 
-export const clientSupplierListColumnsResponsiveDef: ListColumnsResponsiveDef<ClientSupplier>[] =
+export const CustomListColumnsResponsiveDef: ListColumnsResponsiveDef<ClientSupplier>[] =
   [
     {
       accessorKey: "createdAt",

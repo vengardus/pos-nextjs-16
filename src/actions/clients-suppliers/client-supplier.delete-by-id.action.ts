@@ -25,7 +25,7 @@ export const clientSupplierDeleteById = async (id: string): Promise<ResponseActi
     });
     resp.data = clientsupplierDelete;
     resp.success = true;
-    revalidatePath("/config/clientssuppliers");
+    revalidatePath("/config/clients-suppliers");
   } catch (error) {
     resp.message = getActionError(error);
   }

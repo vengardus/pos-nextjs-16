@@ -34,6 +34,8 @@ export const usePaymentMethodForm = ({
 
   const form = useForm<PaymentMethodFormSchemaType>({
     resolver: zodResolver(PaymentMethodFormSchema),
+    mode: "onChange",
+    reValidateMode: "onChange",
     defaultValues: defaultValues,
   });
 

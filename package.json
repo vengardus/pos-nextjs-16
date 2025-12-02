@@ -11,7 +11,7 @@
     "prisma:migrate:deploy": "prisma migrate deploy && prisma generate"
   },
   "dependencies": {
-    "@ai-sdk/groq": "^0.0.35",
+    "@ai-sdk/groq": "^2.0.32",
     "@hookform/resolvers": "^3.9.1",
     "@prisma/client": "^6.4.1",
     "@radix-ui/react-alert-dialog": "^1.1.4",
@@ -30,8 +30,8 @@
     "@tanstack/react-table": "^8.20.6",
     "@types/pdfmake": "^0.2.11",
     "@types/react-color": "^3.0.13",
+    "ai": "^5.0.105",
     "bcryptjs": "^3.0.2",
-    "ai": "^3.4.0",
     "class-variance-authority": "^0.7.0",
     "cloudinary": "^2.5.1",
     "clsx": "^2.1.1",
@@ -57,7 +57,7 @@
     "sonner": "^1.7.1",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
-    "zod": "^3.23.8",
+    "zod": "^4",
     "zustand": "^5.0.3"
   },
   "devDependencies": {

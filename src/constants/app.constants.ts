@@ -62,6 +62,22 @@ export class AppConstants {
       href: "/dashboard",
     },
     {
+      name: ModuleEnum.ai,
+      label: "IA",
+      children: [
+        {
+          name: ModuleEnum.aiChat,
+          label: "Chat",
+          href: "/ai/chat",
+        },
+        {
+          name: ModuleEnum.aiAgent,
+          label: "Agente",
+          href: "/ai/agent",
+        },
+      ],
+    },
+    {
       name: "super-admin",
       label: 'SuperAdmin',
       role: UserRole.SUPER_ADMIN,

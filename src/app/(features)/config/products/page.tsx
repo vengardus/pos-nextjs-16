@@ -3,7 +3,7 @@ import type { Category } from "@/types/interfaces/category/category.interface";
 import type { Product } from "@/types/interfaces/product/product.interface";
 import { ShowPageMessage } from "@/components/common/messages/show-page-message";
 import { ModuleEnum } from "@/types/enums/module.enum";
-import { ProductList } from "./components/product-list";
+import { ListDef } from "./components/list-def";
 import { categoryGetAllByCompanyCached } from "@/lib/data/categories/category.cache";
 import { productGetAllByCompanyCached } from "@/lib/data/products/product.cache";
 import { branchGetAllByCompanyCached } from "@/lib/data/branches/branch.cache";
@@ -12,7 +12,7 @@ import { checkAuthenticationAndPermission } from "@/services/auth/check-authenti
 export default async function ConfigProductsPage() {
   // Verify user authentication and permission
   const authenticatationAndPermissionResponse = await checkAuthenticationAndPermission(
-    ModuleEnum.pos
+    ModuleEnum.products
   );
   if (!authenticatationAndPermissionResponse.isAuthenticated)
     return <ShowPageMessage customMessage={authenticatationAndPermissionResponse.errorMessage} />;
@@ -22,7 +22,10 @@ export default async function ConfigProductsPage() {
   const respCategories = await categoryGetAllByCompanyCached(company.id);
   if (!respCategories.success) {
     return (
-      <ShowPageMessage modelName={`Categorìa de productos`} errorMessage={respCategories.message} />
+      <ShowPageMessage
+        modelName={`Categoría de productos`}
+        errorMessage={respCategories.message}
+      />
     );
   }
   const categories = respCategories.data as Category[];
@@ -41,10 +44,8 @@ export default async function ConfigProductsPage() {
   }
   const branches = respBranches.data as Branch[];
 
-  console.log("PRODUCTS Page Rendered");
-
   return (
-    <ProductList
+    <ListDef
       data={{
         products,
         categories,

@@ -33,14 +33,14 @@ const defaultValues: ProductFormSchemaType = {
   minimunStock: 0,
 };
 
-interface ProductFormProps {
+interface UseProductFormProps {
   currentProduct: Product | null;
   companyId: string;
 }
 export const useProductForm = ({
   currentProduct,
   companyId,
-}: ProductFormProps) => {
+}: UseProductFormProps) => {
   const [isPending, setIsPending] = useState(false);
   const [messageGeneralError, setMessageGeneralError] = useState<string | null>(
     null
@@ -72,15 +72,9 @@ export const useProductForm = ({
   }, [isNewRecord, currentProduct, form]);
 
   useEffect(() => {
-    const getAllWarehouse = async (productId: string) => {
-      const resp = await warehouseGetAllByProductAction(productId);
-      console.log({ resp });
-      return resp;
-    };
-
     const fetchData = async () => {
       if (!isNewRecord && currentProduct!.isInventoryControl) {
-        const resp = await getAllWarehouse(currentProduct!.id);
+        const resp = await warehouseGetAllByProductAction(currentProduct!.id);
         if (!resp.success) {
           toast.error(
             `Error: No se pudo obtener stock de ${WarehouseBusiness.metadata.singularName}`
@@ -105,7 +99,7 @@ export const useProductForm = ({
     fetchData();
   }, [isNewRecord, currentProduct]);
 
-  const handleProductsave = async (
+  const handleSave = async (
     values: ProductFormSchemaType,
     productStocks: ProductStock[]
   ) => {
@@ -199,7 +193,7 @@ export const useProductForm = ({
 
   return {
     form,
-    handleProductsave,
+    handleSave,
     isPending,
     messageGeneralError,
     setMessageGeneralError,

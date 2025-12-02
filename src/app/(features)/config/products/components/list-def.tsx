@@ -7,15 +7,15 @@ import type { Category } from "@/types/interfaces/category/category.interface";
 import type { Branch } from "@/types/interfaces/branch/branch.interface";
 import { ProductBusiness } from "@/business/product.business";
 import {
-  productListColumnsDef,
-  productListColumnsResponsiveDef,
-} from "./product-list-columns-def";
-import { ProductForm } from "./product-form";
+  ListColumnsDef,
+  CustomListColumnsResponsiveDef,
+} from "./list-columns-def";
+import { CustomForm } from "./custom-form";
 import { ListTable } from "@/components/tables/list-table";
 import { Modal } from "@/components/common/modals/modal";
 import { productDeleteById } from "@/actions/products/product.delete-by-id.action";
 
-interface ProductListProps {
+interface ListDefProps {
   companyId: string;
   data: {
     products: Product[];
@@ -23,7 +23,7 @@ interface ProductListProps {
     branches: Branch[];
   };
 }
-export const ProductList = ({ companyId, data }: ProductListProps) => {
+export const ListDef = ({ companyId, data }: ListDefProps) => {
   const { products, categories, branches } = data;
   const [isShowForm, setIsShowForm] = useState(false);
   const [currentProduct, setCurrentProduct] = useState<Product | null>(null);
@@ -36,7 +36,9 @@ export const ProductList = ({ companyId, data }: ProductListProps) => {
   const handleEditRecord = (id: string) => {
     const product = products.find((c) => c.id === id) ?? null;
     if (!product) {
-      toast.error("Error: No se pudo obtener categoría");
+      toast.error(
+        `Error: No se pudo obtener ${ProductBusiness.metadata.singularName}`
+      );
       return;
     }
     setCurrentProduct(product);
@@ -56,12 +58,12 @@ export const ProductList = ({ companyId, data }: ProductListProps) => {
     <>
       <ListTable<Product>
         data={products}
-        columnsDef={productListColumnsDef({
+        columnsDef={ListColumnsDef({
           handleEditRecord: handleEditRecord,
           handleDeleteRecord: handleDeleteRecord,
         })}
         handleAddRecord={handleAddRecord}
-        columnsResponsiveDef={productListColumnsResponsiveDef}
+        columnsResponsiveDef={CustomListColumnsResponsiveDef}
         modelLabels={{
           singularName: ProductBusiness.metadata.singularName,
           pluralName: ProductBusiness.metadata.pluralName,
@@ -69,8 +71,8 @@ export const ProductList = ({ companyId, data }: ProductListProps) => {
       />
 
       {isShowForm && (
-        <Modal handleCloseForm={() => setIsShowForm(false)} className="">
-          <ProductForm
+        <Modal handleCloseForm={() => setIsShowForm(false)}>
+          <CustomForm
             currentProduct={currentProduct}
             companyId={companyId}
             handleCloseForm={() => setIsShowForm(false)}

@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef } from "react";
-import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import {
   Card,
@@ -21,12 +20,13 @@ import { ScreenSizeEnum } from "@/utils/browser/get-screen-size";
 import { generateSKU } from "@/utils/generate/generate-sku";
 import { ProductStockForm } from "./product-stock-form";
 import { ButtonSave } from "@/components/common/buttons/button-save";
+import { ButtonCancel } from "@/components/common/buttons/button-cancel";
 import { DialogInfo } from "@/components/common/dialog/dialog-info";
 import { ComboboxForm } from "@/components/common/form/combobox-form";
 import { InputFieldForm } from "@/components/common/form/input-field-form";
 import { SwitchForm } from "@/components/common/form/switch-form";
 
-interface ProductFormProps {
+interface CustomFormProps {
   currentProduct: Product | null;
   companyId: string;
   handleCloseForm: () => void;
@@ -36,17 +36,17 @@ interface ProductFormProps {
   };
 }
 
-export const ProductForm = ({
+export const CustomForm = ({
   currentProduct,
   companyId,
   handleCloseForm,
   data,
-}: ProductFormProps) => {
+}: CustomFormProps) => {
   const { categories, branches } = data;
   const screenSize = useMediaQuery();
   const {
     form,
-    handleProductsave,
+    handleSave: handleProductSave,
     isPending,
     messageGeneralError,
     setMessageGeneralError,
@@ -62,7 +62,7 @@ export const ProductForm = ({
   const salePriceRef = useRef<HTMLInputElement>(null);
   const purchasePriceRef = useRef<HTMLInputElement>(null);
 
-  const handleSave = async (values: ProductFormSchemaType) => {
+  const handleSubmit = async (values: ProductFormSchemaType) => {
     setMessageGeneralError(null);
     if (
       isNewRecord &&
@@ -72,11 +72,11 @@ export const ProductForm = ({
       setMessageGeneralError("Debe agregar stock en al menos una sucursal");
       return;
     }
-    const resp = await handleProductsave(values, productStocks);
+    const resp = await handleProductSave(values, productStocks);
     if (resp.success) postSave();
   };
 
-  const handleError = (error: any) => {
+  const handleError = (error: unknown) => {
     setMessageGeneralError("Ocurrió un error, revise los datos.");
     console.log(error); // usada intencionalmente
   };
@@ -97,7 +97,7 @@ export const ProductForm = ({
           }`}</CardTitle>
         </CardHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSave, handleError)}>
+          <form onSubmit={form.handleSubmit(handleSubmit, handleError)}>
             <CardContent>
               <div className="grid w-full gap-y-5 md:grid-cols-2 md:items-start md:gap-x-7">
                 <section className="grid gap-5">
@@ -228,15 +228,11 @@ export const ProductForm = ({
                     />
                   </section>
 
-                  <section className="flex justify-end  gap-7 items-end">
-                    <Button
-                      type="button"
-                      variant={"secondary"}
-                      onClick={handleCloseForm}
-                      disabled={isPending}
-                    >
-                      Cancelar
-                    </Button>
+                  <section className="flex justify-end gap-7 items-end">
+                    <ButtonCancel
+                      handleCloseForm={handleCloseForm}
+                      isPending={isPending}
+                    />
                     <ButtonSave isPending={isPending} />
                   </section>
                 </section>
@@ -256,8 +252,8 @@ export const ProductForm = ({
           open={isOpenDialogInfo}
           setOpen={setIsOpenDialogInfo}
           handleAction={() => setIsOpenDialogInfo(false)}
-          description={`Producto tiene datos de stock de sucusales. Si deshabilita el control por inventario, 
-          al grabar el producto se eliminarán los datos de stock en el ALmacén.`}
+          description={`Producto tiene datos de stock de sucursales. Si deshabilita el control por inventario,
+          al grabar el producto se eliminarán los datos de stock en el almacén.`}
         />
       </Card>
     </div>

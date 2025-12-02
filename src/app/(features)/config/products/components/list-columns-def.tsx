@@ -5,14 +5,14 @@ import { getScreenSize, ScreenSizeEnum } from "@/utils/browser/get-screen-size";
 import { ListColumnSorting } from "@/components/tables/list-column-sorting";
 import { ListColumnActions } from "@/components/tables/list-column-actions";
 
-interface ProductListColumnsDefProps {
+interface ListColumnsDefProps {
   handleEditRecord: (id: string) => void;
   handleDeleteRecord: (id: string) => void;
 }
-export const productListColumnsDef = ({
+export const ListColumnsDef = ({
   handleEditRecord,
   handleDeleteRecord,
-}: ProductListColumnsDefProps): ColumnDef<Product>[] => [
+}: ListColumnsDefProps): ColumnDef<Product>[] => [
   {
     accessorKey: "name",
     header: ({ column }) => (
@@ -109,18 +109,17 @@ export const productListColumnsDef = ({
   },
 ];
 
-export const productListColumnsResponsiveDef: ListColumnsResponsiveDef<Product>[] =
-  [
-    {
-      accessorKey: "categoryName",
-      screenSize: ScreenSizeEnum.md,
-    },
-    {
-      accessorKey: "purchasePrice",
-      screenSize: ScreenSizeEnum.md,
-    },
-    {
-      accessorKey: "isInventoryControl",
-      screenSize: ScreenSizeEnum.xs,
-    },
-  ];
+export const CustomListColumnsResponsiveDef: ListColumnsResponsiveDef<Product>[] = [
+  {
+    accessorKey: "categoryName",
+    screenSize: ScreenSizeEnum.md,
+  },
+  {
+    accessorKey: "purchasePrice",
+    screenSize: ScreenSizeEnum.md,
+  },
+  {
+    accessorKey: "isInventoryControl",
+    screenSize: ScreenSizeEnum.xs,
+  },
+];

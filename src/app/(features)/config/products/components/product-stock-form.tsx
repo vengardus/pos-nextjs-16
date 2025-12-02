@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type JSX } from "react";
 import { Control, FieldValues, Path } from "react-hook-form";
 import { DeleteIcon } from "lucide-react";
 import type { Branch } from "@/types/interfaces/branch/branch.interface";
@@ -31,7 +31,7 @@ export const ProductStockForm = <T extends FieldValues>({
   productStocks,
   setProductStocks,
   isNewRecord,
-}: ProductStockFormProps<T>): React.JSX.Element => {
+}: ProductStockFormProps<T>): JSX.Element => {
   const [branchId, setBranchId] = useState(defaultValues.branchId);
   const [branchLabel, setBranchLabel] = useState(defaultValues.branchLabel);
   const [stockValue, setStockValue] = useState(defaultValues.stock.toString());

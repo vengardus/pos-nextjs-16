@@ -7,7 +7,7 @@ import { checkAuthenticationAndPermission } from "@/services/auth/check-authenti
 export default async function ConfigCategoriesPage() {
   // Verify user authentication and permission
   const authenticatationAndPermissionResponse = await checkAuthenticationAndPermission(
-    ModuleEnum.pos
+    ModuleEnum.productCategories
   );
   if (!authenticatationAndPermissionResponse.isAuthenticated)
     return <ShowPageMessage customMessage={authenticatationAndPermissionResponse.errorMessage} />;
@@ -17,7 +17,10 @@ export default async function ConfigCategoriesPage() {
   const respCategories = await categoryGetAllByCompanyCached(company.id);
   if (!respCategories.success) {
     return (
-      <ShowPageMessage modelName={`Categorìa de productos`} errorMessage={respCategories.message} />
+      <ShowPageMessage
+        modelName={`Categoría de productos`}
+        errorMessage={respCategories.message}
+      />
     );
   }
 

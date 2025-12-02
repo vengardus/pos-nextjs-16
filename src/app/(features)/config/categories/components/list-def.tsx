@@ -4,35 +4,34 @@ import { useState } from "react";
 import { toast } from "sonner";
 import type { Category } from "@/types/interfaces/category/category.interface";
 import { CategoryBusiness } from "@/business/category.business";
-import {
-  categoryListColumnsDef,
-  categoryListColumnsResponsiveDef,
-} from "./category-list-columns-def";
-import { CategoryForm } from "./category-form";
+import { ListColumnsDef, CustomListColumnsResponsiveDef } from "./list-columns-def";
+import { CustomForm } from "./custom-form";
 import { Modal } from "../../../../../components/common/modals/modal";
-import { ListTable } from "../../../../../components/tables/list-table";
+import { ListTable } from "@/components/tables/list-table";
 import { categoryDeleteById } from "@/actions/categories/category.delete-by-id.action";
 
-interface CategoryListProps {
-  categories: Category[];
+interface ListDefProps {
+  data: Category[];
   companyId: string;
 }
-export const CategoryList = ({ categories, companyId }: CategoryListProps) => {
+export const ListDef = ({ data, companyId }: ListDefProps) => {
   const [isShowForm, setIsShowForm] = useState(false);
-  const [currentCategory, setCurrentCategory] = useState<Category | null>(null);
+  const [currentRow, setCurrentRow] = useState<Category | null>(null);
 
   const handleAddRecord = () => {
-    setCurrentCategory(null);
+    setCurrentRow(null);
     setIsShowForm(true);
   };
 
   const handleEditRecord = (id: string) => {
-    const category = categories.find((c) => c.id === id) ?? null;
-    if (!category) {
-      toast.error("Error: No se pudo obtener categoría");
+    const currentRow = data.find((c) => c.id === id) ?? null;
+    if (!currentRow) {
+      toast.error(
+        `Error: No se pudo obtener ${CategoryBusiness.metadata.singularName}`
+      );
       return;
     }
-    setCurrentCategory(category);
+    setCurrentRow(currentRow);
     setIsShowForm(true);
   };
 
@@ -48,13 +47,13 @@ export const CategoryList = ({ categories, companyId }: CategoryListProps) => {
   return (
     <>
       <ListTable<Category>
-        data={categories}
-        columnsDef={categoryListColumnsDef({
+        data={data}
+        columnsDef={ListColumnsDef({
           handleEditRecord: handleEditRecord,
           handleDeleteRecord: handleDeleteRecord,
         })}
         handleAddRecord={handleAddRecord}
-        columnsResponsiveDef={categoryListColumnsResponsiveDef}
+        columnsResponsiveDef={CustomListColumnsResponsiveDef}
         modelLabels={{
           singularName: CategoryBusiness.metadata.singularName,
           pluralName: CategoryBusiness.metadata.pluralName,
@@ -63,15 +62,11 @@ export const CategoryList = ({ categories, companyId }: CategoryListProps) => {
 
       {isShowForm && (
         <Modal handleCloseForm={() => setIsShowForm(false)}>
-        {/* <div className="fixed inset-0 bg-background opacity-95 z-10 flex justify-center items-center top-16">
-          <div className="fixed bg-background border  shadow-lg rounded-lg z-50 w-[80%] h-[80%]"> */}
-            <CategoryForm
-              currentCategory={currentCategory}
-              companyId={companyId}
-              handleCloseForm={() => setIsShowForm(false)}
-            />
-          {/* </div>
-        </div> */}
+          <CustomForm
+            currentRow={currentRow}
+            companyId={companyId}
+            handleCloseForm={() => setIsShowForm(false)}
+          />
         </Modal>
       )}
     </>

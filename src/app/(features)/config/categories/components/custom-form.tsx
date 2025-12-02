@@ -1,7 +1,6 @@
 "use client";
 
 import { CirclePicker } from "react-color";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -24,27 +23,28 @@ import { CategoryFormSchemaType } from "@/app/(features)/config/categories/schem
 import { useCategoryForm } from "@/app/(features)/config/categories/hooks/use-category-form";
 import { InputFieldForm } from "../../../../../components/common/form/input-field-form";
 import { ButtonSave } from "../../../../../components/common/buttons/button-save";
+import { ButtonCancel } from "../../../../../components/common/buttons/button-cancel";
 
-interface CategoryFormProps {
-  currentCategory: Category | null;
+interface CustomFormProps {
+  currentRow: Category | null;
   companyId: string;
   handleCloseForm: () => void;
 }
 
-export const CategoryForm = ({
-  currentCategory,
+export const CustomForm = ({
+  currentRow,
   companyId,
   handleCloseForm,
-}: CategoryFormProps) => {
+}: CustomFormProps) => {
   const {
     form,
-    handleCategorySave,
+    handleSave: handleCategorySave,
     isPending,
     messageGeneralError,
     setMessageGeneralError,
     isNewRecord,
   } = useCategoryForm({
-    currentCategory,
+    currentCategory: currentRow,
     companyId,
   });
 
@@ -62,8 +62,8 @@ export const CategoryForm = ({
 
   return (
     <div className="">
-      <Card className="border-0">
-        <CardHeader>
+      <Card className="card">
+        <CardHeader className="card-header">
           <CardTitle>{`${!isNewRecord ? "Editar" : "Agregar"} ${
             CategoryBusiness.metadata.singularName
           }`}</CardTitle>
@@ -126,14 +126,10 @@ export const CategoryForm = ({
                 </p>
               )}
               <div className="flex justify-end gap-7">
-                <Button
-                  type="button"
-                  variant={"secondary"}
-                  onClick={handleCloseForm}
-                  disabled={isPending}
-                >
-                  Cancelar
-                </Button>
+                <ButtonCancel
+                  handleCloseForm={handleCloseForm}
+                  isPending={isPending}
+                />
                 <ButtonSave isPending={isPending} />
               </div>
             </CardFooter>

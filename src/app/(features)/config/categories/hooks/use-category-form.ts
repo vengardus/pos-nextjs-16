@@ -47,7 +47,7 @@ export const useCategoryForm = ({
     );
   }, [isNewRecord, currentCategory, form]);
 
-  const handleCategorySave = async (values: CategoryFormSchemaType) => {
+  const handleSave = async (values: CategoryFormSchemaType) => {
     values.name = toCapitalize(values.name);
     // determinar si es insert or update
     setIsPending(true);
@@ -95,7 +95,7 @@ export const useCategoryForm = ({
 
   return {
     form,
-    handleCategorySave,
+    handleSave,
     isPending,
     messageGeneralError,
     setMessageGeneralError,

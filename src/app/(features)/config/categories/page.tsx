@@ -1,4 +1,4 @@
-import { CategoryList } from "@/app/(features)/config/categories/components/category-list";
+import { ListDef } from "@/app/(features)/config/categories/components/list-def";
 import { ShowPageMessage } from "@/components/common/messages/show-page-message";
 import { ModuleEnum } from "@/types/enums/module.enum";
 import { categoryGetAllByCompanyCached } from "@/lib/data/categories/category.cache";
@@ -24,5 +24,5 @@ export default async function ConfigCategoriesPage() {
     );
   }
 
-  return <CategoryList categories={respCategories.data} companyId={company.id} />;
+  return <ListDef data={respCategories.data} companyId={company.id} />;
 }

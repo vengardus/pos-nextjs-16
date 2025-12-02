@@ -6,31 +6,29 @@ import { ScreenSizeEnum } from "@/utils/browser/get-screen-size";
 import { ListColumnSorting } from "@/components/tables/list-column-sorting";
 import { ListColumnActions } from "@/components/tables/list-column-actions";
 
-interface CategoryListColumnsDefProps {
+interface ListColumnsDefProps {
   handleEditRecord: (id: string) => void;
   handleDeleteRecord: (id: string) => void;
 }
-export const categoryListColumnsDef = ({
+
+export const ListColumnsDef = ({
   handleEditRecord,
   handleDeleteRecord,
-}: CategoryListColumnsDefProps): ColumnDef<Category>[] => [
+}: ListColumnsDefProps): ColumnDef<Category>[] => [
   {
     accessorKey: "name",
-    header: ({ column }) => (
-      <ListColumnSorting column={column} label="Nombre" />
-    ),
+    header: ({ column }) => <ListColumnSorting column={column} label="Nombre" />,
   },
   {
     accessorKey: "imageUrl",
-    header: () => <div className="">Imagen</div>,
+    header: () => <div>Imagen</div>,
     cell: ({ row }) => (
       <Image
         src={row.getValue("imageUrl") ?? "/placeholder.jpg"}
         alt={`${row.getValue("name")} imagen`}
         width={40}
         height={40}
-        className=""
-        style={{width:"40px", height:"40px"}}
+        className="h-10 w-10 object-cover"
       />
     ),
   },
@@ -40,24 +38,18 @@ export const categoryListColumnsDef = ({
     cell: ({ row }) => (
       <div className="flex items-center">
         <div
-          className="w-6 h-6 rounded-full mr-2"
+          className="mr-2 h-6 w-6 rounded-full"
           style={{ backgroundColor: row.getValue("color") }}
         />
         {row.getValue("color")}
       </div>
     ),
   },
-  // {
-  //   accessorKey: "createdAt",
-  //   header: ({ column }) => {
-  //     return <ListColumnSorting column={column} label="Creado" />;
-  //   },
-  // },
   {
     accessorKey: "id",
     header: () => <div className="text-right">Acciones</div>,
     cell: ({ row }) => (
-      <ListColumnActions 
+      <ListColumnActions
         row={row}
         handleEditRecord={handleEditRecord}
         handleDeleteRecord={handleDeleteRecord}
@@ -66,14 +58,9 @@ export const categoryListColumnsDef = ({
   },
 ];
 
-export const categoryListColumnsResponsiveDef: ListColumnsResponsiveDef<Category>[] =
-  [
-    {
-      accessorKey: "imageUrl",
-      screenSize: ScreenSizeEnum.xs,
-    },
-    // {
-    //   accessorKey: "createdAt",
-    //   screenSize: ScreenSizeEnum.md,
-    // },
-  ];
+export const CustomListColumnsResponsiveDef: ListColumnsResponsiveDef<Category>[] = [
+  {
+    accessorKey: "imageUrl",
+    screenSize: ScreenSizeEnum.xs,
+  },
+];

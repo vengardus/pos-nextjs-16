@@ -73,6 +73,14 @@ const createCategoryWithMcp = async ({
 export const aiAgentAction = async (
   prompt: string
 ): Promise<ResponseAction> => {
+
+    console.log("[aiAgentAction] ejecutando en", {
+    vercelUrl: process.env.NEXT_PUBLIC_APP_URL ?? "local",
+    nodeEnv: process.env.NODE_ENV,
+    timestamp: new Date().toISOString(),
+  });
+
+
   const resp = initResponseAction();
 
   if (!prompt.trim()) {
@@ -142,7 +150,7 @@ export const aiAgentAction = async (
     });
 
     console.log("Tool results:", toolResults);
-    
+
     // 🧠 Patrón recomendado en la doc: leer toolResults del resultado
     const categoryToolResult = toolResults.find(
       (result) => result.toolName === "createCategory"

@@ -42,6 +42,8 @@ const createCategoryWithMcp = async ({
 }: CreateCategoryPayload): Promise<ResponseAction> => {
   const url = buildApiUrl(API_PATHS.createCategory);
 
+  console.log("Creating category with URL:", url);
+
   const response = await fetch(url, {
     method: "POST",
     headers: {
@@ -52,8 +54,17 @@ const createCategoryWithMcp = async ({
 
   const data = (await response.json()) as ResponseAction;
 
+  console.log("Create category response:", data);
+  console.log("Response OK:", response.ok);
+
   if (!response.ok || !data.success) {
-    throw new Error(data.message ?? "Error al crear la categoría");
+    return {
+      success: false,
+      message: data.message ?? "Error al crear la categoría",
+      data: null,
+      errorCode: data.errorCode ?? response.status,
+      pagination: data.pagination ?? { currentPage: 1, totalPages: 1 },
+    };
   }
 
   return data;
@@ -88,15 +99,19 @@ export const aiAgentAction = async (
           name: z
             .string()
             .min(2, "El nombre debe tener al menos 2 caracteres")
-            .describe("Nombre exacto de la categoría a registrar"),
+            .describe("Nombre exacto de la categoría a registrar")
+            .catch(""),
         }),
         // 👇 Devolvemos directamente el ResponseAction del fetch
         execute: async ({ name }) => {
-          return await createCategoryWithMcp({
+          const result = await createCategoryWithMcp({
             name,
             color: AppConstants.DEFAULT_VALUES.categoryColor,
             companyId: authResult.company!.id,
           });
+
+          // devolvemos SIEMPRE un ResponseAction, sin throws
+          return result;
         },
       }),
     } as const;
@@ -126,6 +141,8 @@ export const aiAgentAction = async (
       // stopWhen: stepCountIs(2),
     });
 
+    console.log("Tool results:", toolResults);
+    
     // 🧠 Patrón recomendado en la doc: leer toolResults del resultado
     const categoryToolResult = toolResults.find(
       (result) => result.toolName === "createCategory"

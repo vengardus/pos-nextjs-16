@@ -25,11 +25,11 @@ export const categoryInsertOrUpdate = async (
     const fileArray = Array.from(fileList).filter((file) => file instanceof File);
     const respImages = await uploadImages(fileArray);
 
-    if (!respImages.success || !respImages.data) throw new Error(resp.message);
+    if (!respImages.success || !respImages.data) throw new Error(respImages.message);
 
     let proccesCategory: Category;
 
-    // Determinar si es create or update
+    // Determinar si es create or updatex 
     if (id) {
       // Update
       proccesCategory = await prisma.categoryModel.update({

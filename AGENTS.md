@@ -1,5 +1,17 @@
 # Instrucciones para Codex
 
+## Tech stack
+
+- Next.js 16 (App Router, Server Actions)
+- TypeScript
+- Supabase
+- Prisma (ORM)
+- Auth.js (autenticación)
+- Zustand (estado global en cliente)
+- Tailwind CSS
+- shadcn/ui (componentes UI)
+- Vercel AI SDK (`ai`)
+
 ## Convenciones de Git: commits y PRs
 
 ### Mensajes de commit
@@ -26,7 +38,7 @@
 
 ## Convenciones de código y arquitectura
 
-Estas reglas aplican a todo el código generado o modificado en este repositorio (Next.js 16, TypeScript, Supabase, Tailwind, auth.js, shadcn/ui, Prisma, Zustand).
+Estas reglas aplican a todo el código generado o modificado en este repositorio (Next.js 16, TypeScript, Supabase, Tailwind, auth.js, shadcn/ui, Prisma, Zustand, ai sdk vercel).
 
 ### Estructura de archivos y nombres
 

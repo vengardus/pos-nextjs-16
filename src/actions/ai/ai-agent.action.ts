@@ -57,7 +57,9 @@ const createCategoryWithMcp = async ({
   return data;
 };
 
-export const aiAgentAction = async (prompt: string): Promise<ResponseAction> => {
+export const aiAgentAction = async (
+  prompt: string
+): Promise<ResponseAction> => {
   const resp = initResponseAction();
 
   if (!prompt.trim()) {
@@ -66,35 +68,33 @@ export const aiAgentAction = async (prompt: string): Promise<ResponseAction> => 
   }
 
   try {
-    const authResult = await checkAuthenticationAndPermission(ModuleEnum.aiAgent);
+    const authResult = await checkAuthenticationAndPermission(
+      ModuleEnum.aiAgent
+    );
 
     if (!authResult.isAuthenticated || !authResult.company) {
-      resp.message = authResult.errorMessage ?? "No se pudo autenticar la sesión.";
+      resp.message =
+        authResult.errorMessage ?? "No se pudo autenticar la sesión.";
       return resp;
     }
-
-    let categoryResult: ResponseAction | null = null;
 
     const tools = {
       createCategory: tool({
         description:
           "Crea una categoría de productos usando únicamente el nombre proporcionado en español.",
-        parameters: z.object({
+        inputSchema: z.object({
           name: z
             .string()
             .min(2, "El nombre debe tener al menos 2 caracteres")
             .describe("Nombre exacto de la categoría a registrar"),
         }),
+        // 👇 Devolvemos directamente el ResponseAction del fetch
         execute: async ({ name }) => {
-          categoryResult = await createCategoryWithMcp({
+          return await createCategoryWithMcp({
             name,
             color: AppConstants.DEFAULT_VALUES.categoryColor,
-            companyId: authResult.company.id,
+            companyId: authResult.company!.id,
           });
-
-          return {
-            message: categoryResult.message ?? "Categoría creada correctamente.",
-          };
         },
       }),
     } as const;
@@ -103,7 +103,12 @@ export const aiAgentAction = async (prompt: string): Promise<ResponseAction> => 
       {
         role: "system" as const,
         content:
-          "Eres un asistente especializado en alta de recursos. El usuario escribirá en español comandos como 'agrega categoría X', 'adiciona categoría X' o 'crear categoría X'. Extrae siempre el nombre de la categoría y usa la herramienta createCategory para registrarla. Si no identificas un nombre válido, responde de forma concisa que no pudiste comprender la solicitud.",
+          "Eres un asistente especializado en alta de recursos. " +
+          "SOLO debes usar la herramienta createCategory cuando el mensaje del usuario incluya " +
+          "explícitamente la palabra 'categoría' o 'categoria'. " +
+          "Ejemplos válidos: 'agrega categoría Embutidos', 'adiciona categoría Lácteos', 'crear categoría Bebidas'. " +
+          "Si el mensaje no contiene esas palabras, NO llames a ninguna herramienta y responde " +
+          "de forma concisa que solo puedes ayudar a crear categorías cuando el usuario lo indique explícitamente.",
       },
       {
         role: "user" as const,
@@ -111,26 +116,42 @@ export const aiAgentAction = async (prompt: string): Promise<ResponseAction> => 
       },
     ];
 
-    await generateText({
+    const { toolResults } = await generateText({
       model: groq("llama-3.1-8b-instant"),
       messages,
       tools,
-      maxSteps: 3,
+      // Si quisieras forzar multi-step (tool + resumen), podrías usar:
+      // stopWhen: stepCountIs(2),
     });
 
+    // 🧠 Patrón recomendado en la doc: leer toolResults del resultado
+    const categoryToolResult = toolResults.find(
+      (result) => result.toolName === "createCategory"
+    );
+
+    // En v5, output suele ser `unknown`, lo casteamos a tu tipo:
+    const categoryResult = categoryToolResult?.output as
+      | ResponseAction
+      | undefined;
+
     if (categoryResult?.success) {
-      resp.success = true;
-      resp.message = categoryResult.message ?? "Categoría creada correctamente.";
-      resp.data = categoryResult.data;
-      return resp;
+      return {
+        ...resp,
+        success: true,
+        message: categoryResult.message ?? "Categoría creada correctamente.",
+        data: categoryResult.data,
+        pagination: categoryResult.pagination,
+      };
     }
 
-    resp.message =
-      categoryResult?.message ??
-      "No se pudo interpretar la solicitud. Intenta nuevamente indicando solo el nombre de la categoría.";
+    return {
+      ...resp,
+      message:
+        categoryResult?.message ??
+        "No se pudo interpretar la solicitud. Intenta nuevamente indicando solo el nombre de la categoría.",
+    };
   } catch (error) {
     resp.message = getActionError(error);
+    return resp;
   }
-
-  return resp;
 };

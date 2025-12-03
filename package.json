@@ -37,6 +37,7 @@
     "clsx": "^2.1.1",
     "cmdk": "1.0.0",
     "date-fns": "^4.1.0",
+    "i": "^0.3.7",
     "install": "^0.13.0",
     "iso-country-currency": "^0.7.2",
     "lucide-react": "^0.477.0",

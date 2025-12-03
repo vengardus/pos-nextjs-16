@@ -30,6 +30,8 @@ const buildApiUrl = (path: string) => {
 
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
 
+  console.log("Base URL for API:", baseUrl);
+
   return `${baseUrl}${path}`;
 };
 

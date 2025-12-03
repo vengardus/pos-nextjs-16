@@ -28,9 +28,10 @@ const buildApiUrl = (path: string) => {
   //   return `https://${vercelUrl}${path}`;
   // }
 
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? process.env.VERCEL_URL? "" : "http://localhost:3000";
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? (process.env.VERCEL_URL? "" : "http://localhost:3000");
 
   console.log("Base URL for API:", baseUrl);
+  console.log("next public url:", process.env.NEXT_PUBLIC_APP_URL);
 
   return `${baseUrl}${path}`;
 };

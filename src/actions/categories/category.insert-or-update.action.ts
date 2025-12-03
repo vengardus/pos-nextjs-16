@@ -1,12 +1,13 @@
 "use server";
 
-import { revalidatePath, updateTag } from "next/cache";
+import { revalidatePath, revalidateTag, /*updateTag*/ } from "next/cache";
 import { v2 as cloudinary } from "cloudinary";
 import prisma from "@/infrastructure/db/prisma";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import type { Category } from "@/types/interfaces/category/category.interface";
 import { getActionError } from "@/utils/errors/get-action-error";
 import { initResponseAction } from "@/utils/response/init-response-action";
+import { CacheConfig } from "@/config/cache.config";
 
 // Configuration Cloudinary
 cloudinary.config(process.env.CLOUDINARY_URL ?? "");
@@ -53,8 +54,9 @@ export const categoryInsertOrUpdate = async (
     resp.data = proccesCategory;
     resp.success = true;
 
+    //updateTag(`categories-${proccesCategory.companyId}`);
+    revalidateTag(`categories-${proccesCategory.companyId}`, CacheConfig.CacheDurations);
     revalidatePath("/config/categories");
-    updateTag(`categories-${proccesCategory.companyId}`);
   } catch (error) {
     resp.message = getActionError(error);
   }

@@ -20,50 +20,41 @@ export const categoryInsertOrUpdate = async (
   console.log(id, createdAt); //no usada intencionalmente
 
   try {
-    const prismaTx = await prisma.$transaction(async () => {
-      let proccesCategory: Category = category;
+    // Procesa de carga y guardado de imagenes
+    // Convierte FileList a Array de File y filtra los no Files
+    const fileArray = Array.from(fileList).filter((file) => file instanceof File);
+    const respImages = await uploadImages(fileArray);
 
-      // Procesa de carga y guardado de imagenes
-      // Convierte FileList a Array de File y filtra los no Files
-      const fileArray = Array.from(fileList).filter(
-        (file) => file instanceof File
-      );
-      const respImages = await uploadImages(fileArray);
+    if (!respImages.success || !respImages.data) throw new Error(resp.message);
 
-      if (!respImages.success || !respImages.data)
-        throw new Error(resp.message);
+    let proccesCategory: Category;
 
-      // Determinar si es create or update
-      if (id) {
-        // Update
-        proccesCategory = await prisma.categoryModel.update({
-          where: {
-            id,
-          },
-          data: {
-            ...rest,
-            //imageUrl: respImages.data[0],
-          },
-        });
-      } else {
-        // create
-        proccesCategory = await prisma.categoryModel.create({
-          data: {
-            ...rest,
-            imageUrl: respImages.data[0],
-          },
-        });
-      }
-
-      return {
-        proccesCategory,
-      };
-    });
-    resp.data = prismaTx.proccesCategory;
+    // Determinar si es create or update
+    if (id) {
+      // Update
+      proccesCategory = await prisma.categoryModel.update({
+        where: {
+          id,
+        },
+        data: {
+          ...rest,
+          //imageUrl: respImages.data[0],
+        },
+      });
+    } else {
+      // create
+      proccesCategory = await prisma.categoryModel.create({
+        data: {
+          ...rest,
+          imageUrl: respImages.data[0],
+        },
+      });
+    }
+    resp.data = proccesCategory;
     resp.success = true;
 
     revalidatePath("/config/categories");
-    updateTag(`categories-${prismaTx.proccesCategory.companyId}`);
+    updateTag(`categories-${proccesCategory.companyId}`);
   } catch (error) {
     resp.message = getActionError(error);
   }

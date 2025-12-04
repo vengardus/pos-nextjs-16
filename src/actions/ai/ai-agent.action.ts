@@ -79,6 +79,7 @@ export const aiAgentAction = async (
     vercelUrl: process.env.NEXT_PUBLIC_APP_URL ?? "local",
     nodeEnv: process.env.NODE_ENV,
     timestamp: new Date().toISOString(),
+    prompt,
   });
 
   const resp = initResponseAction();
@@ -137,16 +138,18 @@ export const aiAgentAction = async (
     const messages = [
       {
         role: "system" as const,
-        content:
-          "Eres un asistente especializado en alta de recursos. " +
-          "SOLO debes usar la herramienta createCategory cuando el mensaje del usuario incluya " +
-          "explícitamente la palabra 'categoría' o 'categoria'. " +
-          "Ejemplos válidos: 'agrega categoría Embutidos', 'adiciona categoría Lácteos', 'crear categoría Bebidas'. " +
-          "Si el mensaje no contiene esas palabras, NO llames a ninguna herramienta y responde " +
-          "de forma concisa que solo puedes ayudar a crear categorías cuando el usuario lo indique explícitamente." +
-          "NO inventes ni corrijas el nombre. Pásalo tal cual lo escribió el usuario." +
-          "Si no puedes extraer un nombre literal, llama a la herramienta con name='' (vacío)" +
+        content: [
+          "Eres un asistente especializado en alta de recursos. ",
+          "SOLO debes usar la herramienta createCategory cuando el mensaje del usuario **incluya ",
+          "explícitamente la palabra 'categoría' o 'categoria'. **",
+          "Ejemplos válidos: 'agrega categoría Embutidos', 'adiciona categoría Lácteos', 'crear categoría Bebidas'. ",
+          "Si el mensaje no contiene esas palabras, **NO llames a ninguna herramienta** y responde ",
+          "de forma concisa que solo puedes ayudar a crear categorías cuando el usuario lo indique explícitamente.",
+          "NO inventes ni corrijas el nombre. **Pásalo tal cual lo escribió el usuario.**",
+          "Si no puedes extraer un nombre literal, llama a la herramienta con name='' (vacío)",
           "El nombre de la categoria no puede ser categoría ni categoria por sí sola, ",
+          "El prompt debe contener al menos 3 palabras incluyendo la palabra categoría o categoria.",
+        ].join("\n"),
       },
       {
         role: "user" as const,
@@ -162,6 +165,7 @@ export const aiAgentAction = async (
       model: groq("llama-3.1-8b-instant"),
       messages,
       tools,
+      temperature: 0,
       // Si quisieras forzar multi-step (tool + resumen), podrías usar:
       // stopWhen: stepCountIs(2),
     });
@@ -208,8 +212,7 @@ export const aiAgentAction = async (
     };
   } catch (error) {
     if (error instanceof Error && error.message.includes("failed_generation"))
-      resp.message =
-        "Categoría inválida: el nombre no puede ser 'categoría' ni 'categoria', ni en blanco." ;
+      resp.message = "Categoría inválida";
     else resp.message = getActionError(error) + "xxxxxxxxxxxxxxxxx";
     return resp;
   }

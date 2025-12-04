@@ -17,14 +17,15 @@ export const getActionError = (error: any): string => {
       }) - ${JSON.stringify(
         (error as Prisma.PrismaClientKnownRequestError).meta
       )}}`;
-
+  } else if (error?.name === "ZodError") {
+    const first = error.issues?.[0]?.message ?? "Datos inválidos.";
+    console.log("ZodError: ", first);
+    message = first 
   } else if (error instanceof Error) {
     // Aquí sabemos que `error` es una instancia de Error
     message = error.message;
-
   } else if (typeof error === "object" && error !== null && "message" in error)
     message = (error as { message: string }).message;
-
   else message = `Ocurrió algún error: ${error}`;
 
   return message;

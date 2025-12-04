@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath, revalidateTag, /*updateTag*/ } from "next/cache";
+import { revalidatePath, revalidateTag /*updateTag*/ } from "next/cache";
 import { v2 as cloudinary } from "cloudinary";
 import prisma from "@/infrastructure/db/prisma";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
@@ -8,6 +8,7 @@ import type { Category } from "@/types/interfaces/category/category.interface";
 import { getActionError } from "@/utils/errors/get-action-error";
 import { initResponseAction } from "@/utils/response/init-response-action";
 import { CacheConfig } from "@/config/cache.config";
+import { CategoryUpsertServerSchema } from "@/lib/schemas/category.upsert.server.schema";
 
 // Configuration Cloudinary
 cloudinary.config(process.env.CLOUDINARY_URL ?? "");
@@ -17,22 +18,32 @@ export const categoryInsertOrUpdate = async (
   fileList: FileList | []
 ): Promise<ResponseAction> => {
   console.log("categoryInsertOrUpdate action called with category:", category);
-  
+
   const resp = initResponseAction();
   const { id, createdAt, ...rest } = category;
   console.log(id, createdAt); //no usada intencionalmente
 
   try {
+    // valida categroy base
+    CategoryUpsertServerSchema.parse({
+      name: rest.name,
+      color: rest.color,
+      companyId: rest.companyId,
+    });
+
     // Procesa de carga y guardado de imagenes
     // Convierte FileList a Array de File y filtra los no Files
-    const fileArray = Array.from(fileList).filter((file) => file instanceof File);
+    const fileArray = Array.from(fileList).filter(
+      (file) => file instanceof File
+    );
     const respImages = await uploadImages(fileArray);
 
-    if (!respImages.success || !respImages.data) throw new Error(respImages.message);
+    if (!respImages.success || !respImages.data)
+      throw new Error(respImages.message);
 
     let proccesCategory: Category;
 
-    // Determinar si es create or updatex 
+    // Determinar si es create or updatex
     if (id) {
       // Update
       proccesCategory = await prisma.categoryModel.update({
@@ -57,7 +68,10 @@ export const categoryInsertOrUpdate = async (
     resp.success = true;
 
     //updateTag(`categories-${proccesCategory.companyId}`);
-    revalidateTag(`categories-${proccesCategory.companyId}`, CacheConfig.CacheDurations);
+    revalidateTag(
+      `categories-${proccesCategory.companyId}`,
+      CacheConfig.CacheDurations
+    );
     revalidatePath("/config/categories");
   } catch (error) {
     resp.message = getActionError(error);

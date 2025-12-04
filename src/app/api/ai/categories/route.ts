@@ -24,7 +24,7 @@ export async function POST(request: Request) {
     };
 
     if (!name || !color || !companyId) {
-      throw new ApiError("name, color y companyId son requeridos", 400);
+      throw new ApiError("Error en la solicitud", 400);
     }
 
     const category: Category = {

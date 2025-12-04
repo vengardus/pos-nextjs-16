@@ -28,10 +28,12 @@ const buildApiUrl = (path: string) => {
   //   return `https://${vercelUrl}${path}`;
   // }
 
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? (process.env.VERCEL_URL? "" : "http://localhost:3000");
+  const baseUrl =
+    process.env.NEXT_PUBLIC_APP_URL ??
+    (process.env.VERCEL_URL ? "" : "http://localhost:3000");
 
-  console.log("Base URL for API:", baseUrl);
-  console.log("next public url:", process.env.NEXT_PUBLIC_APP_URL);
+  // console.log("Base URL for API:", baseUrl);
+  // console.log("next public url:", process.env.NEXT_PUBLIC_APP_URL);
 
   return `${baseUrl}${path}`;
 };
@@ -43,7 +45,7 @@ const createCategoryWithMcp = async ({
 }: CreateCategoryPayload): Promise<ResponseAction> => {
   const url = buildApiUrl(API_PATHS.createCategory);
 
-  console.log("Creating category with URL:", url);
+  console.log("--Creating category with MCP:", url);
 
   const response = await fetch(url, {
     method: "POST",
@@ -55,8 +57,7 @@ const createCategoryWithMcp = async ({
 
   const data = (await response.json()) as ResponseAction;
 
-  console.log("Create category response:", data);
-  console.log("Response OK:", response.ok);
+  console.log("--Response from MCP:", data);
 
   if (!response.ok || !data.success) {
     return {
@@ -74,13 +75,11 @@ const createCategoryWithMcp = async ({
 export const aiAgentAction = async (
   prompt: string
 ): Promise<ResponseAction> => {
-
-    console.log("[aiAgentAction] ejecutando en", {
+  console.log("1. [aiAgentAction] ejecutando en", {
     vercelUrl: process.env.NEXT_PUBLIC_APP_URL ?? "local",
     nodeEnv: process.env.NODE_ENV,
     timestamp: new Date().toISOString(),
   });
-
 
   const resp = initResponseAction();
 
@@ -90,6 +89,7 @@ export const aiAgentAction = async (
   }
 
   try {
+    console.log("2. [aiAgentAction] verificando autenticación y permisos");
     const authResult = await checkAuthenticationAndPermission(
       ModuleEnum.aiAgent
     );
@@ -100,6 +100,12 @@ export const aiAgentAction = async (
       return resp;
     }
 
+    console.log("3. Se ha autenticado al usuario:", {
+      companyId: authResult.company.id,
+    });
+
+    console.log("4. [aiAgentAction] configurando herramientas del agente AI");
+
     const tools = {
       createCategory: tool({
         description:
@@ -107,12 +113,15 @@ export const aiAgentAction = async (
         inputSchema: z.object({
           name: z
             .string()
-            .min(2, "El nombre debe tener al menos 2 caracteres")
-            .describe("Nombre exacto de la categoría a registrar")
+            //.min(2, "El nombre debe tener al menos 2 caracteres")
+            .max(30, "El nombre no puede exceder 30 caracteres.")
+            //.describe("Nombre exacto de la categoría a registrar")
             .catch(""),
         }),
+
         // 👇 Devolvemos directamente el ResponseAction del fetch
         execute: async ({ name }) => {
+          console.log("NAME:", name);
           const result = await createCategoryWithMcp({
             name,
             color: AppConstants.DEFAULT_VALUES.categoryColor,
@@ -134,13 +143,20 @@ export const aiAgentAction = async (
           "explícitamente la palabra 'categoría' o 'categoria'. " +
           "Ejemplos válidos: 'agrega categoría Embutidos', 'adiciona categoría Lácteos', 'crear categoría Bebidas'. " +
           "Si el mensaje no contiene esas palabras, NO llames a ninguna herramienta y responde " +
-          "de forma concisa que solo puedes ayudar a crear categorías cuando el usuario lo indique explícitamente.",
+          "de forma concisa que solo puedes ayudar a crear categorías cuando el usuario lo indique explícitamente." +
+          "NO inventes ni corrijas el nombre. Pásalo tal cual lo escribió el usuario." +
+          "Si no puedes extraer un nombre literal, llama a la herramienta con name='' (vacío)" +
+          "El nombre de la categoria no puede ser categoría ni categoria por sí sola, ",
       },
       {
         role: "user" as const,
         content: prompt,
       },
     ];
+
+    console.log(
+      "5. [aiAgentAction] llama a generateText con el prompt del usuario y configuración de herramientas"
+    );
 
     const { toolResults } = await generateText({
       model: groq("llama-3.1-8b-instant"),
@@ -150,17 +166,30 @@ export const aiAgentAction = async (
       // stopWhen: stepCountIs(2),
     });
 
-    console.log("Tool results:", toolResults);
+    console.log(
+      "6. [aiAgentAction] procesamiento de resultados de herramientas",
+      toolResults
+    );
 
     // 🧠 Patrón recomendado en la doc: leer toolResults del resultado
     const categoryToolResult = toolResults.find(
       (result) => result.toolName === "createCategory"
     );
 
+    console.log(
+      "7. [aiAgentAction] determinación de herramienta",
+      categoryToolResult
+    );
+
     // En v5, output suele ser `unknown`, lo casteamos a tu tipo:
     const categoryResult = categoryToolResult?.output as
       | ResponseAction
       | undefined;
+
+    console.log(
+      "8. [aiAgentAction] respuesta de ejecucion de herramienta",
+      categoryResult
+    );
 
     if (categoryResult?.success) {
       return {
@@ -175,11 +204,13 @@ export const aiAgentAction = async (
     return {
       ...resp,
       message:
-        categoryResult?.message ??
-        "No se pudo interpretar la solicitud. Intenta nuevamente indicando solo el nombre de la categoría.",
+        categoryResult?.message ?? "No se pudo interpretar la solicitud.",
     };
   } catch (error) {
-    resp.message = getActionError(error);
+    if (error instanceof Error && error.message.includes("failed_generation"))
+      resp.message =
+        "Categoría inválida: el nombre no puede ser 'categoría' ni 'categoria', ni en blanco." ;
+    else resp.message = getActionError(error) + "xxxxxxxxxxxxxxxxx";
     return resp;
   }
 };

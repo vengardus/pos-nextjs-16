@@ -11,6 +11,7 @@ class ApiError extends Error {
 }
 
 export async function POST(request: Request) {
+  console.log("Received request to create category");
   try {
     const body = await request.json().catch(() => null);
 

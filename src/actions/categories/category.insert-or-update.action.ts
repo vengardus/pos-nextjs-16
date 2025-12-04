@@ -16,6 +16,8 @@ export const categoryInsertOrUpdate = async (
   category: Category,
   fileList: FileList | []
 ): Promise<ResponseAction> => {
+  console.log("categoryInsertOrUpdate action called with category:", category);
+  
   const resp = initResponseAction();
   const { id, createdAt, ...rest } = category;
   console.log(id, createdAt); //no usada intencionalmente

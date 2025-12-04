@@ -8,6 +8,8 @@ import { AppConstants } from "@/constants/app.constants";
 import { ModuleEnum } from "@/types/enums/module.enum";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import { checkAuthenticationAndPermission } from "@/services/auth/check-authentication-and-permission.use-case";
+import { companyGetByUserCached } from "@/lib/data/companies/company.cache";
+import { userGetByColumnCached } from "@/lib/data/users/user.cache";
 import { getActionError } from "@/utils/errors/get-action-error";
 import { initResponseAction } from "@/utils/response/init-response-action";
 
@@ -73,7 +75,8 @@ const createCategoryWithMcp = async ({
 };
 
 export const aiAgentAction = async (
-  prompt: string
+  prompt: string,
+  authCode: string | null = null
 ): Promise<ResponseAction> => {
   console.log("1. [aiAgentAction] ejecutando en", {
     vercelUrl: process.env.NEXT_PUBLIC_APP_URL ?? "local",
@@ -83,6 +86,7 @@ export const aiAgentAction = async (
   });
 
   const resp = initResponseAction();
+  let companyId = "";
 
   if (!prompt.trim()) {
     resp.message = "El mensaje no puede estar vacío.";
@@ -90,20 +94,43 @@ export const aiAgentAction = async (
   }
 
   try {
-    console.log("2. [aiAgentAction] verificando autenticación y permisos");
-    const authResult = await checkAuthenticationAndPermission(
-      ModuleEnum.aiAgent
-    );
+    if (authCode === null) {
+      console.log("2. [aiAgentAction] verificando autenticación y permisos");
+      const authResult = await checkAuthenticationAndPermission(
+        ModuleEnum.aiAgent
+      );
 
-    if (!authResult.isAuthenticated || !authResult.company) {
-      resp.message =
-        authResult.errorMessage ?? "No se pudo autenticar la sesión.";
-      return resp;
+      if (!authResult.isAuthenticated || !authResult.company) {
+        resp.message =
+          authResult.errorMessage ?? "No se pudo autenticar la sesión.";
+        return resp;
+      }
+
+      companyId = authResult.company.id;
+
+      console.log("3. Se ha autenticado al usuario:", {
+        companyId,
+      });
+    } else {
+      const userResult = await userGetByColumnCached("phone", authCode);
+
+      if (!userResult.success || !userResult.data) {
+        resp.message = userResult.message ?? "Usuario no encontrado.";
+        return resp;
+      }
+
+      const companyResult = await companyGetByUserCached(
+        userResult.data.id,
+        ""
+      );
+
+      if (!companyResult.success || !companyResult.data) {
+        resp.message = companyResult.message ?? "Compañía no encontrada.";
+        return resp;
+      }
+
+      companyId = companyResult.data.id;
     }
-
-    console.log("3. Se ha autenticado al usuario:", {
-      companyId: authResult.company.id,
-    });
 
     console.log("4. [aiAgentAction] configurando herramientas del agente AI");
 
@@ -126,7 +153,7 @@ export const aiAgentAction = async (
           const result = await createCategoryWithMcp({
             name,
             color: AppConstants.DEFAULT_VALUES.categoryColor,
-            companyId: authResult.company!.id,
+            companyId,
           });
 
           // devolvemos SIEMPRE un ResponseAction, sin throws

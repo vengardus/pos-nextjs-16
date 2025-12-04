@@ -18,8 +18,13 @@ export async function POST(request: Request) {
       throw new ApiError("Solicitud inválida", 400);
     }
 
-    const { prompt } = body as { prompt?: unknown };
+    const { prompt, auth_code } = body as {
+      prompt?: unknown;
+      auth_code?: unknown;
+    };
     const parsedPrompt = typeof prompt === "string" ? prompt.trim() : "";
+    const parsedAuthCode =
+      typeof auth_code === "string" ? auth_code.trim() : "";
 
     if (!parsedPrompt) {
       throw new ApiError("Error en la solicitud", 400);
@@ -29,7 +34,11 @@ export async function POST(request: Request) {
       throw new ApiError("El prompt no puede exceder 50 caracteres", 400);
     }
 
-    const response = await aiAgentAction(parsedPrompt);
+    if (!parsedAuthCode) {
+      throw new ApiError("El código de autenticación es obligatorio", 400);
+    }
+
+    const response = await aiAgentAction(parsedPrompt, parsedAuthCode);
 
     return NextResponse.json(response, {
       status: response.success ? 200 : 400,

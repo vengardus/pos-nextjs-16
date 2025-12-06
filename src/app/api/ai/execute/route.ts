@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { z } from "zod";
 
 import { aiAgentAction } from "@/actions/ai/ai-agent.action";
 
@@ -7,6 +8,24 @@ class ApiError extends Error {
     super(message);
   }
 }
+
+const requestSchema = z.object({
+  prompt: z
+    .string({
+      required_error: "Error en la solicitud",
+      invalid_type_error: "Error en la solicitud",
+    })
+    .trim()
+    .min(1, "Error en la solicitud")
+    .max(50, "El prompt no puede exceder 50 caracteres"),
+  auth_code: z
+    .string({
+      required_error: "El código de autenticación es obligatorio",
+      invalid_type_error: "El código de autenticación es obligatorio",
+    })
+    .trim()
+    .min(1, "El código de autenticación es obligatorio"),
+});
 
 export async function POST(request: Request) {
   console.log("Received request for ai agent");
@@ -18,27 +37,18 @@ export async function POST(request: Request) {
       throw new ApiError("Solicitud inválida", 400);
     }
 
-    const { prompt, auth_code } = body as {
-      prompt?: unknown;
-      auth_code?: unknown;
-    };
-    const parsedPrompt = typeof prompt === "string" ? prompt.trim() : "";
-    const parsedAuthCode =
-      typeof auth_code === "string" ? auth_code.trim() : "";
+    const parsedBody = requestSchema.safeParse(body);
 
-    if (!parsedPrompt) {
-      throw new ApiError("Error en la solicitud", 400);
+    if (!parsedBody.success) {
+      const [error] = parsedBody.error.errors;
+      const message = error?.message ?? "Solicitud inválida";
+
+      throw new ApiError(message, 400);
     }
 
-    if (parsedPrompt.length > 50) {
-      throw new ApiError("El prompt no puede exceder 50 caracteres", 400);
-    }
+    const { prompt, auth_code } = parsedBody.data;
 
-    if (!parsedAuthCode) {
-      throw new ApiError("El código de autenticación es obligatorio", 400);
-    }
-
-    const response = await aiAgentAction(parsedPrompt, parsedAuthCode);
+    const response = await aiAgentAction(prompt, auth_code);
 
     return NextResponse.json(response, {
       status: response.success ? 200 : 400,

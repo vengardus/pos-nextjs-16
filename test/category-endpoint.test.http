@@ -1,3 +1,12 @@
+### 0) ai/execute
+POST http://localhost:3000/api/ai/execute
+Content-Type: application/json
+
+{
+  "prompt": "agrega categoria yogures naturales",
+  "auth_code": ""
+}
+
 ### 1) Crear categoría nueva (insert)
 POST http://localhost:3000/api/ai/categories
 Content-Type: application/json

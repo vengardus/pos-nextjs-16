@@ -60,12 +60,15 @@ export const useCategoryForm = ({
           companyId: companyId,
           isDefault: false,
           createdAt: new Date(),
+          imageUrl: null,
+          updatedAt: null
         }
       : {
           ...currentCategory!,
           name: values.name,
           color: values.color,
           updatedAt: new Date(),
+          imageUrl: null
         };
 
     const resp = await categoryInsertOrUpdate(

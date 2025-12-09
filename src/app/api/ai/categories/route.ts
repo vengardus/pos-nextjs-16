@@ -34,6 +34,8 @@ export async function POST(request: Request) {
       companyId,
       isDefault: false,
       createdAt: new Date(),
+      imageUrl: null,
+      updatedAt: null,
     };
 
     const response = await categoryInsertOrUpdate(category, []);

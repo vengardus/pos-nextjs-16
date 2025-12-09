@@ -20,16 +20,13 @@ export const categoryInsertOrUpdate = async (
   console.log("categoryInsertOrUpdate action called with category:", category);
 
   const resp = initResponseAction();
-  const { id, createdAt, ...rest } = category;
-  console.log(id, createdAt); //no usada intencionalmente
+  const { id, createdAt, updatedAt, ...rest } = category;
+  //console.log(id, createdAt); //no usada intencionalmente
 
   try {
     // valida categroy base
-    CategoryUpsertServerSchema.parse({
-      name: rest.name,
-      color: rest.color,
-      companyId: rest.companyId,
-    });
+    console.log("Validating category data:", rest);
+    const restValidate = CategoryUpsertServerSchema.parse(rest);
 
     // Procesa de carga y guardado de imagenes
     // Convierte FileList a Array de File y filtra los no Files
@@ -51,7 +48,7 @@ export const categoryInsertOrUpdate = async (
           id,
         },
         data: {
-          ...rest,
+          ...restValidate,
           //imageUrl: respImages.data[0],
         },
       });
@@ -59,7 +56,7 @@ export const categoryInsertOrUpdate = async (
       // create
       proccesCategory = await prisma.categoryModel.create({
         data: {
-          ...rest,
+          ...restValidate,
           imageUrl: respImages.data[0],
         },
       });

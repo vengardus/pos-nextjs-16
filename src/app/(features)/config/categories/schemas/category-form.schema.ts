@@ -4,7 +4,10 @@ import { z } from "zod";
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png"];
 
-export const CategoryFormSchema = CategoryBaseSchema.extend({
+export const CategoryFormSchema = CategoryBaseSchema.pick({
+  name: true,
+  color: true,
+}).extend({
   imageUrl: z
     .custom<FileList>()
     .optional()

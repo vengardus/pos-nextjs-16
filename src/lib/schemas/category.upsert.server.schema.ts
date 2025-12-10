@@ -6,5 +6,9 @@ export const CategoryUpsertServerSchema = CategoryBaseSchema.pick({
     color: true,
     companyId: true,    
     isDefault: true,
-});
+}).extend({
+  name: CategoryBaseSchema.shape.name.transform(
+    (s) => s.charAt(0).toUpperCase() + s.slice(1).toLowerCase()
+  ),
+});;
 export type CategoryUpsertServerType = z.infer<typeof CategoryUpsertServerSchema>;

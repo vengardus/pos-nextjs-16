@@ -68,14 +68,3 @@ export const checkAuthenticationAndPermission = async (
   response.company = company;
   return response;
 };
-
-
-export async function companyGetByUserCached3(
-  userId: string,
-  role: string
-): Promise<ResponseAction> {
-  "use cache";
-  cacheTag(`company-user-${userId}`);
-  //cacheLife(CacheConfig.CacheDurations);
-  return await companyGetByUser(userId, role);
-}

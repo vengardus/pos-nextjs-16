@@ -219,7 +219,7 @@ export const aiAgentAction = async (
 
     console.log(
       "8. [aiAgentAction] respuesta de ejecucion de herramienta",
-      categoryResult
+      categoryResult 
     );
 
     if (categoryResult?.success) {

@@ -2,7 +2,8 @@
 import "server-only";
 
 import { generateObject } from "ai";
-import { groq } from "@ai-sdk/groq";
+//import { groq } from "@ai-sdk/groq";
+import { google } from "@ai-sdk/google";
 
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import { initResponseAction } from "@/utils/response/init-response-action";
@@ -58,7 +59,8 @@ export const aiAgentUseCase = async (
     const messages = buildAiAgentMessages(trimmedPrompt);
 
     const { object } = await generateObject({
-      model: groq("llama-3.1-8b-instant"),
+      //model: groq("llama-3.1-8b-instant"),
+      model: google("gemini-2.5-flash"),
       schema: CategoryAgentSchema,
       messages,
       temperature: 0,
@@ -70,8 +72,17 @@ export const aiAgentUseCase = async (
 
     // 2) Si no es intención de crear categoría → respondemos sin llamar al MCP
     if (result.intent !== "create_category") {
-      resp.message =
-        "Solo puedo crear categorías cuando mencionas explícitamente la palabra 'categoría' o 'categoria'.";
+      const containsCategoryWord = /\bcategor[ií]a\b/i.test(trimmedPrompt);
+      if (containsCategoryWord) {
+        // Ej: "agrega categoria categoria"
+        resp.message =
+          "El nombre de la categoría no es válido, no puede ser 'categoría' o 'categoria'. " +
+          "Intenta algo como 'agrega categoría Bebidas'.";
+      } else {
+        // Ej: "agrega pescados", "agrega color pescados"
+        resp.message =
+          "Solo puedo crear categorías cuando mencionas explícitamente la palabra 'categoría' o 'categoria'.";
+      }
       return resp;
     }
 

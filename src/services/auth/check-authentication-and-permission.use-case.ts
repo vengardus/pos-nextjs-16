@@ -3,9 +3,6 @@ import { ModuleEnum } from "@/types/enums/module.enum";
 import { companyGetByUserCached } from "@/lib/data/companies/company.cache";
 import { hasModulePermission } from "./has-module-permission.use-case";
 import { getAuthCached } from "./get-auth.cached";
-import { ResponseAction } from "@/types/interfaces/common/response-action.interface";
-import { cacheTag } from "next/cache";
-import { companyGetByUser } from "@/lib/data/companies/company.get-by-user";
 
 
 interface checkAuthenticationAndPermissionResult {

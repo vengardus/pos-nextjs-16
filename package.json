@@ -11,6 +11,7 @@
     "prisma:migrate:deploy": "prisma migrate deploy && prisma generate"
   },
   "dependencies": {
+    "@ai-sdk/google": "^2.0.46",
     "@ai-sdk/groq": "^2.0.32",
     "@hookform/resolvers": "^5.2.2",
     "@prisma/client": "^6.4.1",

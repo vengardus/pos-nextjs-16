@@ -11,4 +11,4 @@ export const CategoryUpsertServerSchema = CategoryBaseSchema.pick({
     (s) => s.charAt(0).toUpperCase() + s.slice(1).toLowerCase()
   ),
 });;
-export type CategoryUpsertServerType = z.infer<typeof CategoryUpsertServerSchema>;
+export type CategoryInput = z.infer<typeof CategoryUpsertServerSchema>;

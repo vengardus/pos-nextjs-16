@@ -27,7 +27,7 @@ export const categoryInsertOrUpdate = async (
     // valida categroy base
     console.log("Validating category data:", rest);
     const restValidate = CategoryUpsertServerSchema.parse(rest);
-
+    console.log("Validated category data:", restValidate);
     // Procesa de carga y guardado de imagenes
     // Convierte FileList a Array de File y filtra los no Files
     const fileArray = Array.from(fileList).filter(

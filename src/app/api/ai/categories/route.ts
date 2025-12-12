@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
 
-import { categoryInsertOrUpdate } from "@/actions/categories/category.insert-or-update.action";
 import { toCapitalize } from "@/utils/formatters/to-capitalize";
 import type { Category } from "@/types/interfaces/category/category.interface";
+import { categoryInsertOrUpdateUseCase } from "@/server/category/use-cases/category.insert-or-update.use-case";
+import { revalidateTag } from "next/cache";
+import { CacheConfig } from "@/config/cache.config";
 
 class ApiError extends Error {
   constructor(message: string, public readonly status: number = 500) {
@@ -38,13 +40,19 @@ export async function POST(request: Request) {
       updatedAt: null,
     };
 
-    const response = await categoryInsertOrUpdate(category, []);
+    const response = await categoryInsertOrUpdateUseCase(category, []);
 
     if (!response.success) {
       throw new ApiError(
         response.message ?? "Error al procesar la solicitud de categoría",
         400
       );
+    }
+
+    if ( response.data && "companyId" in response.data ) {
+      revalidateTag(
+        `categories-${response.data.companyId}`,
+        CacheConfig.CacheDurations)
     }
 
     return NextResponse.json(response, {

@@ -1,12 +1,14 @@
-// src/server/context/resolve-exec-context.ts
+import "server-only";
+
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
+import type { ExecContext } from "./exec-context.type";
 import { ModuleEnum } from "@/types/enums/module.enum";
-import { initResponseAction } from "@/utils/response/init-response-action";
+
 import { checkAuthenticationAndPermission } from "@/services/auth/check-authentication-and-permission.use-case";
 import { userGetByColumnCached } from "@/lib/data/users/user.cache";
 import { companyGetByUserCached } from "@/lib/data/companies/company.cache";
+import { initResponseAction } from "@/utils/response/init-response-action";
 import { getActionError } from "@/utils/errors/get-action-error";
-import { ExecContext } from "./exec-context.type";
 
 export async function resolveExecContext(params: {
   authCode: string | null;

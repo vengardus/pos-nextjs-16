@@ -1,18 +1,14 @@
-"use server";
+import "server-only";
 
 import prisma from "@/infrastructure/db/prisma";
 import type { Category } from "@/types/interfaces/category/category.interface";
 import type { CategoryInput } from "@/lib/schemas/category.upsert.server.schema";
 
 export const categoryInsertOrUpdateRepository = async (
-  categoryInput: CategoryInput & { id?: string; imageUrl?: string }
+  categoryInput: CategoryInput & { id?: string; imageUrl: string | null }
 ): Promise<Category> => {
-  console.log(
-    "categoryInsertOrUpdateRepository action called with category:",
-    categoryInput
-  );
 
-  // Determinar si es create or updatex
+  // Determinar si es create or update
   if (categoryInput.id) {
     // Update
     return await prisma.categoryModel.update({

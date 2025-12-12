@@ -9,7 +9,7 @@ import {
   CategoryFormSchemaType,
 } from "@/app/(features)/config/categories/schemas/category-form.schema";
 import { toCapitalize } from "@/utils/formatters/to-capitalize";
-import { categoryInsertOrUpdate } from "@/actions/categories/category.insert-or-update.action";
+import { categoryInsertOrUpdateAction } from "@/actions/categories/category.insert-or-update.action";
 
 const defaultValues: CategoryFormSchemaType = {
   name: "",
@@ -71,7 +71,7 @@ export const useCategoryForm = ({
           imageUrl: null
         };
 
-    const resp = await categoryInsertOrUpdate(
+    const resp = await categoryInsertOrUpdateAction(
       category,
       values.imageUrl ?? []
     );

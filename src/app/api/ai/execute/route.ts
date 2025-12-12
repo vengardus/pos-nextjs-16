@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
-import { z } from "zod";
+import { revalidateTag } from "next/cache";
 
-import { aiAgentAction } from "@/actions/ai/ai-agent.action";
 import { initResponseAction } from "@/utils/response/init-response-action";
+import { aiAgentService } from "@/server/ai/agent/ai-agent.service";
+import { CacheConfig } from "@/config/cache.config";
+import { requestSchema } from "./request.schema";
 
 class ApiError extends Error {
   constructor(message: string, public readonly status: number = 500) {
@@ -10,26 +12,8 @@ class ApiError extends Error {
   }
 }
 
-const requestSchema = z.object({
-  prompt: z
-    .string({
-      // En Zod 4, unificas ambos mensajes en `error`
-      error: "Error en la solicitud",
-    })
-    .trim()
-    .min(1, "Error en la solicitud")
-    .max(50, "El prompt no puede exceder 50 caracteres"),
-  auth_code: z
-    .string({
-      error: "El código de autenticación es obligatorio",
-    })
-    .trim()
-    .min(1, "El código de autenticación es obligatorio"),
-});
-
 export async function POST(request: Request) {
   console.log("Received request for ai agent");
-  const resp = initResponseAction();
 
   try {
     const body = await request.json().catch(() => null);
@@ -46,20 +30,26 @@ export async function POST(request: Request) {
 
     const { prompt, auth_code } = parsedBody.data;
 
-    const respAgent = await aiAgentAction(prompt, auth_code);
+    const respAgent = await aiAgentService(prompt, auth_code);
 
-    resp.success = respAgent.success;
-    resp.message = respAgent.message;
-    resp.data = respAgent.data;
+    if (respAgent.success && respAgent.data && "companyId" in respAgent.data) {
+      revalidateTag(
+        `categories-${respAgent.data.companyId}`,
+        CacheConfig.CacheDurations
+      );
+    }
 
-    return NextResponse.json(resp, {
+    return NextResponse.json(respAgent, {
       status: respAgent.success ? 200 : 400,
     });
   } catch (error) {
-    resp.message =
+    const resp = {
+      ...initResponseAction(),
+      message:
       error instanceof Error
         ? error.message
-        : "Error al procesar la solicitud del agente AI";
+        : "Error al procesar la solicitud del agente AI"
+    }
     const status = error instanceof ApiError ? error.status : 500;
 
     return NextResponse.json(resp, { status });

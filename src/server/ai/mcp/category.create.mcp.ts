@@ -1,6 +1,6 @@
-import { categoryInsertOrUpdate } from "@/actions/categories/category.insert-or-update.action";
 import type { Category } from "@/types/interfaces/category/category.interface";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
+import { categoryInsertOrUpdateUseCase } from "@/server/category/use-cases/category.insert-or-update.use-case";
 
 type CreateCategoryPayload = {
   name: string;
@@ -24,7 +24,7 @@ export const categoryCreateWithMcp = async ({
     updatedAt: null,
   };
 
-  const response = await categoryInsertOrUpdate(category, []);
+  const response = await categoryInsertOrUpdateUseCase(category, []);
 
   if (!response.success)
     response.message = response.message ?? "Error al crear la categoría";

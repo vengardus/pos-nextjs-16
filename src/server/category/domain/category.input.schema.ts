@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { CategoryBaseSchema } from "./category.base.schema";
 
-export const CategoryUpsertServerSchema = CategoryBaseSchema.pick({
+export const CategoryInputSchema = CategoryBaseSchema.pick({
     name: true,
     color: true,
     companyId: true,    
@@ -11,4 +11,4 @@ export const CategoryUpsertServerSchema = CategoryBaseSchema.pick({
     (s) => s.charAt(0).toUpperCase() + s.slice(1).toLowerCase()
   ),
 });;
-export type CategoryInput = z.infer<typeof CategoryUpsertServerSchema>;
+export type CategoryInput = z.infer<typeof CategoryInputSchema>;

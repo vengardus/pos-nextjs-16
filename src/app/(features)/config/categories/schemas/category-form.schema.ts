@@ -1,4 +1,4 @@
-import { CategoryBaseSchema } from "@/lib/schemas/category.base.schema";
+import { CategoryBaseSchema } from "@/server/category/domain/category.base.schema";
 import { z } from "zod";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB

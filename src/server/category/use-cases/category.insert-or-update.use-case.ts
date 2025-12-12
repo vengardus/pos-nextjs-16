@@ -2,7 +2,7 @@ import "server-only";
 import { v2 as cloudinary } from "cloudinary";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import type { Category } from "@/types/interfaces/category/category.interface";
-import { CategoryUpsertServerSchema } from "@/lib/schemas/category.upsert.server.schema";
+import { CategoryInputSchema } from "@/server/category/domain/category.input.schema";
 import { categoryInsertOrUpdateRepository } from "../repository/category.insert-or-update.repository";
 import { getActionError } from "@/utils/errors/get-action-error";
 import { initResponseAction } from "@/utils/response/init-response-action";
@@ -22,7 +22,7 @@ export const categoryInsertOrUpdateUseCase = async (
 
   try {
     // valida categroy base
-    const restValidate = CategoryUpsertServerSchema.parse(rest);
+    const restValidate = CategoryInputSchema.parse(rest);
     
     // Convierte FileList a Array de File y filtra los no Files
     const fileArray = Array.from(fileList).filter(

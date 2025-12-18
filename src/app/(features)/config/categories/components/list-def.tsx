@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+
 import { toast } from "sonner";
 import type { Category } from "@/types/interfaces/category/category.interface";
 import { CategoryBusiness } from "@/business/category.business";
@@ -9,12 +11,14 @@ import { CustomForm } from "./custom-form";
 import { Modal } from "../../../../../components/common/modals/modal";
 import { ListTable } from "@/components/tables/list-table";
 import { categoryDeleteById } from "@/actions/categories/category.delete-by-id.action";
+import { updateTags } from "@/infrastructure/cache/revalidate-tags";
 
 interface ListDefProps {
   data: Category[];
   companyId: string;
 }
 export const ListDef = ({ data, companyId }: ListDefProps) => {
+  const router = useRouter();
   const [isShowForm, setIsShowForm] = useState(false);
   const [currentRow, setCurrentRow] = useState<Category | null>(null);
 
@@ -58,6 +62,11 @@ export const ListDef = ({ data, companyId }: ListDefProps) => {
           singularName: CategoryBusiness.metadata.singularName,
           pluralName: CategoryBusiness.metadata.pluralName,
         }}
+        onRefresh={() => {    
+          updateTags([`categories-${companyId}`]);
+          router.refresh()
+        } 
+      }
       />
 
       {isShowForm && (

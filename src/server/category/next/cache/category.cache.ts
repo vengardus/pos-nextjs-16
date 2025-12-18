@@ -9,7 +9,7 @@ import { unstable_cache as cache } from "next/cache";
 
 import { CacheConfig } from "@/config/cache.config";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
-import { categoryGetAllByCompany } from "./category.get-all-by-company";
+import { categoryGetAllByCompanyUseCase } from "@/server/category/use-cases/category.get-all-by-company.use-case";
 
 // export const categoryGetAllByCompanyCachedOld = async (companyId: string): Promise<ResponseAction> => {
 //   "use cache";
@@ -23,7 +23,7 @@ export async function categoryGetAllByCompanyCached(companyId: string): Promise<
   console.log("cache=>categoryGetAllByCompanyCached");
   const fn = cache(
     async () => {
-      return categoryGetAllByCompany(companyId);
+      return categoryGetAllByCompanyUseCase(companyId);
     },
     [`categories-${companyId}`],
     {

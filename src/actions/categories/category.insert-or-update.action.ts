@@ -6,11 +6,30 @@ import type { Category } from "@/types/interfaces/category/category.interface";
 import { categoryInsertOrUpdateUseCase } from "@/server/category/use-cases/category.insert-or-update.use-case";
 
 export const categoryInsertOrUpdateAction = async (
-  category: Category,
-  fileList: FileList | []
+  formData: FormData
 ): Promise<ResponseAction> => {
+  const rawCategory = formData.get("category");
+  const category = rawCategory
+    ? (JSON.parse(String(rawCategory)) as Category)
+    : null;
+
+  const files = formData
+    .getAll("images")
+    .filter((file): file is File => file instanceof File);
+
+  if (!category) {
+    return {
+      success: false,
+      message: "Categoría inválida.",
+      pagination: {
+        currentPage: 0,
+        totalPages: 0,
+      },
+    };
+  }
+
   console.log("categoryInsertOrUpdateAction called with category:", category);
-  const resp = await categoryInsertOrUpdateUseCase(category, fileList);
+  const resp = await categoryInsertOrUpdateUseCase(category, files);
   if (resp.success && resp.data) {
     updateTag(`categories-${resp.data.companyId}`);
     console.log(`Action:Updated tag: categories-${resp.data.companyId}`);

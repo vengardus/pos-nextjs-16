@@ -12,7 +12,7 @@ cloudinary.config(process.env.CLOUDINARY_URL ?? "");
 
 export const categoryInsertOrUpdateUseCase = async (
   category: Category,
-  fileList: FileList | []
+  fileList: FileList | File[] | []
 ): Promise<ResponseAction> => {
   console.log("categoryInsertOrUpdateUseCase called with category:", category);
 
@@ -25,8 +25,8 @@ export const categoryInsertOrUpdateUseCase = async (
     const restValidate = CategoryInputSchema.parse(rest);
     
     // Convierte FileList a Array de File y filtra los no Files
-    const fileArray = Array.from(fileList).filter(
-        (file) => file instanceof File
+    const fileArray = Array.from(fileList as Iterable<File>).filter(
+      (file) => file instanceof File
     );
     // Procesa de carga y guardado de imagenes
     const respImages = await uploadImages(fileArray);

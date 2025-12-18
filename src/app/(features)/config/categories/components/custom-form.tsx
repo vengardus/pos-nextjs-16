@@ -108,8 +108,7 @@ export const CustomForm = ({
                           type="file"
                           accept=".jpg,.jpeg,.png"
                           onChange={(e) => {
-                            const file = e.target.files?.[0];
-                            field.onChange(file ? [file] : []);
+                            field.onChange(e.target.files ?? undefined);
                           }}
                         />
                       </FormControl>

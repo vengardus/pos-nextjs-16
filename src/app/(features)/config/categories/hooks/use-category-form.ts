@@ -71,10 +71,21 @@ export const useCategoryForm = ({
           imageUrl: null
         };
 
-    const resp = await categoryInsertOrUpdateAction(
-      category,
-      values.imageUrl ?? []
-    );
+    const formData = new FormData();
+    formData.append("category", JSON.stringify(category));
+
+    const files =
+      values.imageUrl instanceof FileList
+        ? Array.from(values.imageUrl)
+        : Array.isArray(values.imageUrl)
+          ? values.imageUrl
+          : [];
+
+    files.forEach((file) => {
+      formData.append("images", file);
+    });
+
+    const resp = await categoryInsertOrUpdateAction(formData);
 
     if (resp.success) {
       if (isNewRecord) currentCategory = resp.data;

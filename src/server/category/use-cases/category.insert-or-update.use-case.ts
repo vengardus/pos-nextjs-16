@@ -1,7 +1,7 @@
 import "server-only";
 import { v2 as cloudinary } from "cloudinary";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
-import type { Category } from "@/types/interfaces/category/category.interface";
+import type { CategoryInput } from "@/server/category/domain/category.input.schema";
 import { CategoryInputSchema } from "@/server/category/domain/category.input.schema";
 import { categoryInsertOrUpdateRepository } from "../repository/category.insert-or-update.repository";
 import { getActionError } from "@/utils/errors/get-action-error";
@@ -11,33 +11,38 @@ import { initResponseAction } from "@/utils/response/init-response-action";
 cloudinary.config(process.env.CLOUDINARY_URL ?? "");
 
 export const categoryInsertOrUpdateUseCase = async (
-  category: Category,
+  category: CategoryInput,
   fileList: FileList | File[] | []
 ): Promise<ResponseAction> => {
   console.log("categoryInsertOrUpdateUseCase called with category:", category);
 
   const resp = initResponseAction();
-  const { id, createdAt, updatedAt, ...rest } = category;
-  //console.log(id, createdAt); //no usada intencionalmente
 
   try {
     // valida categroy base
-    const restValidate = CategoryInputSchema.parse(rest);
-    
+    const { id, ...restValidate } = CategoryInputSchema.parse(category);
+
     // Convierte FileList a Array de File y filtra los no Files
     const fileArray = Array.from(fileList as Iterable<File>).filter(
       (file) => file instanceof File
     );
-    // Procesa de carga y guardado de imagenes
-    const respImages = await uploadImages(fileArray);
 
-    if (!respImages.success || !respImages.data)
-      throw new Error(respImages.message);
+    let imageUrlToSave: string | null | undefined;
+
+    if (fileArray.length > 0) {
+      // Procesa de carga y guardado de imagenes
+      const respImages = await uploadImages(fileArray);
+
+      if (!respImages.success || !respImages.data)
+        throw new Error(respImages.message);
+
+      imageUrlToSave = respImages.data ? respImages.data[0] : null;
+    }
 
     const proccesCategory = await categoryInsertOrUpdateRepository({
-      ...(id && id.trim() !== "" ? { id } : {}),
       ...restValidate,
-      imageUrl: respImages.data ? respImages.data[0] : null,
+      ...(id && id.trim() !== "" ? { id } : {}),
+      ...(imageUrlToSave !== undefined ? { imageUrl: imageUrlToSave } : {}),
     });
 
     resp.success = true;

@@ -99,7 +99,7 @@ export const CustomForm = ({
                 />
                 <FormField
                   control={form.control}
-                  name="imageUrl"
+                  name="imageFiles"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Imagen</FormLabel>

@@ -2,7 +2,7 @@
 
 import { updateTag } from "next/cache";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
-import type { Category } from "@/types/interfaces/category/category.interface";
+import type { CategoryInput } from "@/server/category/domain/category.input.schema";
 import { categoryInsertOrUpdateUseCase } from "@/server/category/use-cases/category.insert-or-update.use-case";
 
 export const categoryInsertOrUpdateAction = async (
@@ -10,7 +10,7 @@ export const categoryInsertOrUpdateAction = async (
 ): Promise<ResponseAction> => {
   const rawCategory = formData.get("category");
   const category = rawCategory
-    ? (JSON.parse(String(rawCategory)) as Category)
+    ? (JSON.parse(String(rawCategory)) as CategoryInput)
     : null;
 
   const files = formData

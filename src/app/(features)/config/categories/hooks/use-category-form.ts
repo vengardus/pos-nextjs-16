@@ -8,13 +8,13 @@ import {
   CategoryFormSchema,
   CategoryFormSchemaType,
 } from "@/app/(features)/config/categories/schemas/category-form.schema";
-import { toCapitalize } from "@/utils/formatters/to-capitalize";
 import { categoryInsertOrUpdateAction } from "@/actions/categories/category.insert-or-update.action";
+import type { CategoryInput } from "@/server/category/domain/category.input.schema";
 
 const defaultValues: CategoryFormSchemaType = {
   name: "",
   color: "",
-  imageUrl: undefined,
+  imageFiles: undefined,
 };
 
 interface CategoryFormProps {
@@ -43,42 +43,31 @@ export const useCategoryForm = ({
         : {
             name: currentCategory!.name,
             color: currentCategory!.color,
+            imageFiles: undefined,
           }
     );
   }, [isNewRecord, currentCategory, form]);
 
   const handleSave = async (values: CategoryFormSchemaType) => {
-    values.name = toCapitalize(values.name);
     // determinar si es insert or update
     setIsPending(true);
 
-    const category: Category = isNewRecord
-      ? {
-          id: "",
-          name: values.name,
-          color: values.color,
-          companyId: companyId,
-          isDefault: false,
-          createdAt: new Date(),
-          imageUrl: null,
-          updatedAt: null
-        }
-      : {
-          ...currentCategory!,
-          name: values.name,
-          color: values.color,
-          updatedAt: new Date(),
-          imageUrl: null
-        };
+    const categoryInput: CategoryInput = {
+      ...(isNewRecord ? {} : { id: currentCategory?.id }),
+      name: values.name,
+      color: values.color,
+      companyId,
+      isDefault: currentCategory?.isDefault ?? false,
+    };
 
     const formData = new FormData();
-    formData.append("category", JSON.stringify(category));
+    formData.append("category", JSON.stringify(categoryInput));
 
     const files =
-      values.imageUrl instanceof FileList
-        ? Array.from(values.imageUrl)
-        : Array.isArray(values.imageUrl)
-          ? values.imageUrl
+      values.imageFiles instanceof FileList
+        ? Array.from(values.imageFiles)
+        : Array.isArray(values.imageFiles)
+          ? values.imageFiles
           : [];
 
     files.forEach((file) => {

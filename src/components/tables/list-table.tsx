@@ -11,7 +11,15 @@ import {
   ColumnDef,
 } from "@tanstack/react-table";
 import { Card, CardContent } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Button } from "../ui/button";
 
 import type { ModelMetadata } from "@/types/interfaces/common/model-metadata.interface";
 import type { ListColumnsResponsiveDef } from "@/components/tables/types/list-columns-responsive-def.interface";
@@ -31,6 +39,7 @@ interface ListTableProps<TData> {
   handleAddRecord: () => void;
   columnsResponsiveDef?: ListColumnsResponsiveDef<TData>[];
   modelLabels: ModelMetadata;
+  onRefresh?: () => void;
 }
 export const ListTable = <TData,>({
   data,
@@ -38,6 +47,7 @@ export const ListTable = <TData,>({
   handleAddRecord,
   columnsResponsiveDef,
   modelLabels,
+  onRefresh,
 }: ListTableProps<TData>) => {
   const {
     sorting,
@@ -71,26 +81,41 @@ export const ListTable = <TData,>({
   });
 
   useEffect(() => {
-    table.setPageSize(screenSize === ScreenSizeEnum.xs ? PAGE_SIZE_XS : PAGE_SIZE_SM);
+    table.setPageSize(
+      screenSize === ScreenSizeEnum.xs ? PAGE_SIZE_XS : PAGE_SIZE_SM
+    );
   }, [table, screenSize]);
 
   useEffect(() => {
     if (!columnsResponsiveDef) return;
     table.getAllColumns().map((column) => {
-      const index = columnsResponsiveDef.findIndex((colResponsive) => colResponsive.accessorKey === column.id);
+      const index = columnsResponsiveDef.findIndex(
+        (colResponsive) => colResponsive.accessorKey === column.id
+      );
       if (index !== -1) {
-        if (screenSize <= columnsResponsiveDef[index].screenSize) column.toggleVisibility(false);
+        if (screenSize <= columnsResponsiveDef[index].screenSize)
+          column.toggleVisibility(false);
         else column.toggleVisibility(true);
       }
     });
+    console.log("ListTable: table changed");
   }, [table, columnsResponsiveDef, screenSize]);
 
   return (
     <Card className="w-full card">
       <ListHeader handleAddRecord={handleAddRecord} modelLabels={modelLabels} />
       <CardContent className="px-1 md:px-2">
-        <div className="flex justify-around items-center">
-          <ListFilter modelLabels={modelLabels} globalFilter={globalFilter} setGlobalFilter={setGlobalFilter} />
+        <div className="flex justify-around items-center bg-green-400">
+          <ListFilter
+            modelLabels={modelLabels}
+            globalFilter={globalFilter}
+            setGlobalFilter={setGlobalFilter}
+          />
+          {onRefresh && (
+            <Button variant="outline" className="ml-auto" onClick={onRefresh}>
+              Refrescar
+            </Button>
+          )}
           <ListColumnVisibility table={table} />
         </div>
 
@@ -103,7 +128,10 @@ export const ListTable = <TData,>({
                     <TableHead key={header.id}>
                       {header.isPlaceholder
                         ? null
-                        : flexRender(header.column.columnDef.header, header.getContext())}
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
                     </TableHead>
                   ))}
                 </TableRow>
@@ -112,17 +140,26 @@ export const ListTable = <TData,>({
             <TableBody>
               {table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => (
-                  <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && "selected"}
+                  >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell key={cell.id}>
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
                       </TableCell>
                     ))}
                   </TableRow>
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={table.getHeaderGroups()[0].headers.length} className="h-24 text-center">
+                  <TableCell
+                    colSpan={table.getHeaderGroups()[0].headers.length}
+                    className="h-24 text-center"
+                  >
                     No se encontraron resultados.
                   </TableCell>
                 </TableRow>
@@ -133,9 +170,7 @@ export const ListTable = <TData,>({
 
         {/* Pagination */}
         <ListTablePagination table={table} />
-
       </CardContent>
     </Card>
   );
 };
-

@@ -105,7 +105,7 @@ export const ListTable = <TData,>({
     <Card className="w-full card">
       <ListHeader handleAddRecord={handleAddRecord} modelLabels={modelLabels} />
       <CardContent className="px-1 md:px-2">
-        <div className="flex justify-around items-center bg-green-400">
+        <div className="flex justify-around items-center">
           <ListFilter
             modelLabels={modelLabels}
             globalFilter={globalFilter}

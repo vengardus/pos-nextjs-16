@@ -1,6 +1,6 @@
-import type { Category } from "@/types/interfaces/category/category.interface";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import { categoryInsertOrUpdateUseCase } from "@/server/category/use-cases/category.insert-or-update.use-case";
+import { CategoryInput } from "@/server/category/domain/category.input.schema";
 
 type CreateCategoryPayload = {
   name: string;
@@ -13,15 +13,11 @@ export const categoryCreateWithMcp = async ({
   color,
   companyId,
 }: CreateCategoryPayload): Promise<ResponseAction> => {
-  const category: Category = {
-    id: "",
+  const category: CategoryInput = {
     name,
     color,
     companyId,
     isDefault: false,
-    createdAt: new Date(),
-    imageUrl: null,
-    updatedAt: null,
   };
 
   const response = await categoryInsertOrUpdateUseCase(category, []);

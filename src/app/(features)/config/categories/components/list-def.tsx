@@ -11,7 +11,7 @@ import { CustomForm } from "./custom-form";
 import { Modal } from "../../../../../components/common/modals/modal";
 import { ListTable } from "@/components/tables/list-table";
 import { categoryDeleteById } from "@/actions/categories/category.delete-by-id.action";
-import { updateTags } from "@/infrastructure/cache/revalidate-tags";
+import { updateTagsAction } from "@/server/next/actions/updateTags.action";
 
 interface ListDefProps {
   data: Category[];
@@ -63,7 +63,7 @@ export const ListDef = ({ data, companyId }: ListDefProps) => {
           pluralName: CategoryBusiness.metadata.pluralName,
         }}
         onRefresh={() => {    
-          updateTags([`categories-${companyId}`]);
+          updateTagsAction([`categories-${companyId}`]);
           router.refresh()
         } 
       }

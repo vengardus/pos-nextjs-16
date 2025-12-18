@@ -2,7 +2,7 @@
 
 import { updateTag } from "next/cache";
 
-export async function updateTags(tagTable:string[]) {
+export async function updateTagsAction(tagTable: string[]) {
   for (const tag of tagTable) {
     updateTag(tag);
   }

@@ -21,7 +21,7 @@ import { useDateRangeStore } from "@/stores/dashboard/date-range.store";
 import { dateToStringLocal } from "@/utils/date/date-to-string-local";
 import GenericPieChart from "@/components/common/charts/generic-pie-chart";
 // import { useRealTimeStore } from "@/stores/general/real-time.store";
-import { updateTags } from "@/infrastructure/cache/revalidate-tags";
+import { updateTagsAction } from "@/server/next/actions/updateTags.action";
 import { cashRegisterMovementGetTotalsAction } from "@/actions/cash-register-movement/cash-register-movement.get-totals.action";
 import { useCashMovementsBroadcast } from "@/hooks/supabase/use-realtime-broadcast";
 
@@ -50,7 +50,7 @@ export function SalesPieChart({ companyId, paymentMethods }: SalesPieChartProps)
     const revalidateMovements = async () => {
       console.log("revalidateMovements!!!");
       // revalidate para forzar consulta a la BD (getTotals() mas abajo en el otro useEffect)
-      await updateTags([
+      await updateTagsAction([
         `cash-register-movements-totals-${companyId}`,
         `top-selling-products-${companyId}`,
       ]);

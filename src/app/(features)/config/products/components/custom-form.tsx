@@ -15,7 +15,7 @@ import type { Category } from "@/types/interfaces/category/category.interface";
 import type { Branch } from "@/types/interfaces/branch/branch.interface";
 import { ProductFormSchemaType } from "@/app/(features)/config/products/schemas/product-form.schema";
 import { useProductForm } from "@/app/(features)/config/products/hooks/use-product-form";
-import { useMediaQuery } from "@/hooks/media-query/use-media-query";
+import { useMediaQuery } from "@/shared/hooks/media/use-media-query";
 import { ScreenSizeEnum } from "@/utils/browser/get-screen-size";
 import { generateSKU } from "@/utils/generate/generate-sku";
 import { ProductStockForm } from "./product-stock-form";

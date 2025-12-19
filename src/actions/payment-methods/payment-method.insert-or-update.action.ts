@@ -13,48 +13,21 @@ export const paymentMethodInsertOrUpdate = async (
   paymentmethod: PaymentMethod,
 ): Promise<ResponseAction> => {
   const resp = initResponseAction();
-  const { id, ...rest } = paymentmethod;
+  const { id, ...data } = paymentmethod;
 
   try {
-    const prismaTx = await prisma.$transaction(async () => {
-      let proccesPaymentMethod: PaymentMethod = paymentmethod;
+    const proccesPaymentMethod = id
+      ? await prisma.paymentMethodModel.update({ where: { id }, data })
+      : await prisma.paymentMethodModel.create({ data });
 
-      // Determinar si es create or update
-      if (id) {
-        // Update
-        proccesPaymentMethod = await prisma.paymentMethodModel.update({
-          where: {
-            id,
-          },
-          data: {
-            ...rest,
-            //imageUrl: respImages.data[0],
-          },
-        });
-      } else {
-        // create
-        proccesPaymentMethod = await prisma.paymentMethodModel.create({
-          data: {
-            ...rest,
-          },
-        });
-      }
-
-      return {
-        proccesPaymentMethod,
-      };
-    });
-    resp.data = prismaTx.proccesPaymentMethod;
+    resp.data = proccesPaymentMethod;
     resp.success = true;
 
-    console.log("updateTag: ", `payment-methods-${prismaTx.proccesPaymentMethod.companyId}`)
-
-    updateTag(`payment-methods-${prismaTx.proccesPaymentMethod.companyId}`, );
-    //revalidatePath("/pos");
+    updateTag(`payment-methods-${proccesPaymentMethod.companyId}`);
     revalidatePath("/config/payment-methods");
   } catch (error) {
     resp.message = getActionError(error);
   }
+
   return resp;
 };
-

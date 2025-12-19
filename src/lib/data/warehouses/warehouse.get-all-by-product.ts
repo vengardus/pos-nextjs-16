@@ -1,6 +1,6 @@
 import 'server-only'
 
-import prisma from "@/infrastructure/db/prisma";
+import prisma from "@/server/db/prisma";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import type { Warehouse } from "@/types/interfaces/warehouse/warehouse.interface";
 import { getActionError } from "@/utils/errors/get-action-error";

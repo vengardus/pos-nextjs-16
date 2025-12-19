@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath, updateTag } from "next/cache";
-import prisma from "@/infrastructure/db/prisma";
+import prisma from "@/server/db/prisma";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import type { ClientSupplier } from "@/types/interfaces/client-supplier/client-supplier.interface";
 import { AppConstants } from "@/constants/app.constants";

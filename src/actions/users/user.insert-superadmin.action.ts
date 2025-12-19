@@ -12,7 +12,7 @@
     - brands
 */
 
-import prisma from "@/infrastructure/db/prisma";
+import prisma from "@/server/db/prisma";
 import bcrypt from "bcryptjs";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import { getActionError } from "@/utils/errors/get-action-error";

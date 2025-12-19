@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import prisma from "@/infrastructure/db/prisma";
+import prisma from "@/server/db/prisma";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import type { Branch } from "@/types/interfaces/branch/branch.interface";
 import { getActionError } from "@/utils/errors/get-action-error";

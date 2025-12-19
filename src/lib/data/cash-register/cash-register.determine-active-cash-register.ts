@@ -1,6 +1,6 @@
 import 'server-only'
 
-import prisma from "@/infrastructure/db/prisma";
+import prisma from "@/server/db/prisma";
 import { CashRegisterStatusEnum } from "@/types/enums/cash-register-status.enum";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import type { CashRegisterDecision } from "@/types/interfaces/cash-register/cash-register-decision.interface";

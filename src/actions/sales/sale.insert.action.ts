@@ -1,5 +1,5 @@
 "use server";
-import prisma from "@/infrastructure/db/prisma";
+import prisma from "@/server/db/prisma";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import type { CartProduct } from "@/types/interfaces/sales/cart-product.interface";
 import type { Sale } from "@/types/interfaces/sales/sale.interface";

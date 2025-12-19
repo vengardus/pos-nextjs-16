@@ -1,6 +1,6 @@
 "use server";
 
-import prisma from "@/infrastructure/db/prisma";
+import prisma from "@/server/db/prisma";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import type { CashRegisterClosure } from "@/types/interfaces/cash-register-closure/cash-register-closure.interface";
 import type { PaymentMethod } from "@/types/interfaces/payment-method/payment-method.interface";

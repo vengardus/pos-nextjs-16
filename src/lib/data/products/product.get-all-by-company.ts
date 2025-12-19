@@ -1,7 +1,7 @@
 
 import 'server-only'
 
-import prisma from "@/infrastructure/db/prisma";
+import prisma from "@/server/db/prisma";
 
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import type { Product } from "@/types/interfaces/product/product.interface";

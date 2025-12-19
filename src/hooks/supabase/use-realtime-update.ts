@@ -5,7 +5,7 @@
 */
 
 import { useEffect } from "react";
-import { supabase } from "@/infrastructure/db/supabase";
+import { supabase } from "@/server/db/supabase";
 import { useRealTimeStore } from "@/stores/general/real-time.store";
 
 export function useRealtimeUpdate(tableName: string) {

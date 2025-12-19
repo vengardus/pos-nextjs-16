@@ -1,6 +1,6 @@
 import "server-only";
 
-import prisma from "@/infrastructure/db/prisma";
+import prisma from "@/server/db/prisma";
 import type { Category } from "@/types/interfaces/category/category.interface";
 import type { CategoryInput } from "@/server/category/domain/category.input.schema";
 

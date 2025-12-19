@@ -1,7 +1,7 @@
-  "use server";
+"use server";
 
 import { revalidatePath, updateTag } from "next/cache";
-import prisma from "@/infrastructure/db/prisma";
+import prisma from "@/server/db/prisma";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import type { Product } from "@/types/interfaces/product/product.interface";
 import { getActionError } from "@/utils/errors/get-action-error";
@@ -13,52 +13,47 @@ export const productInsertOrUpdate = async (
   product: Product,
 ): Promise<ResponseAction> => {
   const resp = initResponseAction();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { id, createdAt, barcode, internalCode, Category, categoryName, ...rest } = product as ProductWithOptionalCategory;
+  const { id, createdAt, barcode, internalCode, Category, categoryName, ...rest } =
+    product as ProductWithOptionalCategory;
+
+  console.time("product-insert-or-update");
 
   try {
-    const prismaTx = await prisma.$transaction(async () => {
-      let proccesProduct: Product = product;
-      // Determinar si es create or update
-      if (id) {
-        // Update
-        proccesProduct = await prisma.productModel.update({
-          where: {
-            id,
-          },
-          data: {
-            ...rest,
-            barcode: barcode?? null,          // asegura de grabar null si es undefined
-            internalCode: internalCode?? null // asegura de grabar null si es undefined
-          },
-        });
-      } else {
-        // create
-        proccesProduct = await prisma.productModel.create({
-          data: {
-            ...rest,
-            barcode: barcode?? null,
-            internalCode: internalCode?? null
-          },
-        });
-      }
+    let proccesProduct: Product;
 
-      return {
-        proccesProduct,
-      };
-    });
-    resp.data = prismaTx.proccesProduct;
+    if (id) {
+      // UPDATE
+      proccesProduct = await prisma.productModel.update({
+        where: { id },
+        data: {
+          ...rest,
+          barcode: barcode ?? null,
+          internalCode: internalCode ?? null,
+        },
+      });
+    } else {
+      // CREATE
+      proccesProduct = await prisma.productModel.create({
+        data: {
+          ...rest,
+          barcode: barcode ?? null,
+          internalCode: internalCode ?? null,
+        },
+      });
+    }
+
+    resp.data = proccesProduct;
     resp.success = true;
 
-    console.log("updateTag", `products-${prismaTx.proccesProduct.companyId}`);
-    // revalidates
-    updateTag(`products-${prismaTx.proccesProduct.companyId}`);
-    // revalidatePath("/pos");
+    // Revalidate cache / paths
+    console.log("updateTag", `products-${proccesProduct.companyId}`);
+    updateTag(`products-${proccesProduct.companyId}`);
     revalidatePath("/config/products");
-
   } catch (error) {
     resp.message = getActionError(error);
   }
+
+  console.timeEnd("product-insert-or-update");
+
   return resp;
 };
-

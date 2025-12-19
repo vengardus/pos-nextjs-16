@@ -19,10 +19,10 @@ import {
 import type { PaymentMethod } from "@/types/interfaces/payment-method/payment-method.interface";
 import { PaymentMethodFormSchemaType } from "@/app/(features)/config/payment-methods/schemas/payment-method-form.schema";
 import { usePaymentMethodForm } from "@/app/(features)/config/payment-methods/hooks/use-payment-method-form";
-import { PaymentMethodBusiness } from "@/business/payment-method.business";
 import { InputFieldForm } from "../../../../../components/common/form/input-field-form";
 import { ButtonSave } from "../../../../../components/common/buttons/button-save";
 import { ButtonCancel } from "../../../../../components/common/buttons/button-cancel";
+import { getModelMetadata } from "@/server/common/model-metadata";
 
 interface CustomFormProps {
   currentRow: PaymentMethod | null;
@@ -46,6 +46,7 @@ export const CustomForm = ({
     currentRow,
     companyId,
   });
+  const paymentMethodMetadata = getModelMetadata("paymentMethod");
 
   const handleSave = async (values: PaymentMethodFormSchemaType) => {
     setMessageGeneralError(null);
@@ -64,7 +65,7 @@ export const CustomForm = ({
       <Card className="card">
         <CardHeader className="card-header">
           <CardTitle>{`${!isNewRecord ? "Editar" : "Agregar"} ${
-            PaymentMethodBusiness.metadata.singularName
+            paymentMethodMetadata.singularName
           }`}</CardTitle>
         </CardHeader>
         <Form {...form}>

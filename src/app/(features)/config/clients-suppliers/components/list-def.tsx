@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import type { ClientSupplier } from "@/types/interfaces/client-supplier/client-supplier.interface";
-import { ClientSupplierBusiness } from "@/business/client-supplier.business";
+import { getModelMetadata } from "@/server/common/model-metadata";
 import {
   ListColumnsDef,
   CustomListColumnsResponsiveDef,
@@ -21,6 +21,7 @@ interface ListDefProps {
 export const ListDef = ({ data, companyId }: ListDefProps) => {
   const [isShowForm, setIsShowForm] = useState(false);
   const [currentRow, setCurrentRow] = useState<ClientSupplier | null>(null);
+  const clientSupplierMetadata = getModelMetadata("clientSupplier");
 
   const handleAddRecord = () => {
     setCurrentRow(null);
@@ -31,7 +32,7 @@ export const ListDef = ({ data, companyId }: ListDefProps) => {
     const clientSupplier = data.find((c) => c.id === id) ?? null;
     if (!clientSupplier) {
       toast.error(
-        `Error: No se pudo obtener ${ClientSupplierBusiness.metadata.singularName}`
+        `Error: No se pudo obtener ${clientSupplierMetadata.singularName}`
       );
       return;
     }
@@ -59,8 +60,8 @@ export const ListDef = ({ data, companyId }: ListDefProps) => {
         handleAddRecord={handleAddRecord}
         columnsResponsiveDef={CustomListColumnsResponsiveDef}
         modelLabels={{
-          singularName: ClientSupplierBusiness.metadata.singularName,
-          pluralName: ClientSupplierBusiness.metadata.pluralName,
+          singularName: clientSupplierMetadata.singularName,
+          pluralName: clientSupplierMetadata.pluralName,
         }}
       />
 

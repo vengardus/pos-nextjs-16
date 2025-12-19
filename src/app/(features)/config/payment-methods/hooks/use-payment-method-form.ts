@@ -3,13 +3,13 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import type { PaymentMethod } from "@/types/interfaces/payment-method/payment-method.interface";
-import { PaymentMethodBusiness } from "@/business/payment-method.business";
 import {
   PaymentMethodFormSchema,
   PaymentMethodFormSchemaType,
 } from "@/app/(features)/config/payment-methods/schemas/payment-method-form.schema";
 import { toCapitalize } from "@/utils/formatters/to-capitalize";
 import { paymentMethodInsertOrUpdate } from "@/actions/payment-methods/payment-method.insert-or-update.action";
+import { getModelMetadata } from "@/server/common/model-metadata";
 
 const defaultValues: PaymentMethodFormSchemaType = {
   name: "",
@@ -31,6 +31,7 @@ export const usePaymentMethodForm = ({
     null
   );
   const isNewRecord = !currentRow;
+  const paymentMethodMetadata = getModelMetadata("paymentMethod");
 
   const form = useForm<PaymentMethodFormSchemaType>({
     resolver: zodResolver(PaymentMethodFormSchema),
@@ -78,7 +79,7 @@ export const usePaymentMethodForm = ({
     if (resp.success) {
       if (isNewRecord) currentRow = resp.data;
       toast.success(
-        `${PaymentMethodBusiness.metadata.singularName} ${
+        `${paymentMethodMetadata.singularName} ${
           isNewRecord ? "se creó" : "se actualizó"
         } exitósamente.`
       );
@@ -90,7 +91,7 @@ export const usePaymentMethodForm = ({
 
     } else {
       toast.error(
-        `Error: No se pudo grabar ${PaymentMethodBusiness.metadata.singularName}`,
+        `Error: No se pudo grabar ${paymentMethodMetadata.singularName}`,
         {
           description: resp.message,
         }

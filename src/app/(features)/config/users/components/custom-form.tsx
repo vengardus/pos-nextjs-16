@@ -11,7 +11,6 @@ import { Form } from "@/components/ui/form";
 import type { User } from "@/types/interfaces/user/user.interface";
 import { UserFormSchemaType } from "@/app/(features)/config/users/schemas/user-form.schema";
 import { useUserForm } from "@/app/(features)/config/users/hooks/use-user-form";
-import { UserBusiness } from "@/business/user.business";
 import { useDocumentTypeStore } from "@/stores/document-type/document-type.store";
 import { useBranchStore } from "@/stores/branch/branch.store";
 import { UserRole } from "@/types/enums/user-role.enum";
@@ -21,6 +20,7 @@ import { ComboboxForm } from "@/components/common/form/combobox-form";
 import { ButtonCancel } from "@/components/common/buttons/button-cancel";
 import { ButtonSave } from "@/components/common/buttons/button-save";
 import { mapRoleToCombobox } from "@/mappers/role.mapper";
+import { getModelMetadata } from "@/server/common/model-metadata";
 
 interface CustomFormProps {
   currentRow: User | null;
@@ -51,6 +51,7 @@ export const CustomForm = ({
     currentRow,
     companyId,
   });
+  const userMetadata = getModelMetadata("user");
 
   const handleSave = async (values: UserFormSchemaType) => {
     setMessageGeneralError(null);
@@ -73,7 +74,7 @@ export const CustomForm = ({
       <Card className="card">
         <CardHeader className="card-header">
           <CardTitle>{`${!isNewRecord ? "Editar" : "Agregar"} ${
-            UserBusiness.metadata.singularName
+            userMetadata.singularName
           }`}</CardTitle>
         </CardHeader>
         <Form {...form}>

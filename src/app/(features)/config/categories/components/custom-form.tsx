@@ -18,12 +18,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import type { Category } from "@/types/interfaces/category/category.interface";
-import { CategoryBusiness } from "@/business/category.business";
 import { CategoryFormSchemaType } from "@/app/(features)/config/categories/schemas/category-form.schema";
 import { useCategoryForm } from "@/app/(features)/config/categories/hooks/use-category-form";
 import { InputFieldForm } from "../../../../../components/common/form/input-field-form";
 import { ButtonSave } from "../../../../../components/common/buttons/button-save";
 import { ButtonCancel } from "../../../../../components/common/buttons/button-cancel";
+import { getModelMetadata } from "@/server/common/model-metadata";
 
 interface CustomFormProps {
   currentRow: Category | null;
@@ -47,6 +47,7 @@ export const CustomForm = ({
     currentCategory: currentRow,
     companyId,
   });
+  const categoryMetadata = getModelMetadata("category");
 
   const handleSave = async (values: CategoryFormSchemaType) => {
     setMessageGeneralError(null);
@@ -65,7 +66,7 @@ export const CustomForm = ({
       <Card className="card">
         <CardHeader className="card-header">
           <CardTitle>{`${!isNewRecord ? "Editar" : "Agregar"} ${
-            CategoryBusiness.metadata.singularName
+            categoryMetadata.singularName
           }`}</CardTitle>
         </CardHeader>
         <Form {...form}>

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import type { User } from "@/types/interfaces/user/user.interface";
-import { UserBusiness } from "@/business/user.business";
+import { getModelMetadata } from "@/server/common/model-metadata";
 import {
   ListColumnsDef,
   CustomListColumnsResponsiveDef,
@@ -23,6 +23,7 @@ export const ListDef = ({ data, setDataList }: ListDefProps) => {
   const [isShowForm, setIsShowForm] = useState(false);
   const [currentRow, setCurrentRow] = useState<UserWithRelations | null>(null);
   const company = useCompanyStore((state) => state.company);
+  const userMetadata = getModelMetadata("user");
 
   const handleAddRecord = () => {
     setCurrentRow(null);
@@ -33,7 +34,7 @@ export const ListDef = ({ data, setDataList }: ListDefProps) => {
     const currentRow = data.find((c) => c.id === id) ?? null;
     if (!currentRow) {
       toast.error(
-        `Error: No se pudo obtener ${UserBusiness.metadata.singularName}`
+        `Error: No se pudo obtener ${userMetadata.singularName}`
       );
       return;
     }
@@ -70,8 +71,8 @@ export const ListDef = ({ data, setDataList }: ListDefProps) => {
         handleAddRecord={handleAddRecord}
         columnsResponsiveDef={CustomListColumnsResponsiveDef}
         modelLabels={{
-          singularName: UserBusiness.metadata.singularName,
-          pluralName: UserBusiness.metadata.pluralName,
+          singularName: userMetadata.singularName,
+          pluralName: userMetadata.pluralName,
         }}
       />
 

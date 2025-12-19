@@ -1,10 +1,7 @@
-import { BaseBusiness } from "./base.business";
 import { PaymentMethodEnum } from "@/types/enums/payment-method.enum";
 import type { PosPayment } from "@/types/interfaces/pos-payment/pos-payment.interface";
 
-export class PosPaymentBusiness extends BaseBusiness {
-  
-
+export class PosPaymentBusiness {
   static validateDynamic(posPayment: PosPayment): {
     success: boolean;
     message: string;

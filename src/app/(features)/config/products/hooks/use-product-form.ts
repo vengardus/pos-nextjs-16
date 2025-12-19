@@ -6,8 +6,6 @@ import type { Product } from "@/types/interfaces/product/product.interface";
 import type { ProductStock } from "@/types/interfaces/product/product-stock.interface";
 import type { Warehouse } from "@/types/interfaces/warehouse/warehouse.interface";
 import type { Branch } from "@/types/interfaces/branch/branch.interface";
-import { ProductBusiness } from "@/business/product.business";
-import { WarehouseBusiness } from "@/business/warehouse.business";
 import {
   ProductFormSchema,
   ProductFormSchemaType,
@@ -18,6 +16,7 @@ import { formatOptionalField } from "@/utils/formatters/format-optional-field";
 import { productInsertOrUpdate } from "@/actions/products/product.insert-or-update.action";
 import { warehouseInsertMany } from "@/actions/warehouses/warehouse.insert-many.action";
 import { warehouseGetAllByProductAction } from "@/actions/warehouses/warehouse.get-all-by-product.action";
+import { getModelMetadata } from "@/server/common/model-metadata";
 
 const defaultValues: ProductFormSchemaType = {
   name: "",
@@ -48,6 +47,8 @@ export const useProductForm = ({
   const isNewRecord = !currentProduct;
   const [productStocks, setProductStocks] = useState<ProductStock[]>([]);
   const [isOpenDialogInfo, setIsOpenDialogInfo] = useState(false);
+  const productMetadata = getModelMetadata("product");
+  const warehouseMetadata = getModelMetadata("warehouse");
 
   const form = useForm<ProductFormSchemaType>({
     resolver: zodResolver(ProductFormSchema),
@@ -77,7 +78,7 @@ export const useProductForm = ({
         const resp = await warehouseGetAllByProductAction(currentProduct!.id);
         if (!resp.success) {
           toast.error(
-            `Error: No se pudo obtener stock de ${WarehouseBusiness.metadata.singularName}`
+            `Error: No se pudo obtener stock de ${warehouseMetadata.singularName}`
           );
           return;
         }
@@ -142,13 +143,13 @@ export const useProductForm = ({
         await saveStockInWarehouse(currentProduct!.id, productStocks);
       }
       toast.success(
-        `${ProductBusiness.metadata.singularName} ${
+        `${productMetadata.singularName} ${
           isNewRecord ? "se creó" : "se actualizó"
         } exitósamente.`
       );
     } else {
       toast.error(
-        `Error: No se pudo grabar ${ProductBusiness.metadata.singularName}`,
+        `Error: No se pudo grabar ${productMetadata.singularName}`,
         {
           description: resp.message,
         }
@@ -177,14 +178,14 @@ export const useProductForm = ({
 
     if (!respWarehouse.success) {
       toast.error(
-        `Error: No se pudo grabar stock ${WarehouseBusiness.metadata.singularName}`,
+        `Error: No se pudo grabar stock ${warehouseMetadata.singularName}`,
         {
           description: respWarehouse.message,
         }
       );
     } else {
       toast.success(
-        `Stock en ${WarehouseBusiness.metadata.singularName} se creó exitósamente.`
+        `Stock en ${warehouseMetadata.singularName} se creó exitósamente.`
       );
     }
 

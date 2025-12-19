@@ -18,11 +18,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import type { Company } from "@/types/interfaces/company/company.interface";
-import { CompanyBusiness } from "@/business/company.business";
 import { CompanyFormSchemaType } from "@/app/(features)/config/companies/schemas/company-form.schema";
 import { useCompanyForm } from "@/app/(features)/config/companies/hooks/use-company-form";
 import { ButtonSave } from "@/components/common/buttons/button-save";
 import { InputFieldForm } from "@/components/common/form/input-field-form";
+import { getModelMetadata } from "@/server/common/model-metadata";
 
 interface CompanyFormProps {
   currentCompany: Company | null;
@@ -44,6 +44,7 @@ export const CompanyForm = ({
     currentCompany,
     companyId,
   });
+  const companyMetadata = getModelMetadata("company");
 
   const handleSave = async (values: CompanyFormSchemaType) => {
     setMessageGeneralError(null);
@@ -61,7 +62,7 @@ export const CompanyForm = ({
       <Card className="card">
         <CardHeader className="card-header">
           <CardTitle>{`${!isNewRecord ? "Datos Generales" : "Agregar"} ${
-            CompanyBusiness.metadata.singularName
+            companyMetadata.singularName
           } `}</CardTitle>
         </CardHeader>
         <Form {...form}>

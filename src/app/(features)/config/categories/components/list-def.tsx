@@ -5,13 +5,13 @@ import { useRouter } from "next/navigation";
 
 import { toast } from "sonner";
 import type { Category } from "@/types/interfaces/category/category.interface";
-import { CategoryBusiness } from "@/business/category.business";
 import { ListColumnsDef, CustomListColumnsResponsiveDef } from "./list-columns-def";
 import { CustomForm } from "./custom-form";
 import { Modal } from "../../../../../components/common/modals/modal";
 import { ListTable } from "@/components/tables/list-table";
 import { categoryDeleteById } from "@/actions/categories/category.delete-by-id.action";
 import { updateTagsAction } from "@/server/next/actions/updateTags.action";
+import { getModelMetadata } from "@/server/common/model-metadata";
 
 interface ListDefProps {
   data: Category[];
@@ -21,6 +21,7 @@ export const ListDef = ({ data, companyId }: ListDefProps) => {
   const router = useRouter();
   const [isShowForm, setIsShowForm] = useState(false);
   const [currentRow, setCurrentRow] = useState<Category | null>(null);
+  const categoryMetadata = getModelMetadata("category");
 
   const handleAddRecord = () => {
     setCurrentRow(null);
@@ -31,7 +32,7 @@ export const ListDef = ({ data, companyId }: ListDefProps) => {
     const currentRow = data.find((c) => c.id === id) ?? null;
     if (!currentRow) {
       toast.error(
-        `Error: No se pudo obtener ${CategoryBusiness.metadata.singularName}`
+        `Error: No se pudo obtener ${categoryMetadata.singularName}`
       );
       return;
     }
@@ -59,8 +60,8 @@ export const ListDef = ({ data, companyId }: ListDefProps) => {
         handleAddRecord={handleAddRecord}
         columnsResponsiveDef={CustomListColumnsResponsiveDef}
         modelLabels={{
-          singularName: CategoryBusiness.metadata.singularName,
-          pluralName: CategoryBusiness.metadata.pluralName,
+          singularName: categoryMetadata.singularName,
+          pluralName: categoryMetadata.pluralName,
         }}
         onRefresh={() => {    
           updateTagsAction([`categories-${companyId}`]);

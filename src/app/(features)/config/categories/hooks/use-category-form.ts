@@ -3,13 +3,13 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import type { Category } from "@/types/interfaces/category/category.interface";
-import { CategoryBusiness } from "@/business/category.business";
 import {
   CategoryFormSchema,
   CategoryFormSchemaType,
 } from "@/app/(features)/config/categories/schemas/category-form.schema";
 import { categoryInsertOrUpdateAction } from "@/actions/categories/category.insert-or-update.action";
 import type { CategoryInput } from "@/server/category/domain/category.input.schema";
+import { getModelMetadata } from "@/server/common/model-metadata";
 
 const defaultValues: CategoryFormSchemaType = {
   name: "",
@@ -30,6 +30,7 @@ export const useCategoryForm = ({
     null
   );
   const isNewRecord = !currentCategory;
+  const categoryMetadata = getModelMetadata("category");
 
   const form = useForm<CategoryFormSchemaType>({
     resolver: zodResolver(CategoryFormSchema),
@@ -79,13 +80,13 @@ export const useCategoryForm = ({
     if (resp.success) {
       if (isNewRecord) currentCategory = resp.data;
       toast.success(
-        `${CategoryBusiness.metadata.singularName} ${
+        `${categoryMetadata.singularName} ${
           isNewRecord ? "se creó" : "se actualizó"
         } exitósamente.`
       );
     } else {
       toast.error(
-        `Error: No se pudo grabar ${CategoryBusiness.metadata.singularName}`,
+        `Error: No se pudo grabar ${categoryMetadata.singularName}`,
         {
           description: resp.message,
         }

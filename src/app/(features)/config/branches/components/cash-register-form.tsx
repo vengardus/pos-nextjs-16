@@ -14,10 +14,10 @@ import {
 import type { CashRegister } from "@/types/interfaces/cash-register/cash-register.interface";
 import { CashRegisterFormSchemaType } from "@/app/(features)/config/branches/schemas/cash-register-form.schema";
 import { useCashRegisterForm } from "@/app/(features)/config/branches/hooks/use-cash-register-form";
-import { CashRegisterBusiness } from "@/business/cash-register.business";
 import { InputFieldForm } from "../../../../../components/common/form/input-field-form";
 import { ButtonSave } from "../../../../../components/common/buttons/button-save";
 import { useCashRegisterStore } from "@/stores/cash-register/cash-register.store";
+import { getModelMetadata } from "@/server/common/model-metadata";
 
 interface CashRegisterFormProps {
   currentRow: CashRegister | null;
@@ -40,6 +40,7 @@ export const CashRegisterForm = ({
   } = useCashRegisterForm({
     currentRow: selectedCashRegister,
   });
+  const cashRegisterMetadata = getModelMetadata("cashRegister");
 
   const handleSave = async (values: CashRegisterFormSchemaType) => {
     setMessageGeneralError(null);
@@ -58,7 +59,7 @@ export const CashRegisterForm = ({
       <Card className="card w-full md:w-2/3">
         <CardHeader className="card-header ">
           <CardTitle>{`${!isNewRecord ? "Editar" : "Agregar"} ${
-            CashRegisterBusiness.metadata.singularName
+            cashRegisterMetadata.singularName
           }`}</CardTitle>
         </CardHeader>
         <Form {...form}>

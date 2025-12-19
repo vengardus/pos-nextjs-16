@@ -3,13 +3,13 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import type { Company } from "@/types/interfaces/company/company.interface";
-import { CompanyBusiness } from "@/business/company.business";
 import {
   CompanyFormSchema,
   CompanyFormSchemaType,
 } from "@/app/(features)/config/companies/schemas/company-form.schema";
 import { toCapitalize } from "@/utils/formatters/to-capitalize";
 import { companyUpdate } from "@/actions/companies/company.update.action";
+import { getModelMetadata } from "@/server/common/model-metadata";
 
 const defaultValues: CompanyFormSchemaType = {
   name: "",
@@ -29,6 +29,7 @@ export const useCompanyForm = ({ currentCompany }: CompanyFormProps) => {
     null
   );
   const isNewRecord = !currentCompany;
+  const companyMetadata = getModelMetadata("company");
 
   const form = useForm<CompanyFormSchemaType>({
     resolver: zodResolver(CompanyFormSchema),
@@ -69,13 +70,13 @@ export const useCompanyForm = ({ currentCompany }: CompanyFormProps) => {
     if (resp.success) {
       if (isNewRecord) currentCompany = resp.data;
       toast.success(
-        `${CompanyBusiness.metadata.singularName} ${
+        `${companyMetadata.singularName} ${
           isNewRecord ? "se creó" : "se actualizó"
         } exitósamente.`
       );
     } else {
       toast.error(
-        `Error: No se pudo grabar ${CompanyBusiness.metadata.singularName}`,
+        `Error: No se pudo grabar ${companyMetadata.singularName}`,
         {
           description: resp.message,
         }

@@ -14,11 +14,11 @@ import {
 import type { Branch } from "@/types/interfaces/branch/branch.interface";
 import { BranchFormSchemaType } from "@/app/(features)/config/branches/schemas/branch-form.schema";
 import { useBranchForm } from "@/app/(features)/config/branches/hooks/use-branch-form";
-import { BranchBusiness } from "@/business/branch.business";
 import { InputFieldForm } from "../../../../../components/common/form/input-field-form";
 import { ButtonSave } from "../../../../../components/common/buttons/button-save";
 import { useBranchStore } from "@/stores/branch/branch.store";
 import { useEffect } from "react";
+import { getModelMetadata } from "@/server/common/model-metadata";
 
 interface BranchFormProps {
   currentRow: Branch | null;
@@ -43,6 +43,7 @@ export const BranchForm = ({
     currentRow:selectedBranch,
     companyId,
   });
+  const branchMetadata = getModelMetadata("branch");
 
   useEffect(()=>{
     console.log("SELECTED_BRANCH")
@@ -65,7 +66,7 @@ export const BranchForm = ({
       <Card className="card">
         <CardHeader className="card-header">
           <CardTitle>{`${!isNewRecord ? "Editar" : "Agregar"} ${
-            BranchBusiness.metadata.singularName
+            branchMetadata.singularName
           }`}</CardTitle>
         </CardHeader>
         <Form {...form}>

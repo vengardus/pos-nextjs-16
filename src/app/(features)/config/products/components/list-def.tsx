@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import type { Product } from "@/types/interfaces/product/product.interface";
 import type { Category } from "@/types/interfaces/category/category.interface";
 import type { Branch } from "@/types/interfaces/branch/branch.interface";
-import { ProductBusiness } from "@/business/product.business";
+import { getModelMetadata } from "@/server/common/model-metadata";
 import {
   ListColumnsDef,
   CustomListColumnsResponsiveDef,
@@ -27,6 +27,7 @@ export const ListDef = ({ companyId, data }: ListDefProps) => {
   const { products, categories, branches } = data;
   const [isShowForm, setIsShowForm] = useState(false);
   const [currentProduct, setCurrentProduct] = useState<Product | null>(null);
+  const productMetadata = getModelMetadata("product");
 
   const handleAddRecord = () => {
     setCurrentProduct(null);
@@ -37,7 +38,7 @@ export const ListDef = ({ companyId, data }: ListDefProps) => {
     const product = products.find((c) => c.id === id) ?? null;
     if (!product) {
       toast.error(
-        `Error: No se pudo obtener ${ProductBusiness.metadata.singularName}`
+        `Error: No se pudo obtener ${productMetadata.singularName}`
       );
       return;
     }
@@ -65,8 +66,8 @@ export const ListDef = ({ companyId, data }: ListDefProps) => {
         handleAddRecord={handleAddRecord}
         columnsResponsiveDef={CustomListColumnsResponsiveDef}
         modelLabels={{
-          singularName: ProductBusiness.metadata.singularName,
-          pluralName: ProductBusiness.metadata.pluralName,
+          singularName: productMetadata.singularName,
+          pluralName: productMetadata.pluralName,
         }}
       />
 

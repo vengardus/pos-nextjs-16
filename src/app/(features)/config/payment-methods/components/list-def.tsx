@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import type { PaymentMethod } from "@/types/interfaces/payment-method/payment-method.interface";
-import { PaymentMethodBusiness } from "@/business/payment-method.business";
 import {
   ListColumnsDef,
   CustomListColumnsResponsiveDef,
@@ -12,6 +11,7 @@ import { CustomForm } from "./custom-form";
 import { Modal } from "../../../../../components/common/modals/modal";
 import { ListTable } from "@/components/tables/list-table";
 import { paymentMethodDeleteById } from "@/actions/payment-methods/payment-method.delete-by-id.action";
+import { getModelMetadata } from "@/server/common/model-metadata";
 
 interface ListDefProps {
   data: PaymentMethod[];
@@ -20,6 +20,7 @@ interface ListDefProps {
 export const ListDef = ({ data, companyId }: ListDefProps) => {
   const [isShowForm, setIsShowForm] = useState(false);
   const [currentRow, setCurrentRow] = useState<PaymentMethod | null>(null);
+  const paymentMethodMetadata = getModelMetadata("paymentMethod");
 
   const handleAddRecord = () => {
     setCurrentRow(null);
@@ -30,7 +31,7 @@ export const ListDef = ({ data, companyId }: ListDefProps) => {
     const currentRow = data.find((c) => c.id === id) ?? null;
     if (!currentRow) {
       toast.error(
-        `Error: No se pudo obtener ${PaymentMethodBusiness.metadata.singularName}`
+        `Error: No se pudo obtener ${paymentMethodMetadata.singularName}`
       );
       return;
     }
@@ -58,8 +59,8 @@ export const ListDef = ({ data, companyId }: ListDefProps) => {
         handleAddRecord={handleAddRecord}
         columnsResponsiveDef={CustomListColumnsResponsiveDef}
         modelLabels={{
-          singularName: PaymentMethodBusiness.metadata.singularName,
-          pluralName: PaymentMethodBusiness.metadata.pluralName,
+          singularName: paymentMethodMetadata.singularName,
+          pluralName: paymentMethodMetadata.pluralName,
         }}
       />
 

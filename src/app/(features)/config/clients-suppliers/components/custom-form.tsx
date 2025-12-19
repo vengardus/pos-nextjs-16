@@ -9,7 +9,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import type { ClientSupplier } from "@/types/interfaces/client-supplier/client-supplier.interface";
-import { ClientSupplierBusiness } from "@/business/client-supplier.business";
 import { AppConstants } from "@/constants/app.constants";
 import { ClientSupplierFormSchemaType } from "@/app/(features)/config/clients-suppliers/schemas/client-supplier-form.schema";
 import { useClientSupplierForm } from "@/app/(features)/config/clients-suppliers/hooks/use-client-supplier-form";
@@ -17,6 +16,7 @@ import { ButtonSave } from "@/components/common/buttons/button-save";
 import { ComboboxForm } from "@/components/common/form/combobox-form";
 import { InputFieldForm } from "@/components/common/form/input-field-form";
 import { ButtonCancel } from "@/components/common/buttons/button-cancel";
+import { getModelMetadata } from "@/server/common/model-metadata";
 
 interface CustomFormProps {
   currentRow: ClientSupplier | null;
@@ -40,6 +40,7 @@ export const CustomForm = ({
     currentRow,
     companyId,
   });
+  const clientSupplierMetadata = getModelMetadata("clientSupplier");
 
   const handleSubmit = async (values: ClientSupplierFormSchemaType) => {
     setMessageGeneralError(null);
@@ -58,7 +59,7 @@ export const CustomForm = ({
       <Card className="card">
         <CardHeader className="card-header">
           <CardTitle>{`${!isNewRecord ? "Editar" : "Agregar"} ${
-            ClientSupplierBusiness.metadata.singularName
+            clientSupplierMetadata.singularName
           }`}</CardTitle>
         </CardHeader>
         <Form {...form}>

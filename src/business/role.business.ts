@@ -1,15 +1,8 @@
-import { BaseBusiness } from "./base.business";
-import type { ModelMetadata } from "@/types/interfaces/common/model-metadata.interface";
 import { UserRole } from "@/types/enums/user-role.enum";
 import { Permission } from "@/types/interfaces/permission/permission.interface";
 import type { Role } from "@/types/interfaces/role/role.interface";
 
-export class RoleBusiness extends BaseBusiness {
-    static metadata: ModelMetadata = {
-      singularName: "Role",
-      pluralName: "Roles",
-    };
-
+export class RoleBusiness {
     static getRoleByCod(roles:Role[], cod:string): Role | null {
       const role = roles.find((role) => role.cod === cod) || null;
       //console.log("role::", role, role?.id);

@@ -14,7 +14,6 @@ import type { Product } from "@/types/interfaces/product/product.interface";
 import type { Category } from "@/types/interfaces/category/category.interface";
 import type { Branch } from "@/types/interfaces/branch/branch.interface";
 import { ProductFormSchemaType } from "@/app/(features)/config/products/schemas/product-form.schema";
-import { ProductBusiness } from "@/business/product.business";
 import { useProductForm } from "@/app/(features)/config/products/hooks/use-product-form";
 import { useMediaQuery } from "@/hooks/media-query/use-media-query";
 import { ScreenSizeEnum } from "@/utils/browser/get-screen-size";
@@ -26,6 +25,7 @@ import { DialogInfo } from "@/components/common/dialog/dialog-info";
 import { ComboboxForm } from "@/components/common/form/combobox-form";
 import { InputFieldForm } from "@/components/common/form/input-field-form";
 import { SwitchForm } from "@/components/common/form/switch-form";
+import { getModelMetadata } from "@/server/common/model-metadata";
 
 interface CustomFormProps {
   currentProduct: Product | null;
@@ -60,6 +60,7 @@ export const CustomForm = ({
     currentProduct,
     companyId,
   });
+  const productMetadata = getModelMetadata("product");
   const salePriceRef = useRef<HTMLInputElement>(null);
   const purchasePriceRef = useRef<HTMLInputElement>(null);
 
@@ -94,7 +95,7 @@ export const CustomForm = ({
       <Card className="card">
         <CardHeader className="card-header">
           <CardTitle>{`${!isNewRecord ? "Editar" : "Agregar"} ${
-            ProductBusiness.metadata.singularName
+            productMetadata.singularName
           }`}</CardTitle>
         </CardHeader>
         <Form {...form}>

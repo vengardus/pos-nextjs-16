@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import type { ClientSupplier } from "@/types/interfaces/client-supplier/client-supplier.interface";
-import { ClientSupplierBusiness } from "@/business/client-supplier.business";
 import {
   ClientSupplierFormSchema,
   ClientSupplierFormSchemaType,
@@ -12,6 +11,7 @@ import { AppConstants } from "@/constants/app.constants";
 import { toCapitalize } from "@/utils/formatters/to-capitalize";
 import { formatOptionalField } from "@/utils/formatters/format-optional-field";
 import { clientSupplierInsertOrUpdate } from "@/actions/clients-suppliers/client-supplier.insert-or-update.action";
+import { getModelMetadata } from "@/server/common/model-metadata";
 
 const defaultValues: ClientSupplierFormSchemaType = {
   name: "",
@@ -36,6 +36,7 @@ export const useClientSupplierForm = ({
     null
   );
   const isNewRecord = !currentRow;
+  const clientSupplierMetadata = getModelMetadata("clientSupplier");
 
   const form = useForm<ClientSupplierFormSchemaType>({
     resolver: zodResolver(ClientSupplierFormSchema),
@@ -95,13 +96,13 @@ export const useClientSupplierForm = ({
     if (resp.success) {
       if (isNewRecord) currentRow = resp.data;
       toast.success(
-        `${ClientSupplierBusiness.metadata.singularName} ${
+        `${clientSupplierMetadata.singularName} ${
           isNewRecord ? "se creó" : "se actualizó"
         } exitósamente.`
       );
     } else {
       toast.error(
-        `Error: No se pudo grabar ${ClientSupplierBusiness.metadata.singularName}`,
+        `Error: No se pudo grabar ${clientSupplierMetadata.singularName}`,
         {
           description: resp.message,
         }

@@ -6,7 +6,7 @@ import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 
-import { useLoginForm } from "@/hooks/auth/use-login-form";
+import { useLoginForm } from "@/app/(auth)/hooks/use-login-form";
 import { LoginHeader } from "../../login/components/login-header";
 import { InputFieldForm } from "@/components/common/form/input-field-form";
 import { Footer } from "@/components/layout/footer/footer";

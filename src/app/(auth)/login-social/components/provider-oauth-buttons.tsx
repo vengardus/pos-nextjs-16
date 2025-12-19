@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 // import { LinkedInIcon } from "../common/icons/linked-in-icon";
 // import { FacebookIcon } from "../common/icons/facebook-icon";
-import { useLoginForm } from "@/hooks/auth/use-login-form";
+import { useLoginForm } from "@/app/(auth)/hooks/use-login-form";
 import { ButtonSignIn } from "./button-sign-in";
 import { GoogleIcon } from "@/components/common/icons/google-icon";
 

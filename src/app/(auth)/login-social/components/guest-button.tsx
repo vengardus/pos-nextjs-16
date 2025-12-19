@@ -2,7 +2,7 @@
 
 import { userInsertSuperadmin } from "@/actions/users/user.insert-superadmin.action";
 import { AppConstants } from "@/shared/constants/app.constants";
-import { useLoginForm } from "@/hooks/auth/use-login-form";
+import { useLoginForm } from "@/app/(auth)/hooks/use-login-form";
 import { UserRole } from "@/types/enums/user-role.enum";
 import { generateRandomEmail } from "@/utils/generate/generate-random-email";
 import { useEffect } from "react";

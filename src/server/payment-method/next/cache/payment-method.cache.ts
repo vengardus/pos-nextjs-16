@@ -1,12 +1,12 @@
 // "use cache";
 
-import 'server-only'
+import "server-only";
 
 // import { cacheLife, cacheTag } from "next/cache";
 import { unstable_cache as cache } from "next/cache";
 import { CacheConfig } from "@/server/next/cache.config";
-import { ResponseAction } from "@/types/interfaces/common/response-action.interface";
-import { paymentMethodGetAllByCompany } from "./payment-method.get-all-by-company";
+import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
+import { paymentMethodGetAllByCompanyUseCase } from "@/server/payment-method/use-cases/payment-method.get-all-by-company.use-case";
 
 // export const paymentMethodGetAllByCompanyCachedOld = async (
 //   companyId: string
@@ -21,9 +21,9 @@ export async function paymentMethodGetAllByCompanyCached(companyId: string): Pro
   console.log("cache=>paymentMethodGetAllByCompanyCached");
   const fn = cache(
     async () => {
-      return paymentMethodGetAllByCompany(companyId);
+      return paymentMethodGetAllByCompanyUseCase(companyId);
     },
-    [`payment-methods-${companyId}`], // ahora sí existe
+    [`payment-methods-${companyId}`],
     {
       revalidate: CacheConfig.CacheDurations.revalidate,
       tags: [`payment-methods-${companyId}`],

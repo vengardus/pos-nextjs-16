@@ -7,7 +7,7 @@ import { cn } from "@/utils/tailwind/cn";
 
 import { AppConstants } from "@/shared/constants/app.constants";
 import type { UserRole } from "@/types/enums/user-role.enum";
-import { useGetSession } from "@/hooks/auth/use-get-session";
+import { useGetSession } from "@/shared/hooks/auth/use-get-session";
 import { useNavbar } from "@/components/layout/navbar/hooks/use-navbar";
 
 import { NavbarLogoApp } from "./navbar-logo-app";

@@ -18,7 +18,7 @@ import { PaymentMethodEnum } from "@/types/enums/payment-method.enum";
 import { CashRegisterStatusEnum } from "@/types/enums/cash-register-status.enum";
 import { initResponseAction } from "@/utils/response/init-response-action";
 import { getActionError } from "@/utils/errors/get-action-error";
-import { PaymentMethodBusiness } from "@/business/payment-method.business";
+import { PaymentMethodBusiness } from "@/shared/business/payment-method.business";
 // import { AppConstants } from "@/config/app.constants";
 
 interface MovementTypeTotals {

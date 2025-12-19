@@ -9,7 +9,7 @@ import { PaymentMethodEnum } from "@/types/enums/payment-method.enum";
 import { CashRegisterMovementCategoryEnum } from "@/types/enums/cash-register-movement-category.enum";
 import { CashRegisterStatusEnum } from "@/types/enums/cash-register-status.enum";
 import { revalidatePath, updateTag } from "next/cache";
-import { PaymentMethodBusiness } from "@/business/payment-method.business";
+import { PaymentMethodBusiness } from "@/shared/business/payment-method.business";
 
 export const cashRegisterClosureCloseCashRegister = async (
   registerClosureId: string,

@@ -11,7 +11,7 @@ import { toCapitalize } from "@/utils/formatters/to-capitalize";
 import { useBranchStore } from "@/stores/branch/branch.store";
 import { CashRegister } from "@/types/interfaces/cash-register/cash-register.interface";
 import { useRoleStore } from "@/stores/role/role.store";
-import { RoleBusiness } from "@/business/role.business";
+import { RoleBusiness } from "@/shared/business/role.business";
 import { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import { AppConstants } from "@/shared/constants/app.constants";
 import { userInsertOrUpdate } from "@/actions/users/user.insert-or-update.action";

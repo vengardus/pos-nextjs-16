@@ -6,7 +6,9 @@ import type { ResponseAction } from "@/types/interfaces/common/response-action.i
 import { getActionError } from "@/utils/errors/get-action-error";
 import { initResponseAction } from "@/utils/response/init-response-action";
 
-export const categoryDeleteById = async (id: string): Promise<ResponseAction> => {
+export const categoryDeleteByIdAction = async (
+  id: string
+): Promise<ResponseAction> => {
   const resp = initResponseAction();
 
   try {

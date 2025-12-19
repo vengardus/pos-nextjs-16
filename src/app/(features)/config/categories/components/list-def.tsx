@@ -9,7 +9,7 @@ import { ListColumnsDef, CustomListColumnsResponsiveDef } from "./list-columns-d
 import { CustomForm } from "./custom-form";
 import { Modal } from "../../../../../components/common/modals/modal";
 import { ListTable } from "@/components/tables/list-table";
-import { categoryDeleteById } from "@/actions/categories/category.delete-by-id.action";
+import { categoryDeleteByIdAction } from "@/server/category/actions/category.delete-by-id.action";
 import { updateTagsAction } from "@/server/next/actions/updateTags.action";
 import { getModelMetadata } from "@/server/common/model-metadata";
 
@@ -41,7 +41,7 @@ export const ListDef = ({ data, companyId }: ListDefProps) => {
   };
 
   const handleDeleteRecord = async (id: string) => {
-    const resp = await categoryDeleteById(id);
+    const resp = await categoryDeleteByIdAction(id);
     if (!resp.success) {
       toast.error("Error al eliminar: " + resp.message);
       return;

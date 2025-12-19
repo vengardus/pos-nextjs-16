@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   LoginFormSchema,
   LoginFormSchemaType,
-} from "@/hooks/auth/schemas/login-form.schema";
+} from "@/app/(auth)/schemas/login-form.schema";
 import { useRouter } from "next/navigation";
 import { AppConstants } from "@/shared/constants/app.constants";
 import { authLoginCredentialsAction } from "@/actions/auth/auth.login-credentials.action";

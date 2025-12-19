@@ -4,7 +4,7 @@ import { toCapitalize } from "@/utils/formatters/to-capitalize";
 import type { Category } from "@/types/interfaces/category/category.interface";
 import { categoryInsertOrUpdateUseCase } from "@/server/category/use-cases/category.insert-or-update.use-case";
 import { revalidateTag } from "next/cache";
-import { CacheConfig } from "@/config/cache.config";
+import { CacheConfig } from "@/server/next/cache.config";
 
 class ApiError extends Error {
   constructor(message: string, public readonly status: number = 500) {

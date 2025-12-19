@@ -4,7 +4,7 @@ import "server-only";
 // import { cacheLife, cacheTag } from "next/cache";
 import { unstable_cache as cache } from "next/cache";
 
-import { CacheConfig } from "@/config/cache.config";
+import { CacheConfig } from "@/server/next/cache.config";
 import { CashRegisterStatusEnum } from "@/types/enums/cash-register-status.enum";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import { cashRegisterClosureGetByCashRegisterStatus } from "./cash-register-closure.get-by-cash-register-status";

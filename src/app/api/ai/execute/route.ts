@@ -3,7 +3,7 @@ import { revalidateTag } from "next/cache";
 
 import { initResponseAction } from "@/utils/response/init-response-action";
 import { aiAgentService } from "@/server/ai/agent/ai-agent.service";
-import { CacheConfig } from "@/config/cache.config";
+import { CacheConfig } from "@/server/next/cache.config";
 import { requestSchema } from "./request.schema";
 
 class ApiError extends Error {

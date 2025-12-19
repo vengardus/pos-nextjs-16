@@ -7,7 +7,7 @@ import "server-only";
 // } from "next/cache";
 import { unstable_cache as cache } from "next/cache";
 
-import { CacheConfig } from "@/config/cache.config";
+import { CacheConfig } from "@/server/next/cache.config";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import { categoryGetAllByCompanyUseCase } from "@/server/category/use-cases/category.get-all-by-company.use-case";
 

@@ -4,4 +4,4 @@ export const CacheConfig = {
     expire: 60 * 60 * 24 * 7, // 🔹 1 días antes de que la caché expire completamente
     stale: 60 * 60 * 24 * 1,
   },
-};
+} as const;

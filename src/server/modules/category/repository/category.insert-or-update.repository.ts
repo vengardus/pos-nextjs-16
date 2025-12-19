@@ -2,7 +2,7 @@ import "server-only";
 
 import prisma from "@/server/db/prisma";
 import type { Category } from "@/types/interfaces/category/category.interface";
-import type { CategoryInput } from "@/server/category/domain/category.input.schema";
+import type { CategoryInput } from "@/server/modules/category/domain/category.input.schema";
 
 export const categoryInsertOrUpdateRepository = async (
   categoryInput: CategoryInput & { id?: string; imageUrl?: string | null }

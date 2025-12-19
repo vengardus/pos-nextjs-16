@@ -9,7 +9,7 @@ import { ListColumnsDef, CustomListColumnsResponsiveDef } from "./list-columns-d
 import { CustomForm } from "./custom-form";
 import { Modal } from "../../../../../components/common/modals/modal";
 import { ListTable } from "@/components/tables/list-table";
-import { categoryDeleteByIdAction } from "@/server/category/next/actions/category.delete-by-id.action";
+import { categoryDeleteByIdAction } from "@/server/modules/category/next/actions/category.delete-by-id.action";
 import { updateTagsAction } from "@/server/next/actions/updateTags.action";
 import { getModelMetadata } from "@/server/common/model-metadata";
 

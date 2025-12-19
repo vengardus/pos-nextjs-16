@@ -6,7 +6,7 @@ import "server-only";
 import { unstable_cache as cache } from "next/cache";
 import { CacheConfig } from "@/server/next/cache.config";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
-import { paymentMethodGetAllByCompanyUseCase } from "@/server/payment-method/use-cases/payment-method.get-all-by-company.use-case";
+import { paymentMethodGetAllByCompanyUseCase } from "@/server/modules/payment-method/use-cases/payment-method.get-all-by-company.use-case";
 
 // export const paymentMethodGetAllByCompanyCachedOld = async (
 //   companyId: string

@@ -4,7 +4,7 @@ import type { Product } from "@/types/interfaces/product/product.interface";
 import { ShowPageMessage } from "@/components/common/messages/show-page-message";
 import { ModuleEnum } from "@/types/enums/module.enum";
 import { ListDef } from "./components/list-def";
-import { categoryGetAllByCompanyCached } from "@/server/category/next/cache/category.cache";
+import { categoryGetAllByCompanyCached } from "@/server/modules/category/next/cache/category.cache";
 import { productGetAllByCompanyCached } from "@/lib/data/products/product.cache";
 import { branchGetAllByCompanyCached } from "@/lib/data/branches/branch.cache";
 import { checkAuthenticationAndPermission } from "@/services/auth/check-authentication-and-permission.use-case";

@@ -1,4 +1,4 @@
-import { CategoryBaseSchema } from "@/server/category/domain/category.base.schema";
+import { CategoryBaseSchema } from "@/server/modules/category/domain/category.base.schema";
 import z from "zod";
 
 // export type Category = {

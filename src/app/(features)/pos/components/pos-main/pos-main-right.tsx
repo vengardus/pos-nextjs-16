@@ -1,7 +1,7 @@
 import { clientSupplierGetAllByCompanyCached } from "@/lib/data/clients-suppliers/client-supplier.cache";
 import { PosMainButtons } from "./pos-main-right/pos-main-buttons";
 import { PosMainTotals } from "./pos-main-right/pos-main-totals";
-import { paymentMethodGetAllByCompanyCached } from "@/server/payment-method/next/cache/payment-method.cache";
+import { paymentMethodGetAllByCompanyCached } from "@/server/modules/payment-method/next/cache/payment-method.cache";
 
 interface PosMainRightProps {
   companyId: string;

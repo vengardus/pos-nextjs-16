@@ -7,8 +7,8 @@ import {
   CategoryFormSchema,
   CategoryFormSchemaType,
 } from "@/app/(features)/config/categories/schemas/category-form.schema";
-import { categoryInsertOrUpdateAction } from "@/server/category/next/actions/category.insert-or-update.action";
-import type { CategoryInput } from "@/server/category/domain/category.input.schema";
+import { categoryInsertOrUpdateAction } from "@/server/modules/category/next/actions/category.insert-or-update.action";
+import type { CategoryInput } from "@/server/modules/category/domain/category.input.schema";
 import { getModelMetadata } from "@/server/common/model-metadata";
 
 const defaultValues: CategoryFormSchemaType = {

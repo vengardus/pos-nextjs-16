@@ -1,6 +1,6 @@
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
-import { categoryInsertOrUpdateUseCase } from "@/server/category/use-cases/category.insert-or-update.use-case";
-import { CategoryInput } from "@/server/category/domain/category.input.schema";
+import { categoryInsertOrUpdateUseCase } from "@/server/modules/category/use-cases/category.insert-or-update.use-case";
+import { CategoryInput } from "@/server/modules/category/domain/category.input.schema";
 
 type CreateCategoryPayload = {
   name: string;

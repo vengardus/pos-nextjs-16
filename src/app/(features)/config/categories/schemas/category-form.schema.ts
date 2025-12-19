@@ -1,4 +1,4 @@
-import { CategoryInputSchema } from "@/server/category/domain/category.input.schema";
+import { CategoryInputSchema } from "@/server/modules/category/domain/category.input.schema";
 import { z } from "zod";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB

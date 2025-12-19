@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 import { toCapitalize } from "@/utils/formatters/to-capitalize";
 import type { Category } from "@/types/interfaces/category/category.interface";
-import { categoryInsertOrUpdateUseCase } from "@/server/category/use-cases/category.insert-or-update.use-case";
+import { categoryInsertOrUpdateUseCase } from "@/server/modules/category/use-cases/category.insert-or-update.use-case";
 import { revalidateTag } from "next/cache";
 import { CacheConfig } from "@/server/next/cache.config";
 

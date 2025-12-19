@@ -7,7 +7,7 @@ import {
   CategoryFormSchema,
   CategoryFormSchemaType,
 } from "@/app/(features)/config/categories/schemas/category-form.schema";
-import { categoryInsertOrUpdateAction } from "@/server/category/actions/category.insert-or-update.action";
+import { categoryInsertOrUpdateAction } from "@/server/category/next/actions/category.insert-or-update.action";
 import type { CategoryInput } from "@/server/category/domain/category.input.schema";
 import { getModelMetadata } from "@/server/common/model-metadata";
 

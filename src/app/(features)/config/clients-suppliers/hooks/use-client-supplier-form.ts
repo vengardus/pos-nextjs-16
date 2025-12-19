@@ -7,7 +7,7 @@ import {
   ClientSupplierFormSchema,
   ClientSupplierFormSchemaType,
 } from "@/app/(features)/config/clients-suppliers/schemas/client-supplier-form.schema";
-import { AppConstants } from "@/constants/app.constants";
+import { AppConstants } from "@/shared/constants/app.constants";
 import { toCapitalize } from "@/utils/formatters/to-capitalize";
 import { formatOptionalField } from "@/utils/formatters/format-optional-field";
 import { clientSupplierInsertOrUpdate } from "@/actions/clients-suppliers/client-supplier.insert-or-update.action";

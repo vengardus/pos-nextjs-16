@@ -3,7 +3,7 @@ import { toast } from "sonner";
 import type { Product } from "@/types/interfaces/product/product.interface";
 import type { Sale } from "@/types/interfaces/sales/sale.interface";
 import type{ PosPayment } from "@/types/interfaces/pos-payment/pos-payment.interface";
-import { AppConstants } from "@/constants/app.constants";
+import { AppConstants } from "@/shared/constants/app.constants";
 import { useCartStore } from "@/stores/cart/cart.store";
 import { useClientSupplierStore } from "@/stores/client-supplier/client-supplier.store";
 import { useCompanyStore } from "@/stores/company/company.store";

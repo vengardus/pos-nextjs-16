@@ -7,7 +7,7 @@ import { google } from "@ai-sdk/google";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import type { ExecContext } from "@/server/context/exec-context.type";
 import { ModuleEnum } from "@/types/enums/module.enum";
-import { AppConstants } from "@/constants/app.constants";
+import { AppConstants } from "@/shared/constants/app.constants";
 
 import { initResponseAction } from "@/utils/response/init-response-action";
 import { getActionError } from "@/utils/errors/get-action-error";

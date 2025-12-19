@@ -7,7 +7,7 @@ import type { PosPayment } from "@/types/interfaces/pos-payment/pos-payment.inte
 import type { CashRegisterMovement } from "@/types/interfaces/cash-register-movement/cash-register-movement.interface";
 import { PaymentMethodEnum } from "@/types/enums/payment-method.enum";
 import { CashRegisterMovementCategoryEnum } from "@/types/enums/cash-register-movement-category.enum";
-import { AppConstants } from "@/constants/app.constants";
+import { AppConstants } from "@/shared/constants/app.constants";
 import { initResponseAction } from "@/utils/response/init-response-action";
 import { getActionError } from "@/utils/errors/get-action-error";
 import {  revalidatePath, updateTag } from "next/cache";

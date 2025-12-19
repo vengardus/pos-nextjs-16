@@ -4,7 +4,7 @@ import { revalidatePath, updateTag } from "next/cache";
 import prisma from "@/server/db/prisma";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import type { ClientSupplier } from "@/types/interfaces/client-supplier/client-supplier.interface";
-import { AppConstants } from "@/constants/app.constants";
+import { AppConstants } from "@/shared/constants/app.constants";
 import { getActionError } from "@/utils/errors/get-action-error";
 import { initResponseAction } from "@/utils/response/init-response-action";
 

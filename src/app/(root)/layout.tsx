@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { AppConstants } from "@/constants/app.constants";
+import { AppConstants } from "@/shared/constants/app.constants";
 import Navbar  from "@/components/layout/navbar/navbar.client";
 // import { Toaster } from "@/components/ui/sonner";
 

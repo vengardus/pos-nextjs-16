@@ -3,7 +3,7 @@ import type { Provider } from "next-auth/providers";
 import Credentials from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import { UserRole } from "./types/enums/user-role.enum";
-import { AppConstants } from "./constants/app.constants";
+import { AppConstants } from "./shared/constants/app.constants";
 import { compare } from "bcryptjs";
 import { User } from "./types/interfaces/user/user.interface";
 import { ResponseAction } from "./types/interfaces/common/response-action.interface";

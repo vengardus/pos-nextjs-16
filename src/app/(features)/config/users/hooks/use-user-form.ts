@@ -13,7 +13,7 @@ import { CashRegister } from "@/types/interfaces/cash-register/cash-register.int
 import { useRoleStore } from "@/stores/role/role.store";
 import { RoleBusiness } from "@/business/role.business";
 import { ResponseAction } from "@/types/interfaces/common/response-action.interface";
-import { AppConstants } from "@/constants/app.constants";
+import { AppConstants } from "@/shared/constants/app.constants";
 import { userInsertOrUpdate } from "@/actions/users/user.insert-or-update.action";
 import { getModelMetadata } from "@/server/common/model-metadata";
 

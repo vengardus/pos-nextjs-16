@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import type { ClientSupplier } from "@/types/interfaces/client-supplier/client-supplier.interface";
-import { AppConstants } from "@/constants/app.constants";
+import { AppConstants } from "@/shared/constants/app.constants";
 import { ClientSupplierFormSchemaType } from "@/app/(features)/config/clients-suppliers/schemas/client-supplier-form.schema";
 import { useClientSupplierForm } from "@/app/(features)/config/clients-suppliers/hooks/use-client-supplier-form";
 import { ButtonSave } from "@/components/common/buttons/button-save";

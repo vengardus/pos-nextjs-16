@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { CartProduct } from "@/types/interfaces/sales/cart-product.interface";
 import { PaymentMethodEnum } from "@/types/enums/payment-method.enum";
-import { AppConstants } from "@/constants/app.constants";
+import { AppConstants } from "@/shared/constants/app.constants";
 import { CashRegisterOpen } from "@/types/interfaces/cash-register/cash-register-open.interface";
 
 interface State {

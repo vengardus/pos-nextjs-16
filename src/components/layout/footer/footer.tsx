@@ -1,4 +1,4 @@
-import { AppConstants } from "@/constants/app.constants";
+import { AppConstants } from "@/shared/constants/app.constants";
 import { Lock } from "lucide-react";
 
 export const Footer = () => {

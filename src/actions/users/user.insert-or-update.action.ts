@@ -10,7 +10,7 @@ import { UserRole } from "@/types/enums/user-role.enum";
 import type { UserWithRelations } from "@/types/interfaces/user/user-with-relations.interface";
 import type { BranchUser } from "@/types/interfaces/branch-user/branch-user.interface";
 import bcrypt from "bcryptjs";
-import { AppConstants } from "@/constants/app.constants";
+import { AppConstants } from "@/shared/constants/app.constants";
 import { authGetSession } from "@/lib/data/auth/auth.get-session";
 
 export const userInsertOrUpdate = async (

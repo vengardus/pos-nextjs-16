@@ -6,7 +6,7 @@ import {
   LoginFormSchemaType,
 } from "@/hooks/auth/schemas/login-form.schema";
 import { useRouter } from "next/navigation";
-import { AppConstants } from "@/constants/app.constants";
+import { AppConstants } from "@/shared/constants/app.constants";
 import { authLoginCredentialsAction } from "@/actions/auth/auth.login-credentials.action";
 import { authLoginProviderAction } from "@/actions/auth/auth.login-provider.action";
 

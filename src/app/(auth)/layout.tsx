@@ -1,5 +1,5 @@
 import { authGetSession } from "@/lib/data/auth/auth.get-session";
-import { AppConstants } from "@/constants/app.constants";
+import { AppConstants } from "@/shared/constants/app.constants";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 

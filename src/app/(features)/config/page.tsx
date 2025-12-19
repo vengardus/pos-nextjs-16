@@ -1,7 +1,7 @@
 // import { Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { AppConstants } from "@/constants/app.constants";
+import { AppConstants } from "@/shared/constants/app.constants";
 import { Card, CardContent } from "@/components/ui/card";
 import "@/styles/config.css";
 // import LoadingPage from "../loading";

@@ -2,7 +2,7 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { signIn, signOut } from "next-auth/react";
 
-import { AppConstants } from "@/constants/app.constants";
+import { AppConstants } from "@/shared/constants/app.constants";
 import type { NavbarItem } from "@/types/interfaces/ui/navbar-item.interface";
 import { UserRole } from "@/types/enums/user-role.enum";
 import { useCartStore } from "@/stores/cart/cart.store";

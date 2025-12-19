@@ -1,7 +1,7 @@
 import { tool } from "ai";
 import z from "zod";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
-import { AppConstants } from "@/constants/app.constants";
+import { AppConstants } from "@/shared/constants/app.constants";
 import { categoryCreateWithMcp } from "../mcp/category.create.mcp";
 import { initResponseAction } from "@/utils/response/init-response-action";
 

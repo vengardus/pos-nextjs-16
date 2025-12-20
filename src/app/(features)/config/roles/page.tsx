@@ -2,7 +2,7 @@ import { ShowPageMessage } from "@/components/common/messages/show-page-message"
 import { CustomCrud } from "@/app/(features)/config/roles/components/custom-crud";
 import { ModuleEnum } from "@/types/enums/module.enum";
 import { checkAuthenticationAndPermission } from "@/services/auth/check-authentication-and-permission.use-case";
-import { roleGetAllByCompanyCached } from "@/lib/data/roles/role.cache";
+import { roleGetAllByCompanyCached } from "@/server/modules/role/next/cache/role.cache";
 import { mapNavbarItemsToModules } from "@/mappers/module.mapper";
 
 export default async function RolesPage() {

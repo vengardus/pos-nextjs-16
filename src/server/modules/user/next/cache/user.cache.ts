@@ -1,12 +1,12 @@
 // "use cache";
 import "server-only";
 
-import { CacheConfig } from "@/server/next/cache.config";
-import { ResponseAction } from "@/types/interfaces/common/response-action.interface";
-// import { cacheLife, cacheTag } from "next/cache";
 import { unstable_cache as cache } from "next/cache";
-import { userGetAllByCompany } from "./user.get-all-by-company";
-import { userGetByColumn } from "./user.get-by-column";
+
+import { CacheConfig } from "@/server/next/cache.config";
+import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
+import { userGetAllByCompanyUseCase } from "@/server/modules/user/use-cases/user.get-all-by-company.use-case";
+import { userGetByColumnUseCase } from "@/server/modules/user/use-cases/user.get-by-column.use-case";
 
 // export const userGetAllByCompanyCachedOld = async (companyId: string): Promise<ResponseAction> => {
 //   cacheTag(`users-${companyId}`);
@@ -19,7 +19,7 @@ export async function userGetAllByCompanyCached(companyId: string): Promise<Resp
   console.log("cache=>userGetAllByCompanyCached");
   const fn = cache(
     async () => {
-      return userGetAllByCompany(companyId);
+      return userGetAllByCompanyUseCase(companyId);
     },
     [`users-${companyId}`],
     {
@@ -30,12 +30,15 @@ export async function userGetAllByCompanyCached(companyId: string): Promise<Resp
   return fn();
 }
 
-export async function userGetByColumnCached(column: string, value: string): Promise<ResponseAction> {
+export async function userGetByColumnCached(
+  column: string,
+  value: string
+): Promise<ResponseAction> {
   // Aquí companyId está en scope, así que podemos usarlo en keyParts
   console.log("cache=>userGetByColumnCached");
   const fn = cache(
     async () => {
-      return userGetByColumn(column, value);
+      return userGetByColumnUseCase(column, value);
     },
     [`users-${column}-${value}`],
     {

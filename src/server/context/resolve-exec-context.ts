@@ -5,7 +5,7 @@ import type { ExecContext } from "./exec-context.type";
 import { ModuleEnum } from "@/types/enums/module.enum";
 
 import { checkAuthenticationAndPermission } from "@/services/auth/check-authentication-and-permission.use-case";
-import { userGetByColumnCached } from "@/lib/data/users/user.cache";
+import { userGetByColumnCached } from "@/server/modules/user/next/cache/user.cache";
 import { companyGetByUserCached } from "@/lib/data/companies/company.cache";
 import { initResponseAction } from "@/utils/response/init-response-action";
 import { getActionError } from "@/utils/errors/get-action-error";

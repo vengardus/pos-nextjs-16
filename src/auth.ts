@@ -8,7 +8,7 @@ import { compare } from "bcryptjs";
 import { User } from "./types/interfaces/user/user.interface";
 import { ResponseAction } from "./types/interfaces/common/response-action.interface";
 import { initResponseAction } from "./utils/response/init-response-action";
-import { userGetByColumn } from "./lib/data/users/user.get-by-column";
+import { userGetByColumnUseCase } from "./server/modules/user/use-cases/user.get-by-column.use-case";
 import { userInsertSuperadmin } from "./actions/users/user.insert-superadmin.action";
 
 const providers: Provider[] = [
@@ -36,7 +36,7 @@ const providers: Provider[] = [
         console.log("PASSSSA 1")
 
         // logic to verify if the user exists
-        const resp = await userGetByColumn("email", email);
+        const resp = await userGetByColumnUseCase("email", email);
 
         console.log("PASSSSA 2, resp", resp)
 
@@ -123,14 +123,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       respUser = initResponseAction();
 
       if ( account.provider === "credentials" ) {
-        respUser = await userGetByColumn(
+        respUser = await userGetByColumnUseCase(
           "email",
           user.email as string
         ); 
       }
       else {
         // provider google or social media
-        respUser = await userGetByColumn(
+        respUser = await userGetByColumnUseCase(
           "authId",
           account.providerAccountId as string
         );
@@ -183,7 +183,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       // console.log("🔹 jwt callback | Antes:", token);
 
       if (user) {
-        const resp = await userGetByColumn(
+        const resp = await userGetByColumnUseCase(
           "id",
           user.id as string
         );

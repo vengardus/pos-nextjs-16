@@ -23,5 +23,5 @@ export const userGetAllByCompanyRepository = async (
         },
       },
     },
-  });
+  }) as UserWithRelations[];
 };

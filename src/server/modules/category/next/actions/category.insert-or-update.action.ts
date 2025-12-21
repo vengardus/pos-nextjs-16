@@ -1,6 +1,6 @@
 "use server";
 
-import { updateTag } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import type { CategoryInput } from "@/server/modules/category/domain/category.input.schema";
 import { categoryInsertOrUpdateUseCase } from "@/server/modules/category/use-cases/category.insert-or-update.use-case";
@@ -32,6 +32,7 @@ export const categoryInsertOrUpdateAction = async (
   const resp = await categoryInsertOrUpdateUseCase(category, files);
   if (resp.success && resp.data) {
     updateTag(`categories-${resp.data.companyId}`);
+    revalidatePath("/config/categories");
     console.log(`Action:Updated tag: categories-${resp.data.companyId}`);
   }
   // revalidateTag(

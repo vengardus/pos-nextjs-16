@@ -9,7 +9,7 @@ import { User } from "./types/interfaces/user/user.interface";
 import { ResponseAction } from "./types/interfaces/common/response-action.interface";
 import { initResponseAction } from "./utils/response/init-response-action";
 import { userGetByColumnUseCase } from "./server/modules/user/use-cases/user.get-by-column.use-case";
-import { userInsertSuperadmin } from "./actions/users/user.insert-superadmin.action";
+import { userInsertSuperadminAction } from "./server/modules/user/next/actions/user.insert-superadmin.action";
 
 const providers: Provider[] = [
   Credentials({
@@ -145,7 +145,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (!respUser.data) {
         console.log("Usuario no registrado, se creará un nuevo registro");
 
-        const respInsert = await userInsertSuperadmin({
+        const respInsert = await userInsertSuperadminAction({
           authId: account.providerAccountId as string,
           roleId: UserRole.ADMIN as string,
           email: user.email as string,

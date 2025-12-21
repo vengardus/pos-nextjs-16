@@ -14,7 +14,7 @@ import { useRoleStore } from "@/stores/role/role.store";
 import { RoleBusiness } from "@/shared/business/role.business";
 import { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import { AppConstants } from "@/shared/constants/app.constants";
-import { userInsertOrUpdate } from "@/actions/users/user.insert-or-update.action";
+import { userInsertOrUpdateAction } from "@/server/modules/user/next/actions/user.insert-or-update.action";
 import { getModelMetadata } from "@/server/common/model-metadata";
 
 const defaultValues: UserFormSchemaType = {
@@ -135,7 +135,7 @@ export const useUserForm = ({ currentRow, companyId }: UserFormProps) => {
     user.roleId = role!.cod as UserRole;
 
 
-    const resp = await userInsertOrUpdate(user, companyId);
+    const resp = await userInsertOrUpdateAction(user, companyId);
 
     if (resp.success) {
       if (isNewRecord) currentRow = resp.data;

@@ -1,6 +1,6 @@
 "use client";
 
-import { userInsertSuperadmin } from "@/actions/users/user.insert-superadmin.action";
+import { userInsertSuperadminAction } from "@/server/modules/user/next/actions/user.insert-superadmin.action";
 import { AppConstants } from "@/shared/constants/app.constants";
 import { useLoginForm } from "@/app/(auth)/hooks/use-login-form";
 import { UserRole } from "@/types/enums/user-role.enum";
@@ -25,7 +25,7 @@ export default function GuestButton({ isPendingSocial, setIsPendingSocial }: Gue
     const email = generateRandomEmail(10);
     const username = email.split("@")[0] || null;
     console.log("handleGuestLogin");
-    const respInsert = await userInsertSuperadmin({
+    const respInsert = await userInsertSuperadminAction({
       authId: email,
       roleId: UserRole.GUEST as string,
       email: email,

@@ -13,7 +13,7 @@ import { useCompanyStore } from "@/stores/company/company.store";
 import { UserWithRelations } from "@/types/interfaces/user/user-with-relations.interface";
 import { ListTable } from "@/components/tables/list-table";
 import { Modal } from "@/components/common/modals/modal";
-import { userDeleteById } from "@/actions/users/user.delete-by-id.action";
+import { userDeleteByIdAction } from "@/server/modules/user/next/actions/user.delete-by-id.action";
 
 interface ListDefProps {
   data: UserWithRelations[];
@@ -43,7 +43,7 @@ export const ListDef = ({ data, setDataList }: ListDefProps) => {
   };
 
   const handleDeleteRecord = async (id: string) => {
-    const resp = await userDeleteById(id);
+    const resp = await userDeleteByIdAction(id);
     if (!resp.success) {
       toast.error("Error al eliminar: " + resp.message);
       return;

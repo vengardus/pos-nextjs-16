@@ -10,7 +10,7 @@ import {
 import { toCapitalize } from "@/utils/formatters/to-capitalize";
 import { useBranchStore } from "@/stores/branch/branch.store";
 import { initResponseAction } from "@/utils/response/init-response-action";
-import { cashRegisterInsertOrUpdate } from "@/actions/cash-register/cash-register.insert-or-update.action";
+import { cashRegisterInsertOrUpdateAction } from "@/server/modules/cash-register/next/actions/cash-register.insert-or-update.action";
 import { getModelMetadata } from "@/server/common/model-metadata";
 
 const defaultValues: CashRegisterFormSchemaType = {
@@ -72,7 +72,8 @@ export const useCashRegisterForm = ({ currentRow }: CashRegisterFormProps) => {
         };
 
     console.log("CashRegister", cashRegister, currentRow);
-    const respInsertOrUpdate = await cashRegisterInsertOrUpdate(cashRegister);
+    const respInsertOrUpdate =
+      await cashRegisterInsertOrUpdateAction(cashRegister);
 
     if (respInsertOrUpdate.success) {
       if (isNewRecord) currentRow = resp.data;

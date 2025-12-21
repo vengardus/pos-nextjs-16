@@ -5,7 +5,7 @@ import { Edit2Icon, Trash2Icon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { DialogConfirm } from "../../../../../components/common/dialog/dialog-confirm";
 import { toast } from "sonner";
-import { cashRegisterDeleteById } from "@/actions/cash-register/cash-register.delete-by-id.action";
+import { cashRegisterDeleteByIdAction } from "@/server/modules/cash-register/next/actions/cash-register.delete-by-id.action";
 
 interface CashRegisterItemProps {
   cashRegister: CashRegister;
@@ -25,9 +25,7 @@ export const CashRegisterItem = ({ cashRegister }: CashRegisterItemProps) => {
     if (isConfirmDelete) {
       const handleDeleteCashRegister = async () => {
         setMessage("un momento por favor...");
-        const resp = await cashRegisterDeleteById(
-          cashRegister.id
-        );
+        const resp = await cashRegisterDeleteByIdAction(cashRegister.id);
         if (!resp.success) {
           toast.error("Error al eliminar: " + resp.message);
           setIsConfirmDelete(false);

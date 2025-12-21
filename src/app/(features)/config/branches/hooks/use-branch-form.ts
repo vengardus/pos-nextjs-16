@@ -8,7 +8,7 @@ import {
   BranchFormSchemaType,
 } from "@/app/(features)/config/branches/schemas/branch-form.schema";
 import { toCapitalize } from "@/utils/formatters/to-capitalize";
-import { branchInsertOrUpdate } from "@/actions/branches/branch.insert-or-update.action";
+import { branchInsertOrUpdateAction } from "@/server/modules/branch/next/actions/branch.insert-or-update.action";
 import { getModelMetadata } from "@/server/common/model-metadata";
 
 const defaultValues: BranchFormSchemaType = {
@@ -68,7 +68,7 @@ export const useBranchForm = ({ currentRow, companyId }: BranchFormProps) => {
         };
 
     console.log("Branch", branch);
-    const resp = await branchInsertOrUpdate(branch);
+    const resp = await branchInsertOrUpdateAction(branch);
 
     if (resp.success) {
       if (isNewRecord) currentRow = resp.data;

@@ -10,7 +10,7 @@ import {
 import { CustomForm } from "./custom-form";
 import { Modal } from "../../../../../components/common/modals/modal";
 import { ListTable } from "@/components/tables/list-table";
-import { paymentMethodDeleteById } from "@/actions/payment-methods/payment-method.delete-by-id.action";
+import { paymentMethodDeleteByIdAction } from "@/server/modules/payment-method/next/actions/payment-method.delete-by-id.action";
 import { getModelMetadata } from "@/server/common/model-metadata";
 
 interface ListDefProps {
@@ -40,7 +40,7 @@ export const ListDef = ({ data, companyId }: ListDefProps) => {
   };
 
   const handleDeleteRecord = async (id: string) => {
-    const resp = await paymentMethodDeleteById(id);
+    const resp = await paymentMethodDeleteByIdAction(id);
     if (!resp.success) {
       toast.error("Error al eliminar: " + resp.message);
       return;

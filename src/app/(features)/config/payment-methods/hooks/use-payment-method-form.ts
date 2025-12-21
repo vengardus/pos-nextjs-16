@@ -8,7 +8,7 @@ import {
   PaymentMethodFormSchemaType,
 } from "@/app/(features)/config/payment-methods/schemas/payment-method-form.schema";
 import { toCapitalize } from "@/utils/formatters/to-capitalize";
-import { paymentMethodInsertOrUpdate } from "@/actions/payment-methods/payment-method.insert-or-update.action";
+import { paymentMethodInsertOrUpdateAction } from "@/server/modules/payment-method/next/actions/payment-method.insert-or-update.action";
 import { getModelMetadata } from "@/server/common/model-metadata";
 
 const defaultValues: PaymentMethodFormSchemaType = {
@@ -72,9 +72,7 @@ export const usePaymentMethodForm = ({
           cod: values.cod,
         };
 
-    const resp = await paymentMethodInsertOrUpdate(
-      paymentMethod
-    );
+    const resp = await paymentMethodInsertOrUpdateAction(paymentMethod);
 
     if (resp.success) {
       if (isNewRecord) currentRow = resp.data;

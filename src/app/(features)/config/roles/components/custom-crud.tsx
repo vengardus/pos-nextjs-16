@@ -11,7 +11,7 @@ import { createListColumnsDef, createListColumnsResponsiveDef } from "./create-l
 import { CustomForm } from "./custom-form";
 import { ListDef } from "./list-def";
 import { Module } from "@/types/interfaces/module/module.interface";
-import { roleDeleteById } from "@/actions/roles/role.delete-by-id.action";
+import { roleDeleteByIdAction } from "@/server/modules/role/next/actions/role.delete-by-id.action";
 import { getModelMetadata } from "@/server/common/model-metadata";
 
 interface CustomCrudProps {
@@ -45,7 +45,7 @@ export const CustomCrud = ({ data }: CustomCrudProps) => {
       columnsDef={createListColumnsDef}
       columnsResponsiveDef={createListColumnsResponsiveDef}
       FormComponent={CustomForm}
-      deleteAction={roleDeleteById}
+      deleteAction={roleDeleteByIdAction}
     />
   );
 };

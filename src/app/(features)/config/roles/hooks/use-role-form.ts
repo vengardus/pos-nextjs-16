@@ -10,7 +10,7 @@ import { useModuleStore } from "@/stores/module/module.store";
 import { usePermissionStore } from "@/stores/permission/permission.store";
 import { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import { initResponseAction } from "@/utils/response/init-response-action";
-import { roleInsertOrUpdate } from "@/actions/roles/role.insert-or-update.action";
+import { roleInsertOrUpdateAction } from "@/server/modules/role/next/actions/role.insert-or-update.action";
 import { permissionGetAllByRoleAction } from "@/actions/permissions/permission.get-all-by-role.action";
 import { getModelMetadata } from "@/server/common/model-metadata";
 
@@ -104,7 +104,7 @@ export const useRoleForm = <T extends Role>({
     
     role.Permission = permissions;
 
-    const resp = await roleInsertOrUpdate(role, companyId);
+    const resp = await roleInsertOrUpdateAction(role, companyId);
 
     if (resp.success) {
       if (isNewRecord) currentRow = resp.data;

@@ -176,7 +176,7 @@ export const saleInsertRepository = async (
     });
 
     return {
-      saleTx,
+      saleTx: saleTx as Sale,
       updateWarehouses,
     };
   });

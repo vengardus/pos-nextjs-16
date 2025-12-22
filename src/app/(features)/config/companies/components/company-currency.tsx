@@ -8,7 +8,7 @@ import type { Company } from "@/types/interfaces/company/company.interface";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Combobox } from "@/components/common/combobox/combobox";
 import { ButtonSave } from "@/components/common/buttons/button-save";
-import { companyUpdateCurrency } from "@/actions/companies/company.update-currency.action";
+import { companyUpdateCurrencyAction } from "@/server/modules/company/next/actions/company.update-currency.action";
 
 interface CompanyCurrencyProps {
   currencies: Currency[];
@@ -44,7 +44,7 @@ export const CompanyCurrency = ({
     company.currency = currency?.currency;
     company.currencySymbol = currency?.symbol;
 
-    const resp = await companyUpdateCurrency(company);
+    const resp = await companyUpdateCurrencyAction(company);
     setIsLoading(false);
     if (!resp.success) {
       toast.error("Error al actualizar la moneda: " + resp.message);

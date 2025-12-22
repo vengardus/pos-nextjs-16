@@ -1,18 +1,23 @@
-"use server";
+import "server-only";
 
-import { revalidatePath, updateTag } from "next/cache";
 import { v2 as cloudinary } from "cloudinary";
-import prisma from "@/server/db/prisma";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import type { Company } from "@/types/interfaces/company/company.interface";
 import { getActionError } from "@/utils/errors/get-action-error";
-import { initResponseAction } from "@/utils/response/init-response-action";
 import { getImagePublicIdFromCloudinary } from "@/utils/media/cloudinary.utils";
+import { initResponseAction } from "@/utils/response/init-response-action";
+import { companyUpdateRepository } from "../repository/company.update.repository";
 
 // Configuration Cloudinary
 cloudinary.config(process.env.CLOUDINARY_URL ?? "");
 
-export const companyUpdate = async (
+type UploadImagesResponse = {
+  success: boolean;
+  data: (string | null)[] | null;
+  message?: string;
+};
+
+export const companyUpdateUseCase = async (
   company: Company,
   fileList: FileList | []
 ): Promise<ResponseAction> => {
@@ -21,66 +26,42 @@ export const companyUpdate = async (
   console.log(id); //no usada intencionalmente
 
   try {
-    const prismaTx = await prisma.$transaction(async (tx) => {
-      let proccesCompany: Company = company;
+    let proccesCompany: Company = company;
 
-      const oldImageUrl = company.imageUrl;
+    const oldImageUrl = company.imageUrl;
 
-      // delete old image
-      if ( fileList.length > 0 && oldImageUrl) {
-        const imagePublicId = getImagePublicIdFromCloudinary(oldImageUrl!);
-        const deleteOk = await deleteImage(imagePublicId!);
-        if (!deleteOk) throw new Error("Error al eliminar imagen");
-      }
-      
-      // Procesa de carga y guardado de imagenes
-      // Convierte FileList a Array de File y filtra los no Files
-      const fileArray = Array.from(fileList).filter(
-        (file) => file instanceof File
-      );
-      const respImages = await uploadImages(fileArray);
+    // delete old image
+    if (fileList.length > 0 && oldImageUrl) {
+      const imagePublicId = getImagePublicIdFromCloudinary(oldImageUrl!);
+      const deleteOk = await deleteImage(imagePublicId!);
+      if (!deleteOk) throw new Error("Error al eliminar imagen");
+    }
 
-      if (!respImages.success || !respImages.data)
-        throw new Error(resp.message);
+    // Procesa de carga y guardado de imagenes
+    // Convierte FileList a Array de File y filtra los no Files
+    const fileArray = Array.from(fileList).filter(
+      (file) => file instanceof File
+    );
+    const respImages = await uploadImages(fileArray);
 
-      // Update company
-      proccesCompany = await tx.companyModel.update({
-        where: {
-          id,
-        },
-        data: {
-          ...rest,
-          imageUrl: respImages.data[0] ?? rest.imageUrl,
-        },
-      });
+    if (!respImages.success || !respImages.data) throw new Error(resp.message);
 
-      return {
-        proccesCompany,
-      };
+    // Update company
+    proccesCompany = await companyUpdateRepository(id, {
+      ...rest,
+      imageUrl: respImages.data[0] ?? rest.imageUrl,
     });
-    resp.data = prismaTx.proccesCompany;
-    resp.success = true;
 
-    updateTag(`company-${prismaTx.proccesCompany.userId}`);	
-    revalidatePath("/config/companies/general");
+    resp.data = proccesCompany;
+    resp.success = true;
   } catch (error) {
     resp.message = getActionError(error);
   }
   return resp;
 };
 
-const uploadImages = async (
-  images: File[]
-): Promise<{
-  success: boolean;
-  data: (string | null)[] | null;
-  message?: string;
-}> => {
-  const resp: {
-    success: boolean;
-    data: (string | null)[] | null;
-    message?: string;
-  } = {
+const uploadImages = async (images: File[]): Promise<UploadImagesResponse> => {
+  const resp: UploadImagesResponse = {
     success: false,
     data: null,
   };

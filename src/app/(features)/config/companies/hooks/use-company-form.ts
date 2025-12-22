@@ -8,7 +8,7 @@ import {
   CompanyFormSchemaType,
 } from "@/app/(features)/config/companies/schemas/company-form.schema";
 import { toCapitalize } from "@/utils/formatters/to-capitalize";
-import { companyUpdate } from "@/actions/companies/company.update.action";
+import { companyUpdateAction } from "@/server/modules/company/next/actions/company.update.action";
 import { getModelMetadata } from "@/server/common/model-metadata";
 
 const defaultValues: CompanyFormSchemaType = {
@@ -62,7 +62,7 @@ export const useCompanyForm = ({ currentCompany }: CompanyFormProps) => {
       taxAddress: values.taxAddress ?? "",
     };
 
-    const resp = await companyUpdate(
+    const resp = await companyUpdateAction(
       company,
       values.imageUrl ?? []
     );

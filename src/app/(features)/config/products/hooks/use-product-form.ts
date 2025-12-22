@@ -14,8 +14,8 @@ import { toCapitalize } from "@/utils/formatters/to-capitalize";
 import { generateSKU } from "@/utils/generate/generate-sku";
 import { formatOptionalField } from "@/utils/formatters/format-optional-field";
 import { productInsertOrUpdateAction } from "@/server/modules/product/next/actions/product.insert-or-update.action";
-import { warehouseInsertMany } from "@/actions/warehouses/warehouse.insert-many.action";
-import { warehouseGetAllByProductAction } from "@/actions/warehouses/warehouse.get-all-by-product.action";
+import { warehouseInsertManyAction } from "@/server/modules/warehouse/next/actions/warehouse.insert-many.action";
+import { warehouseGetAllByProductAction } from "@/server/modules/warehouse/next/actions/warehouse.get-all-by-product.action";
 import { getModelMetadata } from "@/server/common/model-metadata";
 
 const defaultValues: ProductFormSchemaType = {
@@ -174,7 +174,7 @@ export const useProductForm = ({
       };
     });
 
-    const respWarehouse = await warehouseInsertMany(warehouses);
+    const respWarehouse = await warehouseInsertManyAction(warehouses);
 
     if (!respWarehouse.success) {
       toast.error(

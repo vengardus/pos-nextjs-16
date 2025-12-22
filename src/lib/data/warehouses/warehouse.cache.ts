@@ -7,7 +7,7 @@ import { unstable_cache as cache } from "next/cache";
 
 import { CacheConfig } from "@/server/next/cache.config";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
-import { warehouseGetAllByProduct } from "./warehouse.get-all-by-product";
+import { warehouseGetAllByProductUseCase } from "@/server/modules/warehouse/use-cases/warehouse.get-all-by-product.use-case";
 
 // export const warehouseGetAllByProductCachedOld = async (
 //   productId: string
@@ -22,7 +22,7 @@ export async function warehouseGetAllByProductCached(productId: string): Promise
   console.log("cache=>warehouseGetAllByProductCached");
   const fn = cache(
     async () => {
-      return warehouseGetAllByProduct(productId);
+      return warehouseGetAllByProductUseCase(productId);
     },
     [`warehouses-${productId}`],
     {

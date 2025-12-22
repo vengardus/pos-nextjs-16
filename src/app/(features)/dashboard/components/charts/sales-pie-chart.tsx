@@ -22,7 +22,7 @@ import { dateToStringLocal } from "@/utils/date/date-to-string-local";
 import GenericPieChart from "@/components/common/charts/generic-pie-chart";
 // import { useRealTimeStore } from "@/stores/general/real-time.store";
 import { updateTagsAction } from "@/server/next/actions/updateTags.action";
-import { cashRegisterMovementGetTotalsAction } from "@/actions/cash-register-movement/cash-register-movement.get-totals.action";
+import { cashRegisterMovementGetTotalsAction } from "@/server/modules/cash-register-movement/next/actions/cash-register-movement.get-totals.action";
 import { useCashMovementsBroadcast } from "@/app/(features)/dashboard/hooks/supabase/use-realtime-broadcast";
 
 interface SalesPieChartProps {

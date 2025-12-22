@@ -12,6 +12,7 @@ interface getCashRegisterTotalsProps {
   endDateUTC?: Date;
   companyId?: string;
 }
+
 export const cashRegisterMovementGetTotalsAction = async (
   props: getCashRegisterTotalsProps
 ): Promise<ResponseAction> => {

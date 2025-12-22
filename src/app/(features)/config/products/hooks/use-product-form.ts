@@ -13,7 +13,7 @@ import {
 import { toCapitalize } from "@/utils/formatters/to-capitalize";
 import { generateSKU } from "@/utils/generate/generate-sku";
 import { formatOptionalField } from "@/utils/formatters/format-optional-field";
-import { productInsertOrUpdate } from "@/actions/products/product.insert-or-update.action";
+import { productInsertOrUpdateAction } from "@/server/modules/product/next/actions/product.insert-or-update.action";
 import { warehouseInsertMany } from "@/actions/warehouses/warehouse.insert-many.action";
 import { warehouseGetAllByProductAction } from "@/actions/warehouses/warehouse.get-all-by-product.action";
 import { getModelMetadata } from "@/server/common/model-metadata";
@@ -135,7 +135,7 @@ export const useProductForm = ({
           categoryId: values.categoryId,
         };
 
-    const resp = await productInsertOrUpdate(product);
+    const resp = await productInsertOrUpdateAction(product);
 
     if (resp.success) {
       if (isNewRecord) {

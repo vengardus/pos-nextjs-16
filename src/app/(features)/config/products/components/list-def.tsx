@@ -13,7 +13,7 @@ import {
 import { CustomForm } from "./custom-form";
 import { ListTable } from "@/components/tables/list-table";
 import { Modal } from "@/components/common/modals/modal";
-import { productDeleteById } from "@/actions/products/product.delete-by-id.action";
+import { productDeleteByIdAction } from "@/server/modules/product/next/actions/product.delete-by-id.action";
 
 interface ListDefProps {
   companyId: string;
@@ -47,7 +47,7 @@ export const ListDef = ({ companyId, data }: ListDefProps) => {
   };
 
   const handleDeleteRecord = async (id: string) => {
-    const resp = await productDeleteById(id);
+    const resp = await productDeleteByIdAction(id);
     if (!resp.success) {
       toast.error("Error al eliminar: " + resp.message);
       return;

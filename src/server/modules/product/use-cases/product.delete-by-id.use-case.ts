@@ -1,27 +1,23 @@
-"use server";
+import "server-only";
 
-import { revalidatePath } from "next/cache";
-import prisma from "@/server/db/prisma";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import { getActionError } from "@/utils/errors/get-action-error";
 import { initResponseAction } from "@/utils/response/init-response-action";
-import { updateTag } from "next/cache";
+import { productDeleteByIdRepository } from "../repository/product.delete-by-id.repository";
 
-export const productDeleteById = async (id: string): Promise<ResponseAction> => {
+export const productDeleteByIdUseCase = async (
+  id: string
+): Promise<ResponseAction> => {
   const resp = initResponseAction();
 
   try {
-    const productDelete = await prisma.productModel.delete({
-      where: {
-        id,
-      },
-    });
+    const productDelete = await productDeleteByIdRepository(id);
+
     resp.data = productDelete;
     resp.success = true;
-    updateTag(`products-${productDelete.companyId}`);
-    revalidatePath("/config/products");
   } catch (error) {
     resp.message = getActionError(error);
   }
+
   return resp;
 };

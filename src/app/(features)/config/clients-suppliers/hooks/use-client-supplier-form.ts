@@ -10,7 +10,7 @@ import {
 import { AppConstants } from "@/shared/constants/app.constants";
 import { toCapitalize } from "@/utils/formatters/to-capitalize";
 import { formatOptionalField } from "@/utils/formatters/format-optional-field";
-import { clientSupplierInsertOrUpdate } from "@/actions/clients-suppliers/client-supplier.insert-or-update.action";
+import { clientSupplierInsertOrUpdateAction } from "@/server/modules/client-supplier/next/actions/client-supplier.insert-or-update.action";
 import { getModelMetadata } from "@/server/common/model-metadata";
 
 const defaultValues: ClientSupplierFormSchemaType = {
@@ -91,7 +91,7 @@ export const useClientSupplierForm = ({
           updatedAt: new Date(),
         };
 
-    const resp = await clientSupplierInsertOrUpdate(clientSupplier);
+    const resp = await clientSupplierInsertOrUpdateAction(clientSupplier);
 
     if (resp.success) {
       if (isNewRecord) currentRow = resp.data;

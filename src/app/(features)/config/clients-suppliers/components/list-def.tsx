@@ -11,7 +11,7 @@ import {
 import { CustomForm } from "./custom-form";
 import { ListTable } from "@/components/tables/list-table";
 import { Modal } from "@/components/common/modals/modal";
-import { clientSupplierDeleteById } from "@/actions/clients-suppliers/client-supplier.delete-by-id.action";
+import { clientSupplierDeleteByIdAction } from "@/server/modules/client-supplier/next/actions/client-supplier.delete-by-id.action";
 
 interface ListDefProps {
   data: ClientSupplier[];
@@ -41,7 +41,7 @@ export const ListDef = ({ data, companyId }: ListDefProps) => {
   };
 
   const handleDeleteRecord = async (id: string) => {
-    const resp = await clientSupplierDeleteById(id);
+    const resp = await clientSupplierDeleteByIdAction(id);
     if (!resp.success) {
       toast.error("Error al eliminar: " + resp.message);
       return;

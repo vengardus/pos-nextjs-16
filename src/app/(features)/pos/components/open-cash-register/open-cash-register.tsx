@@ -9,7 +9,7 @@ import { useCashRegisterDecisionStore } from "@/stores/cash-register/cash-regist
 import { usePaymentMethodStore } from "@/stores/payment-method/payment-method.store";
 import { useUserStore } from "@/stores/user/user.store";
 import { ButtonSave } from "../../../../../components/common/buttons/button-save";
-import { cashRegisterClosureInsert } from "@/actions/cash-register-closure/cash-register-closure.insert.action";
+import { cashRegisterClosureInsertAction } from "@/server/modules/cash-register-closure/next/actions/cash-register-closure.insert.action";
 
 interface OpenRegisterProps {
   isOpenOpenRegisterModal: boolean;
@@ -64,7 +64,10 @@ export const OpenCashRegister = ({
     };
 
     try {
-      const resp = await cashRegisterClosureInsert(registerClosure, paymentMethods);
+      const resp = await cashRegisterClosureInsertAction(
+        registerClosure,
+        paymentMethods
+      );
       if (!resp.success) {
         setMessageError(`Ocurrió un error al aperturar: ${resp.message}`);
         return;

@@ -10,7 +10,7 @@ import { ButtonSave } from "@/components/common/buttons/button-save";
 import { Title } from "@/components/common/titles/Title";
 import { useRouter } from "next/navigation";
 import { ShowPageMessage } from "@/components/common/messages/show-page-message";
-import { cashRegisterClosureCloseCashRegister } from "@/actions/cash-register-closure/cash-register-closure.close-cash-register.action";
+import { cashRegisterClosureCloseCashRegisterAction } from "@/server/modules/cash-register-closure/next/actions/cash-register-closure.close-cash-register.action";
 
 interface RegisterClosureUIProps {
   cashRegisterClosureId: string;
@@ -44,7 +44,7 @@ export const RegisterClosureUI = ({
   const handleCloseShift = async () => {
     if ( isPending ) return
     setIsPending(true);
-    const resp = await cashRegisterClosureCloseCashRegister(
+    const resp = await cashRegisterClosureCloseCashRegisterAction(
       cashRegisterClosureId,
       amountInRegister,
       parseFloat(amountRef.current?.value || "0"),

@@ -1,10 +1,11 @@
 "use server";
+
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
-import { authLoginProvider } from "@/lib/data/auth/auth.login-provider";
+import { authLoginProviderUseCase } from "@/server/modules/auth/use-cases/auth.login-provider.use-case";
 
 export const authLoginProviderAction = async (
   formData: FormData
 ): Promise<ResponseAction> => {
   
-  return await authLoginProvider(formData);
+  return await authLoginProviderUseCase(formData);
 };

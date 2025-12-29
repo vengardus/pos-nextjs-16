@@ -1,4 +1,5 @@
 import "server-only";
+
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { signIn } from "@/auth";
 import type { ProviderOAuth } from "@/types/interfaces/auth/provider-oauth.type";
@@ -6,7 +7,7 @@ import type { ResponseAction } from "@/types/interfaces/common/response-action.i
 import { AppConstants } from "@/shared/constants/app.constants";
 import { initResponseAction } from "@/utils/response/init-response-action";
 
-export const authLoginProvider = async (
+export const authLoginProviderUseCase = async (
   formData: FormData
 ): Promise<ResponseAction> => {
   const resp = initResponseAction();

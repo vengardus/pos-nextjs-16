@@ -1,24 +1,15 @@
 import "server-only";
-import { z } from "zod";
+
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import { initResponseAction } from "@/utils/response/init-response-action";
 import { signIn } from "@/auth";
+import { authCredentialsSchema } from "../domain/auth-credentials.schema";
 
-const formSchema = z.object({
-  email: z.string().email({
-    message: "Por favor ingrese un correo electrónico válido.",
-  }),
-  password: z.string().min(6, {
-    message: "La contraseña debe tener al menos 6 caracteres.",
-  }),
-  //remember: z.boolean().default(false),
-});
-
-export async function authLoginCredentials(
+export async function authLoginCredentialsUseCase(
   formData: FormData
 ): Promise<ResponseAction> {
   const resp = initResponseAction();
-  const validatedFields = formSchema.safeParse({
+  const validatedFields = authCredentialsSchema.safeParse({
     email: formData.get("email"),
     password: formData.get("password"),
     //remember: formData.get("remember") === "on",

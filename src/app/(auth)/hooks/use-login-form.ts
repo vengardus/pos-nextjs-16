@@ -7,8 +7,8 @@ import {
 } from "@/app/(auth)/schemas/login-form.schema";
 import { useRouter } from "next/navigation";
 import { AppConstants } from "@/shared/constants/app.constants";
-import { authLoginCredentialsAction } from "@/actions/auth/auth.login-credentials.action";
-import { authLoginProviderAction } from "@/actions/auth/auth.login-provider.action";
+import { authLoginCredentialsAction } from "@/server/modules/auth/next/actions/auth.login-credentials.action";
+import { authLoginProviderAction } from "@/server/modules/auth/next/actions/auth.login-provider.action";
 
 
 export const useLoginForm = (isPendignSocial: boolean) => {

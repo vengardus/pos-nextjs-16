@@ -1,6 +1,6 @@
 // "use cache";
 
-import 'server-only'
+import "server-only";
 
 // import { cacheLife, cacheTag } from "next/cache";
 import { unstable_cache as cache } from "next/cache";
@@ -80,9 +80,11 @@ export async function cashRegisterMovementGetTotalsCached(
     ],
     {
       revalidate: CacheConfig.CacheDurations.revalidate,
-      tags: [`cash-register-movements-totals-${props.companyId}`],
+      tags: [
+        `cash-register-movements-totals-${props.companyId}`,
+        `cash-register-movements`,
+      ],
     }
   );
-  console.log("cache=>", `cash-register-movements-totals-${props.companyId}`)
   return fn();
 }

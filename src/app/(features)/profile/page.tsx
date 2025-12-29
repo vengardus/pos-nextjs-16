@@ -1,11 +1,11 @@
-import { authGetSession } from "@/lib/data/auth/auth.get-session";
+import { authGetSessionUseCase } from "@/server/modules/auth/use-cases/auth.get-session.use-case";
 import { Title } from "@/components/common/titles/Title";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import Image from "next/image";
 
 export default async function ProfilePage() {
   // verficar usuario autenticado
-  const respSession = await authGetSession();
+  const respSession = await authGetSessionUseCase();
   if (!respSession.data.isAuthenticated) {
     return (
       <div className="flex justify-center items-center min-h-screen">

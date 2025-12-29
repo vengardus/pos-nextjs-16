@@ -7,7 +7,7 @@ import type { PosPayment } from "@/types/interfaces/pos-payment/pos-payment.inte
 import { AppConstants } from "@/shared/constants/app.constants";
 import { getActionError } from "@/utils/errors/get-action-error";
 import { initResponseAction } from "@/utils/response/init-response-action";
-import { authGetSession } from "@/lib/data/auth/auth.get-session";
+import { authGetSessionUseCase } from "@/server/modules/auth/use-cases/auth.get-session.use-case";
 import {
   saleInsertFindProductsRepository,
   saleInsertRepository,
@@ -23,7 +23,7 @@ export const saleInsertUseCase = async (
   console.log("sale", sale);
 
   try {
-    const respSession = await authGetSession();
+    const respSession = await authGetSessionUseCase();
     if (!respSession.data.isAuthenticated) throw new Error("Usuario no autenticado.");
     const userId = respSession.data.sessionUser.id;
     if (!userId) throw new Error("No hay sesión de usuario.");

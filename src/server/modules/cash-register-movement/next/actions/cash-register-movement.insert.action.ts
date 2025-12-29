@@ -3,13 +3,13 @@
 import { updateTag } from "next/cache";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import type { CashRegisterMovement } from "@/types/interfaces/cash-register-movement/cash-register-movement.interface";
-import { authGetSession } from "@/lib/data/auth/auth.get-session";
+import { authGetSessionUseCase } from "@/server/modules/auth/use-cases/auth.get-session.use-case";
 import { cashRegisterMovementInsertUseCase } from "@/server/modules/cash-register-movement/use-cases/cash-register-movement.insert.use-case";
 
 export const cashRegisterMovementInsertAction = async (
   cashRegisterMovement: CashRegisterMovement
 ): Promise<ResponseAction> => {
-  const respSession = await authGetSession();
+  const respSession = await authGetSessionUseCase();
   if (!respSession.data.isAuthenticated) {
     throw new Error("Usuario no autenticado.");
   }

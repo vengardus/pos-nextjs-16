@@ -3,11 +3,11 @@ import { ShowPageMessage } from "@/components/common/messages/show-page-message"
 import { CompanyCurrency } from "../../components/company-currency";
 import { CompaniesSidebar } from "../../components/companies-sidebar";
 import { companyGetByUserCached } from "@/lib/data/companies/company.cache";
-import { authGetSession } from "@/lib/data/auth/auth.get-session";
+import { authGetSessionUseCase } from "@/server/modules/auth/use-cases/auth.get-session.use-case";
 
 export default async function CompanyCurrencyPage() {
   // authenticated check
-  const respSession = await authGetSession();
+  const respSession = await authGetSessionUseCase();
   if (!respSession.data.isAuthenticated) {
     return (
       <ShowPageMessage

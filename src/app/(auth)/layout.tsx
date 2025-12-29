@@ -1,4 +1,4 @@
-import { authGetSession } from "@/lib/data/auth/auth.get-session";
+import { authGetSessionUseCase } from "@/server/modules/auth/use-cases/auth.get-session.use-case";
 import { AppConstants } from "@/shared/constants/app.constants";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
@@ -13,7 +13,7 @@ export default async function AuthLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const resp = await authGetSession();
+  const resp = await authGetSessionUseCase();
 
   if (resp.success && resp.data.isAuthenticated) {
     redirect(AppConstants.URL_HOME);

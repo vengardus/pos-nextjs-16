@@ -27,7 +27,7 @@ export const checkAuthenticationAndPermission = async (
   };
 
   // verify user authentication
-  //const sessionResponse = await authGetSession();
+  //const sessionResponse = await authGetSessionUseCase();
   const sessionResponse = await getAuthCached();
 
   if (!sessionResponse.data.isAuthenticated) {

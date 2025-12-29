@@ -3,7 +3,7 @@
 import { revalidatePath, updateTag } from "next/cache";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import type { Branch } from "@/types/interfaces/branch/branch.interface";
-import { authGetSession } from "@/lib/data/auth/auth.get-session";
+import { authGetSessionUseCase } from "@/server/modules/auth/use-cases/auth.get-session.use-case";
 import { branchInsertOrUpdateUseCase } from "@/server/modules/branch/use-cases/branch.insert-or-update.use-case";
 
 export const branchInsertOrUpdateAction = async (
@@ -20,7 +20,7 @@ export const branchInsertOrUpdateAction = async (
     };
   }
 
-  const respSession = await authGetSession();
+  const respSession = await authGetSessionUseCase();
   if (!respSession.data.isAuthenticated) {
     return {
       success: false,

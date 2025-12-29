@@ -7,7 +7,7 @@ import { getActionError } from "@/utils/errors/get-action-error";
 import { initResponseAction } from "@/utils/response/init-response-action";
 import { UserRole } from "@/types/enums/user-role.enum";
 import { AppConstants } from "@/shared/constants/app.constants";
-import { authGetSession } from "@/lib/data/auth/auth.get-session";
+import { authGetSessionUseCase } from "@/server/modules/auth/use-cases/auth.get-session.use-case";
 import { userInsertOrUpdateRepository } from "../repository/user.insert-or-update.repository";
 
 export const userInsertOrUpdateUseCase = async (
@@ -16,7 +16,7 @@ export const userInsertOrUpdateUseCase = async (
   const resp = initResponseAction();
 
   try {
-    const respSession = await authGetSession();
+    const respSession = await authGetSessionUseCase();
     if (!respSession.data.isAuthenticated) {
       throw new Error("Usuario no autenticado.");
     }

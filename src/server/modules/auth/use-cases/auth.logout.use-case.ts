@@ -4,7 +4,7 @@ import { signOut } from "@/auth";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import { initResponseAction } from "@/utils/response/init-response-action";
 
-export const authLogout = async (): Promise<ResponseAction> => {
+export const authLogoutUseCase = async (): Promise<ResponseAction> => {
   const resp = initResponseAction();
 
   try {

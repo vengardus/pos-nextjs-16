@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { revalidateTag } from "next/cache";
 
 import { initResponseAction } from "@/utils/response/init-response-action";
-import { aiAgentService } from "@/server/ai/agent/ai-agent.service";
+import { aiAgentUseCase } from "@/server/modules/ai/use-cases/ai-agent.use-case";
 import { CacheConfig } from "@/server/next/cache.config";
 import { requestSchema } from "./request.schema";
 
@@ -30,7 +30,7 @@ export async function POST(request: Request) {
 
     const { prompt, auth_code } = parsedBody.data;
 
-    const respAgent = await aiAgentService(prompt, auth_code);
+    const respAgent = await aiAgentUseCase(prompt, auth_code);
 
     if (respAgent.success && respAgent.data && "companyId" in respAgent.data) {
       revalidateTag(

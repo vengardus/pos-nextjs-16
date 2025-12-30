@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import { aiChatAction } from "@/actions/ai/ai-chat.action";
+import { aiChatAction } from "@/server/modules/ai/next/actions/ai-chat.action";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";

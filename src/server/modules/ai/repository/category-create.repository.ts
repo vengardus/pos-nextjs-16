@@ -8,7 +8,7 @@ type CreateCategoryPayload = {
   companyId: string;
 };
 
-export const categoryCreateWithMcp = async ({
+export const categoryCreateRepository = async ({
   name,
   color,
   companyId,

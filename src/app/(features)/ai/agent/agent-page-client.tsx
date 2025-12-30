@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 
-import { aiAgentAction } from "@/actions/ai/ai-agent.action";
+import { aiAgentAction } from "@/server/modules/ai/next/actions/ai-agent.action";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";

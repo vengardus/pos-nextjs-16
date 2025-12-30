@@ -2,7 +2,7 @@ import { tool } from "ai";
 import z from "zod";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import { AppConstants } from "@/shared/constants/app.constants";
-import { categoryCreateWithMcp } from "../mcp/category.create.mcp";
+import { categoryCreateRepository } from "@/server/modules/ai/repository/category-create.repository";
 import { initResponseAction } from "@/utils/response/init-response-action";
 
 /*
@@ -10,7 +10,7 @@ Forma anterior con tools y generateText
 No la uso ahora pero queda como referencia por si acaso
 */
 
-export const buildCategoryTools = (companyId: string) => {
+export const buildCategoryToolsUseCase = (companyId: string) => {
   return {
     createCategory: tool({
       description:
@@ -33,7 +33,7 @@ export const buildCategoryTools = (companyId: string) => {
           } as ResponseAction;
         }
 
-        const result = await categoryCreateWithMcp({
+        const result = await categoryCreateRepository({
           name,
           color: AppConstants.DEFAULT_VALUES.categoryColor,
           companyId,

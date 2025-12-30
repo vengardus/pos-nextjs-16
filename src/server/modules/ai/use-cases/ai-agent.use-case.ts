@@ -15,11 +15,11 @@ import { resolveExecContext } from "@/server/context/resolve-exec-context";
 import {
   CategoryAgentSchema,
   type CategoryAgentResult,
-} from "@/server/ai/agent/ai-agent.schema.category";
-import { categoryCreateWithMcp } from "@/server/ai/mcp/category.create.mcp";
-import { buildAiAgentMessages } from "@/server/ai/agent/ai-agent.messages";
+} from "@/server/modules/ai/domain/category-agent.schema";
+import { categoryCreateRepository } from "@/server/modules/ai/repository/category-create.repository";
+import { buildAiAgentMessages } from "@/server/modules/ai/domain/ai-agent.messages";
 
-export const aiAgentService = async (
+export const aiAgentUseCase = async (
   prompt: string,
   authCode: string | null = null
 ): Promise<ResponseAction> => {
@@ -79,7 +79,7 @@ export const aiAgentService = async (
     }
 
     // 4) Ejecutamos la creación real (MCP / use-case)
-    const createResp = await categoryCreateWithMcp({
+    const createResp = await categoryCreateRepository({
       name: result.name,
       color: AppConstants.DEFAULT_VALUES.categoryColor,
       companyId,

@@ -3,13 +3,13 @@
 import { updateTag } from "next/cache";
 
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
-import { aiAgentService } from "@/server/ai/agent/ai-agent.service";
+import { aiAgentUseCase } from "@/server/modules/ai/use-cases/ai-agent.use-case";
 
 export const aiAgentAction = async (
   prompt: string,
   authCode: string | null = null
 ): Promise<ResponseAction> => {
-  const resp = await aiAgentService(prompt, authCode);
+  const resp = await aiAgentUseCase(prompt, authCode);
 
   if (resp.success && resp.data) 
     updateTag(`categories-${resp.data.companyId}`);

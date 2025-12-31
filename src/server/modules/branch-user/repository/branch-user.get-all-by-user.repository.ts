@@ -1,10 +1,31 @@
 import "server-only";
 
 import prisma from "@/server/db/prisma";
+import { Prisma } from "@prisma/client";
 
-type BranchUserGetAllByUserResult = Awaited<
-  ReturnType<typeof prisma.branchUserModel.findMany>
->;
+type BranchUserGetAllByUserResult = Prisma.BranchUserModelGetPayload<{
+  select: {
+    id: true;
+    userId: true;
+    branchId: true;
+    Branch: {
+      select: {
+        id: true;
+        name: true;
+        taxAddress: true;
+        isDefault: true;
+        companyId: true;
+        CashRegister: {
+          select: {
+            id: true;
+            description: true;
+            isDefault: true;
+          };
+        };
+      };
+    };
+  };
+}>[];
 
 export const branchUserGetAllByUserRepository = async (
   userId: string

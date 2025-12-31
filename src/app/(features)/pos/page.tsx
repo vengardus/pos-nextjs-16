@@ -3,7 +3,7 @@ import { ModuleEnum } from "@/types/enums/module.enum";
 import { checkAuthenticationAndPermission } from "@/services/auth/check-authentication-and-permission.use-case";
 import { ShowPageMessage } from "@/components/common/messages/show-page-message";
 import { PosPageClient } from "./page-client";
-import { branchUserGetAllByUserCached } from "@/lib/data/branch-users/branch-user.cache";
+import { branchUserGetAllByUserCached } from "@/server/modules/branch-user/next/cache/branch-user.cache";
 import { cashRegisterDetermineActiveCashRegisterCached } from "@/lib/data/cash-register/cash-register.cache";
 
 export default async function PosPage() {

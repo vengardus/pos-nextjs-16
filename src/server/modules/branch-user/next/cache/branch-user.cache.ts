@@ -1,12 +1,12 @@
 //"use cache";
 
-import 'server-only'
+import "server-only";
+
+import { unstable_cache as cache } from "next/cache";
 
 import { CacheConfig } from "@/server/next/cache.config";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
-//import { cacheLife, cacheTag } from "next/cache";
-import { unstable_cache as cache } from "next/cache";
-import { branchUserGetAllByUser } from "./branch-user.get-all-by-user";
+import { branchUserGetAllByUserUseCase } from "@/server/modules/branch-user/use-cases/branch-user.get-all-by-user.use-case";
 
 // export const branchUserGetAllByUserCachedOld = async (userId: string): Promise<ResponseAction> => {
 //   cacheTag(`branches-${userId}`);
@@ -19,7 +19,7 @@ export async function branchUserGetAllByUserCached(userId: string): Promise<Resp
   console.log("cache=>branchUserGetAllByUserCached");
   const fn = cache(
     async () => {
-      return branchUserGetAllByUser(userId);
+      return branchUserGetAllByUserUseCase(userId);
     },
     [`branches-${userId}`],
     {

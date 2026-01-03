@@ -3,7 +3,7 @@ POST http://localhost:3000/api/ai/execute
 Content-Type: application/json
 
 {
-  "prompt": "agrega categoria yogures naturales",
+  "prompt": "crea categoria yogures naturales",
   "auth_code": ""
 }
 

@@ -3,7 +3,7 @@ import { BranchHeader } from "@/app/(features)/config/branches/components/branch
 import { BranchesUI } from "@/app/(features)/config/branches/components/branches-ui";
 import { ShowPageMessage } from "@/components/common/messages/show-page-message";
 import { ModuleEnum } from "@/types/enums/module.enum";
-import { branchUserGetAllByUserCached } from "@/actions/branch-users/cache/branch-user.cache";
+import { branchUserGetAllByUserCached } from "@/server/modules/branch-user/next/cache/branch-user.cache";
 import { checkAuthenticationAndPermission } from "@/services/auth/check-authentication-and-permission.use-case";
 
 export default async function BranchesPage() {

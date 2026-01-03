@@ -2,10 +2,10 @@ import { ShowPageMessage } from "@/components/common/messages/show-page-message"
 import { Title } from "@/components/common/titles/Title";
 import { UserList } from "@/app/(admin)/super-admin/users/components/users/user-list";
 import { UserWithRelations } from "@/types/interfaces/user/user-with-relations.interface";
-import { userGetAllWithRelations } from "@/actions/users/querys/user.get-all-with-relations.action";
+import { userGetAllWithRelationsUseCase } from "@/server/modules/user/use-cases/user.get-all-with-relations.use-case";
 
 export default async function UsersPage() {
-  const respUsers = await userGetAllWithRelations();
+  const respUsers = await userGetAllWithRelationsUseCase();
   if (!respUsers.success) {
     return (
       <ShowPageMessage modelName={'Usuarios'} errorMessage={respUsers.message} />

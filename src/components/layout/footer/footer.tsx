@@ -1,4 +1,4 @@
-import { AppConstants } from "@/constants/app.constants";
+import { AppConstants } from "@/shared/constants/app.constants";
 import { Lock } from "lucide-react";
 
 export const Footer = () => {
@@ -16,7 +16,7 @@ export const Footer = () => {
         <div className="flex flex-col md:flex-row justify-center gap-7 items-center text-gray-500">
           <p>{AppConstants.APP_NAME}</p>
           <p>Todos los derechos reservados</p>
-          <p>© 2025 ismytv@gmail.com</p>
+          <p>© 2026 ismytv@gmail.com</p>
         </div>
       </div>
     </div>

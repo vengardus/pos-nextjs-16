@@ -6,16 +6,16 @@ import { toast } from "sonner";
 import { UserRole } from "@/types/enums/user-role.enum";
 import type { UserWithRelations } from "@/types/interfaces/user/user-with-relations.interface";
 import type { BranchUser } from "@/types/interfaces/branch-user/branch-user.interface";
-import { UserBusiness } from "@/business/user.business";
 import { UserFormSchema, UserFormSchemaType } from "@/app/(features)/config/users/schemas/user-form.schema";
 import { toCapitalize } from "@/utils/formatters/to-capitalize";
 import { useBranchStore } from "@/stores/branch/branch.store";
 import { CashRegister } from "@/types/interfaces/cash-register/cash-register.interface";
 import { useRoleStore } from "@/stores/role/role.store";
-import { RoleBusiness } from "@/business/role.business";
+import { RoleBusiness } from "@/shared/business/role.business";
 import { ResponseAction } from "@/types/interfaces/common/response-action.interface";
-import { AppConstants } from "@/constants/app.constants";
-import { userInsertOrUpdate } from "@/actions/users/mutations/user.insert-or-update.action";
+import { AppConstants } from "@/shared/constants/app.constants";
+import { userInsertOrUpdateAction } from "@/server/modules/user/next/actions/user.insert-or-update.action";
+import { getModelMetadata } from "@/server/common/model-metadata";
 
 const defaultValues: UserFormSchemaType = {
   name: "",
@@ -43,6 +43,7 @@ export const useUserForm = ({ currentRow, companyId }: UserFormProps) => {
   const branches = useBranchStore((state) => state.branches);
   const roles = useRoleStore((state) => state.roles);
   const isNewRecord = !currentRow;
+  const userMetadata = getModelMetadata("user");
 
   const form = useForm<UserFormSchemaType>({
     resolver: zodResolver(UserFormSchema),
@@ -134,18 +135,18 @@ export const useUserForm = ({ currentRow, companyId }: UserFormProps) => {
     user.roleId = role!.cod as UserRole;
 
 
-    const resp = await userInsertOrUpdate(user, companyId);
+    const resp = await userInsertOrUpdateAction(user, companyId);
 
     if (resp.success) {
       if (isNewRecord) currentRow = resp.data;
       toast.success(
-        `${UserBusiness.metadata.singularName} ${
+        `${userMetadata.singularName} ${
           isNewRecord ? "se creó" : "se actualizó"
         } exitósamente.`
       );
     } else {
       toast.error(
-        `Error: No se pudo grabar ${UserBusiness.metadata.singularName}`,
+        `Error: No se pudo grabar ${userMetadata.singularName}`,
         {
           description: resp.message,
         }

@@ -1,4 +1,4 @@
-import { AppConstants } from "@/constants/app.constants";
+import { AppConstants } from "@/shared/constants/app.constants";
 import { UserRole } from "@/types/enums/user-role.enum";
 import { Module } from "@/types/interfaces/module/module.interface";
 

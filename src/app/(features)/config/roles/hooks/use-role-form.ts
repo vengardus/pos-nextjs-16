@@ -5,14 +5,14 @@ import { toast } from "sonner";
 
 import type { Role } from "@/types/interfaces/role/role.interface";
 import { RoleFormSchema, RoleFormSchemaType } from "@/app/(features)/config/roles/schemas/role-form.schema";
-import { RoleBusiness } from "@/business/role.business";
 import { toCapitalize } from "@/utils/formatters/to-capitalize";
 import { useModuleStore } from "@/stores/module/module.store";
 import { usePermissionStore } from "@/stores/permission/permission.store";
 import { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import { initResponseAction } from "@/utils/response/init-response-action";
-import { roleInsertOrUpdate } from "@/actions/roles/mutatiuons/role.insert-or-update.action";
-import { permissionGetAllByRoleCached } from "@/actions/permissions/cache/permission.cache";
+import { roleInsertOrUpdateAction } from "@/server/modules/role/next/actions/role.insert-or-update.action";
+import { permissionGetAllByRoleAction } from "@/server/modules/permission/next/actions/permission.get-all-by-role.action";
+import { getModelMetadata } from "@/server/common/model-metadata";
 
 const defaultValues: RoleFormSchemaType = {
   description: "",
@@ -37,6 +37,7 @@ export const useRoleForm = <T extends Role>({
   const modules = useModuleStore((state) => state.modules);
   const permissions = usePermissionStore((state) => state.permissions);
   const setPermissions = usePermissionStore((state) => state.setPermissions);
+  const roleMetadata = getModelMetadata("role");
 
   const form = useForm<RoleFormSchemaType>({
     resolver: zodResolver(RoleFormSchema),
@@ -62,7 +63,7 @@ export const useRoleForm = <T extends Role>({
     }
     const getPermissions = async () => {
       setIsLoading(true);
-      const respPermissions = await permissionGetAllByRoleCached(currentRow!.id);
+      const respPermissions = await permissionGetAllByRoleAction(currentRow!.id);
       console.log("respPermissions!!!!!!!", respPermissions);
       if (!respPermissions.success)
         setMessageGeneralError(respPermissions.message + "ERROR");
@@ -103,18 +104,18 @@ export const useRoleForm = <T extends Role>({
     
     role.Permission = permissions;
 
-    const resp = await roleInsertOrUpdate(role, companyId);
+    const resp = await roleInsertOrUpdateAction(role, companyId);
 
     if (resp.success) {
       if (isNewRecord) currentRow = resp.data;
       toast.success(
-        `${RoleBusiness.metadata.singularName} ${
+        `${roleMetadata.singularName} ${
           isNewRecord ? "se creó" : "se actualizó"
         } exitósamente.`
       );
     } else {
       toast.error(
-        `Error: No se pudo grabar ${RoleBusiness.metadata.singularName}`,
+        `Error: No se pudo grabar ${roleMetadata.singularName}`,
         {
           description: resp.message,
         }

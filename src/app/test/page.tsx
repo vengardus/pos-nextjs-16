@@ -1,8 +1,8 @@
-import { authGetSession } from "@/actions/auth/auth.get-session.action";
+import { authGetSessionUseCase } from "@/server/modules/auth/use-cases/auth.get-session.use-case";
 import { TemplatePage } from "./template-page";
 
 export default async function TestPage() {
-  const resp = await authGetSession();
+  const resp = await authGetSessionUseCase();
   //console.log("resp", resp);
   if (!resp.data.isAuthenticated) {
     return <div>No autenticqdo</div>;

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { SessionProvider } from "next-auth/react";
 import { inter } from "@/styles/fonts";
 
-import { AppConstants } from "@/constants/app.constants";
+import { AppConstants } from "@/shared/constants/app.constants";
 import { ThemeProvider } from "@/providers/theme-provider";
 import "@/styles/globals.css";
 import "@/styles/navbar.css";

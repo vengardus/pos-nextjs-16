@@ -6,8 +6,6 @@ import type { Product } from "@/types/interfaces/product/product.interface";
 import type { ProductStock } from "@/types/interfaces/product/product-stock.interface";
 import type { Warehouse } from "@/types/interfaces/warehouse/warehouse.interface";
 import type { Branch } from "@/types/interfaces/branch/branch.interface";
-import { ProductBusiness } from "@/business/product.business";
-import { WarehouseBusiness } from "@/business/warehouse.business";
 import {
   ProductFormSchema,
   ProductFormSchemaType,
@@ -15,9 +13,10 @@ import {
 import { toCapitalize } from "@/utils/formatters/to-capitalize";
 import { generateSKU } from "@/utils/generate/generate-sku";
 import { formatOptionalField } from "@/utils/formatters/format-optional-field";
-import { productInsertOrUpdate } from "@/actions/products/product.insert-or-update.action";
-import { warehouseInsertMany } from "@/actions/warehouses/mutations/warehouse.insert-many.action";
-import { warehouseGetAllByProductCached } from "@/actions/warehouses/cache/warehouse.cache";
+import { productInsertOrUpdateAction } from "@/server/modules/product/next/actions/product.insert-or-update.action";
+import { warehouseInsertManyAction } from "@/server/modules/warehouse/next/actions/warehouse.insert-many.action";
+import { warehouseGetAllByProductAction } from "@/server/modules/warehouse/next/actions/warehouse.get-all-by-product.action";
+import { getModelMetadata } from "@/server/common/model-metadata";
 
 const defaultValues: ProductFormSchemaType = {
   name: "",
@@ -33,14 +32,14 @@ const defaultValues: ProductFormSchemaType = {
   minimunStock: 0,
 };
 
-interface ProductFormProps {
+interface UseProductFormProps {
   currentProduct: Product | null;
   companyId: string;
 }
 export const useProductForm = ({
   currentProduct,
   companyId,
-}: ProductFormProps) => {
+}: UseProductFormProps) => {
   const [isPending, setIsPending] = useState(false);
   const [messageGeneralError, setMessageGeneralError] = useState<string | null>(
     null
@@ -48,6 +47,8 @@ export const useProductForm = ({
   const isNewRecord = !currentProduct;
   const [productStocks, setProductStocks] = useState<ProductStock[]>([]);
   const [isOpenDialogInfo, setIsOpenDialogInfo] = useState(false);
+  const productMetadata = getModelMetadata("product");
+  const warehouseMetadata = getModelMetadata("warehouse");
 
   const form = useForm<ProductFormSchemaType>({
     resolver: zodResolver(ProductFormSchema),
@@ -72,18 +73,12 @@ export const useProductForm = ({
   }, [isNewRecord, currentProduct, form]);
 
   useEffect(() => {
-    const getAllWarehouse = async (productId: string) => {
-      const resp = await warehouseGetAllByProductCached(productId);
-      console.log({ resp });
-      return resp;
-    };
-
     const fetchData = async () => {
       if (!isNewRecord && currentProduct!.isInventoryControl) {
-        const resp = await getAllWarehouse(currentProduct!.id);
+        const resp = await warehouseGetAllByProductAction(currentProduct!.id);
         if (!resp.success) {
           toast.error(
-            `Error: No se pudo obtener stock de ${WarehouseBusiness.metadata.singularName}`
+            `Error: No se pudo obtener stock de ${warehouseMetadata.singularName}`
           );
           return;
         }
@@ -105,7 +100,7 @@ export const useProductForm = ({
     fetchData();
   }, [isNewRecord, currentProduct]);
 
-  const handleProductsave = async (
+  const handleSave = async (
     values: ProductFormSchemaType,
     productStocks: ProductStock[]
   ) => {
@@ -140,7 +135,7 @@ export const useProductForm = ({
           categoryId: values.categoryId,
         };
 
-    const resp = await productInsertOrUpdate(product);
+    const resp = await productInsertOrUpdateAction(product);
 
     if (resp.success) {
       if (isNewRecord) {
@@ -148,13 +143,13 @@ export const useProductForm = ({
         await saveStockInWarehouse(currentProduct!.id, productStocks);
       }
       toast.success(
-        `${ProductBusiness.metadata.singularName} ${
+        `${productMetadata.singularName} ${
           isNewRecord ? "se creó" : "se actualizó"
         } exitósamente.`
       );
     } else {
       toast.error(
-        `Error: No se pudo grabar ${ProductBusiness.metadata.singularName}`,
+        `Error: No se pudo grabar ${productMetadata.singularName}`,
         {
           description: resp.message,
         }
@@ -179,18 +174,18 @@ export const useProductForm = ({
       };
     });
 
-    const respWarehouse = await warehouseInsertMany(warehouses);
+    const respWarehouse = await warehouseInsertManyAction(warehouses);
 
     if (!respWarehouse.success) {
       toast.error(
-        `Error: No se pudo grabar stock ${WarehouseBusiness.metadata.singularName}`,
+        `Error: No se pudo grabar stock ${warehouseMetadata.singularName}`,
         {
           description: respWarehouse.message,
         }
       );
     } else {
       toast.success(
-        `Stock en ${WarehouseBusiness.metadata.singularName} se creó exitósamente.`
+        `Stock en ${warehouseMetadata.singularName} se creó exitósamente.`
       );
     }
 
@@ -199,7 +194,7 @@ export const useProductForm = ({
 
   return {
     form,
-    handleProductsave,
+    handleSave,
     isPending,
     messageGeneralError,
     setMessageGeneralError,

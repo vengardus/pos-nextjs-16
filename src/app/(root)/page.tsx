@@ -1,10 +1,10 @@
 import "@/styles/home.css";
 import { Features } from "@/app/(root)/components/features";
 import { Footer } from "@/components/layout/footer/footer";
-import { authGetSession } from "@/actions/auth/auth.get-session.action";
+import { authGetSessionUseCase } from "@/server/modules/auth/use-cases/auth.get-session.use-case";
 
 export default async function HomePage() {
-  const resp = await authGetSession();
+  const resp = await authGetSessionUseCase();
   const { isAuthenticated, sessionUser } = resp.data;
 
   return (

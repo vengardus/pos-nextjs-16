@@ -1,11 +1,8 @@
 import type { Company } from "@/types/interfaces/company/company.interface";
 import { ModuleEnum } from "@/types/enums/module.enum";
-import { companyGetByUserCached } from "@/actions/companies/cache/company.cache";
+import { companyGetByUserCached } from "@/lib/data/companies/company.cache";
 import { hasModulePermission } from "./has-module-permission.use-case";
 import { getAuthCached } from "./get-auth.cached";
-import { ResponseAction } from "@/types/interfaces/common/response-action.interface";
-import { cacheTag } from "next/cache";
-import { companyGetByUser } from "@/actions/companies/querys/company.get-by-user.action";
 
 
 interface checkAuthenticationAndPermissionResult {
@@ -30,7 +27,7 @@ export const checkAuthenticationAndPermission = async (
   };
 
   // verify user authentication
-  //const sessionResponse = await authGetSession();
+  //const sessionResponse = await authGetSessionUseCase();
   const sessionResponse = await getAuthCached();
 
   if (!sessionResponse.data.isAuthenticated) {
@@ -68,14 +65,3 @@ export const checkAuthenticationAndPermission = async (
   response.company = company;
   return response;
 };
-
-
-export async function companyGetByUserCached3(
-  userId: string,
-  role: string
-): Promise<ResponseAction> {
-  "use cache";
-  cacheTag(`company-user-${userId}`);
-  //cacheLife(CacheConfig.CacheDurations);
-  return await companyGetByUser(userId, role);
-}

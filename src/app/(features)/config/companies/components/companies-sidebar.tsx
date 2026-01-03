@@ -2,7 +2,7 @@
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { cn } from "@/utils/tailwind/cn";
-import { AppConstants } from "@/constants/app.constants";
+import { AppConstants } from "@/shared/constants/app.constants";
 
 export const CompaniesSidebar = () => {
   const pathname = usePathname();

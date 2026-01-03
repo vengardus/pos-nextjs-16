@@ -1,6 +1,6 @@
 import { cn } from "@/utils/tailwind/cn";
 
-import { AppConstants } from "@/constants/app.constants";
+import { AppConstants } from "@/shared/constants/app.constants";
 import type { NavbarItem } from "@/types/interfaces/ui/navbar-item.interface";
 
 interface NavbarButtonSignInProps {

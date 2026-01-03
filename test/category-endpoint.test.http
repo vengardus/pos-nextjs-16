@@ -1,0 +1,45 @@
+### 0) ai/execute
+POST http://localhost:3000/api/ai/execute
+Content-Type: application/json
+
+{
+  "prompt": "agrega categoria yogures naturales",
+  "auth_code": ""
+}
+
+### 1) Crear categoría nueva (insert)
+POST http://localhost:3000/api/ai/categories
+Content-Type: application/json
+
+{
+  "id": null,
+  "name": "Categoría de prueba",
+  "color": "#FF5733",
+  "companyId": "0c372b0a-8c59-42d9-bbc7-56430a5a4f2a"
+}
+
+### 2) Actualizar categoría existente (update)
+POST http://localhost:3000/api/categories
+Content-Type: application/json
+
+{
+  "id": "ID_EXISTENTE_DE_LA_CATEGORIA",
+  "name": "Categoría de prueba editada",
+  "companyId": "TU_COMPANY_ID_AQUI"
+}
+
+### 3) Body vacío (debería dar error de validación / lógica)
+POST http://localhost:3000/api/categories
+Content-Type: application/json
+
+{}
+
+### 4) Body inválido (forzar error)
+POST http://localhost:3000/api/categories
+Content-Type: application/json
+
+{
+  "id": null,
+  "name": 12345,
+  "companyId": "TU_COMPANY_ID_AQUI"
+}

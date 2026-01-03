@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import type { CashRegister } from "@/types/interfaces/cash-register/cash-register.interface";
-import { CashRegisterBusiness } from "@/business/cash-register.business";
 import {
   CashRegisterFormSchema,
   CashRegisterFormSchemaType,
@@ -11,7 +10,8 @@ import {
 import { toCapitalize } from "@/utils/formatters/to-capitalize";
 import { useBranchStore } from "@/stores/branch/branch.store";
 import { initResponseAction } from "@/utils/response/init-response-action";
-import { cashRegisterInsertOrUpdate } from "@/actions/cash-register/mutations/cash-register.insert-or-update.action";
+import { cashRegisterInsertOrUpdateAction } from "@/server/modules/cash-register/next/actions/cash-register.insert-or-update.action";
+import { getModelMetadata } from "@/server/common/model-metadata";
 
 const defaultValues: CashRegisterFormSchemaType = {
   description: "",
@@ -28,6 +28,7 @@ export const useCashRegisterForm = ({ currentRow }: CashRegisterFormProps) => {
   );
   const selectedBranch = useBranchStore((state) => state.selectedBranch);
   const isNewRecord = !currentRow;
+  const cashRegisterMetadata = getModelMetadata("cashRegister");
 
   const form = useForm<CashRegisterFormSchemaType>({
     resolver: zodResolver(CashRegisterFormSchema),
@@ -71,21 +72,22 @@ export const useCashRegisterForm = ({ currentRow }: CashRegisterFormProps) => {
         };
 
     console.log("CashRegister", cashRegister, currentRow);
-    const respInsertOrUpdate = await cashRegisterInsertOrUpdate(cashRegister);
+    const respInsertOrUpdate =
+      await cashRegisterInsertOrUpdateAction(cashRegister);
 
     if (respInsertOrUpdate.success) {
       if (isNewRecord) currentRow = resp.data;
       resp.success = true
       resp.data = respInsertOrUpdate.data
       toast.success(
-        `${CashRegisterBusiness.metadata.singularName} ${
+        `${cashRegisterMetadata.singularName} ${
           isNewRecord ? "se creó" : "se actualizó"
         } exitósamente.`
       );
     } else {
       resp.message = respInsertOrUpdate.message
       toast.error(
-        `Error: No se pudo grabar ${CashRegisterBusiness.metadata.singularName}`,
+        `Error: No se pudo grabar ${cashRegisterMetadata.singularName}`,
         {
           description: resp.message,
         }

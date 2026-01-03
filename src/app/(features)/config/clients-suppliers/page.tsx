@@ -1,23 +1,36 @@
 import { ShowPageMessage } from "@/components/common/messages/show-page-message";
 import { ModuleEnum } from "@/types/enums/module.enum";
-import { ClientSupplierList } from "./components/client-supplier-list";
-import { clientSupplierGetAllByCompanyCached } from "@/actions/clients-suppliers/cache/client-supplier.cache";
 import { checkAuthenticationAndPermission } from "@/services/auth/check-authentication-and-permission.use-case";
+import { clientSupplierGetAllByCompanyCached } from "@/lib/data/clients-suppliers/client-supplier.cache";
+import { getModelMetadata } from "@/server/common/model-metadata";
+import { ListDef } from "./components/list-def";
 
 export default async function ConfigClientsSuppliersPage() {
+  const clientSupplierMetadata = getModelMetadata("clientSupplier");
   // Verify user authentication and permission
   const authenticatationAndPermissionResponse = await checkAuthenticationAndPermission(
-    ModuleEnum.pos
+    ModuleEnum.clients
   );
   if (!authenticatationAndPermissionResponse.isAuthenticated)
-    return <ShowPageMessage customMessage={authenticatationAndPermissionResponse.errorMessage} />;
+    return (
+      <ShowPageMessage
+        customMessage={authenticatationAndPermissionResponse.errorMessage}
+      />
+    );
   const company = authenticatationAndPermissionResponse.company!;
 
   // obteber clientssuppliers
-  const respClientsSuppliers = await clientSupplierGetAllByCompanyCached(company.id);
+  const respClientsSuppliers = await clientSupplierGetAllByCompanyCached(
+    company.id
+  );
   if (!respClientsSuppliers.success) {
-    return <ShowPageMessage modelName={`Clientes`} errorMessage={respClientsSuppliers.message} />;
+    return (
+      <ShowPageMessage
+        modelName={clientSupplierMetadata.pluralName}
+        errorMessage={respClientsSuppliers.message}
+      />
+    );
   }
 
-  return <ClientSupplierList clientssuppliers={respClientsSuppliers.data} companyId={company.id} />;
+  return <ListDef data={respClientsSuppliers.data} companyId={company.id} />;
 }

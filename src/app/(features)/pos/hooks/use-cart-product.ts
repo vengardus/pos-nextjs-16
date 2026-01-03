@@ -2,14 +2,14 @@ import { useEffect, useRef } from "react";
 import { toast } from "sonner";
 import type { Product } from "@/types/interfaces/product/product.interface";
 import type { Sale } from "@/types/interfaces/sales/sale.interface";
-import type{ PosPayment } from "@/types/interfaces/pos-payment/pos-payment.interface";
-import { AppConstants } from "@/constants/app.constants";
+import type { PosPayment } from "@/types/interfaces/pos-payment/pos-payment.interface";
+import { AppConstants } from "@/shared/constants/app.constants";
 import { useCartStore } from "@/stores/cart/cart.store";
 import { useClientSupplierStore } from "@/stores/client-supplier/client-supplier.store";
 import { useCompanyStore } from "@/stores/company/company.store";
 import { useProductStore } from "@/stores/product/product.store";
 import { useRealTimeStore } from "@/stores/general/real-time.store";
-import { saleInsert } from "@/actions/sales/mutations/sale.insert.action";
+import { saleInsertAction } from "@/server/modules/sale/next/actions/sale.insert.action";
 import { generateSaleTicket } from "@/services/tickets/sale/sale-ticket.use-case";
 
 export const useCartProdut = () => {
@@ -117,7 +117,7 @@ export const useCartProdut = () => {
       SaleDetail: [],
     };
 
-    const resp = await saleInsert(cart, sale, posPayment);
+    const resp = await saleInsertAction(cart, sale, posPayment);
 
     setIsLoading(false);
     if (!resp.success) {

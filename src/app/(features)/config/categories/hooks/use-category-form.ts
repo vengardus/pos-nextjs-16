@@ -3,18 +3,18 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import type { Category } from "@/types/interfaces/category/category.interface";
-import { CategoryBusiness } from "@/business/category.business";
 import {
   CategoryFormSchema,
   CategoryFormSchemaType,
 } from "@/app/(features)/config/categories/schemas/category-form.schema";
-import { toCapitalize } from "@/utils/formatters/to-capitalize";
-import { categoryInsertOrUpdate } from "@/actions/categories/category.insert-or-update.action";
+import { categoryInsertOrUpdateAction } from "@/server/modules/category/next/actions/category.insert-or-update.action";
+import type { CategoryInput } from "@/server/modules/category/domain/category.input.schema";
+import { getModelMetadata } from "@/server/common/model-metadata";
 
 const defaultValues: CategoryFormSchemaType = {
   name: "",
   color: "",
-  imageUrl: undefined,
+  imageFiles: undefined,
 };
 
 interface CategoryFormProps {
@@ -30,6 +30,7 @@ export const useCategoryForm = ({
     null
   );
   const isNewRecord = !currentCategory;
+  const categoryMetadata = getModelMetadata("category");
 
   const form = useForm<CategoryFormSchemaType>({
     resolver: zodResolver(CategoryFormSchema),
@@ -43,46 +44,49 @@ export const useCategoryForm = ({
         : {
             name: currentCategory!.name,
             color: currentCategory!.color,
+            imageFiles: undefined,
           }
     );
   }, [isNewRecord, currentCategory, form]);
 
-  const handleCategorySave = async (values: CategoryFormSchemaType) => {
-    values.name = toCapitalize(values.name);
+  const handleSave = async (values: CategoryFormSchemaType) => {
     // determinar si es insert or update
     setIsPending(true);
 
-    const category: Category = isNewRecord
-      ? {
-          id: "",
-          name: values.name,
-          color: values.color,
-          companyId: companyId,
-          isDefault: false,
-          createdAt: new Date(),
-        }
-      : {
-          ...currentCategory!,
-          name: values.name,
-          color: values.color,
-          updatedAt: new Date(),
-        };
+    const categoryInput: CategoryInput = {
+      ...(isNewRecord ? {} : { id: currentCategory?.id }),
+      name: values.name,
+      color: values.color,
+      companyId,
+      isDefault: currentCategory?.isDefault ?? false,
+    };
 
-    const resp = await categoryInsertOrUpdate(
-      category,
-      values.imageUrl ?? []
-    );
+    const formData = new FormData();
+    formData.append("category", JSON.stringify(categoryInput));
+
+    const files =
+      values.imageFiles instanceof FileList
+        ? Array.from(values.imageFiles)
+        : Array.isArray(values.imageFiles)
+          ? values.imageFiles
+          : [];
+
+    files.forEach((file) => {
+      formData.append("images", file);
+    });
+
+    const resp = await categoryInsertOrUpdateAction(formData);
 
     if (resp.success) {
       if (isNewRecord) currentCategory = resp.data;
       toast.success(
-        `${CategoryBusiness.metadata.singularName} ${
+        `${categoryMetadata.singularName} ${
           isNewRecord ? "se creó" : "se actualizó"
         } exitósamente.`
       );
     } else {
       toast.error(
-        `Error: No se pudo grabar ${CategoryBusiness.metadata.singularName}`,
+        `Error: No se pudo grabar ${categoryMetadata.singularName}`,
         {
           description: resp.message,
         }
@@ -95,7 +99,7 @@ export const useCategoryForm = ({
 
   return {
     form,
-    handleCategorySave,
+    handleSave,
     isPending,
     messageGeneralError,
     setMessageGeneralError,

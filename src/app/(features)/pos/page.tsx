@@ -3,8 +3,8 @@ import { ModuleEnum } from "@/types/enums/module.enum";
 import { checkAuthenticationAndPermission } from "@/services/auth/check-authentication-and-permission.use-case";
 import { ShowPageMessage } from "@/components/common/messages/show-page-message";
 import { PosPageClient } from "./page-client";
-import { branchUserGetAllByUserCached } from "@/actions/branch-users/cache/branch-user.cache";
-import { cashRegisterDetermineActiveCashRegisterCached } from "@/actions/cash-register/cache/cash-register.cache";
+import { branchUserGetAllByUserCached } from "@/server/modules/branch-user/next/cache/branch-user.cache";
+import { cashRegisterDetermineActiveCashRegisterCached } from "@/lib/data/cash-register/cash-register.cache";
 
 export default async function PosPage() {
   // Verify user authentication and permission
@@ -45,7 +45,7 @@ export default async function PosPage() {
 
   const cashRegisterDecision = respDetermineActiveCashRegister.data as CashRegisterDecision;
 
-  console.log("cashRegisterDecision:", cashRegisterDecision);
+  //console.log("cashRegisterDecision:", cashRegisterDecision);
 
   return (
     <PosPageClient

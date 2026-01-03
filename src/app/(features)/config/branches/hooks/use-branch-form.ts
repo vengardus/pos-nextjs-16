@@ -3,13 +3,13 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import type { Branch } from "@/types/interfaces/branch/branch.interface";
-import { BranchBusiness } from "@/business/branch.business";
 import {
   BranchFormSchema,
   BranchFormSchemaType,
 } from "@/app/(features)/config/branches/schemas/branch-form.schema";
 import { toCapitalize } from "@/utils/formatters/to-capitalize";
-import { branchInsertOrUpdate } from "@/actions/branches/mutations/branch.insert-or-update.action";
+import { branchInsertOrUpdateAction } from "@/server/modules/branch/next/actions/branch.insert-or-update.action";
+import { getModelMetadata } from "@/server/common/model-metadata";
 
 const defaultValues: BranchFormSchemaType = {
   name: "",
@@ -25,6 +25,7 @@ export const useBranchForm = ({ currentRow, companyId }: BranchFormProps) => {
   const [isPending, setIsPending] = useState(false);
   const [messageGeneralError, setMessageGeneralError] = useState<string | null>(null);
   const isNewRecord = !currentRow;
+  const branchMetadata = getModelMetadata("branch");
 
   const form = useForm<BranchFormSchemaType>({
     resolver: zodResolver(BranchFormSchema),
@@ -67,17 +68,17 @@ export const useBranchForm = ({ currentRow, companyId }: BranchFormProps) => {
         };
 
     console.log("Branch", branch);
-    const resp = await branchInsertOrUpdate(branch);
+    const resp = await branchInsertOrUpdateAction(branch);
 
     if (resp.success) {
       if (isNewRecord) currentRow = resp.data;
       toast.success(
-        `${BranchBusiness.metadata.singularName} ${
+        `${branchMetadata.singularName} ${
           isNewRecord ? "se creó" : "se actualizó"
         } exitósamente.`
       );
     } else {
-      toast.error(`Error: No se pudo grabar ${BranchBusiness.metadata.singularName}`, {
+      toast.error(`Error: No se pudo grabar ${branchMetadata.singularName}`, {
         description: resp.message,
       });
     }

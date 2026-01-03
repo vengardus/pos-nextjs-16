@@ -15,24 +15,24 @@ import { ChartConfig } from "@/components/ui/chart";
 
 import type { PaymentMethod } from "@/types/interfaces/payment-method/payment-method.interface";
 import type { CashRegisterMovementTotal } from "@/types/interfaces/cash-register-movement/cash-register-movement-total-summary.interface";
-import { AppConstants } from "@/constants/app.constants";
-import { useRealtimeUpdate } from "@/hooks/supabase/use-realtime-update";
+import { AppConstants } from "@/shared/constants/app.constants";
+// import { useRealtimeUpdate } from "@/hooks/supabase/use-realtime-update";
 import { useDateRangeStore } from "@/stores/dashboard/date-range.store";
 import { dateToStringLocal } from "@/utils/date/date-to-string-local";
 import GenericPieChart from "@/components/common/charts/generic-pie-chart";
-import { useRealTimeStore } from "@/stores/general/real-time.store";
-import { cashRegisterMovementGetTotalsCached } from "@/actions/cash-register-movement/cache/cash-register-movement.cache";
-import { updateTags } from "@/infrastructure/cache/revalidate-tags";
+// import { useRealTimeStore } from "@/stores/general/real-time.store";
+import { updateTagsAction } from "@/server/next/actions/updateTags.action";
+import { cashRegisterMovementGetTotalsAction } from "@/server/modules/cash-register-movement/next/actions/cash-register-movement.get-totals.action";
+import { useCashMovementsBroadcast } from "@/app/(features)/dashboard/hooks/supabase/use-realtime-broadcast";
 
 interface SalesPieChartProps {
   companyId: string;
   paymentMethods: PaymentMethod[];
 }
 
-export function SalesPieChart({
-  companyId,
-  paymentMethods,
-}: SalesPieChartProps) {
+export function SalesPieChart({ companyId, paymentMethods }: SalesPieChartProps) {
+  console.log("[SalesPieChart] MOUNT");
+
   const startDate = useDateRangeStore((state) => state.startDate);
   const endDate = useDateRangeStore((state) => state.endDate);
   const [chartData, setChartData] = useState<any[]>([]);
@@ -41,23 +41,27 @@ export function SalesPieChart({
 
   const [revalidate, setRevalidate] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(true);
-  const { reset } = useRealtimeUpdate("cash_register_movements");
-  const updated = useRealTimeStore((state) => state.updated);
+  // const { reset } = useRealtimeUpdate("cash_register_movements");
+  // const updated = useRealTimeStore((state) => state.updated);
+  const { updated, reset } = useCashMovementsBroadcast();
+
 
   useEffect(() => {
     const revalidateMovements = async () => {
       console.log("revalidateMovements!!!");
       // revalidate para forzar consulta a la BD (getTotals() mas abajo en el otro useEffect)
-      await updateTags([
+      await updateTagsAction([
         `cash-register-movements-totals-${companyId}`,
-        `top-selling-products-${companyId}`
+        `top-selling-products-${companyId}`,
       ]);
     };
 
     if (updated) {
       console.log("updated real time!!!!");
       revalidateMovements();
-      setRevalidate(true);
+      //setRevalidate(true);
+      setRevalidate((prev) => !prev);
+
       reset(); // Resetea el estado del hook para esperar el siguiente cambio
       console.log("reset real time!!");
     }
@@ -68,7 +72,7 @@ export function SalesPieChart({
       setIsLoading(true);
 
       console.log("Execute real time");
-      const resp = await cashRegisterMovementGetTotalsCached({
+      const resp = await cashRegisterMovementGetTotalsAction({
         typeQuery: "by-date-range",
         cashRegisterClosureId: "",
         paymentMethods,
@@ -91,26 +95,19 @@ export function SalesPieChart({
           return {
             tag: item.code,
             value: item.amount,
-            fill: item.color?.length
-              ? item.color
-              : AppConstants.DEFAULT_VALUES.colors.chart,
+            fill: item.color?.length ? item.color : AppConstants.DEFAULT_VALUES.colors.chart,
             label: item.label,
           };
         });
 
       const chartConfig = totals.summary
         .filter(
-          (item) =>
-            item.type == "sales" &&
-            !item.isAccumulatedTotal &&
-            item.code !== undefined
+          (item) => item.type == "sales" && !item.isAccumulatedTotal && item.code !== undefined
         )
         .reduce((acc, item) => {
           acc[item.code] = {
             label: item.label,
-            color: item.color?.length
-              ? item.color
-              : AppConstants.DEFAULT_VALUES.colors.chart, // Agrega color solo si está definido
+            color: item.color?.length ? item.color : AppConstants.DEFAULT_VALUES.colors.chart, // Agrega color solo si está definido
           };
           return acc;
         }, {} as ChartConfig);
@@ -134,15 +131,14 @@ export function SalesPieChart({
     if (!paymentMethods.length) return;
 
     getTotals();
-    setRevalidate(false);
+    //setRevalidate(false);
   }, [startDate, endDate, paymentMethods, revalidate, companyId]);
 
   return (
     <Card className="flex flex-col mx-auto w-full card">
       <CardHeader className="items-center pb-0">
         <CardTitle className="grid ">
-          Ventas por método de pago{" "}
-          <span className="text-xs text-center">(tiempo real)</span>
+          Ventas por método de pago <span className="text-xs text-center">(tiempo real)</span>
         </CardTitle>
         <CardDescription>
           {dateToStringLocal(startDate)} - {dateToStringLocal(endDate)}
@@ -150,20 +146,11 @@ export function SalesPieChart({
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         {isLoading ? (
-          <div className="my-7 mx-auto w-full flex justify-center">
-            Cargando datos...
-          </div>
+          <div className="my-7 mx-auto w-full flex justify-center">Cargando datos...</div>
         ) : chartData.length <= 0 && !isLoading ? (
-          <div className="my-7 mx-auto w-full flex justify-center">
-            No hay datos para mostrar
-          </div>
+          <div className="my-7 mx-auto w-full flex justify-center">No hay datos para mostrar</div>
         ) : (
-          <GenericPieChart
-            data={chartData}
-            config={chartConfig}
-            valueKey="value"
-            nameKey="tag"
-          />
+          <GenericPieChart data={chartData} config={chartConfig} valueKey="value" nameKey="tag" />
         )}
       </CardContent>
       {!(isLoading || (chartData.length <= 0 && !isLoading)) && (

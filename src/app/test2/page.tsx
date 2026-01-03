@@ -1,4 +1,4 @@
-import { companyGetByUserCached } from "@/actions/companies/cache/company.cache";
+import { companyGetByUserCached } from "@/lib/data/companies/company.cache";
 
 export default async function TestPage() {
   console.log("PreGet");

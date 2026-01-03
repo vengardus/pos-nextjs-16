@@ -1,0 +1,2 @@
+Mueve los archivos en src/actions/categories/* a src/server/category/actions y a la función en cada archivo arégale el sufijo Action si es que no lo tiene.
+Haz las revisones en todas los lugares donde se llama a la función y has los cambios necesarios. Finalmente elimina la carpeta src/actions/categories

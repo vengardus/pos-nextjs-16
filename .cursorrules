@@ -1,0 +1,34 @@
+# Cursor Rules - POS Next.js 16
+
+## Documentación de Referencia
+Para cualquier detalle extendido, casos de borde o ejemplos prácticos de implementación, **debes consultar SIEMPRE** el archivo docs/REGLAS_PROYECTO.md
+## Contexto del Proyecto
+Migración crítica de estructura legacy (`src/lib/data`) a Arquitectura Limpia Modular en `src/server/modules/`.
+
+## Stack y Convenciones
+- **Stack**: Next.js 16, TS, Supabase, Prisma, Tailwind, shadcn/ui, authJs.
+- **Git**: Commits en español (imperativo), formato Conventional Commits. OBLIGATORIO: Commits en español y en modo IMPERATIVO (ej: "feat: agrega..." en lugar de "agregado" o "agregando"). No uses mayúscula inicial ni punto final.
+- **Naming**: Archivos en kebab-case, componentes en PascalCase.
+
+## Reglas de Arquitectura (OBLIGATORIO)
+Cualquier código nuevo en `src/server/modules/<modulo>/` DEBE seguir esta estructura:
+- `domain/`: Schemas (`<modulo>.input.schema.ts`) y tipos.
+- `repository/`: Acceso a datos (`*.repository.ts`).
+- `use-cases/`: Lógica de negocio (`*.use-case.ts`).
+- `next/`: Integración (`actions/*.action.ts`, `cache/*.cache.ts`).
+
+**Nomenclatura Interna**: Prefijo del módulo en cada archivo (ej: `user.create.use-case.ts`).
+
+## Migración y Legacy
+- **PROHIBIDO**: Crear código nuevo en `src/lib/data` y rutas legacy detectadas.
+- **Acción**: Si modificas algo en legacy, trasládalo al módulo correspondiente en `src/server/modules/` bajo la nueva estructura.
+- **Procedimiento**: El movimiento de schemas y utilidades debe hacerse **siguiendo estrictamente los pasos del manual** en `docs/REGLAS_PROYECTO.md`.
+
+## Organización de Carpetas (utils, lib, hooks)
+- **PROHIBIDO**: Crear archivos sueltos en la raíz de `src/utils/`, `src/lib/` o `src/hooks/`.
+- **Obligatorio**: Usar siempre subcarpetas descriptivas (ej: `src/utils/string/`).
+
+## Estilo de Código
+- Priorizar Server Components y Server Actions.
+- Reutilizar componentes de `shadcn/ui`.
+- Mantener tipado estricto (evitar `any`).

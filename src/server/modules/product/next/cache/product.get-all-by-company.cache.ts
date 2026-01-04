@@ -7,7 +7,7 @@ import { unstable_cache as cache } from "next/cache";
 
 import { CacheConfig } from "@/server/next/cache.config";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
-import { productGetAllByCompany } from "./product.get-all-by-company";
+import { productGetAllByCompanyUseCase } from "@/server/modules/product/use-cases/product.get-all-by-company.use-case";
 
 // export const productGetAllByCompanyCached = async (
 //   companyId: string
@@ -25,7 +25,7 @@ export async function productGetAllByCompanyCached(
   console.log("cache=>productGetAllByCompanyCached");
   const fn = cache(
     async () => {
-      return productGetAllByCompany(companyId);
+      return productGetAllByCompanyUseCase(companyId);
     },
     [`products-${companyId}`], // ahora sí existe
     {

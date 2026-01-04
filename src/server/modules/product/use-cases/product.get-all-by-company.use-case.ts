@@ -1,14 +1,12 @@
-
-import 'server-only'
-
-import prisma from "@/server/db/prisma";
+import "server-only";
 
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import type { Product } from "@/types/interfaces/product/product.interface";
 import { getActionError } from "@/utils/errors/get-action-error";
 import { initResponseAction } from "@/utils/response/init-response-action";
+import { productGetAllByCompanyRepository } from "../repository/product.get-all-by-company.repository";
 
-export const productGetAllByCompany = async (
+export const productGetAllByCompanyUseCase = async (
   companyId: string
 ): Promise<ResponseAction> => {
   const resp = initResponseAction();
@@ -16,17 +14,9 @@ export const productGetAllByCompany = async (
   try {
     if (!companyId) throw new Error("Company id is required");
 
-    const data = await prisma.productModel.findMany({
-      where: { companyId },
-      include: {
-        Category: { select: { name: true } },
-      },
-    });
+    const data = await productGetAllByCompanyRepository(companyId);
 
-    resp.data = data.map((product) => ({
-      ...product,
-      categoryName: product.Category?.name,
-    })) as Product[];
+    resp.data = data as Product[];
     resp.success = true;
     console.log("query=>productGetAllByCompany");
   } catch (error) {

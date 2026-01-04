@@ -1,4 +1,4 @@
-import { productGetAllByCompanyCached } from "@/lib/data/products/product.cache";
+import { productGetAllByCompanyCached } from "@/server/modules/product/next/cache/product.get-all-by-company.cache";
 import { PosProductUI } from "./pos-product-ui";
 
 interface PosProductProps {

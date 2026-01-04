@@ -1,217 +1,136 @@
-# Instrucciones para Codex
+# Manual Maestro de Reglas del Proyecto
 
-## Tech stack
-
-- Next.js 16 (App Router, Server Actions)
-- TypeScript
-- Supabase
-- Prisma (ORM)
-- Auth.js (autenticación)
-- Zustand (estado global en cliente)
-- Tailwind CSS
-- shadcn/ui (componentes UI)
-- Vercel AI SDK (`ai`)
-
-## Convenciones de Git: commits y PRs
-
-### Mensajes de commit
-- Usa **Conventional Commits** para todos los commits.
-- El `subject` del commit (línea de título) debe estar **siempre en español**.
-- Formato: `<type>(<scope>): <mensaje>`
-  - `<type>` ∈ {feat, fix, chore, docs, refactor, test}
-  - `<scope>` es opcional.
-- No uses mayúscula inicial en el mensaje salvo nombres propios.
-- No agregues punto final al `subject`.
-
-#### Ejemplos
-
-- feat(api): agregar endpoint para crear usuarios
-- fix(ui): corregir desbordamiento en tabla de reportes
-- chore(ci): actualizar flujo de despliegue en staging
-
-### Pull Requests
-- Incluye resumen breve en español.
-- Enumera cambios principales en viñetas.
-- Menciona breaking changes si las hay.
+Este documento establece los lineamientos técnicos, arquitectónicos y de colaboración para el proyecto **POS Next.js 16**. Es de cumplimiento obligatorio para todos los desarrolladores y agentes de IA.
 
 ---
 
-## Convenciones de código y arquitectura
+## 1. Stack Tecnológico
 
-Estas reglas aplican a todo el código generado o modificado en este repositorio (Next.js 16, TypeScript, Supabase, Tailwind, auth.js, shadcn/ui, Prisma, Zustand, ai sdk vercel).
+El proyecto utiliza las siguientes tecnologías en sus versiones más recientes y estables:
 
-### Estructura de archivos y nombres
+- **Framework**: Next.js 16 (App Router, Server Actions).
+- **Lenguaje**: TypeScript.
+- **Base de Datos**: Supabase (PostgreSQL).
+- **ORM**: Prisma.
+- **Autenticación**: Auth.js.
+- **Estado Global**: Zustand (Cliente).
+- **Estilos**: Tailwind CSS.
+- **Componentes UI**: shadcn/ui.
+- **IA Integration**: Vercel AI SDK.
 
-- Respeta la **estructura de carpetas existente**.  
-  - No crees nuevas carpetas ni módulos a menos que el usuario lo pida explícitamente.
-- Nombres de archivos:
-  - Usa nombres en **kebab-case** con segmentos descriptivos, por ejemplo:
-    - `register-closure-header.tsx`
-    - `user-profile-card.tsx`
-    - `use-session-store.ts`
-  - Usa sufijos coherentes según el tipo de archivo:
-    - Componentes React: `*.tsx`
-    - Hooks: `use-*.ts` o `use-*.tsx`
-    - Stores de Zustand: `*.store.ts`
-    - Schemas/validaciones: `*.schema.ts`
-    - Utilidades: `*.utils.ts`
+---
+
+## 2. Convenciones de Git
+
+### Mensajes de Commit
+- **Formato**: `<type>(<scope>): <mensaje>`
+- **Idioma**: El mensaje (`subject`) debe estar siempre en **español** e **imperativo**.
+- **Conventional Commits**:
+  - `feat`: Nueva funcionalidad.
+  - `fix`: Corrección de errores.
+  - `chore`: Tareas de mantenimiento (deps, config).
+  - `docs`: Cambios en documentación.
+  - `refactor`: Mejora de código sin cambiar funcionalidad.
+  - `test`: Añadir o corregir pruebas.
+- **Reglas**:
+  - Sin mayúscula inicial en el mensaje (salvo nombres propios).
+  - Sin punto final al final del mensaje.
+- **Ejemplos de Mensajes de Commit (Modo Imperativo)**
+
+| Tipo | ❌ Incorrecto | ✅ Correcto (Imperativo) |
+| :--- | :--- | :--- |
+| **feat** | feat: agregar validación... | feat: agrega validación... |
+| **fix** | fix: corregido error en... | fix: corrige error en... |
+| **refactor** | refactor: moviendo archivos... | refactor: mueve archivos... |
+
+### Pull Requests
+- Resumen breve en español.
+- Lista de cambios principales.
+- Mención explícita de *Breaking Changes*.
+
+---
+
+## 3. Principios de Código (TypeScript y Tailwind)
+
+### TypeScript
+- Uso estricto de **TypeScript** en todo código nuevo.
+- Definir interfaces claras para props, respuestas de API y estados.
+- Preferir `unknown` sobre `any`.
+- Uso de tipos modernos (`as const`, generics, narrowing).
+
+### Tailwind CSS y UI
+- Utilizar el sistema de diseño basado en **Tailwind** y **shadcn/ui**.
+- Reutilizar componentes de `@/components/ui/`.
 - Componentes React:
   - El **nombre del componente** debe ir en `PascalCase` aunque el archivo esté en `kebab-case`.
   - Ejemplo: archivo `register-closure-header.tsx` → componente `RegisterClosureHeader`.
 
-### TypeScript
+---
 
-- Todo el código nuevo debe estar en **TypeScript**.
-- Declara tipos e interfaces cuando la firma pública lo amerite:
-  - Props de componentes.
-  - Respuestas de APIs.
-  - Stores de Zustand.
-- Prefiere:
-  - `type` o `interface` según el estilo ya existente en el archivo/proyecto.
-  - `unknown` en lugar de `any` cuando sea posible.
-- Usa características modernas de TS:
-  - Tipos genéricos cuando aporten claridad.
-  - `as const` cuando corresponda.
-  - Narrowing de tipos en lugar de casts agresivos.
+## 4. Organización de Carpetas de Soporte (utils, lib, hooks)
 
-### Next.js
+Para evitar la saturación de la raíz en carpetas de soporte, se prohíbe la creación de archivos sueltos. Todo código debe estar categorizado en subcarpetas descriptivas.
 
-- Respeta el patrón actual del proyecto (App Router o Pages Router) según la estructura existente.
-- No cambies páginas existentes (`page.tsx`, `layout.tsx`, etc.) de client a server component (o viceversa) salvo que el usuario lo pida.
-- Para nuevas rutas:
-  - Sigue la **misma estructura de carpetas y naming** que el resto del proyecto.
-  - Copia el patrón de imports, loaders, server actions, etc. desde archivos similares existentes.
-- Si se usan **Server Components**:
-  - Prioriza lógica de datos en server components o server actions cuando corresponda.
-- Si se usan **Client Components**:
-  - Asegúrate de incluir `"use client"` solo cuando sea necesario.
-
-### Tailwind, shadcn/ui y UI
-
-- Usa **Tailwind** siguiendo los patrones ya presentes en el proyecto.
-- Para componentes shadcn/ui:
-  - Importa desde las rutas ya definidas en el proyecto (por ejemplo `@/components/ui/button`) en lugar de nuevas rutas.
-  - Respeta la composición y variantes utilizadas en otros componentes.
-- No mezcles patrones de diseño distintos sin necesidad:
-  - Si un flujo usa ya un patrón de “card + header + body”, respeta ese patrón en las nuevas pantallas relacionadas.
-
-### Supabase, auth.js, Prisma, Zustand
-
-- **Supabase**:
-  - Reutiliza el cliente de Supabase ya existente (no crees uno nuevo).
-  - Sigue el patrón actual para:
-    - manejo de sesiones
-    - llamadas RPC
-    - suscripciones en tiempo real
-- **auth.js**:
-  - Reutiliza funciones/helpers ya definidos para:
-    - obtener sesión/usuario actual
-    - proteger rutas
-  - No dupliques lógica de autenticación.
-- **Prisma**:
-  - Reutiliza el único `PrismaClient` compartido del proyecto (no crees instancias nuevas).
-  - Sigue el patrón de acceso a datos ya existente (repositorios, servicios, etc., si los hay).
-- **Zustand**:
-  - Reutiliza stores existentes antes de crear uno nuevo.
-  - Nuevas piezas de estado global deben integrarse en el store apropiado, siempre que tenga sentido.
+### Regla Estricta
+- **PROHIBIDO**: Crear archivos directos en `src/utils/`, `src/lib/` o `src/hooks/`.
+- **Correcto**: `src/utils/string/string.utils.ts` o `src/utils/formatters/currency.utils.ts`.
 
 ---
 
-## Reglas del asistente para este proyecto
+## 5. Categorización de Utilidades (Global vs Módulo)
 
-Estas reglas son **obligatorias** para el asistente cuando trabaje en este repositorio.
+Es vital distinguir entre utilidades que sirven a todo el proyecto y aquellas que son exclusivas de la lógica de un módulo.
 
-### 1. Respeto a estándares del proyecto
+### Utilidades Globales
+Son funciones genéricas que no dependen de la lógica de negocio de un módulo específico (ej: formateo de fechas, manipulación de strings, cálculos matemáticos genéricos).
+- **Ubicación**: `src/utils/<categoria>/<nombre>.utils.ts`
+- **Ejemplo**: `src/utils/string/slug.utils.ts`
 
-- Debes **respetar la estructura de carpetas existente**.
-  - No crees nuevas carpetas ni módulos a menos que el usuario lo pida explícitamente.
-- Sigue siempre las **convenciones de nombres** ya usadas en el proyecto:
-  - Variables y funciones en `camelCase`.
-  - Clases y componentes en `PascalCase`.
-  - Archivos en `kebab-case`, ej: `register-closure-header.tsx`.
-  - Hooks comenzando por `use*`.
-- No cambies nombres existentes (funciones, clases, archivos, carpetas, variables públicas, stores) salvo que el usuario lo solicite explícitamente.
+### Utilidades de Módulo
+Son funciones que contienen lógica de negocio específica o dependencias de un módulo concreto.
+- **Ubicación**: `src/server/modules/<modulo>/utils/` (o integradas en `use-cases/` si son muy específicas).
+- **Ejemplo**: `src/server/modules/sale/utils/calculate-tax.utils.ts`
 
-### 2. Reutilización de código y librerías
+---
 
-- Antes de proponer o crear:
-  - una nueva función,
-  - clase,
-  - hook,
-  - helper,
-  - store de Zustand,
-  - servicio,
-  - módulo,
-  
-  debes **intentar reutilizar** algo ya existente, siguiendo el contexto de código que tengas.
-- Preferencias:
-  - **Primero** reutilizar funciones, hooks, componentes y stores ya definidos en el proyecto.
-  - **Segundo** extender/componer los existentes (por ejemplo, envolver un componente shadcn con lógica propia).
-  - **Último recurso**: crear archivos nuevos, y solo si el usuario no indicó lo contrario.
-- Librerías:
-  - Usa **librerías ya presentes en el proyecto**.
-  - Propón nuevas dependencias solo si es estrictamente necesario y siempre resaltando que son nuevas.
+## 6. Arquitectura de Servidor (Modular Clean Architecture)
 
-### 3. Uso de archivos de ejemplo como plantilla
+El núcleo del negocio se centraliza en `src/server/modules/`. Cada módulo debe seguir una jerarquía estricta:
 
-Cuando el usuario diga algo como “sigue el ejemplo de `<archivo>`” o “usa `<archivo>` como referencia”:
+### Estructura de Módulo (`src/server/modules/<nombre-modulo>/`)
 
-- Trata ese archivo **como plantilla** para:
-  - Estructura general del componente/módulo.
-  - Patrones de diseño (servicios, hooks, stores, server actions, etc.).
-  - Estilo de imports y exports (incluyendo alias como `@/components/...`, `@/lib/...`, etc.).
-  - Tipos e interfaces de TypeScript.
-  - Manejo de errores, logs, loading states y validaciones.
-- Respeta:
-  - El orden de secciones: imports, tipos, constantes, hooks, componente principal, exports.
-  - El estilo de las llamadas a funciones y la forma de inyectar dependencias o parámetros.
-- Si implementas nuevas funciones/clases/componentes basados en ese ejemplo:
-  - Mantén firmas de funciones, nombres de parámetros y forma de uso **lo más parecidos posible** al ejemplo, adaptándolos solo a la nueva funcionalidad.
+1.  **`domain/`**:
+    *   Esquemas de validación de Zod (ej: `category.input.schema.ts`).
+    *   Definiciones de tipos e interfaces del dominio.
+2.  **`repository/`**:
+    *   Acceso directo a datos (Prisma/Supabase).
+    *   Sufijo obligatorio: `*.repository.ts`.
+3.  **`use-cases/`**:
+    *   Lógica de negocio pura.
+    *   Sufijo obligatorio: `*.use-case.ts`.
+4.  **`next/`**: Integración con el framework Next.js.
+    *   **`actions/`**: Server Actions. Sufijo: `*.action.ts`.
+  *   **`cache/`**: Lógica de revalidación y caché. Sufijo: `*.cache.ts`.
 
-### 4. Código óptimo y uso de funciones modernas
+### Regla de Nomenclatura
+Todos los archivos internos deben llevar el nombre del módulo como prefijo.
+*   Ejemplo: `category.get-by-id.repository.ts`.
 
-- El código generado debe ser **claro, conciso y moderno**, evitando complejidad innecesaria.
-- Usa características modernas de JavaScript/TypeScript cuando aporten valor:
-  - `const` y `let` (no `var`).
-  - Funciones flecha cuando encajen.
-  - `async/await` en lugar de `then/catch` anidados.
-  - Métodos de arrays modernos (`map`, `filter`, `reduce`, `some`, `every`, `flatMap`, etc.).
-  - Operadores:
-    - optional chaining `?.`
-    - nullish coalescing `??`
-    - destructuring y spread `...`
-- En React/Next:
-  - Evita renders innecesarios y repeticiones de lógica:
-    - Memoiza solo cuando tenga sentido (`useMemo`, `useCallback`).
-    - Extrae componentes/funciones reutilizables.
-  - Evita estados o efectos que no sean necesarios:
-    - Prefiere derivar valores de props/estado en lugar de duplicar estado.
-- No sacrifiques **legibilidad** por micro-optimizaciones salvo que el usuario lo pida explícitamente.
+---
 
-### 5. Modificación de código existente
+## 7. Lineamientos de Migración
 
-- Modifica **el mínimo código necesario** para cumplir la tarea.
-- No hagas refactors amplios ni reestructuraciones completas a menos que el usuario lo pida.
-- Mantén el mismo estilo de:
-  - formato,
-  - comentarios,
-  - logs,
-  - manejo de errores y loaders/skeletons.
-- Si debes elegir entre:
-  - una solución “genérica” o
-  - una solución que **siga la forma en que ya está escrito el proyecto**,  
-  elige siempre **la que respete el estilo del proyecto**.
+Estamos en un proceso de transición desde una estructura legacy hacia la arquitectura modular.
 
-### 6. Comunicación en las respuestas
+- **Legacy**: `src/lib/data`, schemas globales y utilidades antiguas.
+- **Migración Progresiva**: Cuando se trabaje en una funcionalidad de un módulo existente en legacy, se debe mover la lógica y los schemas a su correspondiente ubicación dentro de `src/server/modules/`.
+- **Prohibición**: NO crear código nuevo en rutas legacy. Todo desarrollo nuevo debe seguir el estándar modular.
 
-- Cuando propongas nuevas funciones, clases, componentes o archivos:
-  - Explica brevemente **qué parte del proyecto estás reutilizando** (por ejemplo:  
-    “esto sigue el patrón de `register-closure-header.tsx`” o “reutiliza el store `use-session-store`”).
-- Si el usuario pide “seguir el ejemplo de X”:
-  - Menciona explícitamente cómo estás usando ese archivo como plantilla:
-    - estructura,
-    - imports,
-    - tipos/interfaces,
-    - manejo de estado,
-    - manejo de errores.
+---
 
+## 8. Instrucciones para el Asistente (IA)
+
+- **Referencia**: Usa siempre este documento como fuente de verdad.
+- **Reutilización**: Antes de crear, busca si existe algo similar en los módulos actuales.
+- **Consistencia**: Mantén el estilo de nombres (kebab-case para archivos, PascalCase para componentes).
+- **Minimalismo**: Realiza el cambio mínimo necesario respetando la arquitectura.

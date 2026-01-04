@@ -1,7 +1,7 @@
 "use server";
 
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
-import { warehouseGetAllByProductCached } from "@/lib/data/warehouses/warehouse.cache";
+import { warehouseGetAllByProductCached } from "@/server/modules/warehouse/next/cache/warehouse.get-all-by-product.cache";
 
 export const warehouseGetAllByProductAction = async (
   productId: string

@@ -22,7 +22,9 @@ export const productInsertOrUpdateAction = async (
   if (resp.success && resp.data) {
     console.log("updateTag", `products-${resp.data.companyId}`);
     updateTag(`products-${resp.data.companyId}`);
+    updateTag(`top-selling-products-${resp.data.companyId}`);
     revalidatePath("/config/products");
+    revalidatePath("/dashboard");
   }
 
   console.timeEnd("product-insert-or-update");

@@ -5,17 +5,6 @@ import type { ResponseAction } from "@/types/interfaces/common/response-action.i
 import type { Company } from "@/types/interfaces/company/company.interface";
 import { getActionError } from "@/utils/errors/get-action-error";
 import { initResponseAction } from "@/utils/response/init-response-action";
-//import { UserRole } from "@/interfaces/app/user-role.enum";
-
-export const companyGetByUser = async (userId: string, role: string): Promise<ResponseAction> => {
-  //TODO: pendiente refactorizar
-  // if (role === UserRole.SUPER_ADMIN || role === UserRole.ADMIN) {
-  //   return getByUserForAdmin(userId);
-  // } else {
-  console.log("role", role, "userId", userId);
-    return getByUserForUser(userId);
-  // }
-};
 
 export const getByUserForAdmin = async (
   userId: string
@@ -61,7 +50,6 @@ export const getByUserForAdmin = async (
 export const getByUserForUser = async (
   userId: string
 ): Promise<ResponseAction> => {
-
   const resp = initResponseAction();
 
   try {
@@ -76,14 +64,13 @@ export const getByUserForUser = async (
               select: {
                 id: true,
                 name: true,
-                taxId: true
-              }
-            }
-          }
-        }
-      }
-    })
-
+                taxId: true,
+              },
+            },
+          },
+        },
+      },
+    });
 
     const data = await prisma.branchUserModel.findFirst({
       where: { userId: userId as string },

@@ -1,4 +1,4 @@
-import { companyGetByUserCached } from "@/lib/data/companies/company.cache";
+import { companyGetByUserCached } from "@/server/modules/company/next/cache/company.get-by-user.cache";
 
 export default async function TestPage() {
   console.log("PreGet");

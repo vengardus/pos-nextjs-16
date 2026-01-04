@@ -1,25 +1,20 @@
-import 'server-only'
+import 'server-only';
 
-import prisma from "@/server/db/prisma";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
-import type { Permission } from "@/types/interfaces/permission/permission.interface";
 import { getActionError } from "@/utils/errors/get-action-error";
 import { initResponseAction } from "@/utils/response/init-response-action";
 
-export const permissionGetAllByCompanyRoleCod = async (
+import { permissionGetAllByCompanyRoleCodRepository } from "../repository/permission.get-all-by-company-role-cod.repository";
+
+export const permissionGetAllByCompanyRoleCodUseCase = async (
   companyId: string,
   roleCod: string
 ): Promise<ResponseAction> => {
   const resp = initResponseAction();
   try {
     if (!roleCod || !companyId) throw new Error("Role y compañia son requeridos");
-    const data = await prisma.permissionModel.findMany({
-      where: {
-        companyId,
-        roleCod,
-      },
-    });
-    resp.data = data as Permission[];
+    const data = await permissionGetAllByCompanyRoleCodRepository(companyId, roleCod);
+    resp.data = data;
     resp.success = true;
     console.log("query=>permissionGetAllByCompanyRoleCod", companyId, roleCod);
   } catch (error) {

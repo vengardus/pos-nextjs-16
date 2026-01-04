@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { Branch } from "@/types/interfaces/branch/branch.interface";
+import type { Branch } from "@/server/modules/branch/domain/branch.types";
 
 interface State {
   branch: Branch; // usado para el pos

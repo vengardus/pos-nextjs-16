@@ -1,4 +1,4 @@
-import type { Branch } from "@/types/interfaces/branch/branch.interface";
+import type { Branch } from "@/server/modules/branch/domain/branch.types";
 import { CashRegisterItem } from "./cash-register-item";
 
 interface CashRegisterListProps {

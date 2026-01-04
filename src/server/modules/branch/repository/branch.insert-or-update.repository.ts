@@ -1,7 +1,7 @@
 import "server-only";
 
 import prisma from "@/server/db/prisma";
-import type { Branch } from "@/types/interfaces/branch/branch.interface";
+import type { Branch } from "../domain/branch.types";
 
 export const branchInsertOrUpdateRepository = async (
   branch: Branch,

@@ -7,7 +7,7 @@ import {
 } from "../../../../../components/ui/card";
 import { Edit2Icon, Trash2Icon } from "lucide-react";
 
-import type { Branch } from "@/types/interfaces/branch/branch.interface";
+import type { Branch } from "@/server/modules/branch/domain/branch.types";
 import { CashRegisterList } from "./cash-register-list";
 import { ButtonDashed } from "../../../../../components/common/buttons/button-dashed";
 import { useModalStore } from "@/stores/general/modal.store";

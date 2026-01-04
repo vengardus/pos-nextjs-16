@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/card";
 import type { Product } from "@/types/interfaces/product/product.interface";
 import type { Category } from "@/types/interfaces/category/category.interface";
-import type { Branch } from "@/types/interfaces/branch/branch.interface";
+import type { Branch } from "@/server/modules/branch/domain/branch.types";
 import { ProductFormSchemaType } from "@/app/(features)/config/products/schemas/product-form.schema";
 import { useProductForm } from "@/app/(features)/config/products/hooks/use-product-form";
 import { useMediaQuery } from "@/shared/hooks/media/use-media-query";

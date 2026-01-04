@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import type { Product } from "@/types/interfaces/product/product.interface";
 import type { ProductStock } from "@/types/interfaces/product/product-stock.interface";
 import type { Warehouse } from "@/types/interfaces/warehouse/warehouse.interface";
-import type { Branch } from "@/types/interfaces/branch/branch.interface";
+import type { Branch } from "@/server/modules/branch/domain/branch.types";
 import {
   ProductFormSchema,
   ProductFormSchemaType,

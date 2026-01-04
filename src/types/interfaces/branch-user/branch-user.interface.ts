@@ -1,4 +1,4 @@
-import { Branch } from "../branch/branch.interface";
+import { Branch } from "@/server/modules/branch/domain/branch.types";
 
 export interface BranchUser {
   id: string;

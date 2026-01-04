@@ -1,4 +1,4 @@
-import type { Branch } from "@/types/interfaces/branch/branch.interface";
+import type { Branch } from "@/server/modules/branch/domain/branch.types";
 import type { Category } from "@/types/interfaces/category/category.interface";
 import type { Product } from "@/types/interfaces/product/product.interface";
 import { ShowPageMessage } from "@/components/common/messages/show-page-message";
@@ -6,7 +6,7 @@ import { ModuleEnum } from "@/types/enums/module.enum";
 import { ListDef } from "./components/list-def";
 import { categoryGetAllByCompanyCached } from "@/server/modules/category/next/cache/category.cache";
 import { productGetAllByCompanyCached } from "@/lib/data/products/product.cache";
-import { branchGetAllByCompanyCached } from "@/lib/data/branches/branch.cache";
+import { branchGetAllByCompanyCached } from "@/server/modules/branch/next/cache/branch.cache";
 import { checkAuthenticationAndPermission } from "@/services/auth/check-authentication-and-permission.use-case";
 
 export default async function ConfigProductsPage() {

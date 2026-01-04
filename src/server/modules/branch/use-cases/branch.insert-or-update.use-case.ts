@@ -1,7 +1,7 @@
 import "server-only";
 
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
-import type { Branch } from "@/types/interfaces/branch/branch.interface";
+import type { Branch } from "../domain/branch.types";
 import { getActionError } from "@/utils/errors/get-action-error";
 import { initResponseAction } from "@/utils/response/init-response-action";
 import { branchInsertOrUpdateRepository } from "../repository/branch.insert-or-update.repository";

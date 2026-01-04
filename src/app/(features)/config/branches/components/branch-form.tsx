@@ -11,7 +11,7 @@ import {
 import {
   Form,
 } from "@/components/ui/form";
-import type { Branch } from "@/types/interfaces/branch/branch.interface";
+import type { Branch } from "@/server/modules/branch/domain/branch.types";
 import { BranchFormSchemaType } from "@/app/(features)/config/branches/schemas/branch-form.schema";
 import { useBranchForm } from "@/app/(features)/config/branches/hooks/use-branch-form";
 import { InputFieldForm } from "../../../../../components/common/form/input-field-form";

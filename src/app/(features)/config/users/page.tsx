@@ -6,7 +6,7 @@ import { CustomCrud } from "./components/custom-crud";
 import { documentTypeGetAllByCompanyCached } from "@/lib/data/document-types/document-type.cache";
 import { userGetAllByCompanyCached } from "@/server/modules/user/next/cache/user.cache";
 import { roleGetAllByCompanyCached } from "@/server/modules/role/next/cache/role.cache";
-import { branchGetAllByCompanyCached } from "@/lib/data/branches/branch.cache";
+import { branchGetAllByCompanyCached } from "@/server/modules/branch/next/cache/branch.cache";
 
 export default async function UserConfigPage() {
   // Verify user authentication and permission

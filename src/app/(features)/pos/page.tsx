@@ -1,10 +1,10 @@
-import type { CashRegisterDecision } from "@/types/interfaces/cash-register/cash-register-decision.interface";
+import type { CashRegisterDecision } from "@/server/modules/cash-register/domain/cash-register.types";
 import { ModuleEnum } from "@/types/enums/module.enum";
 import { checkAuthenticationAndPermission } from "@/services/auth/check-authentication-and-permission.use-case";
 import { ShowPageMessage } from "@/components/common/messages/show-page-message";
 import { PosPageClient } from "./page-client";
 import { branchUserGetAllByUserCached } from "@/server/modules/branch-user/next/cache/branch-user.cache";
-import { cashRegisterDetermineActiveCashRegisterCached } from "@/lib/data/cash-register/cash-register.cache";
+import { cashRegisterDetermineActiveCashRegisterCached } from "@/server/modules/cash-register/next/cache/cash-register.cache";
 
 export default async function PosPage() {
   // Verify user authentication and permission

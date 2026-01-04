@@ -1,7 +1,7 @@
 import "server-only";
 
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
-import type { CashRegister } from "@/types/interfaces/cash-register/cash-register.interface";
+import type { CashRegister } from "@/server/modules/cash-register/domain/cash-register.types";
 import { getActionError } from "@/utils/errors/get-action-error";
 import { initResponseAction } from "@/utils/response/init-response-action";
 import { authGetSessionUseCase } from "@/server/modules/auth/use-cases/auth.get-session.use-case";

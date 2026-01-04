@@ -1,4 +1,4 @@
-import { CashRegisterDecision } from "@/types/interfaces/cash-register/cash-register-decision.interface";
+import { CashRegisterDecision } from "@/server/modules/cash-register/domain/cash-register.types";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 

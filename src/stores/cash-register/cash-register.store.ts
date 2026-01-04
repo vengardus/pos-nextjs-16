@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { CashRegister } from "@/types/interfaces/cash-register/cash-register.interface";
+import type { CashRegister } from "@/server/modules/cash-register/domain/cash-register.types";
 
 interface State {
   cashRegister: CashRegister;             // usada en el post

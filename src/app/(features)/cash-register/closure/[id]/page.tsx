@@ -10,7 +10,7 @@ import { CashRegisterMovementTypeEnum } from "@/types/enums/cash-register-moveme
 import { ShowPageMessage } from "@/components/common/messages/show-page-message";
 import { RegisterClosureUI } from "@/app/(features)/cash-register/closure/[id]/components/register-closure-ui";
 import { RegisterClosureHeaderDate } from "@/app/(features)/cash-register/closure/[id]/components/register-closure-header-date";
-import { CashRegisterStatusEnum } from "@/types/enums/cash-register-status.enum";
+import { CashRegisterStatusEnum } from "@/server/modules/cash-register/domain/cash-register.types";
 import { checkAuthenticationAndPermission } from "@/services/auth/check-authentication-and-permission.use-case";
 import { ModuleEnum } from "@/types/enums/module.enum";
 import { LinkSS } from "@/components/common/links/link-ss";

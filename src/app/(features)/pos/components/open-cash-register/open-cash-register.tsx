@@ -3,8 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { Input } from "../../../../../components/ui/input";
 
 import type { CashRegisterClosure } from "@/types/interfaces/cash-register-closure/cash-register-closure.interface";
-import type { CashRegisterDecision } from "@/types/interfaces/cash-register/cash-register-decision.interface";
-import { CashRegisterStatusEnum } from "@/types/enums/cash-register-status.enum";
+import type { CashRegisterDecision } from "@/server/modules/cash-register/domain/cash-register.types";
+import { CashRegisterStatusEnum } from "@/server/modules/cash-register/domain/cash-register.types";
 import { useCashRegisterDecisionStore } from "@/stores/cash-register/cash-register-decision.store";
 import { usePaymentMethodStore } from "@/stores/payment-method/payment-method.store";
 import { useUserStore } from "@/stores/user/user.store";

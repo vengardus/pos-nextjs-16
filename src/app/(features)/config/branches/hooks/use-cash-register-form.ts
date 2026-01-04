@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import type { CashRegister } from "@/types/interfaces/cash-register/cash-register.interface";
+import type { CashRegister } from "@/server/modules/cash-register/domain/cash-register.types";
 import {
   CashRegisterFormSchema,
   CashRegisterFormSchemaType,

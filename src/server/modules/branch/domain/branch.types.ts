@@ -1,4 +1,4 @@
-import { CashRegister } from "@/types/interfaces/cash-register/cash-register.interface";
+import { CashRegister } from "@/server/modules/cash-register/domain/cash-register.types";
 
 export interface Branch {
     id: string;

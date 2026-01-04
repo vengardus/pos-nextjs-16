@@ -5,7 +5,7 @@ import "server-only";
 import { unstable_cache as cache } from "next/cache";
 
 import { CacheConfig } from "@/server/next/cache.config";
-import { CashRegisterStatusEnum } from "@/types/enums/cash-register-status.enum";
+import { CashRegisterStatusEnum } from "@/server/modules/cash-register/domain/cash-register.types";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import { cashRegisterClosureGetByCashRegisterStatus } from "./cash-register-closure.get-by-cash-register-status";
 import { cashRegisterClosureGetById } from "./cash-register-closure.get-by-id";

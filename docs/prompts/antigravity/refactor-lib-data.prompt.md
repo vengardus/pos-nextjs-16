@@ -1,8 +1,8 @@
 Agente, utiliza la plantilla de @docs/prompts/antigravity/refactor-lib-data.template.md para iniciar una refactorización con los siguientes valores:
 
-NOMBRE_ORIGEN: cash-register-closure
+NOMBRE_ORIGEN: cash-register
 
-NOMBRE_DESTINO: cash-register-closure
+NOMBRE_DESTINO: cash-register
 
 Instrucción:
 

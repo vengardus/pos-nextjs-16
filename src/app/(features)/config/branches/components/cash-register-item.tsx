@@ -1,4 +1,4 @@
-import type { CashRegister } from "@/types/interfaces/cash-register/cash-register.interface";
+import type { CashRegister } from "@/server/modules/cash-register/domain/cash-register.types";
 import { useCashRegisterStore } from "@/stores/cash-register/cash-register.store";
 import { useModalStore } from "@/stores/general/modal.store";
 import { Edit2Icon, Trash2Icon } from "lucide-react";

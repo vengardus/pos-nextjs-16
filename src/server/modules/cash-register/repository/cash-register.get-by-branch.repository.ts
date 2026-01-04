@@ -1,11 +1,11 @@
 import 'server-only'
 
 import prisma from "@/server/db/prisma";
-import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import { getActionError } from "@/utils/errors/get-action-error";
 import { initResponseAction } from "@/utils/response/init-response-action";
+import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 
-export const cashRegisterGetByBranch = async (
+export const cashRegisterGetByBranchRepository = async (
   branchId: string,
 ): Promise<ResponseAction> => {
   const resp = initResponseAction();
@@ -23,7 +23,7 @@ export const cashRegisterGetByBranch = async (
     });
     resp.data = data;
     resp.success = true;
-    console.log("query=>cashRegisterGetByBranch");
+    console.log("query=>cashRegisterGetByBranchRepository");
   } catch (error) {
     resp.message = getActionError(error);
   }

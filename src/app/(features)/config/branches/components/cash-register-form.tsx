@@ -11,7 +11,7 @@ import {
 import {
   Form,
 } from "@/components/ui/form";
-import type { CashRegister } from "@/types/interfaces/cash-register/cash-register.interface";
+import type { CashRegister } from "@/server/modules/cash-register/domain/cash-register.types";
 import { CashRegisterFormSchemaType } from "@/app/(features)/config/branches/schemas/cash-register-form.schema";
 import { useCashRegisterForm } from "@/app/(features)/config/branches/hooks/use-cash-register-form";
 import { InputFieldForm } from "../../../../../components/common/form/input-field-form";

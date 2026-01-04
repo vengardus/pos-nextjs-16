@@ -9,7 +9,7 @@ import type { BranchUser } from "@/types/interfaces/branch-user/branch-user.inte
 import { UserFormSchema, UserFormSchemaType } from "@/app/(features)/config/users/schemas/user-form.schema";
 import { toCapitalize } from "@/utils/formatters/to-capitalize";
 import { useBranchStore } from "@/stores/branch/branch.store";
-import { CashRegister } from "@/types/interfaces/cash-register/cash-register.interface";
+import { CashRegister } from "@/server/modules/cash-register/domain/cash-register.types";
 import { useRoleStore } from "@/stores/role/role.store";
 import { RoleBusiness } from "@/shared/business/role.business";
 import { ResponseAction } from "@/types/interfaces/common/response-action.interface";

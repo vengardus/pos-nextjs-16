@@ -15,7 +15,7 @@ import type {
 import { CashRegisterMovementCategoryEnum } from "@/types/enums/cash-register-movement-category.enum";
 import { CashRegisterMovementTypeEnum } from "@/types/enums/cash-register-movement-type.enum";
 import { PaymentMethodEnum } from "@/types/enums/payment-method.enum";
-import { CashRegisterStatusEnum } from "@/types/enums/cash-register-status.enum";
+import { CashRegisterStatusEnum } from "@/server/modules/cash-register/domain/cash-register.types";
 import { initResponseAction } from "@/utils/response/init-response-action";
 import { getActionError } from "@/utils/errors/get-action-error";
 import { PaymentMethodBusiness } from "@/shared/business/payment-method.business";

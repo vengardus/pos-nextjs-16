@@ -2,21 +2,19 @@ import 'server-only'
 
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import {
-  getByUserForAdmin,
-  getByUserForUser,
+  companyGetByUserForAdminRepository,
+  companyGetByUserForUserRepository,
 } from "@/server/modules/company/repository/company.get-by-user.repository";
 
-export const companyGetByUser = async (
+export const companyGetByUserUseCase = async (
   userId: string,
   role: string
 ): Promise<ResponseAction> => {
   //TODO: pendiente refactorizar
   // if (role === UserRole.SUPER_ADMIN || role === UserRole.ADMIN) {
-  //   return getByUserForAdmin(userId);
+  //   return companyGetByUserForAdminRepository(userId);
   // } else {
   console.log("role", role, "userId", userId);
-  return getByUserForUser(userId);
+  return companyGetByUserForUserRepository(userId);
   // }
 };
-
-export { getByUserForAdmin, getByUserForUser };

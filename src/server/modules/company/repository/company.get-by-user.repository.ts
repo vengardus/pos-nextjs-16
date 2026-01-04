@@ -6,7 +6,7 @@ import type { Company } from "@/types/interfaces/company/company.interface";
 import { getActionError } from "@/utils/errors/get-action-error";
 import { initResponseAction } from "@/utils/response/init-response-action";
 
-export const getByUserForAdmin = async (
+export const companyGetByUserForAdminRepository = async (
   userId: string
 ): Promise<ResponseAction> => {
   const resp = initResponseAction();
@@ -47,7 +47,7 @@ export const getByUserForAdmin = async (
  * TODO: pendiente refactorizar
  * Obtiene la compañia del usuario por medio de la sucursal a la que pertenece
  */
-export const getByUserForUser = async (
+export const companyGetByUserForUserRepository = async (
   userId: string
 ): Promise<ResponseAction> => {
   const resp = initResponseAction();

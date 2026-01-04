@@ -1,7 +1,7 @@
 import { ShowPageMessage } from "@/components/common/messages/show-page-message";
 import { ModuleEnum } from "@/types/enums/module.enum";
 import { checkAuthenticationAndPermission } from "@/services/auth/check-authentication-and-permission.use-case";
-import { clientSupplierGetAllByCompanyCached } from "@/lib/data/clients-suppliers/client-supplier.cache";
+import { clientSupplierGetAllByCompanyCached } from "@/server/modules/client-supplier/next/cache/client-supplier.get-all-by-company.cache";
 import { getModelMetadata } from "@/server/common/model-metadata";
 import { ListDef } from "./components/list-def";
 

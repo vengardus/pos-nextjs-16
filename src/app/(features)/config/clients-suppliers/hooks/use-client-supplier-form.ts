@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import type { ClientSupplier } from "@/types/interfaces/client-supplier/client-supplier.interface";
+import type { ClientSupplier } from "@/server/modules/client-supplier/domain/client-supplier.interface";
 import {
   ClientSupplierFormSchema,
   ClientSupplierFormSchemaType,

@@ -31,7 +31,7 @@ import { useSalePaymentDynamicForm } from "@/app/(features)/pos/hooks/use-sale-p
 import { useCartProdut } from "@/app/(features)/pos/hooks/use-cart-product";
 import { toast } from "sonner";
 import { ComboboxForm } from "@/components/common/form/combobox-form";
-import { ClientSupplier } from "@/types/interfaces/client-supplier/client-supplier.interface";
+import { ClientSupplier } from "@/server/modules/client-supplier/domain/client-supplier.interface";
 import { useClientSupplierStore } from "@/stores/client-supplier/client-supplier.store";
 import { InputFieldForm } from "@/components/common/form/input-field-form";
 import { PaymentMethodEnum } from "@/types/enums/payment-method.enum";

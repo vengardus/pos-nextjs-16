@@ -1,7 +1,7 @@
 import "server-only";
 
 import prisma from "@/server/db/prisma";
-import type { ClientSupplier } from "@/types/interfaces/client-supplier/client-supplier.interface";
+import type { ClientSupplier } from "@/server/modules/client-supplier/domain/client-supplier.interface";
 
 export const clientSupplierDeleteByIdRepository = async (
   id: string

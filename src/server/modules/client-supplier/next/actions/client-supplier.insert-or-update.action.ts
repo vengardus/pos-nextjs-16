@@ -2,7 +2,7 @@
 
 import { revalidatePath, updateTag } from "next/cache";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
-import type { ClientSupplier } from "@/types/interfaces/client-supplier/client-supplier.interface";
+import type { ClientSupplier } from "@/server/modules/client-supplier/domain/client-supplier.interface";
 import { clientSupplierInsertOrUpdateUseCase } from "@/server/modules/client-supplier/use-cases/client-supplier.insert-or-update.use-case";
 
 export const clientSupplierInsertOrUpdateAction = async (

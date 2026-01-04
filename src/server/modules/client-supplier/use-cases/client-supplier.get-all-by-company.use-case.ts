@@ -1,13 +1,12 @@
-import 'server-only'
-
-import prisma from "@/server/db/prisma";
+import "server-only";
 
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
-import type { ClientSupplier } from "@/types/interfaces/client-supplier/client-supplier.interface";
+import type { ClientSupplier } from "@/server/modules/client-supplier/domain/client-supplier.interface";
 import { getActionError } from "@/utils/errors/get-action-error";
 import { initResponseAction } from "@/utils/response/init-response-action";
+import { clientSupplierGetAllByCompanyRepository } from "@/server/modules/client-supplier/repository/client-supplier.get-all-by-company.repository";
 
-export const clientSupplierGetAllByCompany = async (
+export const clientSupplierGetAllByCompanyUseCase = async (
   companyId: string
 ): Promise<ResponseAction> => {
   const resp = initResponseAction();
@@ -15,14 +14,7 @@ export const clientSupplierGetAllByCompany = async (
   try {
     if (!companyId) throw new Error("Company id is required");
 
-    const data = await prisma.clientSupplierModel.findMany({
-      where: {
-        companyId,
-      },
-      orderBy: {
-        createdAt: "asc",
-      },
-    });
+    const data = await clientSupplierGetAllByCompanyRepository(companyId);
 
     resp.data = data as ClientSupplier[];
     resp.success = true;

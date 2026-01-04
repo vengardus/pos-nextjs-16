@@ -1,4 +1,4 @@
-import { Company } from "../company/company.interface";
+import { Company } from "@/types/interfaces/company/company.interface";
 
 export interface ClientSupplier {
   id: string;

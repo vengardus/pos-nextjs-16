@@ -1,6 +1,6 @@
 import { ColumnDef } from "@tanstack/react-table";
 import type { ListColumnsResponsiveDef } from "@/components/tables/types/list-columns-responsive-def.interface";
-import type { ClientSupplier } from "@/types/interfaces/client-supplier/client-supplier.interface";
+import type { ClientSupplier } from "@/server/modules/client-supplier/domain/client-supplier.interface";
 import { ScreenSizeEnum } from "@/utils/browser/get-screen-size";
 import { ListColumnSorting } from "@/components/tables/list-column-sorting";
 import { ListColumnActions } from "@/components/tables/list-column-actions";

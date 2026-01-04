@@ -2,7 +2,7 @@ import 'server-only'
 
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import {
-  companyGetByUserForAdminRepository,
+  //companyGetByUserForAdminRepository,
   companyGetByUserForUserRepository,
 } from "@/server/modules/company/repository/company.get-by-user.repository";
 
@@ -18,3 +18,4 @@ export const companyGetByUserUseCase = async (
   return companyGetByUserForUserRepository(userId);
   // }
 };
+ 

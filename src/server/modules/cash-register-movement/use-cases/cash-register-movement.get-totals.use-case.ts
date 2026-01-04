@@ -1,11 +1,5 @@
 import "server-only";
 
-// import {
-//   unstable_cacheLife as cacheLife,
-//   unstable_cacheTag as cacheTag,
-// } from "next/cache";
-import prisma from "@/server/db/prisma";
-
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import type { PaymentMethod } from "@/types/interfaces/payment-method/payment-method.interface";
 import type {
@@ -19,7 +13,7 @@ import { CashRegisterStatusEnum } from "@/server/modules/cash-register/domain/ca
 import { initResponseAction } from "@/utils/response/init-response-action";
 import { getActionError } from "@/utils/errors/get-action-error";
 import { PaymentMethodBusiness } from "@/shared/business/payment-method.business";
-// import { AppConstants } from "@/config/app.constants";
+import { cashRegisterMovementGetTotalsRepository } from "../repository/cash-register-movement.get-totals.repository";
 
 interface MovementTypeTotals {
   total: number;
@@ -37,10 +31,10 @@ interface Totals {
       breakdown: Record<string, number>;
     }
   >;
-  byCashRegisterStatus: Record<CashRegisterStatusEnum, number>; // Por ejemplo, OPENING, CLOSING
+  byCashRegisterStatus: Record<CashRegisterStatusEnum, number>;
 }
 
-interface getTotalsProps {
+interface CashRegisterMovementGetTotalsUseCaseProps {
   cashRegisterClosureId: string;
   paymentMethods: PaymentMethod[];
   typeQuery: "by-cash-register-closure-id" | "by-date-range";
@@ -49,109 +43,27 @@ interface getTotalsProps {
   companyId?: string;
 }
 
-export const cashRegisterMovementGetTotals = async ({
+export const cashRegisterMovementGetTotalsUseCase = async ({
   cashRegisterClosureId,
   paymentMethods,
   typeQuery,
   startDateUTC,
   endDateUTC,
   companyId,
-}: getTotalsProps): Promise<ResponseAction> => {
-  // "use cache";
-  // cacheTag(
-  //   "cash-register-movements" + cashRegisterClosureId,
-  //   "cash-register-movements"
-  // );
-  // cacheLife(AppConstants.DEFAULT_VALUES.cache);
-
+}: CashRegisterMovementGetTotalsUseCaseProps): Promise<ResponseAction> => {
   const resp = initResponseAction();
 
-  // console.log("=====>", { cashRegisterClosureId });
-
   try {
-    let movements = [];
-
-    if (typeQuery === "by-cash-register-closure-id") {
-      if (!cashRegisterClosureId) {
-        throw new Error("cashRegisterClosureId is required");
-      }
-
-      // Obtenemos los movimientos de caja filtrados por el cierre actual (u otro criterio)
-      movements = await prisma.cashRegisterMovementModel.findMany({
-        where: {
-          cashRegisterClosureId,
-        },
-        select: {
-          amount: true,
-          movementCategory: true,
-          paymentMethodCod: true,
-          movementType: true,
-          changeDue: true,
-          date: true,
-        },
-        orderBy: {
-          date: "asc",
-        },
-      });
-    } else {
-      if (!startDateUTC || !endDateUTC) {
-        throw new Error("startDateUTC and endDateUTC are required");
-      }
-
-      // console.log("startDateUTC", startDateUTC);
-      // console.log("endDateUTC", endDateUTC);
-
-      // Obtenemos los movimientos de caja filtrados por el cierre actual (u otro criterio)
-      console.log("Filtrado por fechas:", startDateUTC, endDateUTC);
-      movements = await prisma.cashRegisterMovementModel.findMany({
-        where: {
-          date: {
-            gte: startDateUTC, // Fecha mayor o igual a startDate
-            lte: endDateUTC, // Fecha menor o igual a endDate
-          },
-          // User: {
-          //   Company: {
-          //     some: {
-          //       id: companyId,
-          //     },
-          //   },
-          // },
-
-          // forma de obtener companyId
-          PaymentMethod: {
-            Company: {
-              id: companyId,
-            },
-          },
-        },
-        select: {
-          amount: true,
-          movementCategory: true,
-          paymentMethodCod: true,
-          movementType: true,
-          changeDue: true,
-          date: true,
-          User: {
-            select: {
-              id: true,
-              Company: {
-                select: {
-                  id: true,
-                },
-              },
-            },
-          },
-        },
-        orderBy: {
-          date: "asc",
-        },
-      });
-    }
+    const movements = await cashRegisterMovementGetTotalsRepository({
+      cashRegisterClosureId,
+      typeQuery,
+      startDateUTC,
+      endDateUTC,
+      companyId,
+    });
 
     const dateStart: Date = movements.length ? movements[0].date : new Date();
     const dateEnd = new Date();
-
-    // Estructura para acumular los totales
 
     const totals: Totals = {
       overall: 0,
@@ -164,10 +76,9 @@ export const cashRegisterMovementGetTotals = async ({
           breakdown: Record<PaymentMethodEnum, number>;
         }
       >,
-      byCashRegisterStatus: {} as Record<CashRegisterStatusEnum, number>, // Por ejemplo, OPENING, CLOSING
+      byCashRegisterStatus: {} as Record<CashRegisterStatusEnum, number>,
     };
 
-    // console.log("total(1)", totals);
     movements.forEach((mov) => {
       if (
         mov.movementCategory === CashRegisterMovementCategoryEnum.MOVEMENT_TYPE &&
@@ -177,17 +88,14 @@ export const cashRegisterMovementGetTotals = async ({
       else totals.overall += mov.amount - mov.changeDue;
 
       if (mov.movementCategory === CashRegisterMovementCategoryEnum.PAYMENT_METHOD) {
-        // Aquí mov.paymentMethodCod debe corresponder a uno de PaymentMethodEnum
         totals.byPaymentMethod[mov.paymentMethodCod] =
           (totals.byPaymentMethod[mov.paymentMethodCod] || 0) + (mov.amount - mov.changeDue);
         if (mov.paymentMethodCod === PaymentMethodEnum.CASH) {
           totals.overallCash += mov.amount - mov.changeDue;
         }
       } else if (mov.movementCategory === CashRegisterMovementCategoryEnum.MOVEMENT_TYPE) {
-        // Aquí se acumula el total por tipo de movimiento, desglosado por método de pago
         const movementType = mov.movementType as CashRegisterMovementTypeEnum;
         const paymentMethod = mov.paymentMethodCod;
-        // Aseguramos que exista el objeto anidado
         if (!totals.byMovementType[movementType]) {
           totals.byMovementType[movementType] = {
             total: 0,
@@ -203,7 +111,6 @@ export const cashRegisterMovementGetTotals = async ({
           totals.overallCash += amountWithSign;
         }
       } else if (mov.movementCategory === CashRegisterMovementCategoryEnum.CASH_REGISTER_STATUS) {
-        // Para estados de caja (por ejemplo, OPENING, CLOSING)
         totals.byCashRegisterStatus[mov.movementType as CashRegisterStatusEnum] =
           (totals.byCashRegisterStatus[mov.movementType as CashRegisterStatusEnum] || 0) +
           mov.amount;
@@ -213,7 +120,6 @@ export const cashRegisterMovementGetTotals = async ({
       }
     });
 
-    // Redondeamos los totales
     totals.overall = Math.round(totals.overall * 100) / 100;
     totals.overallCash = Math.round(totals.overallCash * 100) / 100;
     Object.keys(totals.byPaymentMethod).forEach((key) => {
@@ -283,7 +189,6 @@ const formatTotals = (
       isAccumulatedTotal: true,
       code: CashRegisterMovementTypeEnum.EXPENSE,
     },
-    // Agrega un resumen por cada método de pago
     ...Object.keys(totals.byPaymentMethod).map(
       (key) =>
         ({
@@ -297,12 +202,10 @@ const formatTotals = (
     ),
   ];
 
-  // Calculamos la suma total de todas las entradas con type 'moneyInRegister'
   const totalSum = summary.reduce((acc, item) => {
     return item.type === "moneyInRegister" ? acc + item.amount : acc;
   }, 0);
 
-  // Agregamos la entrada Total al final
   summary.push({
     type: "moneyInRegister",
     label: "Total",
@@ -311,12 +214,10 @@ const formatTotals = (
     code: "",
   });
 
-  // Calculamos la suma total de todas las entradas con type 'sales'
   const salesSum = summary.reduce((acc, item) => {
     return item.type === "sales" ? acc + item.amount : acc;
   }, 0);
 
-  // Agregamos la entrada Total al final
   summary.push({
     type: "sales",
     label: "Total",
@@ -324,8 +225,6 @@ const formatTotals = (
     isAccumulatedTotal: true,
     code: "",
   });
-
-  //console.log("SUMMARY==>", summary);
 
   return {
     dateStart,

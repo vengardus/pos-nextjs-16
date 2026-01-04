@@ -2,7 +2,7 @@
 
 import type { PaymentMethod } from "@/types/interfaces/payment-method/payment-method.interface";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
-import { cashRegisterMovementGetTotalsCached } from "@/lib/data/cash-register-movement/cash-register-movement.cache";
+import { cashRegisterMovementGetTotalsCached } from "@/server/modules/cash-register-movement/next/cache/cash-register-movement.get-totals.cache";
 
 interface getCashRegisterTotalsProps {
   typeQuery: "by-cash-register-closure-id" | "by-date-range";

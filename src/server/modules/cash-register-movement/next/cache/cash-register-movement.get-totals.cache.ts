@@ -19,6 +19,10 @@ interface getCashRegisterTotalsProps {
 export async function cashRegisterMovementGetTotalsCached(
   props: getCashRegisterTotalsProps
 ): Promise<ResponseAction> {
+  const cacheKey =
+    props.typeQuery === "by-cash-register-closure-id"
+      ? `cash-register-movements-totals-${props.cashRegisterClosureId}`
+      : `cash-register-movements-totals-${props.companyId}-${props.startDateUTC?.toISOString() ?? "all"}-${props.endDateUTC?.toISOString() ?? "all"}`;
   const fn = cache(
     async () => {
       const {
@@ -39,13 +43,10 @@ export async function cashRegisterMovementGetTotalsCached(
         companyId,
       });
     },
-    [`cash-register-movements-totals-${props.companyId}`],
+    [cacheKey],
     {
       revalidate: CacheConfig.CacheDurations.revalidate,
-      tags: [
-        `cash-register-movements-totals-${props.companyId}`,
-        "cash-register-movements",
-      ],
+      tags: [cacheKey, "cash-register-movements"],
     }
   );
   return fn();

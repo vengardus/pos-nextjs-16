@@ -31,6 +31,7 @@ export const cashRegisterMovementInsertAction = async (
   const resp = await cashRegisterMovementInsertUseCase(cashRegisterMovement, userId);
 
   if (resp.success) {
+    updateTag(`cash-register-movements-totals-${cashRegisterMovement.cashRegisterClosureId}`);
     updateTag("cash-register-movements");
   }
 

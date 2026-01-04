@@ -43,6 +43,7 @@ export const cashRegisterClosureInsertAction = async (
     );
 
     updateTag("cash-register-movements");
+    updateTag(`cash-register-movements-totals-${data.id}`);
     updateTag(`cash-register-closure-${data.cashRegisterId}`);
     updateTag(`cash-register-closure-${data.id}`);
     updateTag(`cash-register-determine-active-${data.userId}`);

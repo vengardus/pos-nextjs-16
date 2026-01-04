@@ -26,6 +26,10 @@ export const saleInsertAction = async (
   const resp = await saleInsertUseCase(cartProducts, sale, posPayment);
 
   if (resp.success) {
+    const closureTag = posPayment.cashRegisterClosureId?.length
+      ? `cash-register-movements-totals-${posPayment.cashRegisterClosureId}`
+      : null;
+
     console.log(
       "=>insert.sale",
       `cash-register-movements-totals-${
@@ -37,6 +41,9 @@ export const saleInsertAction = async (
 
     console.log(`UPDATE_TAG:cash-register-movements-totals-${sale.companyId}`);
 
+    if (closureTag) {
+      updateTag(closureTag);
+    }
     updateTag(`cash-register-movements-totals-${sale.companyId}`);
     revalidatePath("/dashboard");
   }

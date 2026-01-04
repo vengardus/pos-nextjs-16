@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 
 import { Input } from "../../../../../components/ui/input";
 
-import type { CashRegisterClosure } from "@/types/interfaces/cash-register-closure/cash-register-closure.interface";
+import type { CashRegisterClosure } from "@/server/modules/cash-register-closure/domain/cash-register-closure.types";
 import type { CashRegisterDecision } from "@/server/modules/cash-register/domain/cash-register.types";
 import { CashRegisterStatusEnum } from "@/server/modules/cash-register/domain/cash-register.types";
 import { useCashRegisterDecisionStore } from "@/stores/cash-register/cash-register-decision.store";

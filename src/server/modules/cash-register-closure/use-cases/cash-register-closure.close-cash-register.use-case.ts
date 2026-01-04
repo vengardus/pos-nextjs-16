@@ -8,8 +8,8 @@ import { PaymentMethodEnum } from "@/types/enums/payment-method.enum";
 import { PaymentMethodBusiness } from "@/shared/business/payment-method.business";
 import {
   cashRegisterClosureCloseCashRegisterRepository,
-  cashRegisterClosureGetByIdRepository,
 } from "@/server/modules/cash-register-closure/repository/cash-register-closure.close-cash-register.repository";
+import { cashRegisterClosureGetByIdRepository } from "@/server/modules/cash-register-closure/repository/cash-register-closure.get-by-id.repository";
 
 export const cashRegisterClosureCloseCashRegisterUseCase = async (
   registerClosureId: string,

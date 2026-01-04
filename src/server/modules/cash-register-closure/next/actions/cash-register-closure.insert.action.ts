@@ -2,7 +2,7 @@
 
 import { revalidatePath, updateTag } from "next/cache";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
-import type { CashRegisterClosure } from "@/types/interfaces/cash-register-closure/cash-register-closure.interface";
+import type { CashRegisterClosure } from "@/server/modules/cash-register-closure/domain/cash-register-closure.types";
 import type { PaymentMethod } from "@/types/interfaces/payment-method/payment-method.interface";
 import { cashRegisterClosureInsertUseCase } from "@/server/modules/cash-register-closure/use-cases/cash-register-closure.insert.use-case";
 

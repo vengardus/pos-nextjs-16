@@ -1,29 +1,21 @@
 import "server-only";
 
-import prisma from "@/server/db/prisma";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import { getActionError } from "@/utils/errors/get-action-error";
 import { initResponseAction } from "@/utils/response/init-response-action";
+import { cashRegisterClosureGetByIdRepository } from "../repository/cash-register-closure.get-by-id.repository";
 
-export const cashRegisterClosureGetById = async (
+export const cashRegisterClosureGetByIdUseCase = async (
   cashRegisterClosureId: string
 ): Promise<ResponseAction> => {
   const resp = initResponseAction();
 
   try {
-    if (!cashRegisterClosureId) throw new Error("CashRegister id is required");
-    const data = await prisma.cashRegisterClosureModel.findFirst({
-      where: {
-        id: cashRegisterClosureId
-      },
-      select: {
-        id: true,
-        status: true
-      },
-    });
+    if (!cashRegisterClosureId) throw new Error("CashRegister closure id is required");
+    const data = await cashRegisterClosureGetByIdRepository(cashRegisterClosureId);
+    
     resp.data = data;
     resp.success = true;
-    console.log("query=>cashRegisterClosureGetById");
   } catch (error) {
     resp.message = getActionError(error);
   }

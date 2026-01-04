@@ -1,7 +1,7 @@
 import "server-only";
 
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
-import type { CashRegisterClosure } from "@/types/interfaces/cash-register-closure/cash-register-closure.interface";
+import type { CashRegisterClosure } from "@/server/modules/cash-register-closure/domain/cash-register-closure.types";
 import type { PaymentMethod } from "@/types/interfaces/payment-method/payment-method.interface";
 import { getActionError } from "@/utils/errors/get-action-error";
 import { initResponseAction } from "@/utils/response/init-response-action";

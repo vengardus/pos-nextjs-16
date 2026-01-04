@@ -1,24 +1,10 @@
 import "server-only";
 
 import prisma from "@/server/db/prisma";
-import type { CashRegisterClosure } from "@/types/interfaces/cash-register-closure/cash-register-closure.interface";
+import type { CashRegisterClosure } from "../domain/cash-register-closure.types";
 import { CashRegisterMovementCategoryEnum } from "@/types/enums/cash-register-movement-category.enum";
 import { CashRegisterStatusEnum } from "@/server/modules/cash-register/domain/cash-register.types";
 import { PaymentMethodEnum } from "@/types/enums/payment-method.enum";
-
-export const cashRegisterClosureGetByIdRepository = async (
-  registerClosureId: string
-): Promise<Pick<CashRegisterClosure, "id" | "userId"> | null> => {
-  return await prisma.cashRegisterClosureModel.findUnique({
-    where: {
-      id: registerClosureId,
-    },
-    select: {
-      id: true,
-      userId: true,
-    },
-  });
-};
 
 interface CashRegisterClosureCloseCashRegisterRepositoryParams {
   registerClosureId: string;

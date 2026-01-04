@@ -15,7 +15,7 @@ import { checkAuthenticationAndPermission } from "@/services/auth/check-authenti
 import { ModuleEnum } from "@/types/enums/module.enum";
 import { LinkSS } from "@/components/common/links/link-ss";
 import { paymentMethodGetAllByCompanyCached } from "@/server/modules/payment-method/next/cache/payment-method.cache";
-import { cashRegisterClosureGetByIdCached } from "@/lib/data/cash-register-closure/cash-register-closure.cache";
+import { cashRegisterClosureGetByIdCached } from "@/server/modules/cash-register-closure/next/cache/cash-register-closure.cache";
 import { cashRegisterMovementGetTotalsCached } from "@/lib/data/cash-register-movement/cash-register-movement.cache";
 
 type Params = Promise<{ id: string }>;

@@ -2,9 +2,9 @@
 
 import type { TableCell, TDocumentDefinitions } from "pdfmake/interfaces";
 import type { CartProduct } from "@/server/modules/sale/domain/cart-product.interface";
-import { createTicketPDF } from "@/services/tickets/ticket-pdf.builder";
+import { createTicketPDF } from "@/server/modules/sale/utils/ticket-pdf.builder";
 import { urlToBase64 } from "@/utils/browser/urlToBase64";
-import { TICKET_SALE_STYLES } from "./ticket-sale-styles";
+import { TICKET_SALE_STYLES } from "@/server/modules/sale/utils/ticket-sale-styles";
 import type { PosPayment } from "@/server/modules/sale/domain/pos-payment.interface";
 
 interface TicketTotals {

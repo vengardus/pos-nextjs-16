@@ -35,7 +35,7 @@ import { ClientSupplier } from "@/server/modules/client-supplier/domain/client-s
 import { useClientSupplierStore } from "@/stores/client-supplier/client-supplier.store";
 import { InputFieldForm } from "@/components/common/form/input-field-form";
 import { PaymentMethodEnum } from "@/types/enums/payment-method.enum";
-import { PosPaymentBusiness } from "@/shared/business/pos-payment.business";
+import { PosPaymentBusiness } from "@/server/modules/sale/utils/sale.pos-payment.business";
 import { PosPayment } from "@/server/modules/sale/domain/pos-payment.interface";
 import { ButtonSave } from "@/components/common/buttons/button-save";
 

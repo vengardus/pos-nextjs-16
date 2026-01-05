@@ -5,7 +5,7 @@ import type { PaymentMethod } from "@/types/interfaces/payment-method/payment-me
 import { getActionError } from "@/utils/errors/get-action-error";
 import { initResponseAction } from "@/utils/response/init-response-action";
 import { PaymentMethodEnum } from "@/types/enums/payment-method.enum";
-import { PaymentMethodBusiness } from "@/shared/business/payment-method.business";
+import { PaymentMethodBusiness } from "@/server/modules/payment-method/utils/payment-method.business";
 import {
   cashRegisterClosureCloseCashRegisterRepository,
 } from "@/server/modules/cash-register-closure/repository/cash-register-closure.close-cash-register.repository";

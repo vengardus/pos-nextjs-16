@@ -12,7 +12,7 @@ import { PaymentMethodEnum } from "@/types/enums/payment-method.enum";
 import { CashRegisterStatusEnum } from "@/server/modules/cash-register/domain/cash-register.types";
 import { initResponseAction } from "@/utils/response/init-response-action";
 import { getActionError } from "@/utils/errors/get-action-error";
-import { PaymentMethodBusiness } from "@/shared/business/payment-method.business";
+import { PaymentMethodBusiness } from "@/server/modules/payment-method/utils/payment-method.business";
 import { cashRegisterMovementGetTotalsRepository } from "../repository/cash-register-movement.get-totals.repository";
 
 interface MovementTypeTotals {

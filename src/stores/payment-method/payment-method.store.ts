@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { PaymentMethod } from "@/types/interfaces/payment-method/payment-method.interface";
-import { PaymentMethodBusiness } from "@/shared/business/payment-method.business";
+import { PaymentMethodBusiness } from "@/server/modules/payment-method/utils/payment-method.business";
 
 interface State {
   paymentMethod: PaymentMethod;

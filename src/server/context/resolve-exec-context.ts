@@ -4,7 +4,7 @@ import type { ResponseAction } from "@/types/interfaces/common/response-action.i
 import type { ExecContext } from "./exec-context.type";
 import { ModuleEnum } from "@/types/enums/module.enum";
 
-import { checkAuthenticationAndPermission } from "@/services/auth/check-authentication-and-permission.use-case";
+import { checkAuthenticationAndPermission } from "@/server/modules/auth/use-cases/auth.check-authentication-and-permission.use-case";
 import { userGetByColumnCached } from "@/server/modules/user/next/cache/user.cache";
 import { companyGetByUserCached } from "@/server/modules/company/next/cache/company.get-by-user.cache";
 import { initResponseAction } from "@/utils/response/init-response-action";

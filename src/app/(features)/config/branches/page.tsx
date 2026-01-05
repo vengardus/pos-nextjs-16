@@ -4,7 +4,7 @@ import { BranchesUI } from "@/app/(features)/config/branches/components/branches
 import { ShowPageMessage } from "@/components/common/messages/show-page-message";
 import { ModuleEnum } from "@/types/enums/module.enum";
 import { branchUserGetAllByUserCached } from "@/server/modules/branch-user/next/cache/branch-user.cache";
-import { checkAuthenticationAndPermission } from "@/services/auth/check-authentication-and-permission.use-case";
+import { checkAuthenticationAndPermission } from "@/server/modules/auth/use-cases/auth.check-authentication-and-permission.use-case";
 
 export default async function BranchesPage() {
   // Verify user authentication and permission

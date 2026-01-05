@@ -6,7 +6,7 @@ import { SalesPieChart } from "./components/charts/sales-pie-chart";
 import { TopProductsByQuantity } from "./components/tops/top-products-by-quantity";
 import { DateRangePicker } from "./components/date-range-picker";
 import { paymentMethodGetAllByCompanyCached } from "@/server/modules/payment-method/next/cache/payment-method.cache";
-import { checkAuthenticationAndPermission } from "@/services/auth/check-authentication-and-permission.use-case";
+import { checkAuthenticationAndPermission } from "@/server/modules/auth/use-cases/auth.check-authentication-and-permission.use-case";
 
 export default async function DashboardPage() {
   // Verify user authentication and permission

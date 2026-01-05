@@ -4,7 +4,7 @@ import { ModuleEnum } from "@/types/enums/module.enum";
 import { CompanyHeader } from "../../components/company-header";
 import { CompanyForm } from "../../components/company-form";
 import { CompaniesSidebar } from "../../components/companies-sidebar";
-import { checkAuthenticationAndPermission } from "@/services/auth/check-authentication-and-permission.use-case";
+import { checkAuthenticationAndPermission } from "@/server/modules/auth/use-cases/auth.check-authentication-and-permission.use-case";
 
 export default async function CompaniesGeneralPage() {
   // Verify user authentication and permission

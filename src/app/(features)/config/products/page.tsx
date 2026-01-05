@@ -7,7 +7,7 @@ import { ListDef } from "./components/list-def";
 import { categoryGetAllByCompanyCached } from "@/server/modules/category/next/cache/category.cache";
 import { productGetAllByCompanyCached } from "@/server/modules/product/next/cache/product.get-all-by-company.cache";
 import { branchGetAllByCompanyCached } from "@/server/modules/branch/next/cache/branch.cache";
-import { checkAuthenticationAndPermission } from "@/services/auth/check-authentication-and-permission.use-case";
+import { checkAuthenticationAndPermission } from "@/server/modules/auth/use-cases/auth.check-authentication-and-permission.use-case";
 
 export default async function ConfigProductsPage() {
   // Verify user authentication and permission

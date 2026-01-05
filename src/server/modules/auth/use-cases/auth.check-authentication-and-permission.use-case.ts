@@ -1,8 +1,8 @@
 import type { Company } from "@/types/interfaces/company/company.interface";
 import { ModuleEnum } from "@/types/enums/module.enum";
 import { companyGetByUserCached } from "@/server/modules/company/next/cache/company.get-by-user.cache";
-import { hasModulePermission } from "./has-module-permission.use-case";
-import { getAuthCached } from "./get-auth.cached";
+import { getAuthCached } from "@/server/modules/auth/next/cache/auth.get-session.cache";
+import { hasModulePermission } from "@/server/modules/permission/use-cases/permission.has-module-permission.use-case";
 
 
 interface checkAuthenticationAndPermissionResult {

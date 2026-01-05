@@ -11,7 +11,7 @@ import { ShowPageMessage } from "@/components/common/messages/show-page-message"
 import { RegisterClosureUI } from "@/app/(features)/cash-register/closure/[id]/components/register-closure-ui";
 import { RegisterClosureHeaderDate } from "@/app/(features)/cash-register/closure/[id]/components/register-closure-header-date";
 import { CashRegisterStatusEnum } from "@/server/modules/cash-register/domain/cash-register.types";
-import { checkAuthenticationAndPermission } from "@/services/auth/check-authentication-and-permission.use-case";
+import { checkAuthenticationAndPermission } from "@/server/modules/auth/use-cases/auth.check-authentication-and-permission.use-case";
 import { ModuleEnum } from "@/types/enums/module.enum";
 import { LinkSS } from "@/components/common/links/link-ss";
 import { paymentMethodGetAllByCompanyCached } from "@/server/modules/payment-method/next/cache/payment-method.cache";

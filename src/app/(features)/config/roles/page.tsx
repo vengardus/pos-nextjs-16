@@ -1,7 +1,7 @@
 import { ShowPageMessage } from "@/components/common/messages/show-page-message";
 import { CustomCrud } from "@/app/(features)/config/roles/components/custom-crud";
 import { ModuleEnum } from "@/types/enums/module.enum";
-import { checkAuthenticationAndPermission } from "@/services/auth/check-authentication-and-permission.use-case";
+import { checkAuthenticationAndPermission } from "@/server/modules/auth/use-cases/auth.check-authentication-and-permission.use-case";
 import { roleGetAllByCompanyCached } from "@/server/modules/role/next/cache/role.cache";
 import { mapNavbarItemsToModules } from "@/mappers/module.mapper";
 

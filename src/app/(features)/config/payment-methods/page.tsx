@@ -1,7 +1,7 @@
 import { ShowPageMessage } from "@/components/common/messages/show-page-message";
 import { ListDef } from "@/app/(features)/config/payment-methods/components/list-def";
 import { ModuleEnum } from "@/types/enums/module.enum";
-import { checkAuthenticationAndPermission } from "@/services/auth/check-authentication-and-permission.use-case";
+import { checkAuthenticationAndPermission } from "@/server/modules/auth/use-cases/auth.check-authentication-and-permission.use-case";
 import { paymentMethodGetAllByCompanyCached } from "@/server/modules/payment-method/next/cache/payment-method.cache";
 
 export default async function ConfigPaymentMethodsPage() {

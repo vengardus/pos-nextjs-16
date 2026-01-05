@@ -10,7 +10,7 @@ import { useModuleStore } from "@/stores/module/module.store";
 import { createListColumnsDef, createListColumnsResponsiveDef } from "./create-list-columns-def";
 import { CustomForm } from "./custom-form";
 import { ListDef } from "./list-def";
-import { Module } from "@/types/interfaces/module/module.interface";
+import { Module } from "@/server/modules/permission/domain/module.interface";
 import { roleDeleteByIdAction } from "@/server/modules/role/next/actions/role.delete-by-id.action";
 import { getModelMetadata } from "@/server/common/model-metadata";
 

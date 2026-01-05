@@ -1,4 +1,4 @@
-import { Module } from "@/types/interfaces/module/module.interface";
+import { Module } from "@/server/modules/permission/domain/module.interface";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 

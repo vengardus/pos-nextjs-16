@@ -1,6 +1,6 @@
 import { AppConstants } from "@/shared/constants/app.constants";
 import { UserRole } from "@/types/enums/user-role.enum";
-import { Module } from "@/types/interfaces/module/module.interface";
+import { Module } from "@/server/modules/permission/domain/module.interface";
 
 export const mapNavbarItemsToModules = (): Module[] => {
   const modules: Module[] = [];

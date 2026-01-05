@@ -3,7 +3,7 @@ import { CustomCrud } from "@/app/(features)/config/roles/components/custom-crud
 import { ModuleEnum } from "@/types/enums/module.enum";
 import { checkAuthenticationAndPermission } from "@/server/modules/auth/use-cases/auth.check-authentication-and-permission.use-case";
 import { roleGetAllByCompanyCached } from "@/server/modules/role/next/cache/role.cache";
-import { mapNavbarItemsToModules } from "@/mappers/module.mapper";
+import { mapNavbarItemsToModules } from "@/server/modules/permission/utils/module.mapper";
 
 export default async function RolesPage() {
   // Verify user authentication and permission

@@ -1,6 +1,6 @@
 import { UserRole } from "@/types/enums/user-role.enum";
 import { Permission } from "@/types/interfaces/permission/permission.interface";
-import type { Role } from "@/types/interfaces/role/role.interface";
+import type { Role } from "@/server/modules/role/domain/role.interface";
 
 export class RoleBusiness {
     static getRoleByCod(roles:Role[], cod:string): Role | null {

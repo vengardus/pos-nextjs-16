@@ -19,7 +19,7 @@ import { InputFieldForm } from "@/components/common/form/input-field-form";
 import { ComboboxForm } from "@/components/common/form/combobox-form";
 import { ButtonCancel } from "@/components/common/buttons/button-cancel";
 import { ButtonSave } from "@/components/common/buttons/button-save";
-import { mapRoleToCombobox } from "@/mappers/role.mapper";
+import { mapRoleToCombobox } from "@/server/modules/role/utils/role.mapper";
 import { getModelMetadata } from "@/server/common/model-metadata";
 
 interface CustomFormProps {

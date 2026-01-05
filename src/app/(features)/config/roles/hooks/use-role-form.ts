@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 
-import type { Role } from "@/types/interfaces/role/role.interface";
+import type { Role } from "@/server/modules/role/domain/role.interface";
 import { RoleFormSchema, RoleFormSchemaType } from "@/app/(features)/config/roles/schemas/role-form.schema";
 import { toCapitalize } from "@/utils/formatters/to-capitalize";
 import { useModuleStore } from "@/stores/module/module.store";

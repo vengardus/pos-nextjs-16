@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { Role } from "@/types/interfaces/role/role.interface";
+import type { Role } from "@/server/modules/role/domain/role.interface";
 
 interface State {
   roles: Role[]; // usado para el pos

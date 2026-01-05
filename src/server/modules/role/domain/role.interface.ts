@@ -1,5 +1,5 @@
-import { Company } from "../company/company.interface";
-import { Permission } from "../permission/permission.interface";
+import { Company } from "@/types/interfaces/company/company.interface";
+import { Permission } from "@/types/interfaces/permission/permission.interface";
 
 export interface Role {
   id: string;

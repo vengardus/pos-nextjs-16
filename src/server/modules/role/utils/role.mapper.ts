@@ -1,5 +1,5 @@
 import type { Combobox } from "@/types/interfaces/ui/combobox.interface";
-import { Role } from "@/types/interfaces/role/role.interface";
+import { Role } from "@/server/modules/role/domain/role.interface";
 
 export const mapRoleToCombobox = (roles: Role[]): Combobox[] => {
   return roles

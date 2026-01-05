@@ -10,7 +10,7 @@ import { InputFieldForm } from "../../../../../components/common/form/input-fiel
 import { ButtonCancel } from "../../../../../components/common/buttons/button-cancel";
 import { ButtonSave } from "../../../../../components/common/buttons/button-save";
 
-import type { Role } from "@/types/interfaces/role/role.interface";
+import type { Role } from "@/server/modules/role/domain/role.interface";
 import { useRoleForm } from "@/app/(features)/config/roles/hooks/use-role-form";
 import { PermissionManager } from "./permission-manager";
 

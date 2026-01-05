@@ -2,7 +2,7 @@ import "server-only";
 
 import type { Prisma } from "@prisma/client";
 import prisma from "@/server/db/prisma";
-import type { Role } from "@/types/interfaces/role/role.interface";
+import type { Role } from "@/server/modules/role/domain/role.interface";
 
 export const roleInsertOrUpdateRepository = async (
   role: Role,

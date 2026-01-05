@@ -1,22 +1,33 @@
-import { PosPaymentDetail } from "@/server/modules/sale/domain/pos-payment-detail.interface";
+import { PaymentMethodEnum } from "@/types/enums/payment-method.enum";
+import type { PosPaymentDetail } from "@/server/modules/sale/domain/pos-payment-detail.interface";
 import type { PosPayment } from "@/server/modules/sale/domain/pos-payment.interface";
 import type { SalePaymentDynamicFormSchemaType } from "@/server/modules/sale/domain/sale-payment-dynamic-form.input.schema";
 
 export const mapSalePaymentDynamicFormSchemaTypeToPosPayment = (
-  data: SalePaymentDynamicFormSchemaType
+  formSchemaType: SalePaymentDynamicFormSchemaType
 ): PosPayment => {
-  const posPayment: PosPayment = {
-    totalSale: data.totalSale,
-    cash: data.cash,
-    credit: data.credit,
-    card: data.card,
-    paidWith: data.paidWith,
-    change: data.change,
-    balance: data.balance,
-    paymentDetails: data.payments.map(
-      (payment) => new PosPaymentDetail(payment.paymentMethodId, payment.amount)
-    ),
+  return {
+    clientId: formSchemaType.clientId,
+    paymentMethodId: formSchemaType.paymentMethod,
+    totalSale: 0,
+    totalPayment: Number(formSchemaType.totalAmount),
+    changeDue: Number(formSchemaType.changeAmount),
+    restAmount: Number(formSchemaType.restAmount),
+    cashRegisterClosureId: "",
+    paymentDetails: formSchemaType.dynamicFields
+      .filter((field) => field.value > 0)
+      .map((field) => {
+        const detail: PosPaymentDetail = {
+          paymentMethodId: field.id,
+          paymentMethodCod: field.cod,
+          amount: field.value,
+          description: formSchemaType.cardReference,
+          changeDue:
+            field.cod === PaymentMethodEnum.CASH
+              ? Number(formSchemaType.changeAmount)
+              : 0,
+        };
+        return detail;
+      }),
   };
-
-  return posPayment;
 };

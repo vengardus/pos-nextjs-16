@@ -10,7 +10,7 @@ import { useCompanyStore } from "@/stores/company/company.store";
 import { useProductStore } from "@/stores/product/product.store";
 import { useRealTimeStore } from "@/stores/general/real-time.store";
 import { saleInsertAction } from "@/server/modules/sale/next/actions/sale.insert.action";
-import { generateSaleTicket } from "@/services/tickets/sale/sale-ticket.use-case";
+import { generateSaleTicket } from "@/server/modules/sale/use-cases/sale.generate-ticket.use-case";
 
 export const useCartProdut = () => {
   const audioContextRef = useRef<AudioContext | null>(null);

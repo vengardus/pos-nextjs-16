@@ -9,7 +9,7 @@ import {
 import { useCartProdut } from "./use-cart-product";
 import { useCartStore } from "@/stores/cart/cart.store";
 import { PosPayment } from "@/server/modules/sale/domain/pos-payment.interface";
-import { mapSalePaymentDynamicFormSchemaTypeToPosPayment } from "@/mappers/pos-payment.mapper";
+import { mapSalePaymentDynamicFormSchemaTypeToPosPayment } from "@/server/modules/sale/utils/sale-pos-payment.mapper";
 
 export const useSalePaymentDynamicForm = () => {
   const [isPending, setIsPending] = useState(false);

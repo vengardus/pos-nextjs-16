@@ -2,7 +2,7 @@ import "server-only";
 
 import prisma from "@/server/db/prisma";
 import type { CartProduct } from "@/server/modules/sale/domain/cart-product.interface";
-import type { Sale } from "@/types/interfaces/sales/sale.interface";
+import type { Sale } from "@/server/modules/sale/domain/sale.interface";
 import type { PosPayment } from "@/server/modules/sale/domain/pos-payment.interface";
 import type { CashRegisterMovement } from "@/types/interfaces/cash-register-movement/cash-register-movement.interface";
 import type { Product } from "@/types/interfaces/product/product.interface";

@@ -3,7 +3,7 @@
 import { revalidatePath, updateTag } from "next/cache";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
 import type { CartProduct } from "@/server/modules/sale/domain/cart-product.interface";
-import type { Sale } from "@/types/interfaces/sales/sale.interface";
+import type { Sale } from "@/server/modules/sale/domain/sale.interface";
 import type { PosPayment } from "@/server/modules/sale/domain/pos-payment.interface";
 import { saleInsertUseCase } from "@/server/modules/sale/use-cases/sale.insert.use-case";
 

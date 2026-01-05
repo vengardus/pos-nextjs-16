@@ -1,7 +1,7 @@
 import { PaymentMethodEnum } from "@/types/enums/payment-method.enum";
-import { PosPaymentDetail } from "@/types/interfaces/pos-payment/pos-payment-detail.interface";
-import type { PosPayment } from "@/types/interfaces/pos-payment/pos-payment.interface";
-import { SalePaymentDynamicFormSchemaType } from "@/schemas/sale-payment-dynamic-form.schema";
+import { PosPaymentDetail } from "@/server/modules/sale/domain/pos-payment-detail.interface";
+import type { PosPayment } from "@/server/modules/sale/domain/pos-payment.interface";
+import { SalePaymentDynamicFormSchemaType } from "@/server/modules/sale/domain/sale-payment-dynamic-form.input.schema";
 
 
 export const mapSalePaymentDynamicFormSchemaTypeToPosPayment = (

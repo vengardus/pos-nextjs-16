@@ -1,5 +1,5 @@
 import { PaymentMethodEnum } from "@/types/enums/payment-method.enum";
-import type { PosPayment } from "@/types/interfaces/pos-payment/pos-payment.interface";
+import type { PosPayment } from "@/server/modules/sale/domain/pos-payment.interface";
 
 export class PosPaymentBusiness {
   static validateDynamic(posPayment: PosPayment): {

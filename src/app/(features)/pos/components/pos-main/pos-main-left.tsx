@@ -2,7 +2,7 @@
 
 import { Trash2 } from "lucide-react";
 import { useCartStore } from "@/stores/cart/cart.store";
-import { CartProduct } from "@/types/interfaces/sales/cart-product.interface";
+import { CartProduct } from "@/server/modules/sale/domain/cart-product.interface";
 import { ButtonAddSubCartItem } from "@/components/common/buttons/buitton-add-sub-cart-item";
 
 export const PosMainLeft = () => {

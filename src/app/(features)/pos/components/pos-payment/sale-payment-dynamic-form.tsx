@@ -25,7 +25,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useCartStore } from "@/stores/cart/cart.store";
-import { SalePaymentDynamicFormSchemaType } from "@/schemas/sale-payment-dynamic-form.schema";
+import { SalePaymentDynamicFormSchemaType } from "@/server/modules/sale/domain/sale-payment-dynamic-form.input.schema";
 import { Button } from "@/components/ui/button";
 import { useSalePaymentDynamicForm } from "@/app/(features)/pos/hooks/use-sale-payment-dynamic-form";
 import { useCartProdut } from "@/app/(features)/pos/hooks/use-cart-product";
@@ -36,7 +36,7 @@ import { useClientSupplierStore } from "@/stores/client-supplier/client-supplier
 import { InputFieldForm } from "@/components/common/form/input-field-form";
 import { PaymentMethodEnum } from "@/types/enums/payment-method.enum";
 import { PosPaymentBusiness } from "@/shared/business/pos-payment.business";
-import { PosPayment } from "@/types/interfaces/pos-payment/pos-payment.interface";
+import { PosPayment } from "@/server/modules/sale/domain/pos-payment.interface";
 import { ButtonSave } from "@/components/common/buttons/button-save";
 
 export default function SalePaymentDynamicForm({

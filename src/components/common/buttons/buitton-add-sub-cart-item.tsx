@@ -1,6 +1,6 @@
 "use client";
 
-import { CartProduct } from "@/types/interfaces/sales/cart-product.interface";
+import { CartProduct } from "@/server/modules/sale/domain/cart-product.interface";
 import { cn } from "@/utils/tailwind/cn";
 
 type actionType = "add" | "sub";

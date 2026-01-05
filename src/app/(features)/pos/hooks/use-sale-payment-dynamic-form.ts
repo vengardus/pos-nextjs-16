@@ -5,10 +5,10 @@ import { PosPaymentBusiness } from "@/shared/business/pos-payment.business";
 import {
   SalePaymentDynamicFormSchema,
   SalePaymentDynamicFormSchemaType,
-} from "@/schemas/sale-payment-dynamic-form.schema";
+} from "@/server/modules/sale/domain/sale-payment-dynamic-form.input.schema";
 import { useCartProdut } from "./use-cart-product";
 import { useCartStore } from "@/stores/cart/cart.store";
-import { PosPayment } from "@/types/interfaces/pos-payment/pos-payment.interface";
+import { PosPayment } from "@/server/modules/sale/domain/pos-payment.interface";
 import { mapSalePaymentDynamicFormSchemaTypeToPosPayment } from "@/mappers/pos-payment.mapper";
 
 export const useSalePaymentDynamicForm = () => {

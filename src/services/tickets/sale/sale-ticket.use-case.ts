@@ -1,11 +1,11 @@
 "use client";
 
 import type { TableCell, TDocumentDefinitions } from "pdfmake/interfaces";
-import type { CartProduct } from "@/types/interfaces/sales/cart-product.interface";
+import type { CartProduct } from "@/server/modules/sale/domain/cart-product.interface";
 import { createTicketPDF } from "@/services/tickets/ticket-pdf.builder";
 import { urlToBase64 } from "@/utils/browser/urlToBase64";
 import { TICKET_SALE_STYLES } from "./ticket-sale-styles";
-import type { PosPayment } from "@/types/interfaces/pos-payment/pos-payment.interface";
+import type { PosPayment } from "@/server/modules/sale/domain/pos-payment.interface";
 
 interface TicketTotals {
   subTotal: number,

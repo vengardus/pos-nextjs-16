@@ -1,9 +1,9 @@
 import "server-only";
 
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
-import type { CartProduct } from "@/types/interfaces/sales/cart-product.interface";
+import type { CartProduct } from "@/server/modules/sale/domain/cart-product.interface";
 import type { Sale } from "@/types/interfaces/sales/sale.interface";
-import type { PosPayment } from "@/types/interfaces/pos-payment/pos-payment.interface";
+import type { PosPayment } from "@/server/modules/sale/domain/pos-payment.interface";
 import { AppConstants } from "@/shared/constants/app.constants";
 import { getActionError } from "@/utils/errors/get-action-error";
 import { initResponseAction } from "@/utils/response/init-response-action";

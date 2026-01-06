@@ -1,6 +1,6 @@
 import type { Branch } from "@/server/modules/branch/domain/branch.types";
 import type { Category } from "@/server/modules/category/domain/category.base.schema";
-import type { Product } from "@/types/interfaces/product/product.interface";
+import type { Product } from "@/server/modules/product/domain/product.interface";
 import { ShowPageMessage } from "@/components/common/messages/show-page-message";
 import { ModuleEnum } from "@/types/enums/module.enum";
 import { ListDef } from "./components/list-def";

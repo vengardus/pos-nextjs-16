@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 import type { UserDataBaseCustomForm } from "@/app/(features)/config/roles/types/user-data-base-custom-form.interface";
-import type { Company } from "@/types/interfaces/company/company.interface";
+import type { Company } from "@/server/modules/company/domain/company.interface";
 import type { Role } from "@/server/modules/role/domain/role.interface";
 import { useCompanyStore } from "@/stores/company/company.store";
 import { useModuleStore } from "@/stores/module/module.store";

@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
-import type { User } from "@/types/interfaces/user/user.interface";
+import type { User } from "@/server/modules/user/domain/user.interface";
 import { UserFormSchemaType } from "@/app/(features)/config/users/schemas/user-form.schema";
 import { useUserForm } from "@/app/(features)/config/users/hooks/use-user-form";
 import { useDocumentTypeStore } from "@/stores/document-type/document-type.store";

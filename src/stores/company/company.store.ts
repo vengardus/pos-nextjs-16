@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { Company } from "@/types/interfaces/company/company.interface";
+import type { Company } from "@/server/modules/company/domain/company.interface";
 
 interface State {
   company: Company;

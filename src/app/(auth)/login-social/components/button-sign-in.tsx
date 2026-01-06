@@ -1,5 +1,5 @@
 import { cn } from "@/utils/tailwind/cn";
-import type { ProviderOAuth } from "@/types/interfaces/auth/provider-oauth.type";
+import type { ProviderOAuth } from "@/server/modules/auth/domain/auth.provider-oauth.type";
 import { Button } from "@/components/ui/button";
 
 interface ButtonSignInProps {

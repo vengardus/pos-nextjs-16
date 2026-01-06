@@ -5,7 +5,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { ChevronDown, ChevronRight } from "lucide-react";
 
-import type { Permission } from "@/types/interfaces/permission/permission.interface";
+import type { Permission } from "@/server/modules/permission/domain/permission.interface";
 import type { Module } from "@/server/modules/permission/domain/module.interface";
 import { usePermissionStore } from "@/stores/permission/permission.store";
 import { UserRole } from "@/types/enums/user-role.enum";

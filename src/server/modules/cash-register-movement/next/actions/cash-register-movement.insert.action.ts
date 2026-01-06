@@ -2,7 +2,7 @@
 
 import { updateTag } from "next/cache";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
-import type { CashRegisterMovement } from "@/types/interfaces/cash-register-movement/cash-register-movement.interface";
+import type { CashRegisterMovement } from "@/server/modules/cash-register-movement/domain/cash-register-movement.interface";
 import { authGetSessionUseCase } from "@/server/modules/auth/use-cases/auth.get-session.use-case";
 import { cashRegisterMovementInsertUseCase } from "@/server/modules/cash-register-movement/use-cases/cash-register-movement.insert.use-case";
 

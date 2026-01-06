@@ -1,6 +1,6 @@
 import { cn } from "@/utils/tailwind/cn";
 import { Card } from "@/components/ui/card";
-import type { SummaryTopSellingProducts } from "@/types/interfaces/dashboard/summary-top-selling-products.interface";
+import type { SummaryTopSellingProducts } from "@/server/modules/dashboard/domain/dashboard.summary-top-selling-products.interface";
 import { ShowPageMessage } from "@/components/common/messages/show-page-message";
 import { Title } from "@/components/common/titles/Title";
 import { saleGetTopSellingProductsCached } from "@/server/modules/sale/next/cache/sale.get-top-selling-products.cache";

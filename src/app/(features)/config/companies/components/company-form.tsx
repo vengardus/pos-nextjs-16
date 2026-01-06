@@ -17,7 +17,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import type { Company } from "@/types/interfaces/company/company.interface";
+import type { Company } from "@/server/modules/company/domain/company.interface";
 import { CompanyFormSchemaType } from "@/app/(features)/config/companies/schemas/company-form.schema";
 import { useCompanyForm } from "@/app/(features)/config/companies/hooks/use-company-form";
 import { ButtonSave } from "@/components/common/buttons/button-save";

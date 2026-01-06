@@ -1,7 +1,7 @@
 import "server-only";
 
 import prisma from "@/server/db/prisma";
-import type { CashRegisterMovement } from "@/types/interfaces/cash-register-movement/cash-register-movement.interface";
+import type { CashRegisterMovement } from "@/server/modules/cash-register-movement/domain/cash-register-movement.interface";
 
 export const cashRegisterMovementInsertRepository = async (
   cashRegisterMovement: CashRegisterMovement,

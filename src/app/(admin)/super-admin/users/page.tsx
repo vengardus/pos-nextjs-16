@@ -1,7 +1,7 @@
 import { ShowPageMessage } from "@/components/common/messages/show-page-message";
 import { Title } from "@/components/common/titles/Title";
 import { UserList } from "@/app/(admin)/super-admin/users/components/users/user-list";
-import { UserWithRelations } from "@/types/interfaces/user/user-with-relations.interface";
+import { UserWithRelations } from "@/server/modules/user/domain/user-with-relations.interface";
 import { userGetAllWithRelationsUseCase } from "@/server/modules/user/use-cases/user.get-all-with-relations.use-case";
 
 export default async function UsersPage() {

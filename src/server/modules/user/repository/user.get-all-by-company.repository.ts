@@ -1,7 +1,7 @@
 import "server-only";
 
 import prisma from "@/server/db/prisma";
-import type { UserWithRelations } from "@/types/interfaces/user/user-with-relations.interface";
+import type { UserWithRelations } from "@/server/modules/user/domain/user-with-relations.interface";
 
 export const userGetAllByCompanyRepository = async (
   companyId: string

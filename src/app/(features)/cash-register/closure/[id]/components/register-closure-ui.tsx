@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 
-import type { PaymentMethod } from "@/types/interfaces/payment-method/payment-method.interface";
+import type { PaymentMethod } from "@/server/modules/payment-method/domain/payment-method.interface";
 import { ButtonLink } from "@/components/common/buttons/button-link";
 import { ButtonSave } from "@/components/common/buttons/button-save";
 import { Title } from "@/components/common/titles/Title";

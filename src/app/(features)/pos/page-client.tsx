@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 
 import type { CashRegisterDecision } from "@/server/modules/cash-register/domain/cash-register.types";
-import type { Company } from "@/types/interfaces/company/company.interface";
+import type { Company } from "@/server/modules/company/domain/company.interface";
 import { PosTemplate } from "./components/pos-template";
 import { PosFooter } from "./components/pos-footer";
 import { PosHeader } from "./components/pos-header";

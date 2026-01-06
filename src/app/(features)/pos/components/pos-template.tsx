@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import type { Company } from "@/types/interfaces/company/company.interface";
+import type { Company } from "@/server/modules/company/domain/company.interface";
 import type { CashRegisterDecision } from "@/server/modules/cash-register/domain/cash-register.types";
 import { useCompanyStore } from "@/stores/company/company.store";
 import { useCartStore } from "@/stores/cart/cart.store";

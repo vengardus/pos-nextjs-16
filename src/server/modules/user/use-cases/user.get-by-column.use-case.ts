@@ -1,7 +1,7 @@
 import "server-only";
 
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
-import type { User } from "@/types/interfaces/user/user.interface";
+import type { User } from "@/server/modules/user/domain/user.interface";
 import { getActionError } from "@/utils/errors/get-action-error";
 import { initResponseAction } from "@/utils/response/init-response-action";
 import { userGetByColumnRepository } from "../repository/user.get-by-column.repository";

@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { Company } from "@/types/interfaces/company/company.interface";
-import type { DocumentType } from "@/types/interfaces/document-type/document-type.interface";
+import type { Company } from "@/server/modules/company/domain/company.interface";
+import type { DocumentType } from "@/server/modules/document-type/domain/document-type.interface";
 import type { Branch } from "@/server/modules/branch/domain/branch.types";
-import type { User } from "@/types/interfaces/user/user.interface";
+import type { User } from "@/server/modules/user/domain/user.interface";
 import type { Role } from "@/server/modules/role/domain/role.interface";
-import type { UserWithRelations } from "@/types/interfaces/user/user-with-relations.interface";
+import type { UserWithRelations } from "@/server/modules/user/domain/user-with-relations.interface";
 import { ListDef } from "./list-def";
 import { useCompanyStore } from "@/stores/company/company.store";
 import { useDocumentTypeStore } from "@/stores/document-type/document-type.store";

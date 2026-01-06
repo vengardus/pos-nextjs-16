@@ -16,7 +16,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import type { PaymentMethod } from "@/types/interfaces/payment-method/payment-method.interface";
+import type { PaymentMethod } from "@/server/modules/payment-method/domain/payment-method.interface";
 import { PaymentMethodFormSchemaType } from "@/app/(features)/config/payment-methods/schemas/payment-method-form.schema";
 import { usePaymentMethodForm } from "@/app/(features)/config/payment-methods/hooks/use-payment-method-form";
 import { InputFieldForm } from "../../../../../components/common/form/input-field-form";

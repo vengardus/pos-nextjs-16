@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { toast } from "sonner";
-import type { User } from "@/types/interfaces/user/user.interface";
+import type { User } from "@/server/modules/user/domain/user.interface";
 import { getModelMetadata } from "@/server/common/model-metadata";
 import {
   ListColumnsDef,
@@ -10,7 +10,7 @@ import {
 } from "./list-columns-def";
 import { CustomForm } from "./custom-form";
 import { useCompanyStore } from "@/stores/company/company.store";
-import { UserWithRelations } from "@/types/interfaces/user/user-with-relations.interface";
+import { UserWithRelations } from "@/server/modules/user/domain/user-with-relations.interface";
 import { ListTable } from "@/components/tables/list-table";
 import { Modal } from "@/components/common/modals/modal";
 import { userDeleteByIdAction } from "@/server/modules/user/next/actions/user.delete-by-id.action";

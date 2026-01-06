@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { FlagIcon, FlagIconCode } from "react-flag-kit";
 import { Currency } from "iso-country-currency";
 import { toast } from "sonner";
-import type { Company } from "@/types/interfaces/company/company.interface";
+import type { Company } from "@/server/modules/company/domain/company.interface";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Combobox } from "@/components/common/combobox/combobox";
 import { ButtonSave } from "@/components/common/buttons/button-save";

@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/utils/tailwind/cn";
 import { Barcode, Keyboard } from "lucide-react";
-import type { Product } from "@/types/interfaces/product/product.interface";
+import type { Product } from "@/server/modules/product/domain/product.interface";
 import { useCartProdut } from "@/app/(features)/pos/hooks/use-cart-product";
 import { useCartStore } from "@/stores/cart/cart.store";
 import { ButtonIcon } from "@/components/common/buttons/button-icon";

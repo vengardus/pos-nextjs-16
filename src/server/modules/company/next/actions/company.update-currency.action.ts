@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
-import type { Company } from "@/types/interfaces/company/company.interface";
+import type { Company } from "@/server/modules/company/domain/company.interface";
 import { companyUpdateCurrencyUseCase } from "@/server/modules/company/use-cases/company.update-currency.use-case";
 
 export const companyUpdateCurrencyAction = async (

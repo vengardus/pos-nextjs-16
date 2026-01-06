@@ -2,7 +2,7 @@
 
 import { revalidatePath, updateTag } from "next/cache";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
-import type { Permission } from "@/types/interfaces/permission/permission.interface";
+import type { Permission } from "@/server/modules/permission/domain/permission.interface";
 import { initResponseAction } from "@/utils/response/init-response-action";
 import { permissionInsertOrUpdateUseCase } from "@/server/modules/permission/use-cases/permission.insert-or-update.use-case";
 

@@ -5,7 +5,7 @@ import { Separator } from "@/components/ui/separator";
 import type {
   CashRegisterMovementTotal,
   CashRegisterMovementTotalSummary,
-} from "@/types/interfaces/cash-register-movement/cash-register-movement-total-summary.interface";
+} from "@/server/modules/cash-register-movement/domain/cash-register-movement-total-summary.interface";
 import { CashRegisterMovementTypeEnum } from "@/types/enums/cash-register-movement-type.enum";
 import { ShowPageMessage } from "@/components/common/messages/show-page-message";
 import { RegisterClosureUI } from "@/app/(features)/cash-register/closure/[id]/components/register-closure-ui";

@@ -1,4 +1,4 @@
-import type { CashRegisterMovement } from "@/types/interfaces/cash-register-movement/cash-register-movement.interface";
+import type { CashRegisterMovement } from "@/server/modules/cash-register-movement/domain/cash-register-movement.interface";
 import type { SaleDetail } from "./sale-detail.interface";
 
 export interface Sale {

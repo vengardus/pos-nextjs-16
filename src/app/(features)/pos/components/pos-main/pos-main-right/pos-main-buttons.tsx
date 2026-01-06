@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import type { PaymentMethod } from "@/types/interfaces/payment-method/payment-method.interface";
+import type { PaymentMethod } from "@/server/modules/payment-method/domain/payment-method.interface";
 import type { ClientSupplier } from "@/server/modules/client-supplier/domain/client-supplier.interface";
 import { PaymentMethodEnum } from "@/types/enums/payment-method.enum";
 import { useCartStore } from "@/stores/cart/cart.store";

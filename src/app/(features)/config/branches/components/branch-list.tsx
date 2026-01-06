@@ -1,4 +1,4 @@
-import type { BranchUser } from "@/types/interfaces/branch-user/branch-user.interface";
+import type { BranchUser } from "@/server/modules/branch-user/domain/branch-user.interface";
 import { BranchItem } from "./branch-item";
 
 interface BranchListProps {

@@ -1,4 +1,4 @@
-import type { UserWithRelations } from "@/types/interfaces/user/user-with-relations.interface";
+import type { UserWithRelations } from "@/server/modules/user/domain/user-with-relations.interface";
 import { UserItem } from "./user-item";
 
 interface UserListProps {

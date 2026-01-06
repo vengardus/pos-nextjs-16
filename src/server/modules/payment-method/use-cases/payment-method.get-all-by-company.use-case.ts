@@ -1,7 +1,7 @@
 import "server-only";
 
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
-import type { PaymentMethod } from "@/types/interfaces/payment-method/payment-method.interface";
+import type { PaymentMethod } from "@/server/modules/payment-method/domain/payment-method.interface";
 import { getActionError } from "@/utils/errors/get-action-error";
 import { initResponseAction } from "@/utils/response/init-response-action";
 import { paymentMethodGetAllByCompanyRepository } from "../repository/payment-method.get-all-by-company.repository";

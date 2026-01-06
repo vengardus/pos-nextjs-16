@@ -1,5 +1,5 @@
-import { Product } from "../product/product.interface";
-import { User } from "../user/user.interface";
+import { Product } from "@/server/modules/product/domain/product.interface";
+import { User } from "@/server/modules/user/domain/user.interface";
 
 export interface Kardex {
     id: string;

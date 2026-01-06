@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { DocumentType } from "@/types/interfaces/document-type/document-type.interface";
+import type { DocumentType } from "@/server/modules/document-type/domain/document-type.interface";
 
 interface State {
   documentTypes: DocumentType[];

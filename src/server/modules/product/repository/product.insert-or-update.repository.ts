@@ -1,7 +1,7 @@
 import "server-only";
 
 import prisma from "@/server/db/prisma";
-import type { Product } from "@/types/interfaces/product/product.interface";
+import type { Product } from "@/server/modules/product/domain/product.interface";
 
 type ProductWithOptionalCategory = Product & { Category?: unknown };
 

@@ -1,7 +1,7 @@
 import 'server-only'
 
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
-import type { SummaryTopSellingProducts } from "@/types/interfaces/dashboard/summary-top-selling-products.interface";
+import type { SummaryTopSellingProducts } from "@/server/modules/dashboard/domain/dashboard.summary-top-selling-products.interface";
 import { getActionError } from "@/utils/errors/get-action-error";
 import { initResponseAction } from "@/utils/response/init-response-action";
 import { saleGetTopSellingProductsRepository } from "../repository/sale.get-top-selling-products.repository";

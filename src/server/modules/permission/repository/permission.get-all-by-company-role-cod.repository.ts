@@ -1,7 +1,7 @@
 import 'server-only';
 
 import prisma from "@/server/db/prisma";
-import type { Permission } from "@/types/interfaces/permission/permission.interface";
+import type { Permission } from "@/server/modules/permission/domain/permission.interface";
 
 export const permissionGetAllByCompanyRoleCodRepository = async (
   companyId: string,

@@ -1,7 +1,7 @@
 import "server-only";
 
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
-import type { Warehouse } from "@/types/interfaces/warehouse/warehouse.interface";
+import type { Warehouse } from "@/server/modules/warehouse/domain/warehouse.interface";
 import { getActionError } from "@/utils/errors/get-action-error";
 import { initResponseAction } from "@/utils/response/init-response-action";
 import { warehouseGetAllByProductRepository } from "../repository/warehouse.get-all-by-product.repository";

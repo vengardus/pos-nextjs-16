@@ -4,8 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 
 import { UserRole } from "@/types/enums/user-role.enum";
-import type { UserWithRelations } from "@/types/interfaces/user/user-with-relations.interface";
-import type { BranchUser } from "@/types/interfaces/branch-user/branch-user.interface";
+import type { UserWithRelations } from "@/server/modules/user/domain/user-with-relations.interface";
+import type { BranchUser } from "@/server/modules/branch-user/domain/branch-user.interface";
 import { UserFormSchema, UserFormSchemaType } from "@/app/(features)/config/users/schemas/user-form.schema";
 import { toCapitalize } from "@/utils/formatters/to-capitalize";
 import { useBranchStore } from "@/stores/branch/branch.store";

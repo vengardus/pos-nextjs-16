@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { User } from "@/types/interfaces/user/user.interface";
+import { User } from "@/server/modules/user/domain/user.interface";
 
 interface CurrentUser {
     id: string;

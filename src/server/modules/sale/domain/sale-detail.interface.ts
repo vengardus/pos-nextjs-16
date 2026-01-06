@@ -1,4 +1,4 @@
-import type { Product } from "@/types/interfaces/product/product.interface";
+import type { Product } from "@/server/modules/product/domain/product.interface";
 import type { Sale } from "./sale.interface";
 
 export interface SaleDetail {

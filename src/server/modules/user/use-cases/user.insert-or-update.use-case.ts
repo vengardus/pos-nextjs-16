@@ -2,7 +2,7 @@ import "server-only";
 
 import bcrypt from "bcryptjs";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
-import type { UserWithRelations } from "@/types/interfaces/user/user-with-relations.interface";
+import type { UserWithRelations } from "@/server/modules/user/domain/user-with-relations.interface";
 import { getActionError } from "@/utils/errors/get-action-error";
 import { initResponseAction } from "@/utils/response/init-response-action";
 import { UserRole } from "@/types/enums/user-role.enum";

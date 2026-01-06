@@ -5,7 +5,7 @@ import GoogleProvider from "next-auth/providers/google";
 import { UserRole } from "./types/enums/user-role.enum";
 import { AppConstants } from "./shared/constants/app.constants";
 import { compare } from "bcryptjs";
-import { User } from "./types/interfaces/user/user.interface";
+import { User } from "@/server/modules/user/domain/user.interface";
 import { ResponseAction } from "./types/interfaces/common/response-action.interface";
 import { initResponseAction } from "./utils/response/init-response-action";
 import { userGetByColumnUseCase } from "./server/modules/user/use-cases/user.get-by-column.use-case";

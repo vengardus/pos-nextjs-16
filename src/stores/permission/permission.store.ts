@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { Permission } from "@/types/interfaces/permission/permission.interface";
+import type { Permission } from "@/server/modules/permission/domain/permission.interface";
 
 interface State {
   permissions: Permission[]; // usado para el pos

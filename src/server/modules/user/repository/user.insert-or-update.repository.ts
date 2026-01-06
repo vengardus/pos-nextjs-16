@@ -1,9 +1,9 @@
 import "server-only";
 
 import prisma from "@/server/db/prisma";
-import type { BranchUser } from "@/types/interfaces/branch-user/branch-user.interface";
-import type { User } from "@/types/interfaces/user/user.interface";
-import type { UserWithRelations } from "@/types/interfaces/user/user-with-relations.interface";
+import type { BranchUser } from "@/server/modules/branch-user/domain/branch-user.interface";
+import type { User } from "@/server/modules/user/domain/user.interface";
+import type { UserWithRelations } from "@/server/modules/user/domain/user-with-relations.interface";
 
 export const userInsertOrUpdateRepository = async (
   user: UserWithRelations,

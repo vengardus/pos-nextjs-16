@@ -1,4 +1,4 @@
-import type { Company } from "@/types/interfaces/company/company.interface";
+import type { Company } from "@/server/modules/company/domain/company.interface";
 import Image from "next/image";
 
 interface CompanyHeaderProps {

@@ -1,7 +1,7 @@
 import "server-only";
 
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
-import type { Permission } from "@/types/interfaces/permission/permission.interface";
+import type { Permission } from "@/server/modules/permission/domain/permission.interface";
 import { getActionError } from "@/utils/errors/get-action-error";
 import { initResponseAction } from "@/utils/response/init-response-action";
 import { permissionInsertOrUpdateRepository } from "../repository/permission.insert-or-update.repository";

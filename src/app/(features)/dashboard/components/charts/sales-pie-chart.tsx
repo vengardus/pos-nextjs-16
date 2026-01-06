@@ -13,8 +13,8 @@ import {
 } from "@/components/ui/card";
 import { ChartConfig } from "@/components/ui/chart";
 
-import type { PaymentMethod } from "@/types/interfaces/payment-method/payment-method.interface";
-import type { CashRegisterMovementTotal } from "@/types/interfaces/cash-register-movement/cash-register-movement-total-summary.interface";
+import type { PaymentMethod } from "@/server/modules/payment-method/domain/payment-method.interface";
+import type { CashRegisterMovementTotal } from "@/server/modules/cash-register-movement/domain/cash-register-movement-total-summary.interface";
 import { AppConstants } from "@/shared/constants/app.constants";
 // import { useRealtimeUpdate } from "@/hooks/supabase/use-realtime-update";
 import { useDateRangeStore } from "@/stores/dashboard/date-range.store";

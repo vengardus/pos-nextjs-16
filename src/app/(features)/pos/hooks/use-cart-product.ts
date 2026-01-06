@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { toast } from "sonner";
-import type { Product } from "@/types/interfaces/product/product.interface";
+import type { Product } from "@/server/modules/product/domain/product.interface";
 import type { Sale } from "@/server/modules/sale/domain/sale.interface";
 import type { PosPayment } from "@/server/modules/sale/domain/pos-payment.interface";
 import { AppConstants } from "@/shared/constants/app.constants";

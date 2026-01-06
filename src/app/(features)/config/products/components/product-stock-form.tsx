@@ -2,7 +2,7 @@ import { useState, type JSX } from "react";
 import { Control, FieldValues, Path } from "react-hook-form";
 import { DeleteIcon } from "lucide-react";
 import type { Branch } from "@/server/modules/branch/domain/branch.types";
-import type { ProductStock } from "@/types/interfaces/product/product-stock.interface";
+import type { ProductStock } from "@/server/modules/product/domain/product-stock.interface";
 import { ComboboxForm } from "@/components/common/form/combobox-form";
 import { InputFieldForm } from "@/components/common/form/input-field-form";
 import { Button } from "@/components/ui/button";

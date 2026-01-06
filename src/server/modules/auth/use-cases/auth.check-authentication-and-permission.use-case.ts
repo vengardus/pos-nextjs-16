@@ -1,4 +1,4 @@
-import type { Company } from "@/types/interfaces/company/company.interface";
+import type { Company } from "@/server/modules/company/domain/company.interface";
 import { ModuleEnum } from "@/types/enums/module.enum";
 import { companyGetByUserCached } from "@/server/modules/company/next/cache/company.get-by-user.cache";
 import { getAuthCached } from "@/server/modules/auth/next/cache/auth.get-session.cache";

@@ -1,7 +1,7 @@
 import "server-only";
 
 import prisma from "@/server/db/prisma";
-import type { DocumentType } from "@/types/interfaces/document-type/document-type.interface";
+import type { DocumentType } from "@/server/modules/document-type/domain/document-type.interface";
 
 export const documentTypeGetAllByCompanyRepository = async (
   companyId: string

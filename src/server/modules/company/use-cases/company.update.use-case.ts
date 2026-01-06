@@ -2,7 +2,7 @@ import "server-only";
 
 import { v2 as cloudinary } from "cloudinary";
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
-import type { Company } from "@/types/interfaces/company/company.interface";
+import type { Company } from "@/server/modules/company/domain/company.interface";
 import { getActionError } from "@/utils/errors/get-action-error";
 import { getImagePublicIdFromCloudinary } from "@/utils/media/cloudinary.utils";
 import { initResponseAction } from "@/utils/response/init-response-action";

@@ -1,11 +1,11 @@
 import "server-only";
 
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
-import type { PaymentMethod } from "@/types/interfaces/payment-method/payment-method.interface";
+import type { PaymentMethod } from "@/server/modules/payment-method/domain/payment-method.interface";
 import type {
   CashRegisterMovementTotal,
   CashRegisterMovementTotalSummary,
-} from "@/types/interfaces/cash-register-movement/cash-register-movement-total-summary.interface";
+} from "@/server/modules/cash-register-movement/domain/cash-register-movement-total-summary.interface";
 import { CashRegisterMovementCategoryEnum } from "@/types/enums/cash-register-movement-category.enum";
 import { CashRegisterMovementTypeEnum } from "@/types/enums/cash-register-movement-type.enum";
 import { PaymentMethodEnum } from "@/types/enums/payment-method.enum";

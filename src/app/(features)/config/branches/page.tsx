@@ -1,4 +1,4 @@
-import type { BranchUser } from "@/types/interfaces/branch-user/branch-user.interface";
+import type { BranchUser } from "@/server/modules/branch-user/domain/branch-user.interface";
 import { BranchHeader } from "@/app/(features)/config/branches/components/branch-header";
 import { BranchesUI } from "@/app/(features)/config/branches/components/branches-ui";
 import { ShowPageMessage } from "@/components/common/messages/show-page-message";

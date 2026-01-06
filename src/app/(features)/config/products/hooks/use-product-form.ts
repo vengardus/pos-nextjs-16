@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import type { Product } from "@/types/interfaces/product/product.interface";
-import type { ProductStock } from "@/types/interfaces/product/product-stock.interface";
-import type { Warehouse } from "@/types/interfaces/warehouse/warehouse.interface";
+import type { Product } from "@/server/modules/product/domain/product.interface";
+import type { ProductStock } from "@/server/modules/product/domain/product-stock.interface";
+import type { Warehouse } from "@/server/modules/warehouse/domain/warehouse.interface";
 import type { Branch } from "@/server/modules/branch/domain/branch.types";
 import {
   ProductFormSchema,

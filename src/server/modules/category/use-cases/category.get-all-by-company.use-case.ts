@@ -1,7 +1,7 @@
 import "server-only";
 
 import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
-import type { Category } from "@/types/interfaces/category/category.interface";
+import type { Category } from "@/server/modules/category/domain/category.base.schema";
 import { getActionError } from "@/utils/errors/get-action-error";
 import { initResponseAction } from "@/utils/response/init-response-action";
 import { categoryGetAllByCompanyRepository } from "../repository/category.get-all-by-company.repository";

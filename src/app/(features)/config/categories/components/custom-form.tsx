@@ -17,7 +17,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import type { Category } from "@/types/interfaces/category/category.interface";
+import type { Category } from "@/server/modules/category/domain/category.base.schema";
 import { CategoryFormSchemaType } from "@/app/(features)/config/categories/schemas/category-form.schema";
 import { useCategoryForm } from "@/app/(features)/config/categories/hooks/use-category-form";
 import { InputFieldForm } from "../../../../../components/common/form/input-field-form";

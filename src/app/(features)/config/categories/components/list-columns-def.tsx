@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { ColumnDef } from "@tanstack/react-table";
 import type { ListColumnsResponsiveDef } from "@/components/tables/types/list-columns-responsive-def.interface";
-import type { Category } from "@/types/interfaces/category/category.interface";
+import type { Category } from "@/server/modules/category/domain/category.base.schema";
 import { ScreenSizeEnum } from "@/utils/browser/get-screen-size";
 import { ListColumnSorting } from "@/components/tables/list-column-sorting";
 import { ListColumnActions } from "@/components/tables/list-column-actions";

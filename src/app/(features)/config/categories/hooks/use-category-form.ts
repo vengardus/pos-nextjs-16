@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import type { Category } from "@/types/interfaces/category/category.interface";
+import type { Category } from "@/server/modules/category/domain/category.base.schema";
 import {
   CategoryFormSchema,
   CategoryFormSchemaType,

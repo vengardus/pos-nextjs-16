@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import type { Product } from "@/types/interfaces/product/product.interface";
-import type { Category } from "@/types/interfaces/category/category.interface";
+import type { Category } from "@/server/modules/category/domain/category.base.schema";
 import type { Branch } from "@/server/modules/branch/domain/branch.types";
 import { getModelMetadata } from "@/server/common/model-metadata";
 import {

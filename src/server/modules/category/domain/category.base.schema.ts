@@ -30,4 +30,4 @@ export const CategoryBaseSchema = z.object({
   createdAt: z.coerce.date().default(new Date()),
   updatedAt: z.coerce.date().nullable(),
 });
-export type CategoryBaseType = z.infer<typeof CategoryBaseSchema>;
+export type Category = z.infer<typeof CategoryBaseSchema>;

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { toast } from "sonner";
-import type { Category } from "@/types/interfaces/category/category.interface";
+import type { Category } from "@/server/modules/category/domain/category.base.schema";
 import { ListColumnsDef, CustomListColumnsResponsiveDef } from "./list-columns-def";
 import { CustomForm } from "./custom-form";
 import { Modal } from "../../../../../components/common/modals/modal";

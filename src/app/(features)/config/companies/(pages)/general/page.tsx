@@ -1,6 +1,6 @@
 import { ShowPageMessage } from "@/components/common/messages/show-page-message";
 import { Suspense } from "react";
-import { ModuleEnum } from "@/types/enums/module.enum";
+import { ModuleEnum } from "@/server/modules/permission/domain/permission.module.enum";
 import { CompanyHeader } from "../../components/company-header";
 import { CompanyForm } from "../../components/company-form";
 import { CompaniesSidebar } from "../../components/companies-sidebar";

@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/table";
 import { Button } from "../ui/button";
 
-import type { ModelMetadata } from "@/types/interfaces/common/model-metadata.interface";
+import type { ModelMetadata } from "@/shared/types/common/model-metadata.interface";
 import type { ListColumnsResponsiveDef } from "@/components/tables/types/list-columns-responsive-def.interface";
 import { useTable } from "@/components/tables/hooks/use-table";
 import { ListHeader } from "@/components/tables/list-header";

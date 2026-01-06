@@ -1,11 +1,11 @@
 import "server-only";
 
-import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
+import type { ResponseAction } from "@/shared/types/common/response-action.interface";
 import type { CashRegisterClosure } from "@/server/modules/cash-register-closure/domain/cash-register-closure.types";
 import type { PaymentMethod } from "@/server/modules/payment-method/domain/payment-method.interface";
 import { getActionError } from "@/utils/errors/get-action-error";
 import { initResponseAction } from "@/utils/response/init-response-action";
-import { PaymentMethodEnum } from "@/types/enums/payment-method.enum";
+import { PaymentMethodEnum } from "@/server/modules/payment-method/domain/payment-method.enum";
 import { cashRegisterClosureInsertRepository } from "@/server/modules/cash-register-closure/repository/cash-register-closure.insert.repository";
 
 export const cashRegisterClosureInsertUseCase = async (

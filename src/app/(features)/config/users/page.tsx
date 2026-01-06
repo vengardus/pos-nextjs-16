@@ -1,5 +1,5 @@
 import { ShowPageMessage } from "@/components/common/messages/show-page-message";
-import { ModuleEnum } from "@/types/enums/module.enum";
+import { ModuleEnum } from "@/server/modules/permission/domain/permission.module.enum";
 import { checkAuthenticationAndPermission } from "@/server/modules/auth/use-cases/auth.check-authentication-and-permission.use-case";
 import { Suspense } from "react";
 import { CustomCrud } from "./components/custom-crud";

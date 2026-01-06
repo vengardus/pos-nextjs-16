@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 
-import { UserRole } from "@/types/enums/user-role.enum";
+import { UserRole } from "@/server/modules/role/domain/role.user-role.enum";
 import type { UserWithRelations } from "@/server/modules/user/domain/user-with-relations.interface";
 import type { BranchUser } from "@/server/modules/branch-user/domain/branch-user.interface";
 import { UserFormSchema, UserFormSchemaType } from "@/app/(features)/config/users/schemas/user-form.schema";
@@ -12,7 +12,7 @@ import { useBranchStore } from "@/stores/branch/branch.store";
 import { CashRegister } from "@/server/modules/cash-register/domain/cash-register.types";
 import { useRoleStore } from "@/stores/role/role.store";
 import { RoleBusiness } from "@/server/modules/role/utils/role.business";
-import { ResponseAction } from "@/types/interfaces/common/response-action.interface";
+import { ResponseAction } from "@/shared/types/common/response-action.interface";
 import { AppConstants } from "@/shared/constants/app.constants";
 import { userInsertOrUpdateAction } from "@/server/modules/user/next/actions/user.insert-or-update.action";
 import { getModelMetadata } from "@/server/common/model-metadata";

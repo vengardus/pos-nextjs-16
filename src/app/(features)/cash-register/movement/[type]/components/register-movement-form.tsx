@@ -10,7 +10,7 @@ import { usePaymentMethodStore } from "@/stores/payment-method/payment-method.st
 import { InputFieldForm } from "@/components/common/form/input-field-form";
 import { ComboboxForm } from "@/components/common/form/combobox-form";
 import { ButtonSave } from "@/components/common/buttons/button-save";
-import { PaymentMethodEnum } from "@/types/enums/payment-method.enum";
+import { PaymentMethodEnum } from "@/server/modules/payment-method/domain/payment-method.enum";
 
 interface RegisterMovementPageProps {
   movementType: string;

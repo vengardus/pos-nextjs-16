@@ -4,7 +4,7 @@ import { unstable_cache as cache } from "next/cache";
 
 import { CacheConfig } from "@/server/next/cache.config";
 import type { PaymentMethod } from "@/server/modules/payment-method/domain/payment-method.interface";
-import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
+import type { ResponseAction } from "@/shared/types/common/response-action.interface";
 import { cashRegisterMovementGetTotalsUseCase } from "../../use-cases/cash-register-movement.get-totals.use-case";
 
 interface getCashRegisterTotalsProps {

@@ -1,8 +1,8 @@
 import "server-only";
 
-import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
+import type { ResponseAction } from "@/shared/types/common/response-action.interface";
 import type { ExecContext } from "./exec-context.type";
-import { ModuleEnum } from "@/types/enums/module.enum";
+import { ModuleEnum } from "@/server/modules/permission/domain/permission.module.enum";
 
 import { checkAuthenticationAndPermission } from "@/server/modules/auth/use-cases/auth.check-authentication-and-permission.use-case";
 import { userGetByColumnCached } from "@/server/modules/user/next/cache/user.cache";

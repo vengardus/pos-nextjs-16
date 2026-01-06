@@ -1,7 +1,7 @@
 import "server-only";
 
 import bcrypt from "bcryptjs";
-import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
+import type { ResponseAction } from "@/shared/types/common/response-action.interface";
 import { getActionError } from "@/utils/errors/get-action-error";
 import { initResponseAction } from "@/utils/response/init-response-action";
 import { userInsertSuperadminRepository } from "../repository/user.insert-superadmin.repository";

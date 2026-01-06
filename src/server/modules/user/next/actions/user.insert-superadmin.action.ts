@@ -1,6 +1,6 @@
 "use server";
 
-import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
+import type { ResponseAction } from "@/shared/types/common/response-action.interface";
 import type { SuperadminParams } from "@/server/modules/user/use-cases/user.insert-superadmin.use-case";
 import { userInsertSuperadminUseCase } from "@/server/modules/user/use-cases/user.insert-superadmin.use-case";
 

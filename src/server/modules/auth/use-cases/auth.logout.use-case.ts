@@ -1,7 +1,7 @@
 import "server-only";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { signOut } from "@/auth";
-import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
+import type { ResponseAction } from "@/shared/types/common/response-action.interface";
 import { initResponseAction } from "@/utils/response/init-response-action";
 
 export const authLogoutUseCase = async (): Promise<ResponseAction> => {

@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
+import type { ResponseAction } from "@/shared/types/common/response-action.interface";
 import type { Company } from "@/server/modules/company/domain/company.interface";
 import { companyUpdateCurrencyUseCase } from "@/server/modules/company/use-cases/company.update-currency.use-case";
 

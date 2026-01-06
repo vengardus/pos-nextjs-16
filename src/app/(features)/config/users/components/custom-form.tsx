@@ -13,7 +13,7 @@ import { UserFormSchemaType } from "@/app/(features)/config/users/schemas/user-f
 import { useUserForm } from "@/app/(features)/config/users/hooks/use-user-form";
 import { useDocumentTypeStore } from "@/stores/document-type/document-type.store";
 import { useBranchStore } from "@/stores/branch/branch.store";
-import { UserRole } from "@/types/enums/user-role.enum";
+import { UserRole } from "@/server/modules/role/domain/role.user-role.enum";
 import { AppConstants } from "@/shared/constants/app.constants";
 import { InputFieldForm } from "@/components/common/form/input-field-form";
 import { ComboboxForm } from "@/components/common/form/combobox-form";

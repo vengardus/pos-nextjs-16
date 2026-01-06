@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
-import { CashRegisterMovementTypeEnum } from "@/types/enums/cash-register-movement-type.enum";
+import { CashRegisterMovementTypeEnum } from "@/server/modules/cash-register-movement/domain/cash-register-movement-type.enum";
 import { RegisterMovementForm } from "@/app/(features)/cash-register/movement/[type]/components/register-movement-form";
 import { LinkSS } from "@/components/common/links/link-ss";
 import { Title } from "@/components/common/titles/Title";

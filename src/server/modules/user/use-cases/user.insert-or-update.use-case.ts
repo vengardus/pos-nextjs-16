@@ -1,11 +1,11 @@
 import "server-only";
 
 import bcrypt from "bcryptjs";
-import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
+import type { ResponseAction } from "@/shared/types/common/response-action.interface";
 import type { UserWithRelations } from "@/server/modules/user/domain/user-with-relations.interface";
 import { getActionError } from "@/utils/errors/get-action-error";
 import { initResponseAction } from "@/utils/response/init-response-action";
-import { UserRole } from "@/types/enums/user-role.enum";
+import { UserRole } from "@/server/modules/role/domain/role.user-role.enum";
 import { AppConstants } from "@/shared/constants/app.constants";
 import { authGetSessionUseCase } from "@/server/modules/auth/use-cases/auth.get-session.use-case";
 import { userInsertOrUpdateRepository } from "../repository/user.insert-or-update.repository";

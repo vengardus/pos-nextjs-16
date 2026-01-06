@@ -2,7 +2,7 @@
 
 import { revalidatePath, updateTag } from "next/cache";
 
-import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
+import type { ResponseAction } from "@/shared/types/common/response-action.interface";
 import type { Warehouse } from "@/server/modules/warehouse/domain/warehouse.interface";
 import { warehouseInsertManyUseCase } from "@/server/modules/warehouse/use-cases/warehouse.insert-many.use-case";
 

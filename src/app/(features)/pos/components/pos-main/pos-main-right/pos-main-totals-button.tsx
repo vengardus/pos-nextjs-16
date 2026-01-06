@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { DollarSign } from "lucide-react";
-import { PaymentMethodEnum } from "@/types/enums/payment-method.enum";
+import { PaymentMethodEnum } from "@/server/modules/payment-method/domain/payment-method.enum";
 import { useCartStore } from "@/stores/cart/cart.store";
 import { ButtonSave } from "@/components/common/buttons/button-save";
 import {
@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { redirect } from "next/navigation";
-import { CashRegisterMovementTypeEnum } from "@/types/enums/cash-register-movement-type.enum";
+import { CashRegisterMovementTypeEnum } from "@/server/modules/cash-register-movement/domain/cash-register-movement-type.enum";
 
 const className = "h-14 w-32 text-md font-bold uppercase rounded-xl";
 

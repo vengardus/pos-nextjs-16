@@ -1,5 +1,5 @@
 import { Input } from "@/components/ui/input";
-import { ModelMetadata } from "@/types/interfaces/common/model-metadata.interface";
+import { ModelMetadata } from "@/shared/types/common/model-metadata.interface";
 
 interface ListFilterProps {
   modelLabels: ModelMetadata;

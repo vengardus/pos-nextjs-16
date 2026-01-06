@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 
 import { UserWithRelations } from "@/server/modules/user/domain/user-with-relations.interface";
-import { CashRegisterMovementCategoryEnum } from "@/types/enums/cash-register-movement-category.enum";
+import { CashRegisterMovementCategoryEnum } from "@/server/modules/cash-register-movement/domain/cash-register-movement-category.enum";
 import { dateTimeToStringLocal } from "@/utils/date/date-time-to-string-local";
 
 interface UserItemProps {

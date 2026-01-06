@@ -1,7 +1,7 @@
 "use server";
 
 import type { PaymentMethod } from "@/server/modules/payment-method/domain/payment-method.interface";
-import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
+import type { ResponseAction } from "@/shared/types/common/response-action.interface";
 import { cashRegisterMovementGetTotalsCached } from "@/server/modules/cash-register-movement/next/cache/cash-register-movement.get-totals.cache";
 
 interface getCashRegisterTotalsProps {

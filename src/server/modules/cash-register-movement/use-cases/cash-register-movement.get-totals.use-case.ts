@@ -1,14 +1,14 @@
 import "server-only";
 
-import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
+import type { ResponseAction } from "@/shared/types/common/response-action.interface";
 import type { PaymentMethod } from "@/server/modules/payment-method/domain/payment-method.interface";
 import type {
   CashRegisterMovementTotal,
   CashRegisterMovementTotalSummary,
 } from "@/server/modules/cash-register-movement/domain/cash-register-movement-total-summary.interface";
-import { CashRegisterMovementCategoryEnum } from "@/types/enums/cash-register-movement-category.enum";
-import { CashRegisterMovementTypeEnum } from "@/types/enums/cash-register-movement-type.enum";
-import { PaymentMethodEnum } from "@/types/enums/payment-method.enum";
+import { CashRegisterMovementCategoryEnum } from "@/server/modules/cash-register-movement/domain/cash-register-movement-category.enum";
+import { CashRegisterMovementTypeEnum } from "@/server/modules/cash-register-movement/domain/cash-register-movement-type.enum";
+import { PaymentMethodEnum } from "@/server/modules/payment-method/domain/payment-method.enum";
 import { CashRegisterStatusEnum } from "@/server/modules/cash-register/domain/cash-register.types";
 import { initResponseAction } from "@/utils/response/init-response-action";
 import { getActionError } from "@/utils/errors/get-action-error";

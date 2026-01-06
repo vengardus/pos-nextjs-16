@@ -1,6 +1,6 @@
-import { UserRole } from "@/types/enums/user-role.enum";
-import type { NavbarItem } from "@/types/interfaces/ui/navbar-item.interface";
-import { ModuleEnum } from "@/types/enums/module.enum";
+import { UserRole } from "@/server/modules/role/domain/role.user-role.enum";
+import type { NavbarItem } from "@/shared/types/ui/navbar-item.interface";
+import { ModuleEnum } from "@/server/modules/permission/domain/permission.module.enum";
 
 export class AppConstants {
   static APP_NAME = "POS-EF2R";

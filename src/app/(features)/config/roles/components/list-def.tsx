@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { toast } from "sonner";
 
-import type { ModelMetadata } from "@/types/interfaces/common/model-metadata.interface";
-import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
+import type { ModelMetadata } from "@/shared/types/common/model-metadata.interface";
+import type { ResponseAction } from "@/shared/types/common/response-action.interface";
 import { Modal } from "../../../../../components/common/modals/modal";
 
 import { useCompanyStore } from "@/stores/company/company.store";

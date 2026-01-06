@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath, updateTag } from "next/cache";
-import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
+import type { ResponseAction } from "@/shared/types/common/response-action.interface";
 import type { CashRegisterClosure } from "@/server/modules/cash-register-closure/domain/cash-register-closure.types";
 import type { PaymentMethod } from "@/server/modules/payment-method/domain/payment-method.interface";
 import { cashRegisterClosureCloseCashRegisterUseCase } from "@/server/modules/cash-register-closure/use-cases/cash-register-closure.close-cash-register.use-case";

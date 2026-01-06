@@ -8,7 +8,7 @@ import "server-only";
 import { unstable_cache as cache } from "next/cache";
 
 import { CacheConfig } from "@/server/next/cache.config";
-import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
+import type { ResponseAction } from "@/shared/types/common/response-action.interface";
 import { categoryGetAllByCompanyUseCase } from "@/server/modules/category/use-cases/category.get-all-by-company.use-case";
 
 // export const categoryGetAllByCompanyCachedOld = async (companyId: string): Promise<ResponseAction> => {

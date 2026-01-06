@@ -4,9 +4,9 @@ import { generateObject } from "ai";
 import { google } from "@ai-sdk/google";
 //import { groq } from "@ai-sdk/groq";
 
-import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
+import type { ResponseAction } from "@/shared/types/common/response-action.interface";
 import type { ExecContext } from "@/server/context/exec-context.type";
-import { ModuleEnum } from "@/types/enums/module.enum";
+import { ModuleEnum } from "@/server/modules/permission/domain/permission.module.enum";
 import { AppConstants } from "@/shared/constants/app.constants";
 
 import { initResponseAction } from "@/utils/response/init-response-action";

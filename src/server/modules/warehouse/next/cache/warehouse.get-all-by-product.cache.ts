@@ -6,7 +6,7 @@ import 'server-only'
 import { unstable_cache as cache } from "next/cache";
 
 import { CacheConfig } from "@/server/next/cache.config";
-import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
+import type { ResponseAction } from "@/shared/types/common/response-action.interface";
 import { warehouseGetAllByProductUseCase } from "@/server/modules/warehouse/use-cases/warehouse.get-all-by-product.use-case";
 
 // export const warehouseGetAllByProductCachedOld = async (

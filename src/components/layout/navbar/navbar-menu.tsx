@@ -10,7 +10,7 @@ import {
   MenubarTrigger,
 } from "@/components/ui/menubar";
 
-import type { NavbarItem } from "@/types/interfaces/ui/navbar-item.interface";
+import type { NavbarItem } from "@/shared/types/ui/navbar-item.interface";
 
 interface NavbarMenuProps {
   navbarItemsAuth: NavbarItem[];

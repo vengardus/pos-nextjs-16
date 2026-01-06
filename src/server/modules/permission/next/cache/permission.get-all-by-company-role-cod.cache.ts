@@ -1,7 +1,7 @@
 import 'server-only';
 
 import { CacheConfig } from "@/server/next/cache.config";
-import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
+import type { ResponseAction } from "@/shared/types/common/response-action.interface";
 import { unstable_cache as cache } from "next/cache";
 
 import { permissionGetAllByCompanyRoleCodUseCase } from "../../use-cases/permission.get-all-by-company-role-cod.use-case";

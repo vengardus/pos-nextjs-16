@@ -1,6 +1,6 @@
 import "server-only";
 import { v2 as cloudinary } from "cloudinary";
-import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
+import type { ResponseAction } from "@/shared/types/common/response-action.interface";
 import type { CategoryInput } from "@/server/modules/category/domain/category.input.schema";
 import { CategoryInputSchema } from "@/server/modules/category/domain/category.input.schema";
 import { categoryInsertOrUpdateRepository } from "../repository/category.insert-or-update.repository";

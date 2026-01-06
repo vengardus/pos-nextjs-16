@@ -3,7 +3,7 @@ import "server-only";
 import { unstable_cache as cache } from "next/cache";
 
 import { CacheConfig } from "@/server/next/cache.config";
-import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
+import type { ResponseAction } from "@/shared/types/common/response-action.interface";
 import { documentTypeGetAllByCompanyUseCase } from "@/server/modules/document-type/use-cases/document-type.get-all-by-company.use-case";
 
 export async function documentTypeGetAllByCompanyCached(

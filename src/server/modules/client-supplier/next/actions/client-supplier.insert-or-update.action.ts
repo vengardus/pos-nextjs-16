@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath, updateTag } from "next/cache";
-import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
+import type { ResponseAction } from "@/shared/types/common/response-action.interface";
 import type { ClientSupplier } from "@/server/modules/client-supplier/domain/client-supplier.interface";
 import { clientSupplierInsertOrUpdateUseCase } from "@/server/modules/client-supplier/use-cases/client-supplier.insert-or-update.use-case";
 

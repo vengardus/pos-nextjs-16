@@ -3,7 +3,7 @@ import 'server-only'
 import { unstable_cache as cache } from "next/cache";
 
 import { CacheConfig } from "@/server/next/cache.config";
-import { ResponseAction } from "@/types/interfaces/common/response-action.interface";
+import { ResponseAction } from "@/shared/types/common/response-action.interface";
 import { saleGetTopSellingProductsUseCase } from "../../use-cases/sale.get-top-selling-products.use-case";
 
 export async function saleGetTopSellingProductsCached(

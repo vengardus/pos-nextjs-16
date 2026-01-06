@@ -1,7 +1,7 @@
 import { cn } from "@/utils/tailwind/cn";
 
 import { AppConstants } from "@/shared/constants/app.constants";
-import type { NavbarItem } from "@/types/interfaces/ui/navbar-item.interface";
+import type { NavbarItem } from "@/shared/types/ui/navbar-item.interface";
 
 interface NavbarButtonSignInProps {
   handledSelectedItem: (item: NavbarItem) => void;

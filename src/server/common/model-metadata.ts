@@ -1,4 +1,4 @@
-import type { ModelMetadata } from "@/types/interfaces/common/model-metadata.interface";
+import type { ModelMetadata } from "@/shared/types/common/model-metadata.interface";
 
 export type ModelKey =
   | "brand"

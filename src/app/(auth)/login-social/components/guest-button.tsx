@@ -3,7 +3,7 @@
 import { userInsertSuperadminAction } from "@/server/modules/user/next/actions/user.insert-superadmin.action";
 import { AppConstants } from "@/shared/constants/app.constants";
 import { useLoginForm } from "@/app/(auth)/hooks/use-login-form";
-import { UserRole } from "@/types/enums/user-role.enum";
+import { UserRole } from "@/server/modules/role/domain/role.user-role.enum";
 import { generateRandomEmail } from "@/utils/generate/generate-random-email";
 import { useEffect } from "react";
 

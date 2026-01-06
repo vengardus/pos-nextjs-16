@@ -1,4 +1,4 @@
-import { UserRole } from "@/types/enums/user-role.enum";
+import { UserRole } from "@/server/modules/role/domain/role.user-role.enum";
 import { Permission } from "@/server/modules/permission/domain/permission.interface";
 import type { Role } from "@/server/modules/role/domain/role.interface";
 

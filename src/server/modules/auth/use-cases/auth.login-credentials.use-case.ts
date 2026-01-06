@@ -1,6 +1,6 @@
 import "server-only";
 
-import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
+import type { ResponseAction } from "@/shared/types/common/response-action.interface";
 import { initResponseAction } from "@/utils/response/init-response-action";
 import { signIn } from "@/auth";
 import { authCredentialsSchema } from "../domain/auth-credentials.schema";

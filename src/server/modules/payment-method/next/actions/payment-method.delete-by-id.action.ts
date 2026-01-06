@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
+import type { ResponseAction } from "@/shared/types/common/response-action.interface";
 import { paymentMethodDeleteByIdUseCase } from "@/server/modules/payment-method/use-cases/payment-method.delete-by-id.use-case";
 import { updateTag } from "next/cache";
 

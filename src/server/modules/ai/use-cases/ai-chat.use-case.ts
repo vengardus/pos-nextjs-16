@@ -1,4 +1,4 @@
-import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
+import type { ResponseAction } from "@/shared/types/common/response-action.interface";
 import { groqChatRepository } from "@/server/modules/ai/repository/groq-chat.repository";
 
 export const aiChatUseCase = async (

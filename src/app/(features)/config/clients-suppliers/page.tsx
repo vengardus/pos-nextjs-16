@@ -1,5 +1,5 @@
 import { ShowPageMessage } from "@/components/common/messages/show-page-message";
-import { ModuleEnum } from "@/types/enums/module.enum";
+import { ModuleEnum } from "@/server/modules/permission/domain/permission.module.enum";
 import { checkAuthenticationAndPermission } from "@/server/modules/auth/use-cases/auth.check-authentication-and-permission.use-case";
 import { clientSupplierGetAllByCompanyCached } from "@/server/modules/client-supplier/next/cache/client-supplier.get-all-by-company.cache";
 import { getModelMetadata } from "@/server/common/model-metadata";

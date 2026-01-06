@@ -1,6 +1,6 @@
 import { ShowPageMessage } from "@/components/common/messages/show-page-message";
 import { Title } from "@/components/common/titles/Title";
-import { ModuleEnum } from "@/types/enums/module.enum";
+import { ModuleEnum } from "@/server/modules/permission/domain/permission.module.enum";
 import { Suspense } from "react";
 import { SalesPieChart } from "./components/charts/sales-pie-chart";
 import { TopProductsByQuantity } from "./components/tops/top-products-by-quantity";

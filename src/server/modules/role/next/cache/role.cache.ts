@@ -6,7 +6,7 @@ import "server-only";
 import { unstable_cache as cache } from "next/cache";
 
 import { CacheConfig } from "@/server/next/cache.config";
-import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
+import type { ResponseAction } from "@/shared/types/common/response-action.interface";
 import { roleGetAllByCompanyUseCase } from "@/server/modules/role/use-cases/role.get-all-by-company.use-case";
 
 // export const roleGetAllByCompanyCachedOld = async (

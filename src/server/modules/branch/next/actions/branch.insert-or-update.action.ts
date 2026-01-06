@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath, updateTag } from "next/cache";
-import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
+import type { ResponseAction } from "@/shared/types/common/response-action.interface";
 import type { Branch } from "@/server/modules/branch/domain/branch.types";
 import { authGetSessionUseCase } from "@/server/modules/auth/use-cases/auth.get-session.use-case";
 import { branchInsertOrUpdateUseCase } from "@/server/modules/branch/use-cases/branch.insert-or-update.use-case";

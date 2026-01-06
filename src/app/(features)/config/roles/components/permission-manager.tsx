@@ -8,7 +8,7 @@ import { ChevronDown, ChevronRight } from "lucide-react";
 import type { Permission } from "@/server/modules/permission/domain/permission.interface";
 import type { Module } from "@/server/modules/permission/domain/module.interface";
 import { usePermissionStore } from "@/stores/permission/permission.store";
-import { UserRole } from "@/types/enums/user-role.enum";
+import { UserRole } from "@/server/modules/role/domain/role.user-role.enum";
 
 interface PermissionManagerProps {
   modules: Module[];

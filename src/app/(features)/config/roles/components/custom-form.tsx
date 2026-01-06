@@ -5,7 +5,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../../../.
 import { Form } from "../../../../../components/ui/form";
 
 import type { UserDataBaseCustomForm } from "@/app/(features)/config/roles/types/user-data-base-custom-form.interface";
-import type { ModelMetadata } from "@/types/interfaces/common/model-metadata.interface";
+import type { ModelMetadata } from "@/shared/types/common/model-metadata.interface";
 import { InputFieldForm } from "../../../../../components/common/form/input-field-form";
 import { ButtonCancel } from "../../../../../components/common/buttons/button-cancel";
 import { ButtonSave } from "../../../../../components/common/buttons/button-save";

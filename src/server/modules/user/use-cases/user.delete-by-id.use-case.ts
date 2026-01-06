@@ -1,9 +1,9 @@
 import "server-only";
 
-import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
+import type { ResponseAction } from "@/shared/types/common/response-action.interface";
 import { getActionError } from "@/utils/errors/get-action-error";
 import { initResponseAction } from "@/utils/response/init-response-action";
-import { UserRole } from "@/types/enums/user-role.enum";
+import { UserRole } from "@/server/modules/role/domain/role.user-role.enum";
 import { userGetByColumnRepository } from "../repository/user.get-by-column.repository";
 import { userDeleteByIdRepository } from "../repository/user.delete-by-id.repository";
 

@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { CartProduct } from "@/server/modules/sale/domain/cart-product.interface";
-import { PaymentMethodEnum } from "@/types/enums/payment-method.enum";
+import { PaymentMethodEnum } from "@/server/modules/payment-method/domain/payment-method.enum";
 import { AppConstants } from "@/shared/constants/app.constants";
 import { CashRegisterOpen } from "@/server/modules/cash-register/domain/cash-register.types";
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { CashRegisterMovementTypeEnum } from "@/types/enums/cash-register-movement-type.enum";
+import { CashRegisterMovementTypeEnum } from "@/server/modules/cash-register-movement/domain/cash-register-movement-type.enum";
 import { redirect } from "next/navigation";
 import { useCartStore } from "@/stores/cart/cart.store";
 import { ButtonIcon } from "@/components/common/buttons/button-icon";

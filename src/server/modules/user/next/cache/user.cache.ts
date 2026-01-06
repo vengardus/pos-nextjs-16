@@ -4,7 +4,7 @@ import "server-only";
 import { unstable_cache as cache } from "next/cache";
 
 import { CacheConfig } from "@/server/next/cache.config";
-import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
+import type { ResponseAction } from "@/shared/types/common/response-action.interface";
 import { userGetAllByCompanyUseCase } from "@/server/modules/user/use-cases/user.get-all-by-company.use-case";
 import { userGetByColumnUseCase } from "@/server/modules/user/use-cases/user.get-by-column.use-case";
 

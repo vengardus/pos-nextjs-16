@@ -1,6 +1,6 @@
 "use server";
 
-import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
+import type { ResponseAction } from "@/shared/types/common/response-action.interface";
 import { branchGetAllUseCase } from "../../use-cases/branch.get-all.use-case";
 import { authGetSessionUseCase } from "@/server/modules/auth/use-cases/auth.get-session.use-case";
 

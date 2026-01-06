@@ -1,5 +1,5 @@
 import { groqGenerateText } from "@/lib/groq/groq-chat";
-import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
+import type { ResponseAction } from "@/shared/types/common/response-action.interface";
 
 export const groqChatRepository = async (
   prompt: string

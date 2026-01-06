@@ -2,7 +2,7 @@ import 'server-only'
 
 import { initResponseAction } from "@/utils/response/init-response-action";
 import { getActionError } from "@/utils/errors/get-action-error";
-import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
+import type { ResponseAction } from "@/shared/types/common/response-action.interface";
 import type { CashRegisterDecision, CashRegisterExtends } from "../domain/cash-register.types";
 import { cashRegisterGetOpenClosuresByBranchRepository } from "../repository/cash-register.get-open-closures-by-branch.repository";
 import { cashRegisterGetFreeByBranchRepository } from "../repository/cash-register.get-free-by-branch.repository";

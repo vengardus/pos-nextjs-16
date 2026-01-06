@@ -1,4 +1,4 @@
-import { PaymentMethodEnum } from "@/types/enums/payment-method.enum";
+import { PaymentMethodEnum } from "@/server/modules/payment-method/domain/payment-method.enum";
 import type { PosPaymentDetail } from "@/server/modules/sale/domain/pos-payment-detail.interface";
 import type { PosPayment } from "@/server/modules/sale/domain/pos-payment.interface";
 import type { SalePaymentDynamicFormSchemaType } from "@/server/modules/sale/domain/sale-payment-dynamic-form.input.schema";

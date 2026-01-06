@@ -1,5 +1,5 @@
 
-import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
+import type { ResponseAction } from "@/shared/types/common/response-action.interface";
 
 export const initResponseAction = ():ResponseAction => {
     const resp: ResponseAction = {

@@ -1,5 +1,5 @@
 import { Plus } from "lucide-react";
-import type { ModelMetadata } from "@/types/interfaces/common/model-metadata.interface";
+import type { ModelMetadata } from "@/shared/types/common/model-metadata.interface";
 import { Button } from "@/components/ui/button";
 import { CardHeader, CardTitle } from "@/components/ui/card";
 

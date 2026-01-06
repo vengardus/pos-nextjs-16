@@ -6,13 +6,13 @@ import type {
   CashRegisterMovementTotal,
   CashRegisterMovementTotalSummary,
 } from "@/server/modules/cash-register-movement/domain/cash-register-movement-total-summary.interface";
-import { CashRegisterMovementTypeEnum } from "@/types/enums/cash-register-movement-type.enum";
+import { CashRegisterMovementTypeEnum } from "@/server/modules/cash-register-movement/domain/cash-register-movement-type.enum";
 import { ShowPageMessage } from "@/components/common/messages/show-page-message";
 import { RegisterClosureUI } from "@/app/(features)/cash-register/closure/[id]/components/register-closure-ui";
 import { RegisterClosureHeaderDate } from "@/app/(features)/cash-register/closure/[id]/components/register-closure-header-date";
 import { CashRegisterStatusEnum } from "@/server/modules/cash-register/domain/cash-register.types";
 import { checkAuthenticationAndPermission } from "@/server/modules/auth/use-cases/auth.check-authentication-and-permission.use-case";
-import { ModuleEnum } from "@/types/enums/module.enum";
+import { ModuleEnum } from "@/server/modules/permission/domain/permission.module.enum";
 import { LinkSS } from "@/components/common/links/link-ss";
 import { paymentMethodGetAllByCompanyCached } from "@/server/modules/payment-method/next/cache/payment-method.cache";
 import { cashRegisterClosureGetByIdCached } from "@/server/modules/cash-register-closure/next/cache/cash-register-closure.cache";

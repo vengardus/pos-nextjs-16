@@ -1,6 +1,6 @@
 import { tool } from "ai";
 import z from "zod";
-import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
+import type { ResponseAction } from "@/shared/types/common/response-action.interface";
 import { AppConstants } from "@/shared/constants/app.constants";
 import { categoryCreateRepository } from "@/server/modules/ai/repository/category-create.repository";
 import { initResponseAction } from "@/utils/response/init-response-action";

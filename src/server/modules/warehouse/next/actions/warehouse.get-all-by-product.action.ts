@@ -1,6 +1,6 @@
 "use server";
 
-import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
+import type { ResponseAction } from "@/shared/types/common/response-action.interface";
 import { warehouseGetAllByProductCached } from "@/server/modules/warehouse/next/cache/warehouse.get-all-by-product.cache";
 
 export const warehouseGetAllByProductAction = async (

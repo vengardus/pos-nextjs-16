@@ -3,7 +3,7 @@ import "server-only";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { signIn } from "@/auth";
 import type { ProviderOAuth } from "@/server/modules/auth/domain/auth.provider-oauth.type";
-import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
+import type { ResponseAction } from "@/shared/types/common/response-action.interface";
 import { AppConstants } from "@/shared/constants/app.constants";
 import { initResponseAction } from "@/utils/response/init-response-action";
 

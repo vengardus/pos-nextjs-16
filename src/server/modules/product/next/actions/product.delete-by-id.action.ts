@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath, updateTag } from "next/cache";
-import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
+import type { ResponseAction } from "@/shared/types/common/response-action.interface";
 import { productDeleteByIdUseCase } from "@/server/modules/product/use-cases/product.delete-by-id.use-case";
 
 export const productDeleteByIdAction = async (

@@ -3,9 +3,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import type { CashRegisterMovement } from "@/server/modules/cash-register-movement/domain/cash-register-movement.interface";
-import { PaymentMethodEnum } from "@/types/enums/payment-method.enum";
-import { CashRegisterMovementCategoryEnum } from "@/types/enums/cash-register-movement-category.enum";
-import { CashRegisterMovementTypeEnum } from "@/types/enums/cash-register-movement-type.enum";
+import { PaymentMethodEnum } from "@/server/modules/payment-method/domain/payment-method.enum";
+import { CashRegisterMovementCategoryEnum } from "@/server/modules/cash-register-movement/domain/cash-register-movement-category.enum";
+import { CashRegisterMovementTypeEnum } from "@/server/modules/cash-register-movement/domain/cash-register-movement-type.enum";
 import {
   RegisterMovementFormSchema,
   RegisterMovementFormSchemaType,

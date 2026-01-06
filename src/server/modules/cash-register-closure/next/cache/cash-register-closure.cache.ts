@@ -3,7 +3,7 @@ import "server-only";
 import { unstable_cache as cache } from "next/cache";
 import { CacheConfig } from "@/server/next/cache.config";
 import { CashRegisterStatusEnum } from "@/server/modules/cash-register/domain/cash-register.types";
-import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
+import type { ResponseAction } from "@/shared/types/common/response-action.interface";
 import { cashRegisterClosureGetByStatusUseCase } from "../../use-cases/cash-register-closure.get-by-status.use-case";
 import { cashRegisterClosureGetByIdUseCase } from "../../use-cases/cash-register-closure.get-by-id.use-case";
 

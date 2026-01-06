@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import type { PaymentMethod } from "@/server/modules/payment-method/domain/payment-method.interface";
 import type { ClientSupplier } from "@/server/modules/client-supplier/domain/client-supplier.interface";
-import { PaymentMethodEnum } from "@/types/enums/payment-method.enum";
+import { PaymentMethodEnum } from "@/server/modules/payment-method/domain/payment-method.enum";
 import { useCartStore } from "@/stores/cart/cart.store";
 import { usePaymentMethodStore } from "@/stores/payment-method/payment-method.store";
 import { ButtonIcon } from "@/components/common/buttons/button-icon";

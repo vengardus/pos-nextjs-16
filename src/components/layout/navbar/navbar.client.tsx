@@ -6,7 +6,7 @@ import { memo } from "react";
 import { cn } from "@/utils/tailwind/cn";
 
 import { AppConstants } from "@/shared/constants/app.constants";
-import type { UserRole } from "@/types/enums/user-role.enum";
+import type { UserRole } from "@/server/modules/role/domain/role.user-role.enum";
 import { useGetSession } from "@/shared/hooks/auth/use-get-session";
 import { useNavbar } from "@/components/layout/navbar/hooks/use-navbar";
 

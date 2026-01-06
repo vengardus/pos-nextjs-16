@@ -1,4 +1,4 @@
-import { PaymentMethodEnum } from "@/types/enums/payment-method.enum";
+import { PaymentMethodEnum } from "@/server/modules/payment-method/domain/payment-method.enum";
 import type { PosPayment } from "@/server/modules/sale/domain/pos-payment.interface";
 
 export class PosPaymentBusiness {

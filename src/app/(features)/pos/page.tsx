@@ -1,5 +1,5 @@
 import type { CashRegisterDecision } from "@/server/modules/cash-register/domain/cash-register.types";
-import { ModuleEnum } from "@/types/enums/module.enum";
+import { ModuleEnum } from "@/server/modules/permission/domain/permission.module.enum";
 import { checkAuthenticationAndPermission } from "@/server/modules/auth/use-cases/auth.check-authentication-and-permission.use-case";
 import { ShowPageMessage } from "@/components/common/messages/show-page-message";
 import { PosPageClient } from "./page-client";

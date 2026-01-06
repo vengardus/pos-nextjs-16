@@ -1,6 +1,6 @@
 import 'server-only'
 
-import type { ResponseAction } from "@/types/interfaces/common/response-action.interface";
+import type { ResponseAction } from "@/shared/types/common/response-action.interface";
 import {
   //companyGetByUserForAdminRepository,
   companyGetByUserForUserRepository,

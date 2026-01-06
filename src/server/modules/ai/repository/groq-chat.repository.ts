@@ -1,8 +1,34 @@
-import { groqGenerateText } from "@/lib/groq/groq-chat";
+import "server-only";
+
+import { generateText } from "ai";
+import { groq } from "@ai-sdk/groq";
 import type { ResponseAction } from "@/shared/types/common/response-action.interface";
+import { getActionError } from "@/utils/errors/get-action-error";
+import { initResponseAction } from "@/utils/response/init-response-action";
 
 export const groqChatRepository = async (
   prompt: string
 ): Promise<ResponseAction> => {
-  return await groqGenerateText(prompt);
+  const resp = initResponseAction();
+
+  if (!prompt.trim()) {
+    resp.message = "El mensaje no puede estar vacío.";
+    return resp;
+  }
+
+  try {
+    const { text } = await generateText({
+      model: groq("llama-3.1-8b-instant"),
+      prompt,
+    });
+
+    resp.success = true;
+    resp.data = {
+      text,
+    };
+  } catch (error) {
+    resp.message = getActionError(error);
+  }
+
+  return resp;
 };

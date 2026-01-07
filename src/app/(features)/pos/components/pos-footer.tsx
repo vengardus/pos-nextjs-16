@@ -27,21 +27,24 @@ export const PosFooter = () => {
 
   return (
     <div className="grid grid-cols-4 gap-3 items-center">
-      <ButtonIcon label={"Eliminar"} handleClick={() => {}} />
+      <ButtonIcon label={"Eliminar"} handleClick={() => {}} variant="outline" />
       <ButtonIcon
         label={"Ingresar Dinero"}
+        variant="outline"
         handleClick={() =>
           handleRegisterMovement(CashRegisterMovementTypeEnum.INCOME)
         }
       />
       <ButtonIcon
         label={"Retirar Dinero"}
+        variant="outline"
         handleClick={() =>
           handleRegisterMovement(CashRegisterMovementTypeEnum.EXPENSE)
         }
       />
       <ButtonIcon
         label={"Cerrar Caja"}
+        variant="outline"
         handleClick={() => handleRegisterClosure()}
       />
       {/* <ButtonIcon
@@ -51,7 +54,7 @@ export const PosFooter = () => {
         })}
         handleClick={handleSaveSale}
       /> */}
-      <ButtonIcon label={"Cerrar"} handleClick={() => {}} />
+      <ButtonIcon label={"Cerrar"} handleClick={() => {}} variant="outline" />
     </div>
   );
 };

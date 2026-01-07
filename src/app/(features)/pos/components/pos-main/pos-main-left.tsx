@@ -18,7 +18,7 @@ export const PosMainLeft = () => {
 
   return (
     <section className="flex flex-col gap-2 mt-2 mb-5 mx-2">
-      <div className="grid grid-cols-5 font-bold bg-surfaceContrast py-1 text-center text-foreground">
+      <div className="grid grid-cols-5 font-bold bg-surfaceContrast py-1 text-center text-primary-foreground">
         <span>Producto</span>
         <span>Cant.</span>
         <span>Precio</span>

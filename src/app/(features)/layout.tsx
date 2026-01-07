@@ -22,7 +22,9 @@ export default function FeaturesLayout(
   return (
     <div className="">
       <Navbar />
-      <div className="layout-children-with-navbar py-2 px-3 h-screen">{children}</div>
+      <div className="relative top-16 h-[calc(100vh-64px)] bg-background text-foreground py-2 px-3 h-screen">
+        {children}
+      </div>
       <Toaster closeButton richColors  />
     </div>
   );

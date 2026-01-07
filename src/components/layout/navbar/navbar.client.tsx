@@ -16,6 +16,15 @@ import { NavbarButtonMenuMobile } from "./navbar-button-menu-mobile";
 import { NavbarMenu } from "./navbar-menu";
 import { NavbarProfile } from "./navbar-profile";
 
+const navBaseClass =
+  "fixed top-0 z-40 w-full h-16 pr-1 flex py-2 justify-start items-center flex-col sm:flex-row bg-slate-300 dark:bg-background text-foreground/50 border-b-2 border-t-2 border-foreground/10";
+
+const menuBarBaseClass =
+  "flex-col sm:flex sm:flex-row w-full items-baseline sm:items-center sm:justify-end gap-6 sm:gap-4 pl-3 sm:pl-0 pr-6 bg-slate-300 dark:bg-background text-foreground/50 border-0 fixed top-16 left-0 w-3/5 sm:relative sm:top-0 sm:w-full";
+
+const menuProfileBaseClass =
+  "flex flex-col bg-slate-400/60 dark:bg-background text-foreground/50 border-2 border-foreground/15 rounded-lg px-5 items-start gap-3 fixed top-16 right-1 w-auto h-auto";
+
 function Navbar ()  {
   const { isAuthenticated, sessionUser, isLoading } = useGetSession();
   const {
@@ -32,12 +41,12 @@ function Navbar ()  {
   });
   
   //TODO: skeleton pendiente
-  if (isLoading) return <div className="nav">Loading...</div>;
+  if (isLoading) return <div className={navBaseClass}>Loading...</div>;
   
   console.log("Rendering Navbar")
 
   return (
-    <nav>
+    <nav className={navBaseClass}>
       <div className="flex justify-between w-full items-center px-3 h-full">
         <NavbarButtonMenuMobile
           isMenuOpen={isMenuOpen}
@@ -53,7 +62,7 @@ function Navbar ()  {
             setIsMenuOpen(!isMenuOpen)
           }}
           navbarItemsAuth={navbarItemsAuth}
-          className={cn("menu-bar", {
+          className={cn(menuBarBaseClass, {
             "flex h-[2/5] py-5 ": isMenuOpen,
             hidden: !isMenuOpen,
           })}
@@ -84,7 +93,7 @@ function Navbar ()  {
             }
           }}
           navbarItemsAuth={AppConstants.NAVBAR_ITEMS_PROFILE}
-          className={cn("menu-profile")}
+          className={cn(menuProfileBaseClass)}
           isPending={isPending}
         />
       )}

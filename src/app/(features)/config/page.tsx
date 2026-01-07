@@ -3,13 +3,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { AppConstants } from "@/shared/constants/app.constants";
 import { Card, CardContent } from "@/components/ui/card";
-import "@/styles/config.css";
 // import LoadingPage from "../loading";
 
 export default async function ConfigPage() {
   return (
     // <Suspense fallback={<LoadingPage />}>
-    <section className="section-config">
+    <section className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 p-3 bg-[url('/fondocuadros.svg')] bg-contain bg-center [background-repeat:no-repeat,repeat]">
       {AppConstants.CONFIG_MODULES.map((item) => (
         <Card key={item.title} className="py-5 card ">
           <CardContent>

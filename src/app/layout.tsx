@@ -5,7 +5,6 @@ import { inter } from "@/styles/fonts";
 import { AppConstants } from "@/shared/constants/app.constants";
 import { ThemeProvider } from "@/providers/theme-provider";
 import "@/styles/globals.css";
-import "@/styles/navbar.css";
 
 export const metadata: Metadata = {
   title: `${AppConstants.APP_NAME}`,

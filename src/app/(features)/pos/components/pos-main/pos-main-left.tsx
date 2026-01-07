@@ -18,7 +18,7 @@ export const PosMainLeft = () => {
 
   return (
     <section className="flex flex-col gap-2 mt-2 mb-5 mx-2">
-      <div className="grid grid-cols-5 font-bold bg-gray-800 py-1 text-center">
+      <div className="grid grid-cols-5 font-bold bg-surfaceContrast py-1 text-center text-foreground">
         <span>Producto</span>
         <span>Cant.</span>
         <span>Precio</span>
@@ -27,7 +27,7 @@ export const PosMainLeft = () => {
       </div>
       {cart.length === 0 && (
         <div className="flex justify-center w-full">
-          <div className="text-gray-400 flex justify-center w-1/3 text-md">No hay items</div>
+          <div className="text-muted-foreground flex justify-center w-1/3 text-md">No hay items</div>
         </div>
       )}
       {cart.map((item) => (
@@ -41,7 +41,7 @@ export const PosMainLeft = () => {
           <p>{item.price.toFixed(2)}</p>
           <p>{item.total.toFixed(2)}</p>
           <Trash2
-            className="w-6 h-5 text-red-400 justify-self-center"
+            className="w-6 h-5 text-danger justify-self-center"
             onClick={() => {
               removeProduct(item.id);
             }}

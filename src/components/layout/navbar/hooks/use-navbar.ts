@@ -1,6 +1,7 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { signIn, signOut } from "next-auth/react";
+import { useTheme } from "next-themes";
 
 import { AppConstants } from "@/shared/constants/app.constants";
 import type { NavbarItem } from "@/shared/types/ui/navbar-item.interface";
@@ -23,6 +24,7 @@ interface useNavbarProps {
 }
 export const useNavbar = ({ isAuthenticated, userRole }: useNavbarProps) => {
   const router = useRouter();
+  const { setTheme } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMenuProfileOpen, setIsMenuProfileOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
@@ -69,6 +71,15 @@ export const useNavbar = ({ isAuthenticated, userRole }: useNavbarProps) => {
           await signOut({
             redirectTo: AppConstants.URL_HOME,
           });
+          break;
+        case "theme-light":
+          setTheme("light");
+          break;
+        case "theme-dark":
+          setTheme("dark");
+          break;
+        case "theme-system":
+          setTheme("system");
           break;
       }
     });

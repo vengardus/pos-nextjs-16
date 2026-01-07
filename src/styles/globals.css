@@ -127,5 +127,5 @@ h2 {
 
 
 #btn-add-record, #btn-save, #btn-ticket-pos {
-  @apply bg-warning hover:bg-warning-hover rounded-xl text-lg text-warning-foreground;
+  @apply bg-warning hover:bg-warningHover rounded-xl text-lg text-warning-foreground;
 }

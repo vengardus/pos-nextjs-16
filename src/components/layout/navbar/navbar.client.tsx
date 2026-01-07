@@ -77,11 +77,12 @@ function Navbar ()  {
       {isAuthenticated && isMenuProfileOpen && (
         <NavbarMenu
           isMenuOpen={isMenuOpen}
-          handledSelectedItem={ (item) => {
-            handledSelectedItem(item)
-            setIsMenuProfileOpen(!isMenuProfileOpen)
-          }
-          }
+          handledSelectedItem={(item) => {
+            handledSelectedItem(item);
+            if (!item.children) {
+              setIsMenuProfileOpen(!isMenuProfileOpen);
+            }
+          }}
           navbarItemsAuth={AppConstants.NAVBAR_ITEMS_PROFILE}
           className={cn("menu-profile")}
           isPending={isPending}

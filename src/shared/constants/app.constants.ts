@@ -104,6 +104,28 @@ export class AppConstants {
       href: "/config",
     },
     {
+      name: "theme",
+      label: "Tema",
+      isSystem: true,
+      children: [
+        {
+          name: "theme-light",
+          label: "Claro",
+          isSystem: true,
+        },
+        {
+          name: "theme-dark",
+          label: "Oscuro",
+          isSystem: true,
+        },
+        {
+          name: "theme-system",
+          label: "Sistema",
+          isSystem: true,
+        },
+      ],
+    },
+    {
       name: "logout",
       label: "Logout",
       isSystem: true

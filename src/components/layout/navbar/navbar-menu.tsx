@@ -41,7 +41,7 @@ export const NavbarMenu = ({
             </MenubarTrigger>
 
             {item.children && (
-              <MenubarContent className="bg-slate-400/60 dark:bg-background dark:text-foreground/50 border-2 border-foreground/15 rounded-lg py-2">
+              <MenubarContent className="bg-slate-300 text-foreground/70 dark:bg-background dark:text-foreground/50 border-2 border-foreground/15 rounded-lg py-2">
                 {item.children.map((child, index) =>
                   child.isSeparator ? (
                     <MenubarSeparator

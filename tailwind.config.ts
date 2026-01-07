@@ -48,6 +48,7 @@ export default {
           DEFAULT: "hsl(var(--warning-strong))",
           foreground: "hsl(var(--warning-foreground))",
         },
+        warningHover: "hsl(var(--warning-hover))",
         danger: "hsl(var(--danger-strong))",
         surfaceContrast: "hsl(var(--surface-contrast))",
         neutralStrong: "hsl(var(--neutral-strong))",

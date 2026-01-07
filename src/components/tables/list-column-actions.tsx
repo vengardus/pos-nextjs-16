@@ -27,11 +27,11 @@ export const ListColumnActions = <TData,>({
     <>
       <div className="flex gap-3 justify-end">
         <Pencil
-          className="w-6 h-5 text-yellow-400"
+          className="w-6 h-5 text-warning"
           onClick={() => handleEditRecord(row.getValue("id"))}
         />
         <Trash2
-          className="w-6 h-5 text-red-400"
+          className="w-6 h-5 text-danger"
           onClick={() => {
             setIsOpenDialogConfirmDelete(true);
           }}

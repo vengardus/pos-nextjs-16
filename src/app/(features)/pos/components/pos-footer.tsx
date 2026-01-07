@@ -47,7 +47,7 @@ export const PosFooter = () => {
       {/* <ButtonIcon
         label={!isLoading ? `Cobrar` : `Grabando...`}
         className={cn("", {
-          "bg-[#3ff563] text-black font-bold": isLoading,
+          "bg-success text-black font-bold": isLoading,
         })}
         handleClick={handleSaveSale}
       /> */}

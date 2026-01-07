@@ -39,7 +39,7 @@ export const PosMainTotalsButton = ({ total }: PosMainTotalsButtonProps) => {
   };
 
   return (
-    <div className="flex flex-col gap-2 py-2 bg-[#3ff563] text-black mt-5 px-2 rounded-xl">
+    <div className="flex flex-col gap-2 py-2 bg-success text-black mt-5 px-2 rounded-xl">
       <div
         onSubmit={handleSaveSale}
         className="flex gap-5 w-full justify-end lg:hidden"
@@ -53,7 +53,7 @@ export const PosMainTotalsButton = ({ total }: PosMainTotalsButtonProps) => {
         />
       </div>
       <div className="flex w-full gap-2  justify-between items-center">
-        <DollarSign className="text-green-800 bg-[#3ff563] rounded-full size-20 " />
+        <DollarSign className="text-green-800 bg-success rounded-full size-20 " />
         <div className="flex gap-4">
           <span className="text-3xl">S/.</span>
           <span className="text-3xl ">{total.toFixed(2) ?? "0.00"}</span>

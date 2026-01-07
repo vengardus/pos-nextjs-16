@@ -206,7 +206,7 @@ export const CustomForm = ({
                   isPending={isPending}
                 />
                 {!(currentRow && currentRow.roleId === UserRole.GUEST) && (
-                  <ButtonSave isPending={isPending} className="bg-gray-600" />
+                  <ButtonSave isPending={isPending} className="bg-neutralStrong" />
                 )}
               </div>
             </CardFooter>

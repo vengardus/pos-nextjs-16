@@ -11,7 +11,7 @@ import { PosSearch } from "./pos-header/pos-search";
 import { useProductStore } from "@/stores/product/product.store";
 import { useRouter } from "next/navigation";
 
-const classNameInputMode = "bg-[#5849fe] text-white hover:bg-indigo-700";
+const classNameInputMode = "bg-brand text-white hover:bg-indigo-700";
 
 interface PosProductUIProps {
   products: Product[];

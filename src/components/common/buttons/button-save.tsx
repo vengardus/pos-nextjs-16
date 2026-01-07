@@ -43,7 +43,7 @@ export const ButtonSave = ({
         className,
         // "bg-green-800 text-white hover:bg-green-900 text-lg",
         {
-          "bg-yellow-900 text-slate-800 font-bold disabled:opacity-100 disabled:bg-opacity-100":
+          "bg-warning text-warning-foreground font-bold disabled:opacity-100 disabled:bg-opacity-100":
             isDisabled,
         }
       )}

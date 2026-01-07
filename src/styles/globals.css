@@ -116,7 +116,7 @@ h2 {
   @apply border-b mb-5;
 }
 .link {
-  @apply text-blue-400 text-center;
+  @apply text-brand text-center;
 }
 
 .input {
@@ -125,5 +125,5 @@ h2 {
 
 
 #btn-add-record, #btn-save, #btn-ticket-pos {
-  @apply bg-yellow-400 hover:bg-yellow-500 rounded-xl text-lg;
+  @apply bg-warning hover:bg-warning/90 rounded-xl text-lg text-warning-foreground;
 }

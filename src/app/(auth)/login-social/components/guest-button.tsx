@@ -64,7 +64,7 @@ export default function GuestButton({ isPendingSocial, setIsPendingSocial }: Gue
 
   return (
     <button
-      className="w-full bg-yellow-400 text-black font-bold py-2 px-4 rounded-3xl mb-6 disabled:bg-yellow-600"
+      className="w-full bg-warning text-warning-foreground font-bold py-2 px-4 rounded-3xl mb-6 disabled:bg-warning/80"
       onClick={handleGuestLogin}
       disabled={isPendingSocial}
     >

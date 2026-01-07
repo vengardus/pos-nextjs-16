@@ -15,7 +15,7 @@ interface ButtonIconProps {
 export const ButtonIcon = ({
   children,
   label,
-  variant = "default",
+  variant = "outline",
   className,
   handleClick,
   disabled=false,

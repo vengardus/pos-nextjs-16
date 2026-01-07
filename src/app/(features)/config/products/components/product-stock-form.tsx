@@ -122,7 +122,7 @@ export const ProductStockForm = <T extends FieldValues>({
           onChange={(e) => setMinimunStockValue(e.target.value)}
         />
 
-        <div className="text-red-500">{message}</div>
+        <div className="text-danger">{message}</div>
         <Button type="button" onClick={handleAddProductStock}>
           Agregar
         </Button>

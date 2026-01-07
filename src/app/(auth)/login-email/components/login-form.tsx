@@ -36,7 +36,7 @@ export function LoginForm() {
             label="Correo electrónico"
             flexDirection="column"
             placeholder="correo@ejemplo.com"
-            className="dark:bg-[#1a1633] text-foreground border-gray-700"
+            className="dark:bg-surfaceContrast text-foreground border-gray-700"
           />
 
           <InputFieldForm
@@ -46,7 +46,7 @@ export function LoginForm() {
             flexDirection="column"
             type="password"
             placeholder="contraseña"
-            className="dark:bg-[#1a1633] text-foreground border-gray-700"
+            className="dark:bg-surfaceContrast text-foreground border-gray-700"
           />
 
           <Button

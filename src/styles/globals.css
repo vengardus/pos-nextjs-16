@@ -24,8 +24,17 @@ body {
     --accent: oklch(0.967 0.001 286.375);
     --accent-foreground: oklch(0.21 0.006 285.885);
     --destructive: oklch(0.577 0.245 27.325);
-    --border: oklch(0.92 0.004 286.32);
-    --input: oklch(0.92 0.004 286.32);
+    --surface-contrast: 248.3 39.7% 14.3%;
+    --brand-primary: 245 98.9% 64.1%;
+    --success-strong: 131.9 90.1% 60.4%;
+    --success-hover: 142.1 70.6% 45.3%;
+    --warning-strong: 47.9 95.8% 53.1%;
+    --warning-hover: 47.9 95.8% 45.3%;
+    --warning-foreground: 215 27.9% 16.9%;
+    --danger-strong: 0 90.6% 70.8%;
+    --neutral-strong: 215 13.8% 34.1%;
+    --border: 214.3 31.8% 80%;
+    --input: 214.3 31.8% 80%;
     --ring: oklch(0.708 0 0);
     --chart-1: oklch(0.809 0.105 251.813);
     --chart-2: oklch(0.623 0.214 259.815);
@@ -59,6 +68,15 @@ body {
     --accent-foreground: 210 40% 98%;
     --destructive: 0 87% 78%;
     --destructive-foreground: 210 40% 98%;
+    --surface-contrast: 248.3 39.7% 14.3%;
+    --brand-primary: 245 98.9% 64.1%;
+    --success-strong: 131.9 90.1% 60.4%;
+    --success-hover: 142.1 70.6% 45.3%;
+    --warning-strong: 47.9 95.8% 53.1%;
+    --warning-hover: 47.9 95.8% 45.3%;
+    --warning-foreground: 215 27.9% 16.9%;
+    --danger-strong: 0 90.6% 70.8%;
+    --neutral-strong: 215 13.8% 34.1%;
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
@@ -100,7 +118,7 @@ h2 {
   @apply border-b mb-5;
 }
 .link {
-  @apply text-blue-400 text-center;
+  @apply text-brand text-center;
 }
 
 .input {
@@ -109,5 +127,5 @@ h2 {
 
 
 #btn-add-record, #btn-save, #btn-ticket-pos {
-  @apply bg-yellow-400 hover:bg-yellow-500 rounded-xl text-lg;
+  @apply bg-warning hover:bg-warningHover rounded-xl text-lg text-warning-foreground;
 }

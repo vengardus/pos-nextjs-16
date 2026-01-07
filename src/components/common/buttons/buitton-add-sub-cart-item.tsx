@@ -13,8 +13,8 @@ export const ButtonAddSubCartItem = ({ type, item, action }: ButtonAddSubProps) 
   return (
     <div
       className={cn("cursor pointer border-2 border-foreground/10 w-[2rem] text-xl", {
-        "hover:bg-green-500": type === "add",
-        "hover:bg-red-500": type === "sub",
+        "hover:bg-successHover": type === "add",
+        "hover:bg-danger": type === "sub",
       })}
       onClick={() => {
         action(item, type);

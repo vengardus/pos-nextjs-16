@@ -53,7 +53,8 @@ export const TopProductsByQuantity = async ({
                   <article
                     key={index}
                     className={cn("grid grid-cols-2 pb-2", {
-                      "bg-muted/20 dark:bg-muted/40": index % 2 !== 0,
+                      "bg-muted-foreground/20 dark:bg-muted/70":
+                        index % 2 !== 0,
                     })}
                   >
                     <p className="pl-1">{product.name}</p>

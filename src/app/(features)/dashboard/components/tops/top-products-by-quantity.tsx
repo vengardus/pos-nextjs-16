@@ -40,7 +40,7 @@ export const TopProductsByQuantity = async ({
         </div>
       ) : (
         <section className="grid mt-2 gap-2">
-          <section className="grid grid-cols-2 border-b-2 border-slate-700">
+          <section className="grid grid-cols-2 border-b-2 border-border">
             <p>Producto</p>
             <p className="text-center">Cantidad</p>
           </section>
@@ -53,7 +53,8 @@ export const TopProductsByQuantity = async ({
                   <article
                     key={index}
                     className={cn("grid grid-cols-2 pb-2", {
-                      "bg-gray-800": index % 2 !== 0,
+                      "bg-muted-foreground/20 dark:bg-muted/70":
+                        index % 2 !== 0,
                     })}
                   >
                     <p className="pl-1">{product.name}</p>

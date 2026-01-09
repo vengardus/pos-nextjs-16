@@ -1,36 +1,123 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# POS Next.js 16 🚀
 
-## Getting Started
+Sistema de Punto de Venta (POS) modular de alto rendimiento basado en **Next.js 16** y **Clean Architecture**. El objetivo es ofrecer un núcleo de negocio escalable, mantenible y fácil de extender mediante módulos independientes.
 
-First, run the development server:
+**URL de la app:** https://pos-nextjs-16.vercel.app
+
+## Índice
+
+- [Propósito](#propósito)
+- [Arquitectura del sistema (Core)](#arquitectura-del-sistema-core)
+- [Stack tecnológico](#stack-tecnológico)
+- [Sistema de diseño y UI](#sistema-de-diseño-y-ui)
+- [Estructura de carpetas](#estructura-de-carpetas)
+- [Guía de desarrollo](#guía-de-desarrollo)
+
+## Propósito
+
+POS Next.js 16 es un **sistema de Punto de Venta modular de alto rendimiento**, diseñado para soportar crecimiento por módulos y mantener la lógica de negocio aislada del framework.
+
+## Arquitectura del sistema (Core)
+
+El núcleo del negocio vive en `src/server/modules/`, siguiendo la **Modular Clean Architecture**. Cada módulo se divide en capas con responsabilidades claras:
+
+```text
+Domain (Zod) -> Repository (Prisma) -> Use Case -> Server Action
+```
+
+### Flujo de datos
+
+- **Domain**: esquemas Zod y tipos de dominio.
+- **Repository**: acceso a datos (Prisma/Supabase).
+- **Use Case**: lógica de negocio pura.
+- **Server Action**: integración con Next.js (App Router).
+
+### Módulos activos
+
+- ai
+- auth
+- branch
+- branch-user
+- brand
+- cash-register
+- cash-register-closure
+- cash-register-movement
+- category
+- client-supplier
+- company
+- dashboard
+- document-type
+- kardex
+- payment-method
+- permission
+- product
+- role
+- sale
+- user
+- warehouse
+
+## Stack tecnológico
+
+Versiones clave detectadas en `package.json`:
+
+- **Next.js** 16.1.1
+- **TypeScript** 5.x
+- **Supabase** 2.49.7
+- **Prisma** 6.4.1
+- **Zustand** 5.0.3
+- **Tailwind CSS** 3.4.1
+
+## Sistema de diseño y UI
+
+- **UI** basada en **shadcn/ui** con composición de componentes reutilizables.
+- **OKLCH** como base de color en `globals.css` y `tailwind.config.ts`, garantizando consistencia cromática entre modo claro y oscuro.
+
+## Estructura de carpetas
+
+Mapa simplificado del proyecto con responsabilidades principales:
+
+```text
+src/
+├─ app/                # App Router y rutas
+├─ components/         # Componentes UI y composición
+│  └─ ui/              # Componentes shadcn/ui
+├─ server/
+│  └─ modules/         # Núcleo de negocio modular (Clean Architecture)
+├─ styles/             # Tokens y estilos globales
+├─ utils/              # Utilidades globales por categoría
+```
+
+> Nota: las utilidades globales deben vivir en `src/utils/<categoria>/` y las utilidades específicas por módulo en `src/server/modules/<modulo>/utils/`.
+
+## Guía de desarrollo
+
+### Instalación
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
+bun install
+```
+
+### Desarrollo local
+
+```bash
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Script de integración (dev-sync)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Para pruebas en ramas locales, ejecuta el script de integración:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+bun run dev-sync
+```
 
-## Learn More
+### Convenciones de commits
 
-To learn more about Next.js, take a look at the following resources:
+- Formato: `<type>(<scope>): <mensaje>`
+- Mensaje en **español**, **imperativo**, sin mayúscula inicial ni punto final.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Ejemplo:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```text
+feat(auth): agrega autenticación con proveedores
+```

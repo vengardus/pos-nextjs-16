@@ -22,23 +22,21 @@
 - Evita repeticiones de contexto ya confirmado.
 - En cierres, revisiones y estados intermedios, prioriza la síntesis.
 
-## Flujo de trabajo
-- Toda tarea nueva debe iniciarse en una rama nueva creada desde `codex/dev`.
-- No se debe trabajar directamente sobre `codex/dev`.
-- No inicies una nueva tarea mientras la actual siga en curso.
-- No mezcles cambios de tareas distintas en la misma rama salvo autorización explícita.
-
-## Git y ramas
-- Usa mensajes de commit con el formato `<type>(<scope>): <mensaje>`.
-- El mensaje debe escribirse en español, en modo imperativo, sin mayúscula inicial y sin punto final.
-- Tipos permitidos: `feat`, `fix`, `chore`, `docs`, `refactor`, `test`.
-- Los pull requests deben incluir un resumen breve en español, los cambios principales y, si aplica, *Breaking Changes*.
-
-## Criterios de cierre y validación mínima
-- No se considera una tarea cerrada si no fue validada técnicamente.
-- Antes de cerrar, verifica que los cambios compilan y no rompen el flujo esperado.
-- Verifica la rama actual antes de considerar la tarea terminada.
-- Revisa `git status` antes de dar por concluida la tarea.
+## Flujo de trabajo y Cierre de Tareas
+- Toda tarea nueva debe seguir este protocolo:
+  1. **Verificación de estado**: Ejecutar `git status`. Si hay archivos sin commitear, ramas sucias o commits pendientes, detener la operación.
+  2. **Creación de rama**: Crear una nueva rama local a partir de `origin/codex/dev` con el formato `codex/[nombre-descriptivo-tarea]`.
+  3. **Desarrollo**: Realizar commits atómicos según sea necesario (sin push).
+  4. **Validación Técnica**: 
+     - Para cambios de código: ejecutar `bunx tsc --noEmit` y pruebas funcionales.
+     - Para cambios de documentación/configuración: verificar cambios manualmente.
+  5. **Cierre de tarea**:
+     - Ejecutar commit final (`git commit -a`).
+     - Realizar `git push` al remoto (solo al cerrar).
+     - Permanecer en la rama activa. No realizar cambios de rama ni borrados automáticos.
+- No trabajar directamente sobre `codex/dev`.
+- No iniciar una nueva tarea mientras la actual siga en curso.
+- No mezclar cambios de tareas distintas en la misma rama salvo autorización explícita.
 
 ## Reglas operativas críticas
 - Reutiliza primero componentes de `@/components/common/` y, si no existe una opción adecuada, usa `@/components/ui/`.

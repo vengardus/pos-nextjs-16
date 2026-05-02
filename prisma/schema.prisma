@@ -10,8 +10,8 @@ generator client {
 
 datasource db {
   provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")     // no se requiere para veriones recientes (VERIFICAR)
+  //url       = env("DATABASE_URL")
+  //directUrl = env("DIRECT_URL")     // no se requiere para veriones recientes (VERIFICAR)
 }
 
 // enum UserRoleEnum {

@@ -1,8 +1,15 @@
-import { Inter, Montserrat_Alternates } from "next/font/google";
+import localFont from "next/font/local";
 
-export const inter = Inter({ subsets: ["latin"] });
+export const inter = localFont({
+  src: "../assets/fonts/GeistVF.woff",
+  weight: "100 900",
+  style: "normal",
+  display: "swap",
+});
 
-export const titleFont = Montserrat_Alternates({
-    subsets:['latin'],
-    weight:['400', '700']
-})
+export const titleFont = localFont({
+  src: "../assets/fonts/GeistMonoVF.woff",
+  weight: "100 900",
+  style: "normal",
+  display: "swap",
+});

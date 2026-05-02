@@ -36,8 +36,10 @@
 
 ## Criterios de cierre y validación mínima
 - No se considera una tarea cerrada si no fue validada técnicamente.
-- Antes de cerrar, verifica que los cambios compilan y no rompen el flujo esperado.
-- Verifica la rama actual antes de considerar la tarea terminada.
+- Antes de cerrar, verificar que los cambios compilan (`bun run build`) y no rompen el flujo esperado (tests).
+- Ejecutar commit final (`git commit -a`) y `git push`.
+- Tras el push, el agente debe permanecer en la rama activa. No realizar cambios de rama ni borrados automáticos.
+- Verificar la rama actual antes de considerar la tarea terminada.
 - Revisa `git status` antes de dar por concluida la tarea.
 
 ## Reglas operativas críticas

@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "bun run prisma:migrate:clean && next build --webpack",
+    "build": "bun run prisma:migrate:clean && next build",
     "start": "next start",
     "lint": "eslint .",
     "prisma:migrate:clean": "prisma generate",

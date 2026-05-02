@@ -1,9 +1,11 @@
-import { PrismaClient } from '@prisma/client';
+//import { PrismaClient } from '@prisma/client';
+import { prisma } from "@/server/db/prisma";
+
 import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import path from 'path';
 
-const prisma = new PrismaClient();
+//const prisma = new PrismaClient();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 

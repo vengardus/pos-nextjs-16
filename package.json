@@ -5,10 +5,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "bun run prisma:migrate:deploy && next build",
+    "build": "bun run prisma:migrate:clean && next build",
     "start": "next start",
     "lint": "eslint .",
-    "prisma:migrate:deploy": "prisma migrate deploy && prisma generate"
+    "prisma:migrate:clean": "prisma generate",
+    "prisma:migrate:deploy": "prisma generate && prisma migrate deploy"
   },
   "dependencies": {
     "@ai-sdk/google": "^2.0.46",

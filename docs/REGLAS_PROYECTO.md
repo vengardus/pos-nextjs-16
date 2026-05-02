@@ -143,12 +143,9 @@ El núcleo del negocio se centraliza en `src/server/modules/`. Cada módulo debe
 - Si el cambio es backward-compatible y no altera consumidores existentes, se puede proceder con validación técnica proporcional al impacto.
 
 ## 14. Criterios de cierre y validación
-- No se considera una tarea cerrada si no fue validada técnicamente.
-- Antes de cerrar, verifica que los cambios compilan y no rompen el flujo esperado.
-- Si la tarea afecta servidor, valida el impacto en dominio, use-cases y repositories.
-- Si la tarea afecta UI, valida que el componente o flujo quede consistente con el patrón del proyecto.
-- Verifica la rama actual antes de considerar la tarea terminada.
-- Revisa `git status` antes de dar por concluida la tarea.
+- No se considera una tarea cerrada si no fue validada técnica y funcionalmente.
+- Antes de cerrar, verifica que los cambios compilan, respetan las normas de tipo y no rompen el flujo esperado.
+- El procedimiento operativo detallado, incluyendo los comandos de validación (como `tsc --noEmit`) y el flujo de trabajo, se encuentra definido en `AGENTS.md`.
 
 ## 15. Instrucciones para el asistente
 - Usa siempre este documento como fuente de verdad para el estándar técnico del proyecto.

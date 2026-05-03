@@ -1,13 +1,7 @@
 "use client";
 
+import { useEffect } from "react";
 import { CirclePicker } from "react-color";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -23,7 +17,7 @@ import { useCategoryForm } from "@/app/(features)/config/categories/hooks/use-ca
 import { InputFieldForm } from "@/components/common/form/input-field-form";
 import { ButtonSave } from "@/components/common/buttons/button-save";
 import { ButtonCancel } from "@/components/common/buttons/button-cancel";
-import { getModelMetadata } from "@/server/common/model-metadata";
+import { useCustomSlideOver } from "@/components/common/slide-over/custom-slide-over";
 
 interface CustomFormProps {
   currentRow: Category | null;
@@ -47,7 +41,8 @@ export const CustomForm = ({
     currentCategory: currentRow,
     companyId,
   });
-  const categoryMetadata = getModelMetadata("category");
+
+  const slideOver = useCustomSlideOver();
 
   const handleSave = async (values: CategoryFormSchemaType) => {
     setMessageGeneralError(null);
@@ -61,76 +56,78 @@ export const CustomForm = ({
     if (!isNewRecord) handleCloseForm();
   };
 
+  useEffect(() => {
+    if (!slideOver) return;
+
+    slideOver.setFooterContent(
+      <div className="flex w-full justify-end gap-2">
+        <ButtonCancel handleCloseForm={handleCloseForm} isPending={isPending} />
+        <ButtonSave isPending={isPending} handleOnClick={form.handleSubmit(handleSave)} />
+      </div>
+    );
+
+    return () => slideOver.setFooterContent(null);
+  }, [slideOver, handleCloseForm, isPending, form, handleSave]);
+
   return (
-    <Card className="border-none shadow-none">
-      <CardHeader>
-        <CardTitle>{`${!isNewRecord ? "Editar" : "Agregar"} ${
-          categoryMetadata.singularName
-        }`}</CardTitle>
-      </CardHeader>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleSave)}>
-          <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <section className="space-y-4">
-                <InputFieldForm
-                  control={form.control}
-                  name="name"
-                  label="Nombre"
-                  placeholder="Ingrese el nombre"
-                  autoFocus
-                />
-                <FormField
-                  control={form.control}
-                  name="color"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Color</FormLabel>
-                      <FormControl>
-                        <CirclePicker
-                          color={field.value}
-                          onChange={(color) => {
-                            field.onChange(color.hex);
-                          }}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </section>
-              <section className="space-y-4">
-                <FormField
-                  control={form.control}
-                  name="imageFiles"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Imagen</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="file"
-                          accept=".jpg,.jpeg,.png"
-                          onChange={(e) => {
-                            field.onChange(e.target.files ?? undefined);
-                          }}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </section>
-            </div>
-            {messageGeneralError && (
-              <p className="text-sm text-destructive">{messageGeneralError}</p>
-            )}
-          </CardContent>
-          <CardFooter className="flex justify-end gap-2">
-            <ButtonCancel handleCloseForm={handleCloseForm} isPending={isPending} />
-            <ButtonSave isPending={isPending} />
-          </CardFooter>
-        </form>
-      </Form>
-    </Card>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(handleSave)}>
+        <div className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <section className="space-y-4">
+              <InputFieldForm
+                control={form.control}
+                name="name"
+                label="Nombre"
+                placeholder="Ingrese el nombre"
+                autoFocus
+              />
+              <FormField
+                control={form.control}
+                name="color"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Color</FormLabel>
+                    <FormControl>
+                      <CirclePicker
+                        color={field.value}
+                        onChange={(color) => {
+                          field.onChange(color.hex);
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </section>
+            <section className="space-y-4">
+              <FormField
+                control={form.control}
+                name="imageFiles"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Imagen</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="file"
+                        accept=".jpg,.jpeg,.png"
+                        onChange={(e) => {
+                          field.onChange(e.target.files ?? undefined);
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </section>
+          </div>
+          {messageGeneralError && (
+            <p className="text-sm text-destructive">{messageGeneralError}</p>
+          )}
+        </div>
+      </form>
+    </Form>
   );
 };

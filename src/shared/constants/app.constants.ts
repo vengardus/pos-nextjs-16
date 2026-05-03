@@ -7,6 +7,7 @@ export class AppConstants {
   static URL_HOME = "/";
   static PROFILE_NAME_NAV = "profile";
   static LOGIN_NAME_NAV = "login";
+  static DEFAULT_PAGE_SIZE = 10;
 
   static DEFAULT_VALUES = {
     currencySymbol: "S/.",

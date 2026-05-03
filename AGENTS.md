@@ -25,10 +25,10 @@
 ## Flujo de trabajo y Cierre de Tareas
 - Toda tarea nueva debe seguir este protocolo:
   1. **Verificación de estado**: Ejecutar `git status`. Si hay archivos sin commitear, ramas sucias o commits pendientes, detener la operación.
-  2. **Creación de rama**: Crear una nueva rama local a partir de `origin/codex/dev` con el formato `codex/[nombre-descriptivo-tarea]`.
+  2. **Creación de rama**: Crear una nueva rama local a partir de `origin/codex/dev` con el formato `codex/[nombre-descriptivo-tarea]` y realizar un `git push -u origin [nombre-rama]` inmediatamente para sincronizarla con el remoto.
   3. **Desarrollo**: Realizar commits atómicos según sea necesario (sin push).
   4. **Validación Técnica**: 
-     - Para cambios de código: ejecutar `bunx tsc --noEmit` y pruebas funcionales.
+     - Para cambios de código: ejecutar obligatoriamente `bunx tsc --noEmit` después de cada subtarea o cambio de código finalizado y pruebas funcionales.
      - Para cambios de documentación/configuración: verificar cambios manualmente.
   5. **Cierre de tarea**:
      - Ejecutar commit final (`git commit -a`).

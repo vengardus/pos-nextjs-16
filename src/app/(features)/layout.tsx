@@ -20,11 +20,11 @@ export default function FeaturesLayout(
 ) {
   console.log("Rendering Layout")
   return (
-    <div className="">
+    <div className="flex h-screen flex-col overflow-hidden">
       <Navbar />
-      <div className="relative top-16 h-[calc(100vh-64px)] bg-background text-foreground py-2 px-3 h-screen">
+      <main className="flex-1 overflow-hidden bg-background px-3 pt-16 text-foreground">
         {children}
-      </div>
+      </main>
       <Toaster closeButton richColors  />
     </div>
   );

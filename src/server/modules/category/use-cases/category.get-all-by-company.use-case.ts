@@ -7,16 +7,32 @@ import { initResponseAction } from "@/utils/response/init-response-action";
 import { categoryGetAllByCompanyRepository } from "../repository/category.get-all-by-company.repository";
 
 export const categoryGetAllByCompanyUseCase = async (
-  companyId: string
+  companyId: string,
+  page?: number,
+  limit?: number,
+  search?: string
 ): Promise<ResponseAction> => {
   const resp = initResponseAction();
 
   try {
-    if (!companyId) throw new Error("Company id is required");
-    const data = await categoryGetAllByCompanyRepository(companyId);
+    if (!companyId) throw new Error("ID de compañía es requerido");
+    
+    const { data, total } = await categoryGetAllByCompanyRepository(
+      companyId,
+      page,
+      limit,
+      search
+    );
+    
     resp.data = data as Category[];
     resp.success = true;
-    console.log("query=>categoryGetAllByCompany");
+
+    if (page !== undefined && limit !== undefined) {
+      resp.pagination = {
+        currentPage: page,
+        totalPages: Math.ceil(total / limit),
+      };
+    }
   } catch (error) {
     resp.message = getActionError(error);
   }

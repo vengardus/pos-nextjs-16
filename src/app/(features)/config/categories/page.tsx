@@ -4,19 +4,18 @@ import { PageHeader } from "@/components/common/typography/page-header";
 import { ModuleEnum } from "@/server/modules/permission/domain/permission.module.enum";
 import { categoryGetAllByCompanyCached } from "@/server/modules/category/next/cache/category.cache";
 import { checkAuthenticationAndPermission } from "@/server/modules/auth/use-cases/auth.check-authentication-and-permission.use-case";
-// import { AppConstants } from "@/shared/constants/app.constants";
+import { AppConstants } from "@/shared/constants/app.constants";
 
 export default async function ConfigCategoriesPage(props: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const searchParams = await props.searchParams;
   const rawPage = Number(searchParams?.page);
-  console.log(rawPage);
-  /* const page = Number.isInteger(rawPage) && rawPage > 0 ? rawPage : 1;
+  const page = Number.isInteger(rawPage) && rawPage > 0 ? rawPage : 1;
   const search =
     typeof searchParams?.search === "string" && searchParams.search.trim()
       ? searchParams.search.trim()
-      : undefined; */
+      : undefined;
 
   const authenticatationAndPermissionResponse =
     await checkAuthenticationAndPermission(
@@ -35,10 +34,10 @@ export default async function ConfigCategoriesPage(props: {
   const company = authenticatationAndPermissionResponse.company;
 
   const respCategories = await categoryGetAllByCompanyCached(
-    company.id
-    // page,
-    // AppConstants.DEFAULT_PAGE_SIZE,
-    // search
+    company.id,
+    page,
+    AppConstants.DEFAULT_PAGE_SIZE,
+    search
   );
   
   if (!respCategories.success) {
@@ -59,7 +58,7 @@ export default async function ConfigCategoriesPage(props: {
         <ListDef 
           data={respCategories.data ?? []} 
           companyId={company.id} 
-          // pagination={respCategories.pagination}
+          pagination={respCategories.pagination}
         />
       </div>
     </div>

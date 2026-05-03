@@ -12,6 +12,7 @@ import { AppConstants } from "@/shared/constants/app.constants";
 import { updateTagsAction } from "@/server/next/actions/updateTags.action";
 import { categoryDeleteByIdAction } from "@/server/modules/category/next/actions/category.delete-by-id.action";
 import type { Category } from "@/server/modules/category/domain/category.base.schema";
+import { categoryCacheTag } from "@/server/modules/category/next/cache/category.tags";
 import {
   ListColumnsDef,
   CustomListColumnsResponsiveDef,
@@ -92,7 +93,7 @@ export const ListDef = ({ data, companyId, pagination }: ListDefProps) => {
     }
 
     toast.success("Categoría eliminada exitosamente.");
-    await updateTagsAction([`categories-${companyId}`]);
+    await updateTagsAction([categoryCacheTag(companyId)]);
     startTransition(() => {
       router.refresh();
     });
@@ -141,7 +142,7 @@ export const ListDef = ({ data, companyId, pagination }: ListDefProps) => {
           pluralName: "Categorías",
         }}
         onRefresh={async () => {
-          await updateTagsAction([`categories-${companyId}`]);
+          await updateTagsAction([categoryCacheTag(companyId)]);
           startTransition(() => {
             router.refresh();
           });

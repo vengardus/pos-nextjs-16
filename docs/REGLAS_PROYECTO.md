@@ -60,7 +60,7 @@ Este documento establece los lineamientos técnicos, arquitectónicos y de colab
 - No inicies una nueva tarea mientras la actual siga en curso.
 - Mantén cada rama acotada a un objetivo claro y verificable.
 - No mezcles cambios de tareas distintas en la misma rama salvo autorización explícita.
-- El agente debe confirmar la creación de la rama y el objetivo de la misma antes de ejecutar cualquier cambio de código.
+- El agente debe confirmar la creación de la rama, su sincronización con `origin` y el objetivo de la misma antes de ejecutar cualquier cambio de código.
 
 ### Flujo de Trabajo y Commits
 - Cada tarea debe ser tratada como un flujo atómico: Creación de rama -> Cambios -> Commits atómicos -> Validación.
@@ -148,8 +148,9 @@ El núcleo del negocio se centraliza en `src/server/modules/`. Cada módulo debe
 
 ## 14. Criterios de cierre y validación
 - No se considera una tarea cerrada si no fue validada técnica y funcionalmente.
+- **Validación obligatoria**: Es obligatorio ejecutar `bunx tsc --noEmit` después de cada subtarea o cambio de código finalizado para asegurar la integridad de los tipos. Ninguna pieza de código se considera completa sin esta validación.
 - Antes de cerrar, verifica que los cambios compilan, respetan las normas de tipo y no rompen el flujo esperado.
-- El procedimiento operativo detallado, incluyendo los comandos de validación (como `tsc --noEmit`) y el flujo de trabajo, se encuentra definido en `AGENTS.md`.
+- El procedimiento operativo detallado, incluyendo los comandos de validación y el flujo de trabajo, se encuentra definido en `AGENTS.md`.
 
 ## 15. Instrucciones para el asistente
 - Usa siempre este documento como fuente de verdad para el estándar técnico del proyecto.

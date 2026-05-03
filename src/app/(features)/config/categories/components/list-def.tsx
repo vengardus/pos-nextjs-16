@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import type { Category } from "@/server/modules/category/domain/category.base.schema";
 import { ListColumnsDef, CustomListColumnsResponsiveDef } from "./list-columns-def";
 import { CustomForm } from "./custom-form";
-import { Modal } from "../../../../../components/common/modals/modal";
+import { CustomSlideOver } from "@/components/common/slide-over/custom-slide-over";
 import { ListTable } from "@/components/tables/list-table";
 import { categoryDeleteByIdAction } from "@/server/modules/category/next/actions/category.delete-by-id.action";
 import { updateTagsAction } from "@/server/next/actions/updateTags.action";
@@ -71,13 +71,16 @@ export const ListDef = ({ data, companyId }: ListDefProps) => {
       />
 
       {isShowForm && (
-        <Modal handleCloseForm={() => setIsShowForm(false)}>
+        <CustomSlideOver
+          title={`${!currentRow ? "Agregar" : "Editar"} ${categoryMetadata.singularName}`}
+          onClose={() => setIsShowForm(false)}
+        >
           <CustomForm
             currentRow={currentRow}
             companyId={companyId}
             handleCloseForm={() => setIsShowForm(false)}
           />
-        </Modal>
+        </CustomSlideOver>
       )}
     </>
   );

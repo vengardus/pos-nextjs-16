@@ -76,7 +76,7 @@ export const CustomSlideOver = ({
             className
           )}
         >
-          <SheetHeader className="sticky top-0 z-10 flex flex-row items-center justify-between border-b bg-background px-6 py-4">
+          <SheetHeader className="sticky top-0 z-10 flex flex-row items-center justify-between bg-background px-6 py-4">
             <SheetTitle className="text-lg font-semibold text-foreground">
               {title}
             </SheetTitle>

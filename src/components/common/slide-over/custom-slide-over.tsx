@@ -41,6 +41,15 @@ export const CustomSlideOver = ({
   const [footerContent, setFooterContent] = useState<ReactNode>(
     footer ?? null
   );
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+    const handleChange = () => setIsMobile(mediaQuery.matches);
+    handleChange();
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, []);
 
   useEffect(() => {
     if (footer !== undefined) {
@@ -57,12 +66,13 @@ export const CustomSlideOver = ({
     <CustomSlideOverContext.Provider value={contextValue}>
       <Sheet
         open
+        modal={!isMobile}
         onOpenChange={(open) => !open && onClose()}
       >
         <SheetContent
           side="right"
           className={cn(
-            "w-full sm:max-w-2xl p-0 flex flex-col shadow-2xl border-l",
+            "!fixed !inset-y-0 !right-0 !h-screen !rounded-none !m-0 w-full sm:max-w-2xl p-0 flex flex-col shadow-2xl border-l",
             className
           )}
         >

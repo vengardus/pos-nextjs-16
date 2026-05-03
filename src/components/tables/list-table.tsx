@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import {
   flexRender,
   getCoreRowModel,
@@ -41,15 +41,19 @@ interface ListTableProps<TData> {
   data: TData[];
   columnsDef: ColumnDef<TData>[];
   handleAddRecord: () => void;
+  isAddDisabled?: boolean;
   columnsResponsiveDef?: ListColumnsResponsiveDef<TData>[];
   modelLabels: ModelMetadata;
   onRefresh?: () => void;
+  headerActions?: ReactNode;
   showHeader?: boolean;
+  showAddButton?: boolean;
   showFilter?: boolean;
   showColumnVisibility?: boolean;
   enablePagination?: boolean;
   withCard?: boolean;
   emptyStateText?: string;
+  stackActionsOnMobile?: boolean;
   manualPagination?: boolean;
   pageCount?: number;
   rowCount?: number;
@@ -64,15 +68,19 @@ export const ListTable = <TData,>({
   data,
   columnsDef,
   handleAddRecord,
+  isAddDisabled = false,
   columnsResponsiveDef,
   modelLabels,
   onRefresh,
+  headerActions,
   showHeader = true,
+  showAddButton = true,
   showFilter = true,
   showColumnVisibility = true,
   enablePagination = true,
   withCard = true,
   emptyStateText,
+  stackActionsOnMobile = false,
   manualPagination = false,
   pageCount,
   rowCount,
@@ -282,21 +290,30 @@ export const ListTable = <TData,>({
           <ListHeader
             handleAddRecord={handleAddRecord}
             modelLabels={modelLabels}
+            isAddDisabled={isAddDisabled}
+            headerActions={headerActions}
+            showAddButton={showAddButton}
+            stackActionsOnMobile={stackActionsOnMobile}
           />
-          )}
-          {tableContent}
-          </div>
-          );
-          }
+        )}
+        {tableContent}
+      </div>
+    );
+  }
 
-          return (
-          <Card className={cn("w-full card", stickyHeader && "h-full flex flex-col overflow-hidden")}>
-          {showHeader && (
-          <ListHeader
-            handleAddRecord={handleAddRecord}
-            modelLabels={modelLabels}
-          />
-          )}      <CardContent className={cn("px-1 md:px-2", stickyHeader && "flex-1 flex flex-col overflow-hidden pb-1")}>
+  return (
+    <Card className={cn("w-full card", stickyHeader && "h-full flex flex-col overflow-hidden")}>
+      {showHeader && (
+        <ListHeader
+          handleAddRecord={handleAddRecord}
+          modelLabels={modelLabels}
+          isAddDisabled={isAddDisabled}
+          headerActions={headerActions}
+          showAddButton={showAddButton}
+          stackActionsOnMobile={stackActionsOnMobile}
+        />
+      )}
+      <CardContent className={cn("px-1 md:px-2", stickyHeader && "flex-1 flex flex-col overflow-hidden pb-1")}>
         {tableContent}
       </CardContent>
     </Card>

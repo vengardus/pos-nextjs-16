@@ -56,13 +56,17 @@ Este documento establece los lineamientos técnicos, arquitectónicos y de colab
 
 ### Ramas de trabajo
 - Toda tarea nueva debe iniciarse en una rama nueva creada desde `codex/dev`.
-- No se debe trabajar directamente sobre `codex/dev`.
+- **Prohibición estricta**: Está estrictamente prohibido realizar cambios, commits o trabajar directamente sobre las ramas `dev` o `codex/dev`. Todo desarrollo debe ocurrir exclusivamente en ramas de tipo `feature/`, `fix/` o `chore/`.
 - No inicies una nueva tarea mientras la actual siga en curso.
 - Mantén cada rama acotada a un objetivo claro y verificable.
 - No mezcles cambios de tareas distintas en la misma rama salvo autorización explícita.
+- El agente debe confirmar la creación de la rama y el objetivo de la misma antes de ejecutar cualquier cambio de código.
 
-### Mensajes de commit
-- Formato: `<type>(<scope>): <mensaje>`.
+### Flujo de Trabajo y Commits
+- Cada tarea debe ser tratada como un flujo atómico: Creación de rama -> Cambios -> Commits atómicos -> Validación.
+- **Validación obligatoria**: Al finalizar los cambios de una tarea, es obligatorio ejecutar el comando de compilación o build del proyecto (`npm run build` o equivalente) para asegurar que el código es funcional y no rompe la integridad del sistema. Ninguna tarea se considera terminada sin haber superado esta validación.
+- No se debe realizar ninguna acción de cierre de tarea, integración o borrado de ramas sin una instrucción explícita del usuario.
+- Formato de mensaje de commit: `<type>(<scope>): <mensaje>`.
 - El mensaje debe escribirse en español, en modo imperativo, sin mayúscula inicial y sin punto final.
 - Tipos permitidos:
   - `feat`: nueva funcionalidad

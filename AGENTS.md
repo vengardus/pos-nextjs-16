@@ -28,7 +28,7 @@
   2. **Creación de rama**: Crear una nueva rama local a partir de `origin/codex/dev` con el formato `codex/[nombre-descriptivo-tarea]`.
   3. **Desarrollo**: Realizar commits atómicos según sea necesario (sin push).
   4. **Validación Técnica**: 
-     - Para cambios de código: ejecutar `bunx tsc --noEmit` y pruebas funcionales.
+     - Para cambios de código: ejecutar obligatoriamente `bunx tsc --noEmit` después de cada subtarea o cambio de código finalizado y pruebas funcionales.
      - Para cambios de documentación/configuración: verificar cambios manualmente.
   5. **Cierre de tarea**:
      - Ejecutar commit final (`git commit -a`).

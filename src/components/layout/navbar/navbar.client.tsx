@@ -18,10 +18,10 @@ import { NavbarMenu } from "./navbar-menu";
 import { NavbarProfile } from "./navbar-profile";
 
 const navBaseClass =
-  "fixed top-0 z-[1000] w-full pr-1 flex justify-start items-center flex-col sm:flex-row bg-primary/95 dark:bg-background/70 text-primary-foreground/85 border-b border-primary/30 backdrop-blur-md transition-[height,padding]";
+  "fixed top-0 z-[1000] w-full pr-1 flex justify-start items-center flex-col sm:flex-row bg-primary/95 dark:bg-slate-900/90 text-primary-foreground/85 border-b border-primary/30 backdrop-blur-md transition-[height,padding]";
 
 const menuBarBaseClass =
-  "flex-col sm:flex sm:flex-row w-full items-center sm:items-center justify-center sm:justify-end gap-6 sm:gap-4 px-6 sm:pl-0 sm:pr-6 py-8 sm:py-0 bg-primary/95 dark:bg-background text-primary-foreground/85 border-0 fixed left-0 right-0 z-[1200] sm:relative sm:inset-auto sm:z-auto sm:w-full transition-[top]";
+  "flex-col sm:flex sm:flex-row w-full items-center sm:items-center justify-center sm:justify-end gap-6 sm:gap-4 px-6 sm:pl-0 sm:pr-6 py-8 sm:py-0 bg-primary/95 dark:bg-slate-900/90 text-primary-foreground/85 border-0 fixed left-0 right-0 z-[1200] sm:relative sm:inset-auto sm:z-auto sm:w-full transition-[top]";
 
 const menuProfileBaseClass =
   "flex flex-col bg-background text-foreground/70 border-2 border-foreground/15 rounded-lg px-5 items-start gap-3 fixed right-1 w-auto h-auto z-[1000] shadow-lg";

@@ -20,9 +20,9 @@ import { Input } from "@/components/ui/input";
 import type { Category } from "@/server/modules/category/domain/category.base.schema";
 import { CategoryFormSchemaType } from "@/app/(features)/config/categories/schemas/category-form.schema";
 import { useCategoryForm } from "@/app/(features)/config/categories/hooks/use-category-form";
-import { InputFieldForm } from "../../../../../components/common/form/input-field-form";
-import { ButtonSave } from "../../../../../components/common/buttons/button-save";
-import { ButtonCancel } from "../../../../../components/common/buttons/button-cancel";
+import { InputFieldForm } from "@/components/common/form/input-field-form";
+import { ButtonSave } from "@/components/common/buttons/button-save";
+import { ButtonCancel } from "@/components/common/buttons/button-cancel";
 import { getModelMetadata } from "@/server/common/model-metadata";
 
 interface CustomFormProps {
@@ -62,22 +62,22 @@ export const CustomForm = ({
   };
 
   return (
-    <div className="">
-      <Card className="card">
-        <CardHeader className="card-header">
-          <CardTitle>{`${!isNewRecord ? "Editar" : "Agregar"} ${
-            categoryMetadata.singularName
-          }`}</CardTitle>
-        </CardHeader>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSave)}>
-            <CardContent>
-              <div className="grid w-full items-center gap-4">
+    <Card className="border-none shadow-none">
+      <CardHeader>
+        <CardTitle>{`${!isNewRecord ? "Editar" : "Agregar"} ${
+          categoryMetadata.singularName
+        }`}</CardTitle>
+      </CardHeader>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(handleSave)}>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <section className="space-y-4">
                 <InputFieldForm
                   control={form.control}
                   name="name"
                   label="Nombre"
-                  placeholder="Ingrese su nombre"
+                  placeholder="Ingrese el nombre"
                   autoFocus
                 />
                 <FormField
@@ -98,6 +98,8 @@ export const CustomForm = ({
                     </FormItem>
                   )}
                 />
+              </section>
+              <section className="space-y-4">
                 <FormField
                   control={form.control}
                   name="imageFiles"
@@ -117,11 +119,22 @@ export const CustomForm = ({
                     </FormItem>
                   )}
                 />
-              </div>
-            </CardContent>
-            <CardFooter className="flex flex-col items-end gap-2">
-              {messageGeneralError && (
-                <p className="text-sm text-destructive mb-2">
+              </section>
+            </div>
+            {messageGeneralError && (
+              <p className="text-sm text-destructive">{messageGeneralError}</p>
+            )}
+          </CardContent>
+          <CardFooter className="flex justify-end gap-2">
+            <ButtonCancel handleCloseForm={handleCloseForm} isPending={isPending} />
+            <ButtonSave isPending={isPending} />
+          </CardFooter>
+        </form>
+      </Form>
+    </Card>
+  );
+};
+destructive mb-2">
                   {messageGeneralError}
                 </p>
               )}
@@ -136,6 +149,5 @@ export const CustomForm = ({
           </form>
         </Form>
       </Card>
-    </div>
   );
 };

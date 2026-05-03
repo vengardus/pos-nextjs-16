@@ -134,20 +134,3 @@ export const CustomForm = ({
     </Card>
   );
 };
-destructive mb-2">
-                  {messageGeneralError}
-                </p>
-              )}
-              <div className="flex justify-end gap-7">
-                <ButtonCancel
-                  handleCloseForm={handleCloseForm}
-                  isPending={isPending}
-                />
-                <ButtonSave isPending={isPending} />
-              </div>
-            </CardFooter>
-          </form>
-        </Form>
-      </Card>
-  );
-};

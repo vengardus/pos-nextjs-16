@@ -76,20 +76,35 @@ export const CustomSlideOver = ({
             className
           )}
         >
-          <SheetHeader className="sticky top-0 z-10 flex flex-row items-center justify-between bg-background px-6 py-4">
-            <SheetTitle className="text-lg font-semibold text-foreground">
-              {title}
-            </SheetTitle>
-            <SheetClose asChild>
-              <button
-                type="button"
-                aria-label="Cerrar"
-                className="rounded-md p-1 text-muted-foreground hover:text-foreground"
-              >
-                <X className="h-5 w-5" />
-              </button>
-            </SheetClose>
-          </SheetHeader>
+          {title && (
+            <SheetHeader className="sticky top-0 z-10 flex flex-row items-center justify-between bg-background px-6 py-4">
+              <SheetTitle className="text-lg font-semibold text-foreground">
+                {title}
+              </SheetTitle>
+              <SheetClose asChild>
+                <button
+                  type="button"
+                  aria-label="Cerrar"
+                  className="rounded-md p-1 text-muted-foreground hover:text-foreground"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </SheetClose>
+            </SheetHeader>
+          )}
+          {!title && (
+            <div className="absolute right-4 top-4 z-50">
+              <SheetClose asChild>
+                <button
+                  type="button"
+                  aria-label="Cerrar"
+                  className="rounded-md p-1 text-muted-foreground hover:text-foreground"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </SheetClose>
+            </div>
+          )}
           <div className="flex-1 overflow-y-auto px-8 py-6">{children}</div>
           <SheetFooter className="sticky bottom-0 z-10 border-t bg-background px-6 py-4">
             {footerContent}

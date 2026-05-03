@@ -216,7 +216,7 @@ export const ListTable = <TData,>({
         >
         {isLoading && (
           <div className="absolute inset-0 z-20 flex items-center justify-center bg-background/50 backdrop-blur-[1px]">
-            <SpinnerPacman className="h-10 w-10" />
+            <SpinnerPacman size={20} className="h-10" />
           </div>
         )}
         <Table>

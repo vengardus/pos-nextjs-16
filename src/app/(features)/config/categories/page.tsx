@@ -52,7 +52,7 @@ export default async function ConfigCategoriesPage(props: {
   return (
     <div className="flex h-full flex-col overflow-hidden">
       <div className="shrink-0 px-4">
-        <PageHeader breadcrumb="Config / Categorías" title="" backRoute="/" />
+        <PageHeader breadcrumb="Config / Categorías" title="" backRoute="/config" />
       </div>
       <div className="flex-1 overflow-hidden">
         <ListDef 

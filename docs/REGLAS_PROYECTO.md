@@ -56,13 +56,17 @@ Este documento establece los lineamientos técnicos, arquitectónicos y de colab
 
 ### Ramas de trabajo
 - Toda tarea nueva debe iniciarse en una rama nueva creada desde `codex/dev`.
-- No se debe trabajar directamente sobre `codex/dev`.
+- **Prohibición estricta**: Está estrictamente prohibido realizar cambios, commits o trabajar directamente sobre las ramas `dev` o `codex/dev`. Todo desarrollo debe ocurrir exclusivamente en ramas de tipo `feature/`, `fix/` o `chore/`.
 - No inicies una nueva tarea mientras la actual siga en curso.
 - Mantén cada rama acotada a un objetivo claro y verificable.
 - No mezcles cambios de tareas distintas en la misma rama salvo autorización explícita.
+- El agente debe confirmar la creación de la rama, su sincronización con `origin` y el objetivo de la misma antes de ejecutar cualquier cambio de código.
 
-### Mensajes de commit
-- Formato: `<type>(<scope>): <mensaje>`.
+### Flujo de Trabajo y Commits
+- Cada tarea debe ser tratada como un flujo atómico: Creación de rama -> Cambios -> Commits atómicos -> Validación.
+- **Validación obligatoria**: Al finalizar los cambios de una tarea, es obligatorio ejecutar el comando de compilación o build del proyecto (`npm run build` o equivalente) para asegurar que el código es funcional y no rompe la integridad del sistema. Ninguna tarea se considera terminada sin haber superado esta validación.
+- No se debe realizar ninguna acción de cierre de tarea, integración o borrado de ramas sin una instrucción explícita del usuario.
+- Formato de mensaje de commit: `<type>(<scope>): <mensaje>`.
 - El mensaje debe escribirse en español, en modo imperativo, sin mayúscula inicial y sin punto final.
 - Tipos permitidos:
   - `feat`: nueva funcionalidad
@@ -144,8 +148,9 @@ El núcleo del negocio se centraliza en `src/server/modules/`. Cada módulo debe
 
 ## 14. Criterios de cierre y validación
 - No se considera una tarea cerrada si no fue validada técnica y funcionalmente.
+- **Validación obligatoria**: Es obligatorio ejecutar `bunx tsc --noEmit` después de cada subtarea o cambio de código finalizado para asegurar la integridad de los tipos. Ninguna pieza de código se considera completa sin esta validación.
 - Antes de cerrar, verifica que los cambios compilan, respetan las normas de tipo y no rompen el flujo esperado.
-- El procedimiento operativo detallado, incluyendo los comandos de validación (como `tsc --noEmit`) y el flujo de trabajo, se encuentra definido en `AGENTS.md`.
+- El procedimiento operativo detallado, incluyendo los comandos de validación y el flujo de trabajo, se encuentra definido en `AGENTS.md`.
 
 ## 15. Instrucciones para el asistente
 - Usa siempre este documento como fuente de verdad para el estándar técnico del proyecto.

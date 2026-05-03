@@ -1,11 +1,18 @@
-"use client"
-import { PacmanLoader } from 'react-spinners';
+import type { SVGProps } from "react";
+import { cn } from "@/utils/tailwind/cn";
 
-export const SpinnerPacman = () => {
-  return (
-    <div className="flex flex-col justify-center items-center w-full h-screen">
-      <PacmanLoader color="#36d7b7" size={30} speedMultiplier={2} />
-    </div>
-  );
-};
-
+export const SpinnerPacman = ({ className, ...props }: SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={cn("animate-spin", className)}
+    {...props}
+  >
+    <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+  </svg>
+);

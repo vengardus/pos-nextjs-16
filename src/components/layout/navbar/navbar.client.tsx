@@ -1,8 +1,7 @@
 "use client";
 
 // NavBar.v1.0
-import { memo, useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import { memo } from "react";
 
 import { cn } from "@/utils/tailwind/cn";
 
@@ -18,18 +17,16 @@ import { NavbarMenu } from "./navbar-menu";
 import { NavbarProfile } from "./navbar-profile";
 
 const navBaseClass =
-  "fixed top-0 z-[1000] w-full pr-1 flex justify-start items-center flex-col sm:flex-row bg-primary/95 dark:bg-background/70 text-primary-foreground/85 border-b border-primary/30 backdrop-blur-md transition-[height,padding]";
+  "fixed top-0 z-40 w-full h-16 pr-1 flex py-2 justify-start items-center flex-col sm:flex-row bg-slate-300 dark:bg-background text-foreground/50 border-b-2 border-t-2 border-foreground/10";
 
 const menuBarBaseClass =
-  "flex-col sm:flex sm:flex-row w-full items-center sm:items-center justify-center sm:justify-end gap-6 sm:gap-4 px-6 sm:pl-0 sm:pr-6 py-8 sm:py-0 bg-primary/95 dark:bg-background text-primary-foreground/85 border-0 fixed left-0 right-0 z-[1200] sm:relative sm:inset-auto sm:z-auto sm:w-full transition-[top]";
+  "flex-col sm:flex sm:flex-row w-full items-baseline sm:items-center sm:justify-end gap-6 sm:gap-4 pl-3 sm:pl-0 pr-6 bg-slate-300 dark:bg-background text-foreground/50 border-0 fixed top-16 left-0 w-3/5 sm:relative sm:top-0 sm:w-full";
 
 const menuProfileBaseClass =
-  "flex flex-col bg-background text-foreground/70 border-2 border-foreground/15 rounded-lg px-5 items-start gap-3 fixed right-1 w-auto h-auto z-[1000] shadow-lg";
+  "flex flex-col bg-slate-400/60 dark:bg-background text-foreground/50 border-2 border-foreground/15 rounded-lg px-5 items-start gap-3 fixed top-16 right-1 w-auto h-auto";
 
 function Navbar ()  {
-  const pathname = usePathname();
   const { isAuthenticated, sessionUser, isLoading } = useGetSession();
-  const [isScrolled, setIsScrolled] = useState(false);
   const {
     isMenuOpen,
     setIsMenuOpen,
@@ -42,24 +39,6 @@ function Navbar ()  {
     isAuthenticated,
     userRole: sessionUser?.role as UserRole,
   });
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 12);
-    };
-
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
-  useEffect(() => {
-    setIsMenuOpen(false);
-    setIsMenuProfileOpen(false);
-  }, [pathname, setIsMenuOpen, setIsMenuProfileOpen]);
   
   //TODO: skeleton pendiente
   if (isLoading) return <div className={navBaseClass}>Loading...</div>;
@@ -67,12 +46,7 @@ function Navbar ()  {
   console.log("Rendering Navbar")
 
   return (
-    <nav
-      className={cn(
-        navBaseClass,
-        isScrolled ? "h-12 py-1" : "h-16 py-2"
-      )}
-    >
+    <nav className={navBaseClass}>
       <div className="flex justify-between w-full items-center px-3 h-full">
         <NavbarButtonMenuMobile
           isMenuOpen={isMenuOpen}
@@ -85,21 +59,13 @@ function Navbar ()  {
           isMenuOpen={isMenuOpen}
           handledSelectedItem={(item)=> {
             handledSelectedItem(item)
-            if (!item.children && (!item.href || item.href === pathname)) {
-              setIsMenuOpen(false);
-            }
+            setIsMenuOpen(!isMenuOpen)
           }}
           navbarItemsAuth={navbarItemsAuth}
-          className={cn(
-            menuBarBaseClass,
-            isScrolled
-              ? "top-12 h-[calc(100dvh-3rem)] sm:top-0 sm:h-auto"
-              : "top-16 h-[calc(100dvh-4rem)] sm:top-0 sm:h-auto",
-            {
-            "flex overflow-y-auto": isMenuOpen,
+          className={cn(menuBarBaseClass, {
+            "flex h-[2/5] py-5 ": isMenuOpen,
             hidden: !isMenuOpen,
-          }
-          )}
+          })}
           isPending={isPending}
         />
 
@@ -127,10 +93,7 @@ function Navbar ()  {
             }
           }}
           navbarItemsAuth={AppConstants.NAVBAR_ITEMS_PROFILE}
-          className={cn(
-            menuProfileBaseClass,
-            isScrolled ? "top-12 mt-1" : "top-16 mt-1"
-          )}
+          className={cn(menuProfileBaseClass)}
           isPending={isPending}
         />
       )}

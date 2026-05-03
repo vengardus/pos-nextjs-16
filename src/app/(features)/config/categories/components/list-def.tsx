@@ -153,7 +153,7 @@ export const ListDef = ({ data, companyId, pagination }: ListDefProps) => {
 
       {isShowForm && (
         <CustomSlideOver
-          title={""}
+          title={`${currentRow ? "Editar" : "Agregar"} categoría`}
           onClose={handleCloseForm}
         >
           <CustomForm

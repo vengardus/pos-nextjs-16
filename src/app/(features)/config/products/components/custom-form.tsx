@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import {
@@ -26,6 +26,8 @@ import { ComboboxForm } from "@/components/common/form/combobox-form";
 import { InputFieldForm } from "@/components/common/form/input-field-form";
 import { SwitchForm } from "@/components/common/form/switch-form";
 import { getModelMetadata } from "@/server/common/model-metadata";
+import { categoryGetAllByCompanyCached } from "@/server/modules/category/next/cache/category.cache";
+import { branchGetAllByCompanyCached } from "@/server/modules/branch/next/cache/branch.cache";
 
 interface CustomFormProps {
   currentProduct: Product | null;
@@ -38,8 +40,21 @@ export const CustomForm = ({
   companyId,
   handleCloseForm,
 }: CustomFormProps) => {
-  const categories: Category[] = [];
-  const branches: Branch[] = [];
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [branches, setBranches] = useState<Branch[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const [respCat, respBr] = await Promise.all([
+        categoryGetAllByCompanyCached(companyId),
+        branchGetAllByCompanyCached(companyId),
+      ]);
+      if (respCat.success) setCategories(respCat.data);
+      if (respBr.success) setBranches(respBr.data);
+    };
+    fetchData();
+  }, [companyId]);
+
   const screenSize = useMediaQuery();
   const {
     form,

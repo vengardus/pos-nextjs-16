@@ -1,22 +1,13 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import type { Product } from "@/server/modules/product/domain/product.interface";
 import type { Category } from "@/server/modules/category/domain/category.base.schema";
 import type { Branch } from "@/server/modules/branch/domain/branch.types";
 import { ProductFormSchemaType } from "@/app/(features)/config/products/schemas/product-form.schema";
 import { useProductForm } from "@/app/(features)/config/products/hooks/use-product-form";
-import { useMediaQuery } from "@/shared/hooks/media/use-media-query";
-import { ScreenSizeEnum } from "@/utils/browser/get-screen-size";
 import { generateSKU } from "@/utils/generate/generate-sku";
 import { ProductStockForm } from "./product-stock-form";
 import { ButtonSave } from "@/components/common/buttons/button-save";
@@ -25,26 +16,23 @@ import { DialogInfo } from "@/components/common/dialog/dialog-info";
 import { ComboboxForm } from "@/components/common/form/combobox-form";
 import { InputFieldForm } from "@/components/common/form/input-field-form";
 import { SwitchForm } from "@/components/common/form/switch-form";
-import { getModelMetadata } from "@/server/common/model-metadata";
+import { useCustomSlideOver } from "@/components/common/slide-over/custom-slide-over";
 
 interface CustomFormProps {
   currentProduct: Product | null;
   companyId: string;
   handleCloseForm: () => void;
-  data: {
-    categories: Category[];
-    branches: Branch[];
-  };
+  categories: Category[];
+  branches: Branch[];
 }
 
 export const CustomForm = ({
   currentProduct,
   companyId,
   handleCloseForm,
-  data,
+  categories,
+  branches,
 }: CustomFormProps) => {
-  const { categories, branches } = data;
-  const screenSize = useMediaQuery();
   const {
     form,
     handleSave: handleProductSave,
@@ -60,9 +48,8 @@ export const CustomForm = ({
     currentProduct,
     companyId,
   });
-  const productMetadata = getModelMetadata("product");
-  const salePriceRef = useRef<HTMLInputElement>(null);
-  const purchasePriceRef = useRef<HTMLInputElement>(null);
+
+  const slideOver = useCustomSlideOver();
 
   const handleSubmit = async (values: ProductFormSchemaType) => {
     setMessageGeneralError(null);
@@ -75,189 +62,124 @@ export const CustomForm = ({
       return;
     }
     const resp = await handleProductSave(values, productStocks);
-    if (resp.success) postSave();
+    if (resp.success) handleCloseForm();
   };
 
-  const handleError = (error: unknown) => {
-    setMessageGeneralError("Ocurrió un error, revise los datos.");
-    console.log(error); // usada intencionalmente
-  };
+  useEffect(() => {
+    if (!slideOver) return;
 
-  const postSave = () => {
-    form.reset();
-    setProductStocks([]);
-    setMessageGeneralError(null);
-    if (!isNewRecord) handleCloseForm();
-  };
+    slideOver.setFooterContent(
+      <div className="flex w-full justify-end gap-2">
+        <ButtonCancel handleCloseForm={handleCloseForm} isPending={isPending} />
+        <ButtonSave isPending={isPending} handleOnClick={form.handleSubmit(handleSubmit)} />
+      </div>
+    );
+
+    return () => slideOver.setFooterContent(null);
+  }, [slideOver, handleCloseForm, isPending, form]);
 
   return (
-    <div className="">
-      <Card className="card">
-        <CardHeader className="card-header">
-          <CardTitle>{`${!isNewRecord ? "Editar" : "Agregar"} ${
-            productMetadata.singularName
-          }`}</CardTitle>
-        </CardHeader>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSubmit, handleError)}>
-            <CardContent>
-              <div className="grid w-full gap-y-5 md:grid-cols-2 md:items-start md:gap-x-7">
-                <section className="grid gap-5">
-                  <InputFieldForm
-                    control={form.control}
-                    name="name"
-                    label="Nombre"
-                    type="text"
-                    autoFocus
-                    flexDirection="column"
-                    placeholder="Ingrese el nombre"
-                  />
-
-                  <InputFieldForm
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(handleSubmit)}>
+        <div className="grid gap-5">
+            <InputFieldForm
+                control={form.control}
+                name="name"
+                label="Nombre"
+                type="text"
+                autoFocus
+                placeholder="Ingrese el nombre"
+            />
+            <div className="grid grid-cols-2 gap-4">
+                <InputFieldForm
                     control={form.control}
                     name="salePrice"
                     type="number"
                     label="Precio Venta"
-                    flexDirection="row"
-                    inputRef={salePriceRef}
-                  />
-
-                  <InputFieldForm
+                />
+                <InputFieldForm
                     control={form.control}
                     name="purchasePrice"
                     type="number"
                     label="Precio Compra"
-                    flexDirection="row"
-                    inputRef={purchasePriceRef}
-                  />
-
-                  <InputFieldForm
+                />
+            </div>
+            <InputFieldForm
+                control={form.control}
+                name="barcode"
+                label="Codigo de barras"
+                type="text"
+                placeholder="Ingrese el código de barras"
+            />
+            <div className="grid grid-cols-[1fr_auto] gap-2 items-end">
+                <InputFieldForm
                     control={form.control}
-                    name="barcode"
-                    label="Codigo de barras"
+                    name="internalCode"
+                    label="Codigo interno"
                     type="text"
-                    flexDirection="column"
-                    placeholder="Ingrese el código de barras"
-                  />
-
-                  <article className="grid gap-5 lg:grid-cols-[1fr_auto] lg:items-end">
-                    <InputFieldForm
-                      control={form.control}
-                      name="internalCode"
-                      label="Codigo interno"
-                      type="text"
-                      flexDirection="column"
-                      placeholder="Ingrese el código interno"
-                      className=" "
-                    />
-
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={() => {
+                    placeholder="Ingrese el código interno"
+                />
+                <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => {
                         form.setValue(
-                          "internalCode",
-                          generateSKU(
-                            form.getValues("name"),
-                            form.getValues("categoryId")
-                          )
+                            "internalCode",
+                            generateSKU(form.getValues("name"), form.getValues("categoryId"))
                         );
-                      }}
-                    >
-                      {screenSize < ScreenSizeEnum.lg
-                        ? "Generar Código Interno ..."
-                        : "Generar"}
-                    </Button>
-                  </article>
-                </section>
-
-                <section className="grid gap-7 h-full">
-                  <section>
-                    <ComboboxForm
-                      control={form.control}
-                      name="categoryId"
-                      data={categories.map((category) => ({
-                        label: category.name,
-                        value: category.id,
-                      }))}
-                      label="Categoria"
-                      flexDirection="row"
-                      handleSelect={(value: string) => {
-                        form.setValue("categoryId", value);
-                        form.trigger("categoryId");
-                      }}
-                      labelSelect="Seleccione una categoria"
-                    />
-
-                    <SwitchForm
-                      control={form.control}
-                      name="isInventoryControl"
-                      label="Control de inventario"
-                      flexDirection="row"
-                      handleChange={() => {
-                        if (
-                          !isNewRecord &&
-                          !form.getValues("isInventoryControl")
-                        ) {
-                          setIsOpenDialogInfo(true);
-                        } else if (!form.getValues("isInventoryControl")) {
-                          setMessageGeneralError(null);
-                        }
-                      }}
-                    />
-
-                    {form.getValues("isInventoryControl") && (
-                      <ProductStockForm
-                        control={form.control}
-                        branches={branches}
-                        productStocks={productStocks}
-                        setProductStocks={(value) => setProductStocks(value)}
-                        handleSelect={(value: string) => {
-                          form.setValue("branchId", value);
-                        }}
-                        handlePostSave={() => {
-                          form.setValue("branchId", "");
-                        }}
-                        isNewRecord={isNewRecord}
-                      />
-                    )}
-
-                    <SwitchForm
-                      control={form.control}
-                      name="isMultiPrice"
-                      label="Maneja multi precios"
-                      flexDirection="row"
-                    />
-                  </section>
-
-                  <section className="flex justify-end gap-7 items-end">
-                    <ButtonCancel
-                      handleCloseForm={handleCloseForm}
-                      isPending={isPending}
-                    />
-                    <ButtonSave isPending={isPending} />
-                  </section>
-                </section>
-              </div>
-            </CardContent>
-            <CardFooter className="flex flex-col items-end gap-2">
-              {messageGeneralError && (
-                <p className="text-sm text-destructive mb-2">
-                  {messageGeneralError}
-                </p>
-              )}
-            </CardFooter>
-          </form>
-        </Form>
-
+                    }}
+                >
+                    Generar
+                </Button>
+            </div>
+            <ComboboxForm
+                control={form.control}
+                name="categoryId"
+                data={(categories ?? []).map((c) => ({ 
+                    label: c.name, 
+                    value: c.id 
+                }))}
+                label="Categoria"
+                flexDirection="row"
+                widthButton="w-full"
+                handleSelect={(value: string) => {
+                    form.setValue("categoryId", value, { shouldValidate: true, shouldDirty: true });
+                }}
+                labelSelect="Seleccione una categoria"
+            />
+            <SwitchForm
+                control={form.control}
+                name="isInventoryControl"
+                label="Control de inventario"
+                handleChange={() => {
+                    if (!isNewRecord && !form.getValues("isInventoryControl")) setIsOpenDialogInfo(true);
+                }}
+            />
+            {form.getValues("isInventoryControl") && (
+                <ProductStockForm
+                    control={form.control}
+                    branches={branches}
+                    productStocks={productStocks}
+                    setProductStocks={setProductStocks}
+                    handleSelect={(v: string) => form.setValue("branchId", v)}
+                    handlePostSave={() => form.setValue("branchId", "")}
+                    isNewRecord={isNewRecord}
+                />
+            )}
+            <SwitchForm
+                control={form.control}
+                name="isMultiPrice"
+                label="Maneja multi precios"
+            />
+            {messageGeneralError && <p className="text-sm text-destructive">{messageGeneralError}</p>}
+        </div>
         <DialogInfo
-          open={isOpenDialogInfo}
-          setOpen={setIsOpenDialogInfo}
-          handleAction={() => setIsOpenDialogInfo(false)}
-          description={`Producto tiene datos de stock de sucursales. Si deshabilita el control por inventario,
-          al grabar el producto se eliminarán los datos de stock en el almacén.`}
+            open={isOpenDialogInfo}
+            setOpen={setIsOpenDialogInfo}
+            handleAction={() => setIsOpenDialogInfo(false)}
+            description="Si deshabilita el control por inventario, se eliminarán los datos de stock."
         />
-      </Card>
-    </div>
+      </form>
+    </Form>
   );
 };

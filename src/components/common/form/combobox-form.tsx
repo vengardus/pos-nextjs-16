@@ -2,6 +2,7 @@ import { useState } from "react";
 import type * as React from "react";
 import type { Control, FieldValues, Path } from "react-hook-form";
 import { Check, ChevronsUpDown, Loader2 } from "lucide-react";
+import * as PopoverPrimitive from "@radix-ui/react-popover";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -18,11 +19,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { cn } from "@/utils/tailwind/cn";
 
 interface ComboboxFormProps<T extends FieldValues>
@@ -54,7 +50,7 @@ export const ComboboxForm = <T extends FieldValues>({
   flexDirection = "row",
   handleSelect,
   labelSelect = "Seleccione una opción",
-  widthButton = "w-auto",
+  widthButton = "w-full",
   isImportant = false,
   classNameFormControl,
   classNameButton,
@@ -75,14 +71,14 @@ export const ComboboxForm = <T extends FieldValues>({
       name={name}
       render={({ field }) => {
         const selectedLabel = field.value
-          ? data.find((item) => item.value === field.value)?.label
+          ? data.find((item) => String(item.value) === String(field.value))?.label
           : labelSelect;
 
         return (
-          <div className="flex flex-col">
+          <div className="flex flex-col w-full">
             <FormItem
-              className={cn("flex", {
-                "flex-row items-baseline justify-between":
+              className={cn("flex w-full", {
+                "flex-row items-baseline justify-between gap-3":
                   flexDirection === "row",
                 "flex-col": flexDirection === "column",
               })}
@@ -93,17 +89,16 @@ export const ComboboxForm = <T extends FieldValues>({
                   <span className="text-lg text-red-500">(*)</span>
                 )}
               </FormLabel>
-              <Popover
-                open={isOpen}
-                onOpenChange={(nextOpen) => {
-                  if (isInteractionDisabled) return;
-                  setIsOpen(nextOpen);
-                }}
+              
+              <PopoverPrimitive.Root 
+                open={isOpen} 
+                onOpenChange={setIsOpen}
+                modal={true}
               >
-                <PopoverTrigger asChild>
+                <PopoverPrimitive.Trigger asChild>
                   <FormControl
                     className={cn(
-                      "data-[state=open]:bg-foreground/10 hover:bg-foreground/10",
+                      "data-[state=open]:bg-foreground/10 hover:bg-foreground/10 w-full",
                       classNameFormControl
                     )}
                   >
@@ -118,10 +113,6 @@ export const ComboboxForm = <T extends FieldValues>({
                         },
                         classNameButton
                       )}
-                      onClick={() => {
-                        if (isInteractionDisabled) return;
-                        setIsOpen((current) => !current);
-                      }}
                       disabled={isInteractionDisabled}
                     >
                       <span
@@ -137,21 +128,31 @@ export const ComboboxForm = <T extends FieldValues>({
                       )}
                     </Button>
                   </FormControl>
-                </PopoverTrigger>
-                <PopoverContent
-                  className={cn(widthButton, "p-0", classNamePopoverContent)}
+                </PopoverPrimitive.Trigger>
+
+                {/* NOTA: Eliminamos PopoverPrimitive.Portal para evitar conflictos de foco en SlideOvers */}
+                <PopoverPrimitive.Content
+                  sideOffset={4}
+                  align="end"
+                  className={cn(
+                    "z-[100] w-[var(--radix-popover-trigger-width)] rounded-md border bg-popover text-popover-foreground shadow-md outline-none animate-in fade-in-0 zoom-in-95",
+                    classNamePopoverContent
+                  )}
+                  onInteractOutside={(e) => {
+                    // Evitar que el SlideOver intercepte el clic de cierre
+                    if (e.target instanceof Element && e.target.closest('[role="combobox"]')) {
+                        e.preventDefault();
+                    }
+                  }}
                 >
                   <Command className={cn("bg-background", classNameCommand)}>
                     <CommandInput
                       placeholder={commandInputPlaceholder}
                       className="h-9 bg-background"
+                      autoFocus
                     />
                     <CommandList
-                      onWheel={(event) => {
-                        event.preventDefault();
-                        event.stopPropagation();
-                        event.currentTarget.scrollTop += event.deltaY;
-                      }}
+                        className="max-h-[300px] overflow-y-auto"
                     >
                       <CommandEmpty>{commandEmptyMessage}</CommandEmpty>
                       <CommandGroup>
@@ -164,7 +165,7 @@ export const ComboboxForm = <T extends FieldValues>({
                               setIsOpen(false);
                             }}
                             className={cn(
-                              "bg-foreground/5",
+                              "bg-foreground/5 cursor-pointer",
                               classNameCommandItem
                             )}
                           >
@@ -172,7 +173,7 @@ export const ComboboxForm = <T extends FieldValues>({
                             <Check
                               className={cn(
                                 "ml-auto",
-                                item.value === field.value
+                                String(item.value) === String(field.value)
                                   ? "opacity-100"
                                   : "opacity-0"
                               )}
@@ -182,8 +183,8 @@ export const ComboboxForm = <T extends FieldValues>({
                       </CommandGroup>
                     </CommandList>
                   </Command>
-                </PopoverContent>
-              </Popover>
+                </PopoverPrimitive.Content>
+              </PopoverPrimitive.Root>
             </FormItem>
             <FormMessage />
           </div>

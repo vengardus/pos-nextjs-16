@@ -1,9 +1,15 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { SessionProvider } from "next-auth/react";
 
 import { AppConstants } from "@/shared/constants/app.constants";
 import { ThemeProvider } from "@/providers/theme-provider";
 import "@/styles/globals.css";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+};
 
 export const metadata: Metadata = {
   title: {
@@ -24,11 +30,6 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.png",
     apple: "/apple-touch-icon.png",
-  },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 1,
   },
 };
 

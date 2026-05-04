@@ -1,57 +1,89 @@
-import type { Branch } from "@/server/modules/branch/domain/branch.types";
-import type { Category } from "@/server/modules/category/domain/category.base.schema";
-import type { Product } from "@/server/modules/product/domain/product.interface";
+import { ListDef } from "@/app/(features)/config/products/components/list-def";
 import { ShowPageMessage } from "@/components/common/messages/show-page-message";
+import { PageHeader } from "@/components/common/typography/page-header";
 import { ModuleEnum } from "@/server/modules/permission/domain/permission.module.enum";
-import { ListDef } from "./components/list-def";
-import { categoryGetAllByCompanyCached } from "@/server/modules/category/next/cache/category.cache";
 import { productGetAllByCompanyCached } from "@/server/modules/product/next/cache/product.get-all-by-company.cache";
+import { categoryGetAllByCompanyCached } from "@/server/modules/category/next/cache/category.cache";
 import { branchGetAllByCompanyCached } from "@/server/modules/branch/next/cache/branch.cache";
 import { checkAuthenticationAndPermission } from "@/server/modules/auth/use-cases/auth.check-authentication-and-permission.use-case";
+import { AppConstants } from "@/shared/constants/app.constants";
 
-export default async function ConfigProductsPage() {
-  // Verify user authentication and permission
-  const authenticatationAndPermissionResponse = await checkAuthenticationAndPermission(
-    ModuleEnum.products
-  );
-  if (!authenticatationAndPermissionResponse.isAuthenticated)
-    return <ShowPageMessage customMessage={authenticatationAndPermissionResponse.errorMessage} />;
-  const company = authenticatationAndPermissionResponse.company!;
+export default async function ConfigProductsPage(props: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const searchParams = await props.searchParams;
+  const rawPage = Number(searchParams?.page);
+  const page = Number.isInteger(rawPage) && rawPage > 0 ? rawPage : 1;
+  const search =
+    typeof searchParams?.search === "string" && searchParams.search.trim()
+      ? searchParams.search.trim()
+      : undefined;
 
-  // obtener categories
-  const respCategories = await categoryGetAllByCompanyCached(company.id);
+  const authenticatationAndPermissionResponse =
+    await checkAuthenticationAndPermission(ModuleEnum.products);
+  if (
+    !authenticatationAndPermissionResponse.isAuthenticated ||
+    !authenticatationAndPermissionResponse.company
+  ) {
+    return (
+      <ShowPageMessage
+        customMessage={authenticatationAndPermissionResponse.errorMessage}
+      />
+    );
+  }
+  const company = authenticatationAndPermissionResponse.company;
+
+  const [respProducts, respCategories, respBranches] = await Promise.all([
+    productGetAllByCompanyCached(company.id, page, AppConstants.DEFAULT_PAGE_SIZE, search),
+    categoryGetAllByCompanyCached(company.id),
+    branchGetAllByCompanyCached(company.id),
+  ]);
+
+  if (!respProducts.success) {
+    return (
+      <ShowPageMessage
+        modelName="Productos"
+        errorMessage={respProducts.message}
+      />
+    );
+  }
+
   if (!respCategories.success) {
     return (
       <ShowPageMessage
-        modelName={`Categoría de productos`}
+        modelName="Categorías"
         errorMessage={respCategories.message}
       />
     );
   }
-  const categories = respCategories.data as Category[];
 
-  // obtener products
-  const respProducts = await productGetAllByCompanyCached(company.id);
-  if (!respProducts.success) {
-    return <ShowPageMessage modelName={`Productos`} errorMessage={respProducts.message} />;
-  }
-  const products = respProducts.data as Product[];
-
-  // obtener sucursales
-  const respBranches = await branchGetAllByCompanyCached(company.id);
   if (!respBranches.success) {
-    return <ShowPageMessage modelName={`Sucursales`} errorMessage={respBranches.message} />;
+    return (
+      <ShowPageMessage
+        modelName="Sucursales"
+        errorMessage={respBranches.message}
+      />
+    );
   }
-  const branches = respBranches.data as Branch[];
 
   return (
-    <ListDef
-      data={{
-        products,
-        categories,
-        branches,
-      }}
-      companyId={company.id}
-    />
+    <div className="flex h-full flex-col overflow-hidden">
+      <div className="shrink-0 px-4">
+        <PageHeader
+          breadcrumb="Config / Productos"
+          title=""
+          backRoute="/config"
+        />
+      </div>
+      <div className="flex-1 overflow-hidden">
+        <ListDef
+          data={respProducts.data ?? []}
+          companyId={company.id}
+          pagination={respProducts.pagination}
+          categories={respCategories.data ?? []}
+          branches={respBranches.data ?? []}
+        />
+      </div>
+    </div>
   );
 }

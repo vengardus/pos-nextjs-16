@@ -82,9 +82,13 @@ export const ListDef = ({ data, companyId, pagination }: ListDefProps) => {
   };
 
   return (
-    <>
+    <div className="flex h-full min-h-0 flex-col">
       <ListTable<PaymentMethod>
         data={data}
+        manualPagination={true}
+        pageCount={pagination?.totalPages ?? -1}
+        paginationState={{ pageIndex, pageSize }}
+        onPaginationChange={handlePaginationChange}
         columnsDef={ListColumnsDef({
           handleEditRecord: handleEditRecord,
           handleDeleteRecord: handleDeleteRecord,
@@ -95,11 +99,14 @@ export const ListDef = ({ data, companyId, pagination }: ListDefProps) => {
           singularName: paymentMethodMetadata.singularName,
           pluralName: paymentMethodMetadata.pluralName,
         }}
-        manualPagination={true}
-        pageCount={pagination?.totalPages ?? -1}
-        paginationState={{ pageIndex, pageSize }}
-        onPaginationChange={handlePaginationChange}
+        onRefresh={async () => {
+          await updateTagsAction([`payment-methods-${companyId}`]);
+          startTransition(() => {
+            router.refresh();
+          });
+        }}
         isLoading={isPending}
+        stickyHeader={true}
       />
 
       {isShowForm && (
@@ -114,6 +121,6 @@ export const ListDef = ({ data, companyId, pagination }: ListDefProps) => {
           />
         </CustomSlideOver>
       )}
-    </>
+    </div>
   );
 };

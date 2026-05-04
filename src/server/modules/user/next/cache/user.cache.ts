@@ -14,14 +14,18 @@ import { userGetByColumnUseCase } from "@/server/modules/user/use-cases/user.get
 //   return await userGetAllByCompany(companyId);
 // };
 
-export async function userGetAllByCompanyCached(companyId: string): Promise<ResponseAction> {
-  // Aquí companyId está en scope, así que podemos usarlo en keyParts
+export async function userGetAllByCompanyCached(
+  companyId: string,
+  page: number = 1,
+  pageSize: number = 50,
+  search?: string
+): Promise<ResponseAction> {
   console.log("cache=>userGetAllByCompanyCached");
   const fn = cache(
     async () => {
-      return userGetAllByCompanyUseCase(companyId);
+      return userGetAllByCompanyUseCase(companyId, page, pageSize, search);
     },
-    [`users-${companyId}`],
+    [`users-${companyId}-${page}-${pageSize}-${search || "all"}`],
     {
       revalidate: CacheConfig.CacheDurations.revalidate,
       tags: [`users-${companyId}`],

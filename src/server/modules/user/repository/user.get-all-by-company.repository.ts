@@ -4,24 +4,42 @@ import prisma from "@/server/db/prisma";
 import type { UserWithRelations } from "@/server/modules/user/domain/user-with-relations.interface";
 
 export const userGetAllByCompanyRepository = async (
-  companyId: string
-): Promise<UserWithRelations[]> => {
-  return await prisma.userModel.findMany({
-    where: {
-      BranchUser: {
-        some: {
-          Branch: {
-            companyId: companyId, // Filtrar por compañía
+  companyId: string,
+  page: number,
+  pageSize: number,
+  search?: string
+): Promise<{ data: UserWithRelations[]; total: number }> => {
+  const where = {
+    BranchUser: {
+      some: {
+        Branch: {
+          companyId: companyId,
+        },
+      },
+    },
+    ...(search && {
+      OR: [
+        { name: { contains: search, mode: "insensitive" as const } },
+        { email: { contains: search, mode: "insensitive" as const } },
+      ],
+    }),
+  };
+
+  const [data, total] = await prisma.$transaction([
+    prisma.userModel.findMany({
+      where,
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+      include: {
+        BranchUser: {
+          include: {
+            Branch: true,
           },
         },
       },
-    },
-    include: {
-      BranchUser: {
-        include: {
-          Branch: true, // Opcional: incluir info de la sucursal
-        },
-      },
-    },
-  }) as UserWithRelations[];
+    }),
+    prisma.userModel.count({ where }),
+  ]);
+
+  return { data: data as UserWithRelations[], total };
 };

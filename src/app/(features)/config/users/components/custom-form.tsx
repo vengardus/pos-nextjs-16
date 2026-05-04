@@ -71,60 +71,56 @@ export const CustomForm = ({
   return (
     <Form {...form}>
       <form id="user-form" onSubmit={form.handleSubmit(handleSave)}>
-        <div className="grid w-full items-center gap-10 lg:grid-cols-2 py-2">
-          <section className="flex flex-col gap-4">
-            <InputFieldForm control={form.control} name="name" label="Nombre" placeholder="Ingrese su nombre" autoFocus />
-            <InputFieldForm control={form.control} name="email" label="Email" placeholder="Ingrese email" />
-            <InputFieldForm control={form.control} name="password" label="Password" placeholder="Ingrese password" type={form.getValues("password")!==AppConstants.DEFAULT_VALUES.messageUserPassword?"password":""} />
-            <ComboboxForm
-              control={form.control}
-              name="documentTypeId"
-              data={documentTypes.map((dt) => ({ label: dt.name, value: dt.id }))}
-              label="Tipos de documentos"
-              flexDirection="row"
-              handleSelect={(value: string) => { form.setValue("documentTypeId", value); form.trigger("documentTypeId"); }}
-              labelSelect="Seleccione un Tipo de Documento"
-            />
-            <InputFieldForm control={form.control} name="documentNumber" label="Numero documento" placeholder="Ingrese numero documento" />
-          </section>
-          <section className="h-full flex flex-col gap-4">
-            <InputFieldForm control={form.control} name="phone" label="Telefono" placeholder="Ingrese numero telefono" />
-            <InputFieldForm control={form.control} name="address" label="Direccion" placeholder="Ingrese dirección" />
-            <ComboboxForm
-              control={form.control}
-              name="branchId"
-              data={branches.map((item) => ({ label: item.name, value: item.id }))}
-              label="Sucursal:"
-              flexDirection="row"
-              handleSelect={(value: string) => {
-                form.setValue("branchId", value);
-                form.trigger("branchId");
-                const branch = branches.find((b) => b.id === value);
-                setCashRegisters(branch?.CashRegister || []);
-                form.setValue("cashRegisterId", "");
-                form.trigger("cashRegisterId");
-              }}
-              labelSelect="Seleccione Sucursal"
-            />
-            <ComboboxForm
-              control={form.control}
-              name="cashRegisterId"
-              data={cashRegisters.map((item) => ({ label: item.description, value: item.id }))}
-              label="Caja:"
-              flexDirection="row"
-              handleSelect={(value: string) => { form.setValue("cashRegisterId", value); form.trigger("cashRegisterId"); }}
-              labelSelect="Seleccione Caja"
-            />
-            <ComboboxForm
-              control={form.control}
-              name="roleId"
-              data={mapRoleToCombobox(roles)}
-              label="Rol"
-              flexDirection="row"
-              handleSelect={(value: string) => { form.setValue("roleId", value); form.trigger("roleId"); }}
-              labelSelect="Seleccione un Rol"
-            />
-          </section>
+        <div className="flex flex-col gap-4 py-2">
+          <InputFieldForm control={form.control} name="name" label="Nombre" placeholder="Ingrese su nombre" autoFocus />
+          <InputFieldForm control={form.control} name="email" label="Email" placeholder="Ingrese email" />
+          <InputFieldForm control={form.control} name="password" label="Password" placeholder="Ingrese password" type={form.getValues("password")!==AppConstants.DEFAULT_VALUES.messageUserPassword?"password":""} />
+          <ComboboxForm
+            control={form.control}
+            name="documentTypeId"
+            data={documentTypes.map((dt) => ({ label: dt.name, value: dt.id }))}
+            label="Tipos de documentos"
+            flexDirection="column"
+            handleSelect={(value: string) => { form.setValue("documentTypeId", value); form.trigger("documentTypeId"); }}
+            labelSelect="Seleccione un Tipo de Documento"
+          />
+          <InputFieldForm control={form.control} name="documentNumber" label="Numero documento" placeholder="Ingrese numero documento" />
+          <InputFieldForm control={form.control} name="phone" label="Telefono" placeholder="Ingrese numero telefono" />
+          <InputFieldForm control={form.control} name="address" label="Direccion" placeholder="Ingrese dirección" />
+          <ComboboxForm
+            control={form.control}
+            name="branchId"
+            data={branches.map((item) => ({ label: item.name, value: item.id }))}
+            label="Sucursal:"
+            flexDirection="column"
+            handleSelect={(value: string) => {
+              form.setValue("branchId", value);
+              form.trigger("branchId");
+              const branch = branches.find((b) => b.id === value);
+              setCashRegisters(branch?.CashRegister || []);
+              form.setValue("cashRegisterId", "");
+              form.trigger("cashRegisterId");
+            }}
+            labelSelect="Seleccione Sucursal"
+          />
+          <ComboboxForm
+            control={form.control}
+            name="cashRegisterId"
+            data={cashRegisters.map((item) => ({ label: item.description, value: item.id }))}
+            label="Caja:"
+            flexDirection="column"
+            handleSelect={(value: string) => { form.setValue("cashRegisterId", value); form.trigger("cashRegisterId"); }}
+            labelSelect="Seleccione Caja"
+          />
+          <ComboboxForm
+            control={form.control}
+            name="roleId"
+            data={mapRoleToCombobox(roles)}
+            label="Rol"
+            flexDirection="column"
+            handleSelect={(value: string) => { form.setValue("roleId", value); form.trigger("roleId"); }}
+            labelSelect="Seleccione un Rol"
+          />
         </div>
         {messageGeneralError && <p className="text-sm text-destructive mt-4">{messageGeneralError}</p>}
       </form>

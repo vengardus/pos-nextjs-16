@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, useEffect, useRef } from "react";
 import { toast } from "sonner";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import type { PaymentMethod } from "@/server/modules/payment-method/domain/payment-method.interface";
@@ -12,6 +12,7 @@ import {
 import { CustomForm } from "./custom-form";
 import { CustomSlideOver } from "@/components/common/slide-over/custom-slide-over";
 import { ListTable } from "@/components/tables/list-table";
+import { useDebounce } from "@/hooks/debounce/use-debounce.hook";
 import { paymentMethodDeleteByIdAction } from "@/server/modules/payment-method/next/actions/payment-method.delete-by-id.action";
 import { getModelMetadata } from "@/server/common/model-metadata";
 import { updateTagsAction } from "@/server/next/actions/updateTags.action";
@@ -32,7 +33,43 @@ export const ListDef = ({ data, companyId, pagination }: ListDefProps) => {
   const [isPending, startTransition] = useTransition();
   const [isShowForm, setIsShowForm] = useState(false);
   const [currentRow, setCurrentRow] = useState<PaymentMethod | null>(null);
+  const [searchValue, setSearchValue] = useState(searchParams.get("search") ?? "");
+  const debouncedSearchValue = useDebounce(searchValue, 700);
+  const isFirstMount = useRef(true);
+  const searchParamsRef = useRef(searchParams);
   const paymentMethodMetadata = getModelMetadata("paymentMethod");
+
+  useEffect(() => {
+    setSearchValue(searchParams.get("search") ?? "");
+  }, [searchParams]);
+
+  useEffect(() => {
+    searchParamsRef.current = searchParams;
+  }, [searchParams]);
+
+  useEffect(() => {
+    if (isFirstMount.current) {
+      isFirstMount.current = false;
+      return;
+    }
+
+    const currentSearch = searchParamsRef.current.get("search") ?? "";
+    if (debouncedSearchValue === currentSearch) return;
+
+    const params = new URLSearchParams(searchParamsRef.current.toString());
+
+    if (debouncedSearchValue) {
+      params.set("search", debouncedSearchValue);
+    } else {
+      params.delete("search");
+    }
+
+    params.set("page", "1");
+
+    startTransition(() => {
+      router.push(`${pathname}?${params.toString()}`, { scroll: false });
+    });
+  }, [debouncedSearchValue, pathname, router]);
 
   const pageIndex = Math.max(0, (pagination?.currentPage ?? 1) - 1);
   const pageSize = AppConstants.DEFAULT_PAGE_SIZE;
@@ -89,6 +126,9 @@ export const ListDef = ({ data, companyId, pagination }: ListDefProps) => {
         pageCount={pagination?.totalPages ?? -1}
         paginationState={{ pageIndex, pageSize }}
         onPaginationChange={handlePaginationChange}
+        manualFiltering={true}
+        initialGlobalFilter={searchParams.get("search") ?? ""}
+        onGlobalFilterChange={(value: string) => setSearchValue(value)}
         columnsDef={ListColumnsDef({
           handleEditRecord: handleEditRecord,
           handleDeleteRecord: handleDeleteRecord,

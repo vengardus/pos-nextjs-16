@@ -4,10 +4,9 @@ import { PageHeader } from "@/components/common/typography/page-header";
 import { ModuleEnum } from "@/server/modules/permission/domain/permission.module.enum";
 import { checkAuthenticationAndPermission } from "@/server/modules/auth/use-cases/auth.check-authentication-and-permission.use-case";
 import { paymentMethodGetAllByCompanyCached } from "@/server/modules/payment-method/next/cache/payment-method.cache";
+import { AppConstants } from "@/shared/constants/app.constants";
 
-export default async function ConfigPaymentMethodsPage(_props: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}) {
+export default async function ConfigPaymentMethodsPage() {
   const authenticatationAndPermissionResponse = await checkAuthenticationAndPermission( ModuleEnum.paymentMethods);
   if (!authenticatationAndPermissionResponse.isAuthenticated || !authenticatationAndPermissionResponse.company)
     return <ShowPageMessage customMessage={authenticatationAndPermissionResponse.errorMessage} />;
@@ -33,7 +32,6 @@ export default async function ConfigPaymentMethodsPage(_props: {
         <ListDef 
           data={respPaymentMethods.data ?? []} 
           companyId={company.id} 
-          pagination={respPaymentMethods.pagination} 
         />
       </div>
     </div>

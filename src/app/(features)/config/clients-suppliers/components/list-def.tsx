@@ -133,6 +133,7 @@ export const ListDef = ({ data, companyId, pagination }: ListDefProps) => {
         paginationState={{ pageIndex, pageSize }}
         onPaginationChange={handlePaginationChange}
         manualFiltering={true}
+        initialGlobalFilter={searchParams.get("search") ?? ""}
         onGlobalFilterChange={(value: string) => setSearchValue(value)}
         onRefresh={async () => {
           await updateTagsAction([`clients-suppliers-${companyId}`]);

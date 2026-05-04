@@ -131,6 +131,7 @@ export const ListDef = ({ companyId, data, pagination, categories, branches }: L
         paginationState={{ pageIndex, pageSize }}
         onPaginationChange={handlePaginationChange}
         manualFiltering={true}
+        initialGlobalFilter={searchParams.get("search") ?? ""}
         onGlobalFilterChange={(value: string) => setSearchValue(value)}
         onRefresh={async () => {
           await updateTagsAction([`products-${companyId}`]);

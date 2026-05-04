@@ -86,6 +86,7 @@ export const ListDef = ({ data, companyId, pagination }: ListDefProps) => {
       <ListTable<PaymentMethod>
         data={data}
         manualPagination={true}
+        enablePagination={true}
         pageCount={pagination?.totalPages ?? -1}
         paginationState={{ pageIndex, pageSize }}
         onPaginationChange={handlePaginationChange}

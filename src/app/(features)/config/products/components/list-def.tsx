@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import type { PaginationState, Updater } from "@tanstack/react-table";
 import type { Product } from "@/server/modules/product/domain/product.interface";
 import type { Category } from "@/server/modules/category/domain/category.base.schema";
 import type { Branch } from "@/server/modules/branch/domain/branch.types";
@@ -16,6 +17,8 @@ import { ListTable } from "@/components/tables/list-table";
 import { CustomSlideOver } from "@/components/common/slide-over/custom-slide-over";
 import { productDeleteByIdAction } from "@/server/modules/product/next/actions/product.delete-by-id.action";
 import { AppConstants } from "@/shared/constants/app.constants";
+import { useDebounce } from "@/hooks/debounce/use-debounce.hook";
+import { updateTagsAction } from "@/server/next/actions/updateTags.action";
 
 interface ListDefProps {
   companyId: string;
@@ -26,10 +29,41 @@ interface ListDefProps {
 }
 export const ListDef = ({ companyId, data, pagination, categories, branches }: ListDefProps) => {
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
   const [isShowForm, setIsShowForm] = useState(false);
   const [currentProduct, setCurrentProduct] = useState<Product | null>(null);
+  const [searchValue, setSearchValue] = useState("");
+  const debouncedSearchValue = useDebounce(searchValue, 700);
+  const isFirstMount = useRef(true);
+  const searchParamsRef = useRef(searchParams);
   const productMetadata = getModelMetadata("product");
+
+  useEffect(() => {
+    searchParamsRef.current = searchParams;
+  }, [searchParams]);
+
+  useEffect(() => {
+    if (isFirstMount.current) {
+      isFirstMount.current = false;
+      return;
+    }
+
+    const params = new URLSearchParams(searchParamsRef.current.toString());
+
+    if (debouncedSearchValue) {
+      params.set("search", debouncedSearchValue);
+    } else {
+      params.delete("search");
+    }
+
+    params.set("page", "1");
+
+    startTransition(() => {
+      router.push(`${pathname}?${params.toString()}`, { scroll: false });
+    });
+  }, [debouncedSearchValue, pathname, router]);
 
   const handleAddRecord = () => {
     setCurrentProduct(null);
@@ -55,8 +89,26 @@ export const ListDef = ({ companyId, data, pagination, categories, branches }: L
       return;
     }
     toast.success("Eliminado exitosamente");
+    await updateTagsAction([`products-${companyId}`]);
     startTransition(() => {
         router.refresh();
+    });
+  };
+
+  const pageIndex = Math.max(0, (pagination?.currentPage ?? 1) - 1);
+  const pageSize = AppConstants.DEFAULT_PAGE_SIZE;
+
+  const handlePaginationChange = (updater: Updater<PaginationState>) => {
+    const nextState =
+      typeof updater === "function"
+        ? updater({ pageIndex, pageSize })
+        : updater;
+
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", (nextState.pageIndex + 1).toString());
+
+    startTransition(() => {
+      router.push(`${pathname}?${params.toString()}`, { scroll: false });
     });
   };
 
@@ -76,20 +128,18 @@ export const ListDef = ({ companyId, data, pagination, categories, branches }: L
         }}
         manualPagination={true}
         pageCount={pagination?.totalPages ?? 1}
-        paginationState={{
-          pageIndex: (pagination?.currentPage ?? 1) - 1,
-          pageSize: AppConstants.DEFAULT_PAGE_SIZE,
-        }}
-        onPaginationChange={(updater) => {
-          if (typeof updater === "function") {
-            const newState = updater({
-              pageIndex: (pagination?.currentPage ?? 1) - 1,
-              pageSize: AppConstants.DEFAULT_PAGE_SIZE,
-            });
-            router.push(`?page=${newState.pageIndex + 1}`);
-          }
+        paginationState={{ pageIndex, pageSize }}
+        onPaginationChange={handlePaginationChange}
+        manualFiltering={true}
+        onGlobalFilterChange={(value: string) => setSearchValue(value)}
+        onRefresh={async () => {
+          await updateTagsAction([`products-${companyId}`]);
+          startTransition(() => {
+            router.refresh();
+          });
         }}
         isLoading={isPending}
+        stickyHeader={true}
       />
 
       {isShowForm && (

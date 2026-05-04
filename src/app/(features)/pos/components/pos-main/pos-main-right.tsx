@@ -2,6 +2,7 @@ import { clientSupplierGetAllByCompanyCached } from "@/server/modules/client-sup
 import { PosMainButtons } from "./pos-main-right/pos-main-buttons";
 import { PosMainTotals } from "./pos-main-right/pos-main-totals";
 import { paymentMethodGetAllByCompanyCached } from "@/server/modules/payment-method/next/cache/payment-method.cache";
+import { AppConstants } from "@/shared/constants/app.constants";
 
 interface PosMainRightProps {
   companyId: string;
@@ -10,7 +11,7 @@ interface PosMainRightProps {
 export const PosMainRight = async ({ companyId }: PosMainRightProps) => {
   const [respPaymentMethoss, respClientsSuppliers] = await Promise.all([
     paymentMethodGetAllByCompanyCached(companyId),
-    clientSupplierGetAllByCompanyCached(companyId),
+    clientSupplierGetAllByCompanyCached(companyId, 1, AppConstants.DEFAULT_PAGE_SIZE),
   ]);
 
   if (!respPaymentMethoss.success)

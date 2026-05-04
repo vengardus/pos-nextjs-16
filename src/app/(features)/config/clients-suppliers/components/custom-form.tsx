@@ -1,13 +1,7 @@
 "use client";
 
+import { useEffect } from "react";
 import { Form } from "@/components/ui/form";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import type { ClientSupplier } from "@/server/modules/client-supplier/domain/client-supplier.interface";
 import { AppConstants } from "@/shared/constants/app.constants";
 import { ClientSupplierFormSchemaType } from "@/app/(features)/config/clients-suppliers/schemas/client-supplier-form.schema";
@@ -16,7 +10,7 @@ import { ButtonSave } from "@/components/common/buttons/button-save";
 import { ComboboxForm } from "@/components/common/form/combobox-form";
 import { InputFieldForm } from "@/components/common/form/input-field-form";
 import { ButtonCancel } from "@/components/common/buttons/button-cancel";
-import { getModelMetadata } from "@/server/common/model-metadata";
+import { useCustomSlideOver } from "@/components/common/slide-over/custom-slide-over";
 
 interface CustomFormProps {
   currentRow: ClientSupplier | null;
@@ -35,12 +29,12 @@ export const CustomForm = ({
     isPending,
     messageGeneralError,
     setMessageGeneralError,
-    isNewRecord,
   } = useClientSupplierForm({
     currentRow,
     companyId,
   });
-  const clientSupplierMetadata = getModelMetadata("clientSupplier");
+
+  const slideOver = useCustomSlideOver();
 
   const handleSubmit = async (values: ClientSupplierFormSchemaType) => {
     setMessageGeneralError(null);
@@ -51,94 +45,89 @@ export const CustomForm = ({
   const postSave = () => {
     form.reset();
     setMessageGeneralError(null);
-    if (!isNewRecord) handleCloseForm();
+    handleCloseForm();
   };
 
+  useEffect(() => {
+    if (!slideOver) return;
+
+    slideOver.setFooterContent(
+      <div className="flex w-full justify-end gap-2">
+        <ButtonCancel handleCloseForm={handleCloseForm} isPending={isPending} />
+        <ButtonSave isPending={isPending} handleOnClick={form.handleSubmit(handleSubmit)} />
+      </div>
+    );
+
+    return () => slideOver.setFooterContent(null);
+  }, [slideOver, handleCloseForm, isPending, form]);
+
   return (
-    <div className="">
-      <Card className="card">
-        <CardHeader className="card-header">
-          <CardTitle>{`${!isNewRecord ? "Editar" : "Agregar"} ${
-            clientSupplierMetadata.singularName
-          }`}</CardTitle>
-        </CardHeader>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSubmit)}>
-            <CardContent>
-              <div className="grid grid-cols-0 md:grid-cols-2 w-full gap-3 md:gap-x-7">
-                <section className="flex flex-col gap-5">
-                  <InputFieldForm
-                    control={form.control}
-                    name="name"
-                    label="Nombre"
-                    placeholder="Ingrese su nombre"
-                    autoFocus
-                  />
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(handleSubmit)}>
+        <div className="grid gap-5">
+            <InputFieldForm
+                control={form.control}
+                name="name"
+                label="Nombre"
+                placeholder="Ingrese su nombre"
+                autoFocus
+            />
 
-                  <ComboboxForm
-                    control={form.control}
-                    name="personType"
-                    data={AppConstants.DEFAULT_VALUES.personTypes}
-                    label="Tipo Persona"
-                    value={form.watch("personType")}
-                    handleSelect={(value: string) => {
-                      form.setValue("personType", value);
-                    }}
-                    labelSelect="Seleccione tipo de persona"
-                  />
-                  <InputFieldForm
-                    control={form.control}
-                    name="naturalIdentifier"
-                    label="Documento Idenidad"
-                    placeholder="Ingrese documento identidad"
-                  />
-                  <InputFieldForm
-                    control={form.control}
-                    name="legalIdentifier"
-                    label="RUC"
-                    placeholder="Ingrese RUC"
-                  />
-                </section>
-                <section className="flex flex-col gap-5">
-                  <InputFieldForm
-                    control={form.control}
-                    name="address"
-                    label="Dirección"
-                    placeholder="Ingrese su dirección"
-                  />
+            <ComboboxForm
+                control={form.control}
+                name="personType"
+                data={AppConstants.DEFAULT_VALUES.personTypes}
+                label="Tipo Persona"
+                flexDirection="row"
+                widthButton="w-full"
+                handleSelect={(value: string) => {
+                    form.setValue("personType", value, { shouldValidate: true, shouldDirty: true });
+                }}
+                labelSelect="Seleccione tipo de persona"
+            />
+            
+            <InputFieldForm
+                control={form.control}
+                name="naturalIdentifier"
+                label="Documento Idenidad"
+                placeholder="Ingrese documento identidad"
+            />
+            
+            <InputFieldForm
+                control={form.control}
+                name="legalIdentifier"
+                label="RUC"
+                placeholder="Ingrese RUC"
+            />
 
-                  <InputFieldForm
-                    control={form.control}
-                    type="email"
-                    name="email"
-                    label="E-mail"
-                    placeholder="Ingrese su e-mail"
-                  />
+            <InputFieldForm
+                control={form.control}
+                name="address"
+                label="Dirección"
+                placeholder="Ingrese su dirección"
+            />
 
-                  <InputFieldForm
-                    control={form.control}
-                    name="phone"
-                    type="tel"
-                    label="Teléfono"
-                    placeholder="Ingrese teléfono"
-                  />
-                </section>
-              </div>
-            </CardContent>
-            <CardFooter className="flex flex-col items-end gap-2">
-              {messageGeneralError && (
-                <p className="text-sm text-destructive mb-2">
-                  {messageGeneralError}
-                </p>
-              )}
-              <div className="flex justify-end gap-7">
-                <ButtonCancel handleCloseForm={handleCloseForm} isPending={isPending} />
-                <ButtonSave isPending={isPending} />
-              </div>
-            </CardFooter>
-          </form>
-        </Form>
-      </Card>
-    </div>
+            <InputFieldForm
+                control={form.control}
+                type="email"
+                name="email"
+                label="E-mail"
+                placeholder="Ingrese su e-mail"
+            />
+
+            <InputFieldForm
+                control={form.control}
+                name="phone"
+                type="tel"
+                label="Teléfono"
+                placeholder="Ingrese teléfono"
+            />
+            
+            {messageGeneralError && (
+                <p className="text-sm text-destructive">{messageGeneralError}</p>
+            )}
+        </div>
+      </form>
+    </Form>
   );
 };

@@ -7,14 +7,17 @@ import type { ResponseAction } from "@/shared/types/common/response-action.inter
 import { clientSupplierGetAllByCompanyUseCase } from "@/server/modules/client-supplier/use-cases/client-supplier.get-all-by-company.use-case";
 
 export async function clientSupplierGetAllByCompanyCached(
-  companyId: string
+  companyId: string,
+  page: number,
+  pageSize: number,
+  search?: string
 ): Promise<ResponseAction> {
   console.log("cache=>clientSupplierGetAllByCompanyCached");
   const fn = cache(
     async () => {
-      return clientSupplierGetAllByCompanyUseCase(companyId);
+      return clientSupplierGetAllByCompanyUseCase(companyId, page, pageSize, search);
     },
-    [`clients-suppliers-${companyId}`],
+    [`clients-suppliers-${companyId}-${page}-${pageSize}-${search || "all"}`],
     {
       revalidate: CacheConfig.CacheDurations.revalidate,
       tags: [`clients-suppliers-${companyId}`],

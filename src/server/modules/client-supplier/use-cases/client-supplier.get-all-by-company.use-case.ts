@@ -1,22 +1,33 @@
 import "server-only";
 
 import type { ResponseAction } from "@/shared/types/common/response-action.interface";
-import type { ClientSupplier } from "@/server/modules/client-supplier/domain/client-supplier.interface";
 import { getActionError } from "@/utils/errors/get-action-error";
 import { initResponseAction } from "@/utils/response/init-response-action";
 import { clientSupplierGetAllByCompanyRepository } from "@/server/modules/client-supplier/repository/client-supplier.get-all-by-company.repository";
 
 export const clientSupplierGetAllByCompanyUseCase = async (
-  companyId: string
+  companyId: string,
+  page: number,
+  pageSize: number,
+  search?: string
 ): Promise<ResponseAction> => {
   const resp = initResponseAction();
 
   try {
     if (!companyId) throw new Error("Company id is required");
 
-    const data = await clientSupplierGetAllByCompanyRepository(companyId);
+    const { data, total } = await clientSupplierGetAllByCompanyRepository(
+      companyId,
+      page,
+      pageSize,
+      search
+    );
 
-    resp.data = data as ClientSupplier[];
+    resp.data = data;
+    resp.pagination = {
+      currentPage: page,
+      totalPages: Math.ceil(total / pageSize),
+    };
     resp.success = true;
     console.log("query=>clientSupplierGetAllByCompany");
   } catch (error) {

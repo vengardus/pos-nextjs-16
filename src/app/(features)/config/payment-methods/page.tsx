@@ -22,5 +22,5 @@ export default async function ConfigPaymentMethodsPage() {
     );
   }
 
-  return <ListDef data={respPaymentMethods.data} companyId={company.id} />;
+  return <ListDef data={respPaymentMethods.data ?? []} companyId={company.id} pagination={respPaymentMethods.pagination} />;
 }

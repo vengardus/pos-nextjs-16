@@ -2,8 +2,9 @@
 
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import type { PaymentMethod } from "@/server/modules/payment-method/domain/payment-method.interface";
+import type { PaginationState, Updater } from "@tanstack/react-table";
 import {
   ListColumnsDef,
   CustomListColumnsResponsiveDef,
@@ -14,17 +15,41 @@ import { ListTable } from "@/components/tables/list-table";
 import { paymentMethodDeleteByIdAction } from "@/server/modules/payment-method/next/actions/payment-method.delete-by-id.action";
 import { getModelMetadata } from "@/server/common/model-metadata";
 import { updateTagsAction } from "@/server/next/actions/updateTags.action";
+import { AppConstants } from "@/shared/constants/app.constants";
 
 interface ListDefProps {
   data: PaymentMethod[];
   companyId: string;
+  pagination?: {
+    currentPage: number;
+    totalPages: number;
+  };
 }
-export const ListDef = ({ data, companyId }: ListDefProps) => {
+export const ListDef = ({ data, companyId, pagination }: ListDefProps) => {
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
   const [isShowForm, setIsShowForm] = useState(false);
   const [currentRow, setCurrentRow] = useState<PaymentMethod | null>(null);
   const paymentMethodMetadata = getModelMetadata("paymentMethod");
+
+  const pageIndex = Math.max(0, (pagination?.currentPage ?? 1) - 1);
+  const pageSize = AppConstants.DEFAULT_PAGE_SIZE;
+
+  const handlePaginationChange = (updater: Updater<PaginationState>) => {
+    const nextState =
+      typeof updater === "function"
+        ? updater({ pageIndex, pageSize })
+        : updater;
+
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", (nextState.pageIndex + 1).toString());
+
+    startTransition(() => {
+      router.push(`${pathname}?${params.toString()}`, { scroll: false });
+    });
+  };
 
   const handleAddRecord = () => {
     setCurrentRow(null);
@@ -52,7 +77,7 @@ export const ListDef = ({ data, companyId }: ListDefProps) => {
     toast.success("Eliminado exitosamente");
     await updateTagsAction([`payment-methods-${companyId}`]);
     startTransition(() => {
-        router.refresh();
+      router.refresh();
     });
   };
 
@@ -70,6 +95,10 @@ export const ListDef = ({ data, companyId }: ListDefProps) => {
           singularName: paymentMethodMetadata.singularName,
           pluralName: paymentMethodMetadata.pluralName,
         }}
+        manualPagination={true}
+        pageCount={pagination?.totalPages ?? -1}
+        paginationState={{ pageIndex, pageSize }}
+        onPaginationChange={handlePaginationChange}
         isLoading={isPending}
       />
 

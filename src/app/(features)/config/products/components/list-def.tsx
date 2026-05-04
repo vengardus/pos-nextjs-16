@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 import type { Product } from "@/server/modules/product/domain/product.interface";
 import { getModelMetadata } from "@/server/common/model-metadata";
 import {
@@ -12,14 +13,15 @@ import { CustomForm } from "./custom-form";
 import { ListTable } from "@/components/tables/list-table";
 import { Modal } from "@/components/common/modals/modal";
 import { productDeleteByIdAction } from "@/server/modules/product/next/actions/product.delete-by-id.action";
-import { Pagination } from "@/shared/types/common/pagination.interface";
+import { AppConstants } from "@/shared/constants/app.constants";
 
 interface ListDefProps {
   companyId: string;
   data: Product[];
-  pagination: Pagination;
+  pagination: any;
 }
 export const ListDef = ({ companyId, data, pagination }: ListDefProps) => {
+  const router = useRouter();
   const [isShowForm, setIsShowForm] = useState(false);
   const [currentProduct, setCurrentProduct] = useState<Product | null>(null);
   const productMetadata = getModelMetadata("product");
@@ -64,7 +66,21 @@ export const ListDef = ({ companyId, data, pagination }: ListDefProps) => {
           singularName: productMetadata.singularName,
           pluralName: productMetadata.pluralName,
         }}
-        pagination={pagination}
+        manualPagination={true}
+        pageCount={pagination?.totalPages ?? 1}
+        paginationState={{
+          pageIndex: (pagination?.currentPage ?? 1) - 1,
+          pageSize: AppConstants.DEFAULT_PAGE_SIZE,
+        }}
+        onPaginationChange={(updater) => {
+          if (typeof updater === "function") {
+            const newState = updater({
+              pageIndex: (pagination?.currentPage ?? 1) - 1,
+              pageSize: AppConstants.DEFAULT_PAGE_SIZE,
+            });
+            router.push(`?page=${newState.pageIndex + 1}`);
+          }
+        }}
       />
 
       {isShowForm && (

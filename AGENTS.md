@@ -38,6 +38,25 @@
 - No iniciar una nueva tarea mientras la actual siga en curso.
 - No mezclar cambios de tareas distintas en la misma rama salvo autorización explícita.
 
+## Patrón Estándar para Alineación de Módulos UI
+Para las tareas de alineación de módulos (basadas en `config/categories`), se deben seguir estas reglas obligatorias:
+1. **Arquitectura de Carga (Server-First)**: 
+   - Toda la data (listados, categorías, sucursales, etc.) debe cargarse en el Server Component (`page.tsx`) mediante `Promise.all` si es necesario.
+   - Pasar los datos por props a los componentes hijos.
+   - **PROHIBIDO**: Importar módulos con `server-only` (como `*.cache.ts`) directamente en Client Components (`use client`).
+2. **Feedback Visual (Transiciones)**: 
+   - Las actualizaciones de URL (paginación, búsqueda) en `ListDef` deben envolverse en `startTransition`.
+   - El estado `isPending` de la transición debe pasarse a la prop `isLoading` de `ListTable` para mostrar el spinner.
+3. **Interfaz de Usuario (Formularios)**: 
+   - Sustituir `Modal` por `CustomSlideOver`.
+   - Utilizar `useCustomSlideOver` dentro de `CustomForm` para inyectar los botones de acción en el footer del slide-over.
+4. **Componentes Anidados (ComboboxForm)**: 
+   - Cuando un `ComboboxForm` esté dentro de un `CustomSlideOver` (o cualquier componente de Radix `Sheet`), debe renderizarse sin Portal para evitar conflictos de foco y permitir el scroll nativo.
+   - Usar `modal={true}` en el Root del Popover y asegurar que el `CommandInput` tenga `autoFocus`.
+5. **Paginación y Filtros**: 
+   - Seguir la estructura de `ResponseAction` (`currentPage`, `totalPages`).
+   - Implementar búsqueda con debounce (700ms) que actualice la URL mediante `searchParams`.
+
 ## Reglas operativas críticas
 - Reutiliza primero componentes de `@/components/common/` y, si no existe una opción adecuada, usa `@/components/ui/`.
 - No crees archivos sueltos en `src/utils/`, `src/lib/` o `src/hooks/`; usa subcarpetas descriptivas.

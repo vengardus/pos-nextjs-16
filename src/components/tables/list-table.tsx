@@ -98,8 +98,6 @@ export const ListTable = <TData,>({
     setSorting,
     columnFilters,
     setColumnFilters,
-    globalFilter,
-    setGlobalFilter,
     columnVisibility,
     setColumnVisibility,
     screenSize,
@@ -112,6 +110,10 @@ export const ListTable = <TData,>({
   const resolvedPaginationState = paginationState ?? clientPagination;
   const resolvedOnPaginationChange =
     onPaginationChange ?? setClientPagination;
+
+  useEffect(() => {
+    setInternalGlobalFilter(initialGlobalFilter);
+  }, [initialGlobalFilter]);
 
   const paginationConfig = enablePagination
     ? {
@@ -193,9 +195,9 @@ export const ListTable = <TData,>({
           {showFilter && (
             <ListFilter
               modelLabels={modelLabels}
-              globalFilter={globalFilter}
+              globalFilter={internalGlobalFilter}
               setGlobalFilter={(value) => {
-                setGlobalFilter(value);
+                setInternalGlobalFilter(value);
                 if (manualFiltering && externalOnGlobalFilterChange) {
                   externalOnGlobalFilterChange(value);
                 }

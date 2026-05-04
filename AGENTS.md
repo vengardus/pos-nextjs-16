@@ -40,6 +40,9 @@
 
 ## Patrón Estándar para Alineación de Módulos UI
 Para las tareas de alineación de módulos (basadas en `config/categories`), se deben seguir estas reglas obligatorias:
+
+**Prerrequisito de Datos**: Antes de iniciar la alineación visual, verificar si el backend (repositorio, caso de uso y caché) soporta paginación y filtrado. Si el contrato de datos no incluye `ResponseAction` con metadata de paginación (`currentPage`, `totalPages`), el backend debe ser actualizado primero.
+
 1. **Arquitectura de Carga (Server-First)**: 
    - Toda la data (listados, categorías, sucursales, etc.) debe cargarse en el Server Component (`page.tsx`) mediante `Promise.all` si es necesario.
    - Pasar los datos por props a los componentes hijos.

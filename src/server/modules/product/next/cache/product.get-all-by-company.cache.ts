@@ -19,15 +19,17 @@ import { productGetAllByCompanyUseCase } from "@/server/modules/product/use-case
 // };
 
 export async function productGetAllByCompanyCached(
-  companyId: string
+  companyId: string,
+  page: number,
+  pageSize: number,
+  search?: string
 ): Promise<ResponseAction> {
-  // Aquí companyId está en scope, así que podemos usarlo en keyParts
   console.log("cache=>productGetAllByCompanyCached");
   const fn = cache(
     async () => {
-      return productGetAllByCompanyUseCase(companyId);
+      return productGetAllByCompanyUseCase(companyId, page, pageSize, search);
     },
-    [`products-${companyId}`], // ahora sí existe
+    [`products-${companyId}-${page}-${pageSize}-${search || "all"}`],
     {
       revalidate: CacheConfig.CacheDurations.revalidate,
       tags: [`products-${companyId}`],

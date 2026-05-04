@@ -3,8 +3,6 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import type { Product } from "@/server/modules/product/domain/product.interface";
-import type { Category } from "@/server/modules/category/domain/category.base.schema";
-import type { Branch } from "@/server/modules/branch/domain/branch.types";
 import { getModelMetadata } from "@/server/common/model-metadata";
 import {
   ListColumnsDef,
@@ -14,17 +12,14 @@ import { CustomForm } from "./custom-form";
 import { ListTable } from "@/components/tables/list-table";
 import { Modal } from "@/components/common/modals/modal";
 import { productDeleteByIdAction } from "@/server/modules/product/next/actions/product.delete-by-id.action";
+import { Pagination } from "@/shared/types/common/pagination.interface";
 
 interface ListDefProps {
   companyId: string;
-  data: {
-    products: Product[];
-    categories: Category[];
-    branches: Branch[];
-  };
+  data: Product[];
+  pagination: Pagination;
 }
-export const ListDef = ({ companyId, data }: ListDefProps) => {
-  const { products, categories, branches } = data;
+export const ListDef = ({ companyId, data, pagination }: ListDefProps) => {
   const [isShowForm, setIsShowForm] = useState(false);
   const [currentProduct, setCurrentProduct] = useState<Product | null>(null);
   const productMetadata = getModelMetadata("product");
@@ -35,7 +30,7 @@ export const ListDef = ({ companyId, data }: ListDefProps) => {
   };
 
   const handleEditRecord = (id: string) => {
-    const product = products.find((c) => c.id === id) ?? null;
+    const product = data.find((c) => c.id === id) ?? null;
     if (!product) {
       toast.error(
         `Error: No se pudo obtener ${productMetadata.singularName}`
@@ -58,7 +53,7 @@ export const ListDef = ({ companyId, data }: ListDefProps) => {
   return (
     <>
       <ListTable<Product>
-        data={products}
+        data={data}
         columnsDef={ListColumnsDef({
           handleEditRecord: handleEditRecord,
           handleDeleteRecord: handleDeleteRecord,
@@ -69,6 +64,7 @@ export const ListDef = ({ companyId, data }: ListDefProps) => {
           singularName: productMetadata.singularName,
           pluralName: productMetadata.pluralName,
         }}
+        pagination={pagination}
       />
 
       {isShowForm && (
@@ -77,7 +73,6 @@ export const ListDef = ({ companyId, data }: ListDefProps) => {
             currentProduct={currentProduct}
             companyId={companyId}
             handleCloseForm={() => setIsShowForm(false)}
-            data={{ categories, branches }}
           />
         </Modal>
       )}

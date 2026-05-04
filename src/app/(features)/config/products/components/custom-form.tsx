@@ -31,19 +31,15 @@ interface CustomFormProps {
   currentProduct: Product | null;
   companyId: string;
   handleCloseForm: () => void;
-  data: {
-    categories: Category[];
-    branches: Branch[];
-  };
 }
 
 export const CustomForm = ({
   currentProduct,
   companyId,
   handleCloseForm,
-  data,
 }: CustomFormProps) => {
-  const { categories, branches } = data;
+  const categories: Category[] = [];
+  const branches: Branch[] = [];
   const screenSize = useMediaQuery();
   const {
     form,

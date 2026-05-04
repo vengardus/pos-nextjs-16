@@ -1,23 +1,27 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 import type { PaymentMethod } from "@/server/modules/payment-method/domain/payment-method.interface";
 import {
   ListColumnsDef,
   CustomListColumnsResponsiveDef,
 } from "./list-columns-def";
 import { CustomForm } from "./custom-form";
-import { Modal } from "../../../../../components/common/modals/modal";
+import { CustomSlideOver } from "@/components/common/slide-over/custom-slide-over";
 import { ListTable } from "@/components/tables/list-table";
 import { paymentMethodDeleteByIdAction } from "@/server/modules/payment-method/next/actions/payment-method.delete-by-id.action";
 import { getModelMetadata } from "@/server/common/model-metadata";
+import { updateTagsAction } from "@/server/next/actions/updateTags.action";
 
 interface ListDefProps {
   data: PaymentMethod[];
   companyId: string;
 }
 export const ListDef = ({ data, companyId }: ListDefProps) => {
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
   const [isShowForm, setIsShowForm] = useState(false);
   const [currentRow, setCurrentRow] = useState<PaymentMethod | null>(null);
   const paymentMethodMetadata = getModelMetadata("paymentMethod");
@@ -46,6 +50,10 @@ export const ListDef = ({ data, companyId }: ListDefProps) => {
       return;
     }
     toast.success("Eliminado exitosamente");
+    await updateTagsAction([`payment-methods-${companyId}`]);
+    startTransition(() => {
+        router.refresh();
+    });
   };
 
   return (
@@ -62,16 +70,20 @@ export const ListDef = ({ data, companyId }: ListDefProps) => {
           singularName: paymentMethodMetadata.singularName,
           pluralName: paymentMethodMetadata.pluralName,
         }}
+        isLoading={isPending}
       />
 
       {isShowForm && (
-        <Modal handleCloseForm={() => setIsShowForm(false)}>
+        <CustomSlideOver
+          title={`${currentRow ? "Editar" : "Agregar"} ${paymentMethodMetadata.singularName}`}
+          onClose={() => setIsShowForm(false)}
+        >
           <CustomForm
             currentRow={currentRow}
             companyId={companyId}
             handleCloseForm={() => setIsShowForm(false)}
           />
-        </Modal>
+        </CustomSlideOver>
       )}
     </>
   );

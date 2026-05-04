@@ -1,13 +1,7 @@
 "use client";
 
+import { useEffect } from "react";
 import { CirclePicker } from "react-color";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -22,7 +16,7 @@ import { usePaymentMethodForm } from "@/app/(features)/config/payment-methods/ho
 import { InputFieldForm } from "../../../../../components/common/form/input-field-form";
 import { ButtonSave } from "../../../../../components/common/buttons/button-save";
 import { ButtonCancel } from "../../../../../components/common/buttons/button-cancel";
-import { getModelMetadata } from "@/server/common/model-metadata";
+import { useCustomSlideOver } from "@/components/common/slide-over/custom-slide-over";
 
 interface CustomFormProps {
   currentRow: PaymentMethod | null;
@@ -46,7 +40,17 @@ export const CustomForm = ({
     currentRow,
     companyId,
   });
-  const paymentMethodMetadata = getModelMetadata("paymentMethod");
+
+  const slideOver = useCustomSlideOver();
+
+  useEffect(() => {
+    slideOver?.setFooterContent(
+      <>
+        <ButtonCancel handleCloseForm={handleCloseForm} isPending={isPending} />
+        <ButtonSave isPending={isPending} type="submit" form="payment-method-form" />
+      </>
+    );
+  }, [isPending]);
 
   const handleSave = async (values: PaymentMethodFormSchemaType) => {
     setMessageGeneralError(null);
@@ -61,70 +65,51 @@ export const CustomForm = ({
   };
 
   return (
-    <div className="">
-      <Card className="card">
-        <CardHeader className="card-header">
-          <CardTitle>{`${!isNewRecord ? "Editar" : "Agregar"} ${
-            paymentMethodMetadata.singularName
-          }`}</CardTitle>
-        </CardHeader>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSave)}>
-            <CardContent>
-              <div className="grid w-full items-center gap-4">
-                <InputFieldForm
-                  control={form.control}
-                  name="name"
-                  label="Nombre"
-                  placeholder="Ingrese su nombre"
-                  autoFocus
-                  disabled={!isNewRecord && form.getValues("isDefault")}
-                />
-                <InputFieldForm
-                  control={form.control}
-                  name="cod"
-                  label="Código"
-                  placeholder="Ingrese código único"
-                  onChange={(event) => {
-                    const value = event.target.value.toUpperCase(); // Obtiene el valor actualizado
-                    form.setValue("cod", value, { shouldValidate: true }); // Actualiza y valida el campo
-                  }}
-                  disabled={!isNewRecord && form.getValues("isDefault")}
-                />
-                <FormField
-                  control={form.control}
-                  name="color"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Color</FormLabel>
-                      <FormControl>
-                        <CirclePicker
-                          color={field.value}
-                          onChange={(color) => {
-                            field.onChange(color.hex);
-                          }}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </CardContent>
-            <CardFooter className="flex flex-col items-end gap-2">
-              {messageGeneralError && (
-                <p className="text-sm text-destructive mb-2">
-                  {messageGeneralError}
-                </p>
-              )}
-              <div className="flex justify-end gap-7">
-                <ButtonCancel handleCloseForm={handleCloseForm} isPending={isPending} />
-                <ButtonSave isPending={isPending} />
-              </div>
-            </CardFooter>
-          </form>
-        </Form>
-      </Card>
-    </div>
+    <Form {...form}>
+      <form id="payment-method-form" onSubmit={form.handleSubmit(handleSave)}>
+        <div className="grid w-full items-center gap-4 py-2">
+          <InputFieldForm
+            control={form.control}
+            name="name"
+            label="Nombre"
+            placeholder="Ingrese su nombre"
+            autoFocus
+            disabled={!isNewRecord && form.getValues("isDefault")}
+          />
+          <InputFieldForm
+            control={form.control}
+            name="cod"
+            label="Código"
+            placeholder="Ingrese código único"
+            onChange={(event) => {
+              const value = event.target.value.toUpperCase();
+              form.setValue("cod", value, { shouldValidate: true });
+            }}
+            disabled={!isNewRecord && form.getValues("isDefault")}
+          />
+          <FormField
+            control={form.control}
+            name="color"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Color</FormLabel>
+                <FormControl>
+                  <CirclePicker
+                    color={field.value}
+                    onChange={(color) => {
+                      field.onChange(color.hex);
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {messageGeneralError && (
+            <p className="text-sm text-destructive">{messageGeneralError}</p>
+          )}
+        </div>
+      </form>
+    </Form>
   );
 };

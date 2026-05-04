@@ -31,7 +31,7 @@ export const ListDef = ({ data, companyId, pagination }: ListDefProps) => {
   const [isPending, startTransition] = useTransition();
   const [isShowForm, setIsShowForm] = useState(false);
   const [currentRow, setCurrentRow] = useState<ClientSupplier | null>(null);
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState(searchParams.get("search") ?? "");
   const debouncedSearchValue = useDebounce(searchValue, 700);
   const isFirstMount = useRef(true);
   const searchParamsRef = useRef(searchParams);
@@ -42,10 +42,17 @@ export const ListDef = ({ data, companyId, pagination }: ListDefProps) => {
   }, [searchParams]);
 
   useEffect(() => {
+    setSearchValue(searchParams.get("search") ?? "");
+  }, [searchParams]);
+
+  useEffect(() => {
     if (isFirstMount.current) {
       isFirstMount.current = false;
       return;
     }
+
+    const currentSearch = searchParamsRef.current.get("search") ?? "";
+    if (debouncedSearchValue === currentSearch) return;
 
     const params = new URLSearchParams(searchParamsRef.current.toString());
 

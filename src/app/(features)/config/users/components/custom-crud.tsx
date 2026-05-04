@@ -50,5 +50,11 @@ export const CustomCrud = ({ data }: CustomCrudProps) => {
     setRoles
   ]);
 
-  return <ListDef data={dataList} setDataList={setDataList} />;
+  return <ListDef 
+    data={dataList} 
+    companyId={data.company.id} 
+    branches={data.branches} 
+    roles={data.roles} 
+    documentTypes={data.documentTypes} 
+  />;
 };

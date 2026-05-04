@@ -63,6 +63,7 @@ interface ListTableProps<TData> {
   onGlobalFilterChange?: (value: string) => void;
   isLoading?: boolean;
   stickyHeader?: boolean;
+  initialGlobalFilter?: string;
 }
 export const ListTable = <TData,>({
   data,
@@ -90,6 +91,7 @@ export const ListTable = <TData,>({
   onGlobalFilterChange: externalOnGlobalFilterChange,
   isLoading = false,
   stickyHeader = false,
+  initialGlobalFilter = "",
 }: ListTableProps<TData>) => {
   const {
     sorting,
@@ -106,6 +108,7 @@ export const ListTable = <TData,>({
     pageIndex: 0,
     pageSize: PAGE_SIZE_SM,
   });
+  const [internalGlobalFilter, setInternalGlobalFilter] = useState(initialGlobalFilter);
   const resolvedPaginationState = paginationState ?? clientPagination;
   const resolvedOnPaginationChange =
     onPaginationChange ?? setClientPagination;
@@ -130,7 +133,7 @@ export const ListTable = <TData,>({
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     onGlobalFilterChange: (updater) => {
-      setGlobalFilter(updater);
+      setInternalGlobalFilter(updater as string);
       if (manualFiltering && externalOnGlobalFilterChange) {
         if (typeof updater === "string") {
           externalOnGlobalFilterChange(updater);
@@ -142,7 +145,7 @@ export const ListTable = <TData,>({
     state: {
       sorting,
       columnFilters,
-      globalFilter,
+      globalFilter: internalGlobalFilter,
       columnVisibility,
       ...(enablePagination ? { pagination: resolvedPaginationState } : {}),
     },

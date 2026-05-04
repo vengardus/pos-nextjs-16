@@ -93,7 +93,7 @@ export const ComboboxForm = <T extends FieldValues>({
               <PopoverPrimitive.Root 
                 open={isOpen} 
                 onOpenChange={setIsOpen}
-                modal={true}
+                modal={false}
               >
                 <PopoverPrimitive.Trigger asChild>
                   <FormControl

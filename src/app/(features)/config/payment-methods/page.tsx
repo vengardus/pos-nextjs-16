@@ -1,17 +1,19 @@
 import { ShowPageMessage } from "@/components/common/messages/show-page-message";
 import { ListDef } from "@/app/(features)/config/payment-methods/components/list-def";
+import { PageHeader } from "@/components/common/typography/page-header";
 import { ModuleEnum } from "@/server/modules/permission/domain/permission.module.enum";
 import { checkAuthenticationAndPermission } from "@/server/modules/auth/use-cases/auth.check-authentication-and-permission.use-case";
 import { paymentMethodGetAllByCompanyCached } from "@/server/modules/payment-method/next/cache/payment-method.cache";
 
-export default async function ConfigPaymentMethodsPage() {
-  // Verify user authentication and permission
+export default async function ConfigPaymentMethodsPage(_props: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
   const authenticatationAndPermissionResponse = await checkAuthenticationAndPermission( ModuleEnum.paymentMethods);
-  if (!authenticatationAndPermissionResponse.isAuthenticated)
+  if (!authenticatationAndPermissionResponse.isAuthenticated || !authenticatationAndPermissionResponse.company)
     return <ShowPageMessage customMessage={authenticatationAndPermissionResponse.errorMessage} />;
-  const company = authenticatationAndPermissionResponse.company!;
+  
+  const company = authenticatationAndPermissionResponse.company;
 
-  // obteber payment methods
   const respPaymentMethods = await paymentMethodGetAllByCompanyCached(company.id);
   if (!respPaymentMethods.success) {
     return (
@@ -22,5 +24,18 @@ export default async function ConfigPaymentMethodsPage() {
     );
   }
 
-  return <ListDef data={respPaymentMethods.data ?? []} companyId={company.id} pagination={respPaymentMethods.pagination} />;
+  return (
+    <div className="flex h-full flex-col overflow-hidden">
+      <div className="shrink-0 px-4">
+        <PageHeader breadcrumb="Config / Métodos de Pago" title="" backRoute="/config" />
+      </div>
+      <div className="flex-1 overflow-hidden">
+        <ListDef 
+          data={respPaymentMethods.data ?? []} 
+          companyId={company.id} 
+          pagination={respPaymentMethods.pagination} 
+        />
+      </div>
+    </div>
+  );
 }

@@ -3,6 +3,8 @@ import { ShowPageMessage } from "@/components/common/messages/show-page-message"
 import { PageHeader } from "@/components/common/typography/page-header";
 import { ModuleEnum } from "@/server/modules/permission/domain/permission.module.enum";
 import { productGetAllByCompanyCached } from "@/server/modules/product/next/cache/product.get-all-by-company.cache";
+import { categoryGetAllByCompanyCached } from "@/server/modules/category/next/cache/category.cache";
+import { branchGetAllByCompanyCached } from "@/server/modules/branch/next/cache/branch.cache";
 import { checkAuthenticationAndPermission } from "@/server/modules/auth/use-cases/auth.check-authentication-and-permission.use-case";
 import { AppConstants } from "@/shared/constants/app.constants";
 
@@ -31,18 +33,35 @@ export default async function ConfigProductsPage(props: {
   }
   const company = authenticatationAndPermissionResponse.company;
 
-  const respProducts = await productGetAllByCompanyCached(
-    company.id,
-    page,
-    AppConstants.DEFAULT_PAGE_SIZE,
-    search
-  );
+  const [respProducts, respCategories, respBranches] = await Promise.all([
+    productGetAllByCompanyCached(company.id, page, AppConstants.DEFAULT_PAGE_SIZE, search),
+    categoryGetAllByCompanyCached(company.id),
+    branchGetAllByCompanyCached(company.id),
+  ]);
 
   if (!respProducts.success) {
     return (
       <ShowPageMessage
         modelName="Productos"
         errorMessage={respProducts.message}
+      />
+    );
+  }
+
+  if (!respCategories.success) {
+    return (
+      <ShowPageMessage
+        modelName="Categorías"
+        errorMessage={respCategories.message}
+      />
+    );
+  }
+
+  if (!respBranches.success) {
+    return (
+      <ShowPageMessage
+        modelName="Sucursales"
+        errorMessage={respBranches.message}
       />
     );
   }
@@ -61,6 +80,8 @@ export default async function ConfigProductsPage(props: {
           data={respProducts.data ?? []}
           companyId={company.id}
           pagination={respProducts.pagination}
+          categories={respCategories.data ?? []}
+          branches={respBranches.data ?? []}
         />
       </div>
     </div>

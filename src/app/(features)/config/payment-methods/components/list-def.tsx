@@ -130,8 +130,8 @@ export const ListDef = ({ data, companyId, pagination }: ListDefProps) => {
         initialGlobalFilter={searchParams.get("search") ?? ""}
         onGlobalFilterChange={(value: string) => setSearchValue(value)}
         columnsDef={ListColumnsDef({
-          handleEditRecord: handleEditRecord,
-          handleDeleteRecord: handleDeleteRecord,
+          handleEditRecord,
+          handleDeleteRecord,
         })}
         handleAddRecord={handleAddRecord}
         columnsResponsiveDef={CustomListColumnsResponsiveDef}

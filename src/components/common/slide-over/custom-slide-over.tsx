@@ -72,7 +72,7 @@ export const CustomSlideOver = ({
         <SheetContent
           side="right"
           className={cn(
-            "!fixed !inset-y-0 !right-0 !h-screen !rounded-none !m-0 w-full sm:max-w-2xl p-0 flex flex-col shadow-2xl border-l",
+            "!fixed !inset-y-0 !right-0 !h-screen !rounded-none !m-0 w-full sm:w-1/2 sm:max-w-none p-0 flex flex-col shadow-2xl border-l",
             className
           )}
         >

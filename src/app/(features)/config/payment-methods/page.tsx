@@ -6,14 +6,29 @@ import { checkAuthenticationAndPermission } from "@/server/modules/auth/use-case
 import { paymentMethodGetAllByCompanyCached } from "@/server/modules/payment-method/next/cache/payment-method.cache";
 import { AppConstants } from "@/shared/constants/app.constants";
 
-export default async function ConfigPaymentMethodsPage() {
+export default async function ConfigPaymentMethodsPage(props: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const searchParams = await props.searchParams;
+  const rawPage = Number(searchParams?.page);
+  const page = Number.isInteger(rawPage) && rawPage > 0 ? rawPage : 1;
+  const search =
+    typeof searchParams?.search === "string" && searchParams.search.trim()
+      ? searchParams.search.trim()
+      : undefined;
+
   const authenticatationAndPermissionResponse = await checkAuthenticationAndPermission( ModuleEnum.paymentMethods);
   if (!authenticatationAndPermissionResponse.isAuthenticated || !authenticatationAndPermissionResponse.company)
     return <ShowPageMessage customMessage={authenticatationAndPermissionResponse.errorMessage} />;
   
   const company = authenticatationAndPermissionResponse.company;
 
-  const respPaymentMethods = await paymentMethodGetAllByCompanyCached(company.id);
+  const respPaymentMethods = await paymentMethodGetAllByCompanyCached(
+    company.id,
+    page,
+    AppConstants.DEFAULT_PAGE_SIZE,
+    search
+  );
   if (!respPaymentMethods.success) {
     return (
       <ShowPageMessage
@@ -32,6 +47,7 @@ export default async function ConfigPaymentMethodsPage() {
         <ListDef 
           data={respPaymentMethods.data ?? []} 
           companyId={company.id} 
+          pagination={respPaymentMethods.pagination} 
         />
       </div>
     </div>

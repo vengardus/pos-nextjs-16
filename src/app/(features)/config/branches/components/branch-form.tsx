@@ -1,53 +1,36 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  Form,
-} from "@/components/ui/form";
-import type { Branch } from "@/server/modules/branch/domain/branch.types";
+import { useEffect } from "react";
+import { Form } from "../../../../../components/ui/form";
 import { BranchFormSchemaType } from "@/app/(features)/config/branches/schemas/branch-form.schema";
 import { useBranchForm } from "@/app/(features)/config/branches/hooks/use-branch-form";
 import { InputFieldForm } from "../../../../../components/common/form/input-field-form";
 import { ButtonSave } from "../../../../../components/common/buttons/button-save";
+import { ButtonCancel } from "../../../../../components/common/buttons/button-cancel";
 import { useBranchStore } from "@/stores/branch/branch.store";
-import { useEffect } from "react";
-import { getModelMetadata } from "@/server/common/model-metadata";
+import { useCustomSlideOver } from "@/components/common/slide-over/custom-slide-over";
 
 interface BranchFormProps {
-  currentRow: Branch | null;
   companyId: string;
   handleCloseForm: () => void;
 }
 
 export const BranchForm = ({
-  //currentRow,
   companyId,
   handleCloseForm,
 }: BranchFormProps) => {
-  const selectedBranch = useBranchStore((state)=> state.selectedBranch)
+  const selectedBranch = useBranchStore((state) => state.selectedBranch);
   const {
     form,
     handleSave: handleBranchSave,
     isPending,
     messageGeneralError,
     setMessageGeneralError,
-    isNewRecord,
   } = useBranchForm({
-    currentRow:selectedBranch,
+    currentRow: selectedBranch,
     companyId,
   });
-  const branchMetadata = getModelMetadata("branch");
-
-  useEffect(()=>{
-    console.log("SELECTED_BRANCH")
-  }, [selectedBranch])
+  const slideOver = useCustomSlideOver();
 
   const handleSave = async (values: BranchFormSchemaType) => {
     setMessageGeneralError(null);
@@ -61,57 +44,43 @@ export const BranchForm = ({
     handleCloseForm();
   };
 
+  useEffect(() => {
+    if (!slideOver) return;
+
+    slideOver.setFooterContent(
+      <div className="flex w-full flex-col items-end gap-2">
+        {messageGeneralError && (
+          <p className="text-sm text-destructive">{messageGeneralError}</p>
+        )}
+        <div className="flex justify-end gap-7">
+          <ButtonCancel handleCloseForm={handleCloseForm} isPending={isPending} />
+          <ButtonSave isPending={isPending} handleOnClick={form.handleSubmit(handleSave)} />
+        </div>
+      </div>
+    );
+
+    return () => slideOver.setFooterContent(null);
+  }, [slideOver, handleCloseForm, isPending, form, handleSave, messageGeneralError]);
+
   return (
-    <div className="">
-      <Card className="card">
-        <CardHeader className="card-header">
-          <CardTitle>{`${!isNewRecord ? "Editar" : "Agregar"} ${
-            branchMetadata.singularName
-          }`}</CardTitle>
-        </CardHeader>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSave)}>
-            <CardContent>
-              <div className="grid w-full items-center gap-5">
-                <InputFieldForm
-                  control={form.control}
-                  name="name"
-                  label="Nombre"
-                  placeholder="Ingrese su nombre"
-                  autoFocus
-                  //disabled={!isNewRecord && form.getValues("isDefault")}
-                />
-                <InputFieldForm
-                  control={form.control}
-                  name="taxAddredss"
-                  label="Dirección Fiscal"
-                  placeholder="Ingrese dirección fiscal"
-                  //disabled={!isNewRecord && form.getValues("isDefault")}
-                />
-                
-              </div>
-            </CardContent>
-            <CardFooter className="flex flex-col items-end gap-2 mt-4">
-              {messageGeneralError && (
-                <p className="text-sm text-destructive mb-2">
-                  {messageGeneralError}
-                </p>
-              )}
-              <div className="flex justify-end gap-7">
-                <Button
-                  type="button"
-                  variant={"secondary"}
-                  onClick={handleCloseForm}
-                  disabled={isPending}
-                >
-                  Cancelar
-                </Button>
-                <ButtonSave isPending={isPending} />
-              </div>
-            </CardFooter>
-          </form>
-        </Form>
-      </Card>
-    </div>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(handleSave)}>
+        <div className="grid w-full items-center gap-5">
+          <InputFieldForm
+            control={form.control}
+            name="name"
+            label="Nombre"
+            placeholder="Ingrese su nombre"
+            autoFocus
+          />
+          <InputFieldForm
+            control={form.control}
+            name="taxAddredss"
+            label="Dirección Fiscal"
+            placeholder="Ingrese dirección fiscal"
+          />
+        </div>
+      </form>
+    </Form>
   );
 };

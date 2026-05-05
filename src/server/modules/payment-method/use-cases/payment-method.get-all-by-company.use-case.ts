@@ -7,16 +7,28 @@ import { initResponseAction } from "@/utils/response/init-response-action";
 import { paymentMethodGetAllByCompanyRepository } from "../repository/payment-method.get-all-by-company.repository";
 
 export const paymentMethodGetAllByCompanyUseCase = async (
-  companyId: string
+  companyId: string,
+  page: number,
+  pageSize: number,
+  search?: string
 ): Promise<ResponseAction> => {
   const resp = initResponseAction();
 
   try {
     if (!companyId) throw new Error("Company id is required");
 
-    const data = await paymentMethodGetAllByCompanyRepository(companyId);
+    const { data, total } = await paymentMethodGetAllByCompanyRepository(
+      companyId,
+      page,
+      pageSize,
+      search
+    );
 
     resp.data = data as PaymentMethod[];
+    resp.pagination = {
+      currentPage: page,
+      totalPages: Math.ceil(total / pageSize),
+    };
     resp.success = true;
     console.log("query=>paymentMethodGetAllByCompany");
   } catch (error) {

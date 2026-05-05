@@ -64,7 +64,6 @@ export const useRoleForm = <T extends Role>({
     const getPermissions = async () => {
       setIsLoading(true);
       const respPermissions = await permissionGetAllByRoleAction(currentRow!.id);
-      console.log("respPermissions!!!!!!!", respPermissions);
       if (!respPermissions.success)
         setMessageGeneralError(respPermissions.message + "ERROR");
       setPermissions(respPermissions.data);
@@ -75,7 +74,6 @@ export const useRoleForm = <T extends Role>({
   }, [isNewRecord, currentRow, setPermissions]);
 
   const validate = (): ResponseAction => {
-    console.log("permissions!!!", permissions);
     const resp = initResponseAction();
     if (!permissions.length) resp.message = "Debe definir permisos";
     else resp.success = true;

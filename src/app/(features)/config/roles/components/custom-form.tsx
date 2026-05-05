@@ -1,11 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../../../../../components/ui/card";
 import { Form } from "../../../../../components/ui/form";
 
-import type { UserDataBaseCustomForm } from "@/app/(features)/config/roles/types/user-data-base-custom-form.interface";
-import type { ModelMetadata } from "@/shared/types/common/model-metadata.interface";
 import { InputFieldForm } from "../../../../../components/common/form/input-field-form";
 import { ButtonCancel } from "../../../../../components/common/buttons/button-cancel";
 import { ButtonSave } from "../../../../../components/common/buttons/button-save";
@@ -13,22 +10,22 @@ import { ButtonSave } from "../../../../../components/common/buttons/button-save
 import type { Role } from "@/server/modules/role/domain/role.interface";
 import { useRoleForm } from "@/app/(features)/config/roles/hooks/use-role-form";
 import { PermissionManager } from "./permission-manager";
+import { useCustomSlideOver } from "@/components/common/slide-over/custom-slide-over";
+import type { Module } from "@/server/modules/permission/domain/module.interface";
 
-interface CustomFormProps<Model extends Role, FormDataShape extends UserDataBaseCustomForm> {
-  currentRow: Model | null;
+interface CustomFormProps {
+  currentRow: Role | null;
   handleCloseForm: () => void;
-  handleUpdateOptimistic: (currentRow: Model) => void;
-  metadata: ModelMetadata;
-  data: FormDataShape;
+  companyId: string;
+  modules: Module[];
 }
 
-export const CustomForm = <Model extends Role, FormDataShape extends UserDataBaseCustomForm>({
+export const CustomForm = ({
   currentRow,
   handleCloseForm,
-  handleUpdateOptimistic,
-  metadata,
-  data,
-}: CustomFormProps<Model, FormDataShape>) => {
+  companyId,
+  modules,
+}: CustomFormProps) => {
   const {
     form,
     handleSave: handleUserSave,
@@ -36,14 +33,14 @@ export const CustomForm = <Model extends Role, FormDataShape extends UserDataBas
     messageGeneralError,
     setMessageGeneralError,
     isNewRecord,
-    modules,
     permissions,
     isLoading,
   } = useRoleForm({
     currentRow,
-    companyId: data.companyId,
+    companyId: companyId,
   });
   const descriptionValue = form.watch("description");
+  const slideOver = useCustomSlideOver();
 
   useEffect(() => {
     if (isNewRecord && descriptionValue) {
@@ -55,78 +52,75 @@ export const CustomForm = <Model extends Role, FormDataShape extends UserDataBas
   const handleSave = async (values: any) => {
     setMessageGeneralError(null);
     const resp = await handleUserSave(values as Role);
-    if (!resp.success) {
-      setMessageGeneralError(resp.message ?? "");
-      return;
+    if (resp.success) {
+      postSave();
     }
-    postSave(resp.data!);
   };
 
-  const postSave = (currentRow: Model) => {
+  const postSave = () => {
     form.reset();
     setMessageGeneralError(null);
     if (!isNewRecord) {
-      handleUpdateOptimistic(currentRow);
       handleCloseForm();
     }
   };
 
+  useEffect(() => {
+    if (!slideOver) return;
+
+    slideOver.setFooterContent(
+      <div className="flex w-full flex-col items-end gap-2">
+        {messageGeneralError && (
+          <p className="text-sm text-destructive">{messageGeneralError}</p>
+        )}
+        <div className="flex justify-end gap-7">
+          <ButtonCancel handleCloseForm={handleCloseForm} isPending={isPending} />
+          <ButtonSave isPending={isPending} handleOnClick={form.handleSubmit(handleSave)} />
+        </div>
+      </div>
+    );
+
+    return () => slideOver.setFooterContent(null);
+  }, [slideOver, handleCloseForm, isPending, form, handleSave, messageGeneralError]);
+
   return (
-    <div className="">
-      <Card className="card">
-        <CardHeader className="card-header">
-          <CardTitle>
-            {`${!isNewRecord ? "Editar" : "Agregar"} ${metadata.singularName}`}
-          </CardTitle>
-        </CardHeader>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSave)}>
-            <CardContent className="grid w-full gap-10 lg:grid-cols-2">
-              <section className="flex flex-col gap-4">
-                <InputFieldForm
-                  control={form.control}
-                  name="description"
-                  label="Descripción"
-                  placeholder="Ingrese descripción Role"
-                  autoFocus
-                  disabled={!isNewRecord && form.getValues("isDefault")}
-                />
-                <InputFieldForm
-                  control={form.control}
-                  name="cod"
-                  label="Código"
-                  placeholder="Ingrese código Role"
-                  onChange={(event) => {
-                    const value = event.target.value.toUpperCase(); // Obtiene el valor actualizado
-                    form.setValue("cod", value, { shouldValidate: true }); // Actualiza y valida el campo
-                  }}
-                  disabled={!isNewRecord && form.getValues("isDefault")}
-                />
-              </section>
-              {isLoading ? (
-                <div>Cargando permisos...</div>
-              ) : (
-                <section className="h-full flex flex-col gap-2">
-                  <PermissionManager
-                    modules={modules}
-                    permissions={permissions}
-                    roleCod={currentRow ? currentRow.cod : ""}
-                  />
-                </section>
-              )}
-            </CardContent>
-            <CardFooter className="flex flex-col items-end gap-2">
-              {messageGeneralError && (
-                <p className="text-sm text-destructive mb-2 text-start w-full">{messageGeneralError}</p>
-              )}
-              <div className="flex justify-end gap-7">
-                <ButtonCancel handleCloseForm={handleCloseForm} isPending={isPending} />
-                <ButtonSave isPending={isPending} />
-              </div>
-            </CardFooter>
-          </form>
-        </Form>
-      </Card>
-    </div>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(handleSave)}>
+        <div className="grid w-full gap-10 lg:grid-cols-1">
+          <section className="flex flex-col gap-4">
+            <InputFieldForm
+              control={form.control}
+              name="description"
+              label="Descripción"
+              placeholder="Ingrese descripción Role"
+              autoFocus
+              disabled={!isNewRecord && form.getValues("isDefault")}
+            />
+            <InputFieldForm
+              control={form.control}
+              name="cod"
+              label="Código"
+              placeholder="Ingrese código Role"
+              onChange={(event) => {
+                const value = event.target.value.toUpperCase(); // Obtiene el valor actualizado
+                form.setValue("cod", value, { shouldValidate: true }); // Actualiza y valida el campo
+              }}
+              disabled={!isNewRecord && form.getValues("isDefault")}
+            />
+          </section>
+          {isLoading ? (
+            <div className="flex justify-center p-4">Cargando permisos...</div>
+          ) : (
+            <section className="h-full flex flex-col gap-2">
+              <PermissionManager
+                modules={modules}
+                permissions={permissions}
+                roleCod={currentRow ? currentRow.cod : ""}
+              />
+            </section>
+          )}
+        </div>
+      </form>
+    </Form>
   );
 };

@@ -16,14 +16,18 @@ import { paymentMethodGetAllByCompanyUseCase } from "@/server/modules/payment-me
 //   return await paymentMethodGetAllByCompany(companyId);
 // };
 
-export async function paymentMethodGetAllByCompanyCached(companyId: string): Promise<ResponseAction> {
-  // Aquí companyId está en scope, así que podemos usarlo en keyParts
+export async function paymentMethodGetAllByCompanyCached(
+  companyId: string,
+  page: number = 1,
+  pageSize: number = 50,
+  search?: string
+): Promise<ResponseAction> {
   console.log("cache=>paymentMethodGetAllByCompanyCached");
   const fn = cache(
     async () => {
-      return paymentMethodGetAllByCompanyUseCase(companyId);
+      return paymentMethodGetAllByCompanyUseCase(companyId, page, pageSize, search);
     },
-    [`payment-methods-${companyId}`],
+    [`payment-methods-${companyId}-${page}-${pageSize}-${search || "all"}`],
     {
       revalidate: CacheConfig.CacheDurations.revalidate,
       tags: [`payment-methods-${companyId}`],

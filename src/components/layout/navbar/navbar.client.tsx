@@ -12,16 +12,13 @@ import { NavbarLogoApp } from "./navbar-logo-app";
 import { NavbarButtonSignIn } from "./navbar-button-sign-in";
 import { NavbarButtonMenuMobile } from "./navbar-button-menu-mobile";
 import { NavbarMenu } from "./navbar-menu";
-import { NavbarProfile } from "./navbar-profile";
+import { NavbarProfileMenu } from "./navbar-profile-menu";
 
 const navBaseClass =
   "fixed top-0 z-[1000] w-full pr-1 flex justify-start items-center flex-col sm:flex-row bg-slate-300 dark:bg-background text-foreground/50 border-b-2 border-t-2 border-foreground/10 transition-[height,padding]";
 
 const menuBarBaseClass =
   "flex-col sm:flex sm:flex-row w-full items-center sm:items-center justify-center sm:justify-end gap-6 sm:gap-4 px-6 sm:pl-0 sm:pr-6 py-8 sm:py-0 bg-slate-300 dark:bg-background text-foreground/50 border-0 fixed left-0 right-0 z-[1200] sm:relative sm:inset-auto sm:z-auto sm:w-full transition-[top]";
-
-const menuProfileBaseClass =
-  "flex flex-col bg-slate-400/60 dark:bg-background text-foreground/50 border-2 border-foreground/15 rounded-lg px-5 items-start gap-3 fixed right-1 w-auto h-auto z-[1000] shadow-lg";
 
 function Navbar ()  {
   const pathname = usePathname();
@@ -103,31 +100,15 @@ function Navbar ()  {
             isAuthenticated={isAuthenticated}
           />
         ) : (
-          <NavbarProfile
+          <NavbarProfileMenu
             image={sessionUser?.image ?? ""}
-            isMenuProfileOpen={isMenuProfileOpen}
-            setIsMenuProfileOpen={setIsMenuProfileOpen}
+            items={AppConstants.NAVBAR_ITEMS_PROFILE}
+            isOpen={isMenuProfileOpen}
+            onOpenChange={setIsMenuProfileOpen}
+            onSelectItem={handledSelectedItem}
           />
         )}
       </div>
-
-      {isAuthenticated && isMenuProfileOpen && (
-        <NavbarMenu
-          isMenuOpen={isMenuOpen}
-          handledSelectedItem={(item) => {
-            handledSelectedItem(item);
-            if (!item.children) {
-              setIsMenuProfileOpen(!isMenuProfileOpen);
-            }
-          }}
-          navbarItemsAuth={AppConstants.NAVBAR_ITEMS_PROFILE}
-          className={cn(
-            menuProfileBaseClass,
-            isScrolled ? "top-12 mt-1" : "top-16 mt-1"
-          )}
-          isPending={isPending}
-        />
-      )}
     </nav>
   );
 }

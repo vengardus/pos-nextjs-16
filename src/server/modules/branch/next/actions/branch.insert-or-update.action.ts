@@ -5,6 +5,7 @@ import type { ResponseAction } from "@/shared/types/common/response-action.inter
 import type { Branch } from "@/server/modules/branch/domain/branch.types";
 import { authGetSessionUseCase } from "@/server/modules/auth/use-cases/auth.get-session.use-case";
 import { branchInsertOrUpdateUseCase } from "@/server/modules/branch/use-cases/branch.insert-or-update.use-case";
+import { branchUserCacheTag } from "@/server/modules/branch-user/next/cache/branch-user.tags";
 
 export const branchInsertOrUpdateAction = async (
   branch: Branch
@@ -47,10 +48,11 @@ export const branchInsertOrUpdateAction = async (
   const resp = await branchInsertOrUpdateUseCase(branch, userId);
 
   if (resp.success && resp.data) {
+    updateTag(branchUserCacheTag(userId));
     updateTag(`branches-${resp.data.companyId}`);
     updateTag(`branch-user-${userId}`);
     updateTag(`company-user-${userId}`);
-    revalidatePath("/config/branchs");
+    revalidatePath("/config/branches");
   }
 
   return resp;

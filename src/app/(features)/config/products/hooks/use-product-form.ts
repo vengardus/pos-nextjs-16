@@ -138,7 +138,7 @@ export const useProductForm = ({
     const resp = await productInsertOrUpdateAction(product);
 
     if (resp.success) {
-      if (isNewRecord) {
+      if (isNewRecord && values.isInventoryControl && productStocks.length > 0) {
         currentProduct = resp.data;
         await saveStockInWarehouse(currentProduct!.id, productStocks);
       }

@@ -2,7 +2,6 @@
 
 import { useState, useMemo, useCallback, useEffect } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { ChevronDown, ChevronRight } from "lucide-react";
 
 import type { Permission } from "@/server/modules/permission/domain/permission.interface";
@@ -36,8 +35,6 @@ export function PermissionManager({
   }, [modules]);
 
   const initialStates = useMemo(() => {
-    console.log("Initialite.....", permissions)
-
     const initialCheckedModules: Record<string, boolean> = {};
     const initialGroupCheckStates: Record<string, boolean> = {};
 
@@ -97,9 +94,9 @@ export function PermissionManager({
   };
 
   return (
-    <Card className="w-full max-w-2xl card">
-      <CardContent className="space-y-4 mt-2">
-        <section className="gap-y-6 ml-3 grid md:grid-cols-2">
+    <div className="w-full max-w-2xl">
+      <div className="space-y-4 mt-2">
+        <section className="gap-y-6 grid md:grid-cols-2">
           {Object.entries(groupedModules).map(([type, modules]) => (
             <section key={type} className="space-y-4">
               <section className="flex items-center gap-2 gap-x-2">
@@ -142,8 +139,7 @@ export function PermissionManager({
             </section>
           ))}
         </section>
-      </CardContent>
-      <CardFooter></CardFooter>
-    </Card>
+      </div>
+    </div>
   );
 }

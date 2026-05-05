@@ -122,13 +122,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       let respUser: ResponseAction
       respUser = initResponseAction();
 
-      if ( account.provider === "credentials" ) {
-        respUser = await userGetByColumnUseCase(
-          "email",
-          user.email as string
-        ); 
-      }
-      else {
+      if (account.provider === "credentials") {
+        // Diferenciar si es un login de invitado o de empleado
+        if (user.email?.endsWith("@pos.local")) {
+           // Lógica especial para invitados si fuera necesaria aquí (ya creada en el useCase)
+           respUser = await userGetByColumnUseCase("email", user.email as string);
+        } else {
+           respUser = await userGetByColumnUseCase("email", user.email as string);
+        }
+      } else {
         // provider google or social media
         respUser = await userGetByColumnUseCase(
           "authId",

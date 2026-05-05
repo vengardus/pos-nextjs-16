@@ -5,7 +5,7 @@ import type { ResponseAction } from "@/shared/types/common/response-action.inter
 import type { CashRegister } from "@/server/modules/cash-register/domain/cash-register.types";
 import { cashRegisterInsertOrUpdateUseCase } from "@/server/modules/cash-register/use-cases/cash-register.insert-or-update.use-case";
 import { authGetSessionUseCase } from "@/server/modules/auth/use-cases/auth.get-session.use-case";
-import { branchUserCacheTag } from "../../branch-user/next/cache/branch-user.tags";
+import { branchUserCacheTag } from "@/server/modules/branch-user/next/cache/branch-user.tags";
 
 interface CashRegisterInsertOrUpdateData {
   cashRegister: CashRegister;

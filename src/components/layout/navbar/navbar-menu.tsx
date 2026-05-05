@@ -51,7 +51,7 @@ export const NavbarMenu = ({
                   ) : child.children ? (
                     <MenubarSub key={child.name}>
                       <MenubarSubTrigger>{child.label}</MenubarSubTrigger>
-                      <MenubarSubContent>
+                      <MenubarSubContent className="z-[1600]">
                         {child.children.map((subChild) => (
                           <MenubarItem
                             key={subChild.name}

@@ -6,7 +6,7 @@ import { PageHeader } from "@/components/common/typography/page-header";
 
 export default async function ConfigPage() {
   return (
-    <div className="flex h-full flex-col p-6  bg-[length:60%] bg-center [background-repeat:no-repeat]">
+    <div className="flex min-h-full flex-col p-6 pb-8 bg-[length:60%] bg-center [background-repeat:no-repeat]">
       <div className="mb-8">
         <PageHeader 
           title="Configuración" 
@@ -17,7 +17,7 @@ export default async function ConfigPage() {
         />
       </div>
 
-      <section className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+      <section className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
         {AppConstants.CONFIG_MODULES.map((item) => (
           <Link
             key={item.title}

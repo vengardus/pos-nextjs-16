@@ -2,14 +2,12 @@
 
 import { useEffect } from "react";
 import { Form } from "../../../../../components/ui/form";
-import type { CashRegister } from "@/server/modules/cash-register/domain/cash-register.types";
 import { CashRegisterFormSchemaType } from "@/app/(features)/config/branches/schemas/cash-register-form.schema";
 import { useCashRegisterForm } from "@/app/(features)/config/branches/hooks/use-cash-register-form";
 import { InputFieldForm } from "../../../../../components/common/form/input-field-form";
 import { ButtonSave } from "../../../../../components/common/buttons/button-save";
 import { ButtonCancel } from "../../../../../components/common/buttons/button-cancel";
 import { useCashRegisterStore } from "@/stores/cash-register/cash-register.store";
-import { getModelMetadata } from "@/server/common/model-metadata";
 import { useCustomSlideOver } from "@/components/common/slide-over/custom-slide-over";
 
 interface CashRegisterFormProps {
@@ -27,7 +25,6 @@ export const CashRegisterForm = ({
     isPending,
     messageGeneralError,
     setMessageGeneralError,
-    isNewRecord,
   } = useCashRegisterForm({
     currentRow: selectedCashRegister,
   });

@@ -80,58 +80,57 @@ export const OpenCashRegister = ({
   };
 
   return (
-    <div className="flex h-full">
-      {/* Panel izquierdo: selección de caja */}
-      <aside className="w-1/3 p-4 border-r overflow-y-auto">
-        <h2 className="text-lg font-medium mb-2">Selecciona una caja</h2>
-        <h1>{cashRegisterDecision.type}</h1>
-        <ul>
+    <div className="flex flex-col gap-6 p-2">
+      <section>
+        <h2 className="text-xl font-semibold text-foreground mb-4">Selecciona una caja</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {cashRegisterDecision.cashRegisters.map((cr) => (
-            <li
+            <div
               key={cr.id}
               className={`
-                flex flex-col p-2 mb-2 rounded cursor-pointer
+                cursor-pointer rounded-xl border p-4 transition-all duration-200
                 ${
                   selectedCashRegister?.id === cr.id
-                    ? "bg-gray-100 text-background"
-                    : "hover:bg-gray-400"
+                    ? "border-primary bg-primary/5 shadow-md ring-1 ring-primary"
+                    : "border-border bg-card hover:border-primary/50 hover:shadow-sm"
                 }
               `}
               onClick={() => setSelectedCashRegister(cr)}
             >
-              <span className="font-semibold">{cr.branchName}</span>
-              <span className="text-sm">{cr.description}</span>
-            </li>
+              <p className="font-semibold text-foreground">{cr.branchName}</p>
+              <p className="text-sm text-muted-foreground">{cr.description}</p>
+            </div>
           ))}
-        </ul>
-      </aside>
+        </div>
+      </section>
 
-      {/* Panel derecho: formulario */}
-      <main className="w-2/3 p-4">
-        {selectedCashRegister ? (
-          <section className="flex flex-col gap-5 items-center">
-            <h1>
-              Aperturar Caja:{" "}
-              <span className="font-semibold">
-                {selectedCashRegister.branchName} – {selectedCashRegister.description}
-              </span>
-            </h1>
-            <form onSubmit={handleSave} className="flex flex-col gap-5">
+      {selectedCashRegister && (
+        <section className="border-t pt-6">
+          <h2 className="text-xl font-semibold text-foreground mb-4">
+            Apertura: {selectedCashRegister.description}
+          </h2>
+          <form onSubmit={handleSave} className="flex flex-col gap-4 max-w-sm">
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-medium text-muted-foreground">
+                Monto Inicial
+              </label>
               <Input
                 type="number"
                 ref={amountRef}
-                className="w-[200px] text-right border border-gray-300 rounded-xl px-3 h-12"
+                className="h-12 text-lg rounded-xl"
+                placeholder="0.00"
               />
-              <span className="text-red-500">{messageError}</span>
-              <ButtonSave isPending={isPending} label="Aperturar" pendingLabel="Aperturando..." />
-            </form>
-          </section>
-        ) : (
-          <div className="h-full flex items-center justify-center text-gray-500">
-            Por favor selecciona una caja en el panel izquierdo.
-          </div>
-        )}
-      </main>
+            </div>
+            {messageError && <p className="text-sm text-destructive">{messageError}</p>}
+            <ButtonSave
+              isPending={isPending}
+              label="Confirmar Apertura"
+              pendingLabel="Procesando..."
+              className="h-12 rounded-xl"
+            />
+          </form>
+        </section>
+      )}
     </div>
   );
 };

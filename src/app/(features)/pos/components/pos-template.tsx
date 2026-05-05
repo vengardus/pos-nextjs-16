@@ -95,7 +95,7 @@ export const PosTemplate = ({ data }: PosTemplateProps) => {
       {isOpenTicketModal && <PosTicketModal handleCloseModal={setIsOpenTicketModal} />}
 
       {!isOpenedCashRegister && (
-        <CustomSlideOver title="Apertura de Caja" onClose={() => {}}>
+        <CustomSlideOver title="Apertura de Caja" onClose={() => window.location.href = "/"}>
           <OpenCashRegister isOpenOpenRegisterModal={!isOpenedCashRegister} />
         </CustomSlideOver>
       )}

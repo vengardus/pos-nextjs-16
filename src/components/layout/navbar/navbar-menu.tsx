@@ -3,7 +3,6 @@ import {
   MenubarContent,
   MenubarItem,
   MenubarMenu,
-  MenubarPortal,
   MenubarSeparator,
   MenubarSub,
   MenubarSubContent,
@@ -52,19 +51,17 @@ export const NavbarMenu = ({
                   ) : child.children ? (
                     <MenubarSub key={child.name}>
                       <MenubarSubTrigger>{child.label}</MenubarSubTrigger>
-                      <MenubarPortal>
-                        <MenubarSubContent className="z-[1500]">
-                          {child.children.map((subChild) => (
-                            <MenubarItem
-                              key={subChild.name}
-                              onClick={() => handledSelectedItem(subChild)}
-                            >
-                              {subChild.icon}
-                              {subChild.label}
-                            </MenubarItem>
-                          ))}
-                        </MenubarSubContent>
-                      </MenubarPortal>
+                      <MenubarSubContent className="z-[1600]">
+                        {child.children.map((subChild) => (
+                          <MenubarItem
+                            key={subChild.name}
+                            onClick={() => handledSelectedItem(subChild)}
+                          >
+                            {subChild.icon}
+                            {subChild.label}
+                          </MenubarItem>
+                        ))}
+                      </MenubarSubContent>
                     </MenubarSub>
                   ) : (
                     <MenubarItem

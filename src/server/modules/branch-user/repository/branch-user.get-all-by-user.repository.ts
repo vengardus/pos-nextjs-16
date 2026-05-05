@@ -28,12 +28,25 @@ type BranchUserGetAllByUserResult = Prisma.BranchUserModelGetPayload<{
 }>[];
 
 export const branchUserGetAllByUserRepository = async (
-  userId: string
-): Promise<BranchUserGetAllByUserResult> => {
-  return await prisma.branchUserModel.findMany({
-    where: {
-      userId,
-    },
+  userId: string,
+  page?: number,
+  pageSize?: number,
+  search?: string
+): Promise<{ data: BranchUserGetAllByUserResult; total: number }> => {
+  const where = {
+    userId,
+    ...(search && {
+      Branch: {
+        OR: [
+          { name: { contains: search, mode: "insensitive" as const } },
+          { taxAddress: { contains: search, mode: "insensitive" as const } },
+        ],
+      },
+    }),
+  };
+
+  const queryOptions = {
+    where,
     select: {
       id: true,
       userId: true,
@@ -53,10 +66,10 @@ export const branchUserGetAllByUserRepository = async (
             },
             orderBy: [
               {
-                isDefault: "desc",
+                isDefault: "desc" as const,
               },
               {
-                description: "asc",
+                description: "asc" as const,
               },
             ],
           },
@@ -66,14 +79,33 @@ export const branchUserGetAllByUserRepository = async (
     orderBy: [
       {
         Branch: {
-          isDefault: "desc", // Primero los isDefault = true
+          isDefault: "desc" as const,
         },
       },
       {
         Branch: {
-          name: "asc", // Luego ordena por name en orden alfabético
+          name: "asc" as const,
         },
       },
-    ],
-  });
+    ] as any,
+  };
+
+  if (page !== undefined && pageSize !== undefined) {
+    const [data, total] = await prisma.$transaction([
+      prisma.branchUserModel.findMany({
+        ...queryOptions,
+        skip: (page - 1) * pageSize,
+        take: pageSize,
+      }),
+      prisma.branchUserModel.count({ where }),
+    ]);
+    return { data: data as BranchUserGetAllByUserResult, total };
+  }
+
+  const [data, total] = await prisma.$transaction([
+    prisma.branchUserModel.findMany(queryOptions),
+    prisma.branchUserModel.count({ where }),
+  ]);
+
+  return { data: data as BranchUserGetAllByUserResult, total };
 };

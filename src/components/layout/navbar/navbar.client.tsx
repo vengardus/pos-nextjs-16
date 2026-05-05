@@ -21,7 +21,7 @@ const menuBarBaseClass =
   "flex-col sm:flex sm:flex-row w-full items-center sm:items-center justify-center sm:justify-end gap-6 sm:gap-4 px-6 sm:pl-0 sm:pr-6 py-8 sm:py-0 bg-slate-300 dark:bg-background text-foreground/50 border-0 fixed left-0 right-0 z-[1200] sm:relative sm:inset-auto sm:z-auto sm:w-full transition-[top]";
 
 const menuProfileBaseClass =
-  "flex flex-col bg-slate-400/60 dark:bg-background text-foreground/50 border-2 border-foreground/15 rounded-lg px-5 items-start gap-3 fixed right-1 w-auto h-auto z-[1000] shadow-lg";
+  "flex flex-col bg-slate-400/60 dark:bg-background text-foreground/50 border-2 border-foreground/15 rounded-lg px-5 items-start gap-3 fixed right-1 w-auto h-auto z-[1300] shadow-lg";
 
 function Navbar ()  {
   const pathname = usePathname();

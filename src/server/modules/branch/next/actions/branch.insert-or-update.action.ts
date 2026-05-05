@@ -5,7 +5,7 @@ import type { ResponseAction } from "@/shared/types/common/response-action.inter
 import type { Branch } from "@/server/modules/branch/domain/branch.types";
 import { authGetSessionUseCase } from "@/server/modules/auth/use-cases/auth.get-session.use-case";
 import { branchInsertOrUpdateUseCase } from "@/server/modules/branch/use-cases/branch.insert-or-update.use-case";
-import { branchUserCacheTag } from "../../branch-user/next/cache/branch-user.tags";
+import { branchUserCacheTag } from "@/server/modules/branch-user/next/cache/branch-user.tags";
 
 export const branchInsertOrUpdateAction = async (
   branch: Branch

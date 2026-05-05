@@ -10,7 +10,7 @@ import { useUserStore } from "@/stores/user/user.store";
 import { useCashRegisterDecisionStore } from "@/stores/cash-register/cash-register-decision.store";
 import { PosPayment } from "./pos-payment";
 import { PosTicketModal } from "./pos-ticket-modal";
-import { Modal } from "@/components/common/modals/modal";
+import { CustomSlideOver } from "@/components/common/slide-over/custom-slide-over";
 import { OpenCashRegister } from "./open-cash-register/open-cash-register";
 
 interface PosTemplateProps {
@@ -95,11 +95,9 @@ export const PosTemplate = ({ data }: PosTemplateProps) => {
       {isOpenTicketModal && <PosTicketModal handleCloseModal={setIsOpenTicketModal} />}
 
       {!isOpenedCashRegister && (
-        <Modal >
-          <OpenCashRegister
-            isOpenOpenRegisterModal={!isOpenedCashRegister}
-          />
-        </Modal>
+        <CustomSlideOver title="Apertura de Caja" onClose={() => {}}>
+          <OpenCashRegister isOpenOpenRegisterModal={!isOpenedCashRegister} />
+        </CustomSlideOver>
       )}
     </>
   );

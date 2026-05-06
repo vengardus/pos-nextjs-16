@@ -2,6 +2,7 @@ import "server-only";
 
 import { randomUUID } from "crypto";
 import bcrypt from "bcryptjs";
+import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { signIn } from "@/auth";
 import { prisma } from "@/server/db/prisma";
 import { UserRole } from "@/server/modules/role/domain/role.user-role.enum";
@@ -94,12 +95,23 @@ export const authSignupDemoGuestUseCase = async (
     const generatedPassword = randomUUID();
     const hashedPassword = await bcrypt.hash(generatedPassword, 10);
 
+    // Obtener rol GUEST para asegurar ID
+    const guestRole = await prisma.roleModel.findFirst({
+        where: { companyId, cod: UserRole.GUEST },
+        select: { id: true }
+    });
+    
+    if (!guestRole) {
+        resp.message = "No existe rol GUEST configurado.";
+        return resp;
+    }
+
     const createdUser = await prisma.userModel.create({
       data: {
         email: guestEmail,
         password: hashedPassword,
         name: normalizedNickname,
-        roleId: UserRole.GUEST,
+        roleId: guestRole.id, // Usar ID real del rol
         authType: "credentials",
         authId: guestEmail,
       },
@@ -113,12 +125,17 @@ export const authSignupDemoGuestUseCase = async (
       },
     });
 
-    await signIn("credentials", {
-      email: guestEmail,
-      password: generatedPassword,
-      redirectTo: callbackUrl,
-    });
-
+    try {
+        await signIn("credentials", {
+          email: guestEmail,
+          password: generatedPassword,
+          redirectTo: callbackUrl,
+        });
+    } catch (error) {
+        if (isRedirectError(error)) throw error;
+        throw error;
+    }
+    
     resp.success = true;
   } catch (error) {
     console.error("Error en registro:", error);

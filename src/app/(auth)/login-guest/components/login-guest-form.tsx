@@ -18,19 +18,23 @@ export const LoginGuestForm = () => {
   const callbackUrl = searchParams.get("callbackUrl") || "/";
 
   const handleAction = async (formData: FormData) => {
+    console.log("DEBUG: handleAction iniciado");
     const result = await authSignupDemoGuestAction(formData);
+    console.log("DEBUG: Resultado de Server Action:", result);
     
     if (!result.success) {
-      toast.error(result.message);
+      toast.error(result.message || "Error desconocido");
       return;
     }
 
+    console.log("DEBUG: Intentando signIn...");
     // Login manual tras el registro/verificación
-    await signIn("credentials", {
+    const signInResult = await signIn("credentials", {
         email: result.data.email,
         password: result.data.generatedPassword,
         callbackUrl,
     });
+    console.log("DEBUG: Resultado de signIn:", signInResult);
   };
 
   return (

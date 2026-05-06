@@ -1,26 +1,44 @@
 import "server-only";
-import { initResponseAction } from "@/utils/response/init-response-action";
-import { demoPolicyGetByCompanyRepository } from "../repository/demo-policy.get-by-company.repository";
-import { DemoPolicyBaseSchema } from "../domain/demo-policy.base.schema";
-import { getActionError } from "@/utils/errors/get-action-error";
-import { prisma } from "@/server/db/prisma";
 
-export const demoPolicyResolveBySuperAdminEmailUseCase = async (superAdminEmail: string) => {
+import type { ResponseAction } from "@/shared/types/common/response-action.interface";
+import { getActionError } from "@/utils/errors/get-action-error";
+import { initResponseAction } from "@/utils/response/init-response-action";
+import prisma from "@/server/db/prisma";
+import { UserRole } from "@/server/modules/role/domain/role.user-role.enum";
+import { DemoPolicyBaseSchema } from "@/server/modules/demo-policy/domain/demo-policy.base.schema";
+
+export interface DemoPolicyContext {
+  superAdminUserId: string;
+  companyId: string;
+  policy: ReturnType<typeof DemoPolicyBaseSchema.parse>;
+}
+
+export const demoPolicyResolveBySuperAdminEmailUseCase = async (
+  superAdminEmail: string
+): Promise<ResponseAction> => {
   const resp = initResponseAction();
 
   try {
-    // 1. Obtener el superadmin (asumimos que existe y es único por email)
+    const normalizedEmail = superAdminEmail.trim().toLowerCase();
+    if (!normalizedEmail) {
+      throw new Error(
+        "No se pudo inicializar el modo demo. No está disponible una configuración válida."
+      );
+    }
+
     const superAdmin = await prisma.userModel.findUnique({
-      where: { email: superAdminEmail.toLowerCase().trim() },
+      where: { email: normalizedEmail },
       select: { id: true, roleId: true },
     });
 
     if (!superAdmin) {
-      resp.message = "No se encontró configuración para el email proporcionado.";
-      return resp;
+      throw new Error("No se encontró configuración disponible para el modo demo.");
     }
 
-    // 2. Obtener compañía (asumimos que la primera por defecto es la demo)
+    if (superAdmin.roleId !== UserRole.SUPER_ADMIN) {
+      throw new Error("La configuración actual no permite habilitar el modo demo.");
+    }
+
     const company = await prisma.companyModel.findFirst({
       where: { userId: superAdmin.id },
       orderBy: { isDefault: "desc" },
@@ -28,23 +46,49 @@ export const demoPolicyResolveBySuperAdminEmailUseCase = async (superAdminEmail:
     });
 
     if (!company) {
-      resp.message = "No se encontró compañía asociada.";
-      return resp;
+      throw new Error("No se encontró una compañía disponible para el modo demo.");
     }
 
-    // 3. Obtener política
-    const policy = await demoPolicyGetByCompanyRepository(company.id);
-    if (!policy || !policy.isEnabled) {
-      resp.message = "Política demo no configurada o deshabilitada.";
-      return resp;
+    const policyRecord = await prisma.demoPolicyModel.findUnique({
+      where: { companyId: company.id },
+      select: {
+        id: true,
+        companyId: true,
+        authorizedProviderEmailId: true,
+        isEnabled: true,
+        maxUsers: true,
+        maxRecordsPerEntity: true,
+        maxGuestSignupsPerIpPerDay: true,
+        guestTtlDays: true,
+        allowCsvImportForGuest: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+
+    if (!policyRecord) {
+      throw new Error("No hay políticas demo disponibles en este momento.");
+    }
+
+    const parsedPolicyResult = DemoPolicyBaseSchema.safeParse(policyRecord);
+    if (!parsedPolicyResult.success) {
+      throw new Error(
+        "La configuración de política demo es inválida. Contacte al administrador."
+      );
+    }
+
+    const parsedPolicy = parsedPolicyResult.data;
+
+    if (!parsedPolicy.isEnabled) {
+      throw new Error("El modo demo está deshabilitado para esta compañía.");
     }
 
     resp.success = true;
     resp.data = {
       superAdminUserId: superAdmin.id,
       companyId: company.id,
-      policy: DemoPolicyBaseSchema.parse(policy),
-    };
+      policy: parsedPolicy,
+    } satisfies DemoPolicyContext;
   } catch (error) {
     resp.message = getActionError(error);
   }

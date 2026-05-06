@@ -507,18 +507,34 @@ model LogModel {
   @@map("logs")
 }
 
+model AuthorizedProviderEmailModel {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email        String   @unique
+  clientName   String   @map("client_name")
+  expirationDate String @map("expiration_date")
+  isActive     Boolean  @default(true) @map("is_active")
+  isSuperAdmin Boolean  @default(false) @map("is_super_admin")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime? @updatedAt @map("updated_at")
+  demoPolicy   DemoPolicyModel?
+
+  @@index([email])
+  @@map("authorized_provider_emails")
+}
+
 model DemoPolicyModel {
   id                         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   companyId                  String   @unique @db.Uuid @map("company_id")
-  authorizedProviderEmailId  String?  @db.Uuid @map("authorized_provider_email_id")
-  isEnabled                  Boolean  @default(true) @map("is_enabled")
+  authorizedProviderEmailId  String?  @unique @db.Uuid @map("authorized_provider_email_id")
+  isEnabled                  Boolean  @default(false) @map("is_enabled")
   maxUsers                   Int      @default(10) @map("max_users")
-  maxRecordsPerEntity        Int      @default(50) @map("max_records_per_entity")
+  maxRecordsPerEntity        Int      @default(20) @map("max_records_per_entity")
   maxGuestSignupsPerIpPerDay Int      @default(5) @map("max_guest_signups_per_ip_per_day")
-  guestTtlDays               Int      @default(7) @map("guest_ttl_days")
+  guestTtlDays               Int      @default(15) @map("guest_ttl_days")
   allowCsvImportForGuest     Boolean  @default(false) @map("allow_csv_import_for_guest")
 
   Company                    CompanyModel @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  authorizedProviderEmail   AuthorizedProviderEmailModel? @relation(fields: [authorizedProviderEmailId], references: [id], onDelete: SetNull)
   createdAt                  DateTime @default(now()) @map("created_at")
   updatedAt                  DateTime @updatedAt @map("updated_at")
 

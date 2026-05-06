@@ -1,0 +1,25 @@
+name: Demo Guest Cleanup
+
+on:
+  schedule:
+    - cron: "0 3 * * *"
+  workflow_dispatch:
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger cleanup endpoint
+        env:
+          CLEANUP_URL: ${{ secrets.DEMO_CLEANUP_URL }}
+          CLEANUP_TOKEN: ${{ secrets.DEMO_CLEANUP_TOKEN }}
+        run: |
+          if [ -z "$CLEANUP_URL" ] || [ -z "$CLEANUP_TOKEN" ]; then
+            echo "Missing DEMO_CLEANUP_URL or DEMO_CLEANUP_TOKEN secret"
+            exit 1
+          fi
+
+          curl --fail --show-error --silent \
+            -X POST "$CLEANUP_URL" \
+            -H "Authorization: Bearer $CLEANUP_TOKEN" \
+            -H "Content-Type: application/json"

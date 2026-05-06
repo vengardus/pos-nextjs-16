@@ -10,6 +10,10 @@ import { ResponseAction } from "@/shared/types/common/response-action.interface"
 import { initResponseAction } from "./utils/response/init-response-action";
 import { userGetByColumnUseCase } from "./server/modules/user/use-cases/user.get-by-column.use-case";
 import { userInsertSuperadminAction } from "./server/modules/user/next/actions/user.insert-superadmin.action";
+import {
+  authorizedProviderEmailValidateByEmailUseCase,
+  type AuthorizedProviderEmailValidationResult,
+} from "@/server/modules/authorized-provider-email/use-cases/authorized-provider-email.validate-by-email.use-case";
 
 const providers: Provider[] = [
   Credentials({
@@ -21,7 +25,6 @@ const providers: Provider[] = [
       console.log("credentials", c);
       let user = null;
       try {
-
         const email = c.email as string;
         const password = c.password as string;
 
@@ -33,58 +36,60 @@ const providers: Provider[] = [
           return null;
         }
 
-        console.log("PASSSSA 1")
+        console.log("PASSSSA 1");
 
-        // logic to verify if the user exists
         const resp = await userGetByColumnUseCase("email", email);
 
-        console.log("PASSSSA 2, resp", resp)
+        console.log("PASSSSA 2, resp", resp);
 
         if (!resp.success) {
           console.log("Invalid credentials.");
           return null;
         }
 
-        console.log("PASSSSA 3")
+        console.log("PASSSSA 3");
 
         user = resp.data as User;
-        if ( !user) {
-          console.log("No user found.")
-          return null
-        }
-        else {
-          console.log("PASSSSA 4")
+        if (!user) {
+          console.log("No user found.");
+          return null;
+        } else {
+          console.log("PASSSSA 4");
 
           const isValidPassword = await compare(password, user.password);
-          console.log("PASSSSA 5")
+          console.log("PASSSSA 5");
 
           if (!user || !isValidPassword) {
             console.log("Invalid credentials.");
-            return null
+            return null;
           }
 
-          console.log("PASSSSA 6")
-
+          console.log("PASSSSA 6");
         }
 
-        console.log("PASSSSA 7", user)
-
-        // return JSON object with the user data
+        console.log("PASSSSA 7", user);
         return user;
       } catch (error) {
         console.log("ERROR:", error);
-        // Return `null` to indicate that the credentials are invalid
         return null;
       }
-      return user
     },
   }),
-  GoogleProvider ({
+  GoogleProvider({
     authorization: {
-      prompt: "", // Fuerza la selección de cuenta
-    }
+      params: {
+        prompt: "select_account",
+        access_type: "offline",
+        response_type: "code",
+      },
+    },
   }),
 ];
+
+const SIGN_IN_ERROR_ROUTE = "/signin-error";
+
+const buildSignInErrorUrl = (errorCode: string): string =>
+  `${SIGN_IN_ERROR_ROUTE}?error=${errorCode}`;
 
 export const providerMap = providers
   .map((provider) => {
@@ -109,47 +114,82 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     error: "/signin-error",
   },
 
-  //  By default, the `id` property does not exist on `token` or `session`. See the [TypeScript](https://authjs.dev/getting-started/typescript) on how to add it.
   callbacks: {
     async signIn({ user, account }) {
-      console.log('*** signIn callback START ***', account, user);
+      console.log("*** signIn callback START ***", account, user);
 
       if (!user || !account) {
         console.log("Faltan datos de usuario o cuenta");
-        return false; // Deniega el acceso si falta información
+        return false;
       }
-      
-      let respUser: ResponseAction
-      respUser = initResponseAction();
+
+      let providerAuthorization: AuthorizedProviderEmailValidationResult | null =
+        null;
+
+      if (account.provider !== "credentials") {
+        const authorizedProviderEmailResp =
+          await authorizedProviderEmailValidateByEmailUseCase(
+            user.email as string
+          );
+
+        if (!authorizedProviderEmailResp.success) {
+          console.error(
+            "❌ Auth Error: Whitelist validation failed",
+            authorizedProviderEmailResp.message
+          );
+          return buildSignInErrorUrl("provider_email_not_authorized");
+        }
+
+        providerAuthorization =
+          authorizedProviderEmailResp.data as AuthorizedProviderEmailValidationResult;
+
+        if (providerAuthorization.status === "NOT_FOUND") {
+          return buildSignInErrorUrl("provider_email_not_authorized");
+        }
+
+        if (providerAuthorization.status === "INACTIVE") {
+          return buildSignInErrorUrl("provider_email_inactive");
+        }
+
+        if (providerAuthorization.status === "EXPIRED") {
+          console.error(
+            "❌ Auth Error: Google email authorization expired",
+            user.email
+          );
+          return buildSignInErrorUrl("provider_email_expired");
+        }
+      }
+
+      let respUser: ResponseAction = initResponseAction();
 
       if (account.provider === "credentials") {
-        // Diferenciar si es un login de invitado o de empleado
-        if (user.email?.endsWith("@pos.local")) {
-           // Lógica especial para invitados si fuera necesaria aquí (ya creada en el useCase)
-           respUser = await userGetByColumnUseCase("email", user.email as string);
-        } else {
-           respUser = await userGetByColumnUseCase("email", user.email as string);
-        }
+        respUser = await userGetByColumnUseCase("email", user.email as string);
       } else {
-        // provider google or social media
         respUser = await userGetByColumnUseCase(
           "authId",
           account.providerAccountId as string
         );
       }
-    
 
       if (!respUser.success) {
-        console.log("Ocurrió un error en la consulta", respUser.message);
+        console.error(
+          "❌ Auth Error: Database query for user failed",
+          respUser.message
+        );
         return false;
       }
 
       if (!respUser.data) {
         console.log("Usuario no registrado, se creará un nuevo registro");
+        let providerBootstrapRoleId = UserRole.ADMIN as string;
+
+        if (providerAuthorization?.record?.isSuperAdmin) {
+          providerBootstrapRoleId = UserRole.SUPER_ADMIN as string;
+        }
 
         const respInsert = await userInsertSuperadminAction({
           authId: account.providerAccountId as string,
-          roleId: UserRole.ADMIN as string,
+          roleId: providerBootstrapRoleId,
           email: user.email as string,
           currencySymbol: AppConstants.DEFAULT_VALUES.currencySymbol,
           companyName: AppConstants.DEFAULT_VALUES.companyName,
@@ -162,12 +202,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           userName: user.name as string,
           brandName: AppConstants.DEFAULT_VALUES.brandName,
           clientName: AppConstants.DEFAULT_VALUES.clientName,
-          personType: AppConstants.DEFAULT_VALUES.personTypes[0]
-            .value as string,
+          personType: AppConstants.DEFAULT_VALUES.personTypes[0].value as string,
         });
         if (!respInsert.success) {
-          console.log(
-            "Ocurrio un error al insertar el nuevo usuario",
+          console.error(
+            "❌ Auth Error: Failed to insert new superadmin",
             respInsert.message
           );
           return false;
@@ -178,34 +217,23 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         console.log("El usuario ya estaba registrado");
         user.id = respUser.data.id;
       }
-      // console.log('*** signIn callback END ***');
+
       return true;
     },
     async jwt({ token, user }) {
-      // console.log("🔹 jwt callback | Antes:", token);
-
       if (user) {
-        const resp = await userGetByColumnUseCase(
-          "id",
-          user.id as string
-        );
+        const resp = await userGetByColumnUseCase("id", user.id as string);
         if (resp.success && resp.data) {
           token.id = resp.data.id;
           token.role = resp.data.roleId;
         }
       }
 
-      // console.log("🔹 jwt callback | Después:", token);
-
       return token;
     },
     async session({ session, token }) {
-      // console.log("🔸 session callback | Antes:", session);
-
       session.user.id = token.id as string;
       session.user.role = token.role as string;
-
-      // console.log("🔸 session callback | Después:", session);
 
       return session;
     },

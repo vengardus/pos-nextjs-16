@@ -49,6 +49,25 @@ export default function LoginPage() {
             </div>
           </div>
         </Link>
+
+        {/* Invitado button */}
+        <Link href="/login-guest" className="block"> 
+          <div className="bg-sky-700 rounded-xl p-4 flex items-center justify-between hover:bg-green-500">
+            <div>
+              <div className="bg-white text-sky-700 font-bold py-2 px-4 rounded-md inline-block mb-2">Invitado</div>
+              <p className="text-white">Explora el sistema rápido</p>
+            </div>
+            <div className="w-12 h-12">
+              <Image
+                src="/images/punto-de-venta.png"
+                width={48}
+                height={48}
+                alt="Invitado icon"
+                className="object-contain"
+              />
+            </div>
+          </div>
+        </Link>
       </div>
     </div>
   )

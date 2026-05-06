@@ -2,12 +2,9 @@ import "server-only";
 
 import { randomUUID } from "crypto";
 import bcrypt from "bcryptjs";
-import { isRedirectError } from "next/dist/client/components/redirect-error";
-import { signIn } from "@/auth";
 import { prisma } from "@/server/db/prisma";
 import { UserRole } from "@/server/modules/role/domain/role.user-role.enum";
 import type { ResponseAction } from "@/shared/types/common/response-action.interface";
-import { AppConstants } from "@/shared/constants/app.constants";
 import { initResponseAction } from "@/utils/response/init-response-action";
 import { AuthGuestSignupSchema } from "../domain/auth.guest-signup.schema";
 import { demoPolicyResolveBySuperAdminEmailUseCase } from "../../demo-policy/use-cases/demo-policy.resolve-by-superadmin-email.use-case";
@@ -34,7 +31,6 @@ export const authSignupDemoGuestUseCase = async (
 
     const normalizedNickname = parsed.nickname.trim().toLowerCase();
     const guestEmail = `${normalizedNickname}@pos.local`;
-    const callbackUrl = parsed.callbackUrl || AppConstants.URL_HOME;
 
     const superAdminEmail = process.env.DEMO_SUPERADMIN_EMAIL ?? "";
     const policyResp = await demoPolicyResolveBySuperAdminEmailUseCase(superAdminEmail);
@@ -49,28 +45,12 @@ export const authSignupDemoGuestUseCase = async (
     // 1. Verificar si existe
     const existingUser = await prisma.userModel.findUnique({
       where: { email: guestEmail },
-      select: { id: true, roleId: true },
+      select: { id: true, name: true },
     });
 
     if (existingUser) {
-        const generatedPassword = randomUUID();
-        const hashedPassword = await bcrypt.hash(generatedPassword, 10);
-
-        await prisma.userModel.update({
-            where: { id: existingUser.id },
-            data: { password: hashedPassword }
-        });
-
-        await signIn("credentials", {
-          email: guestEmail,
-          password: generatedPassword,
-          redirectTo: callbackUrl,
-        });
-
-        // Si llegamos aquí, el signIn no redirigió (debería lanzar error de redirección)
         resp.success = true;
-        return resp;
-
+        resp.data = { email: guestEmail, isExisting: true };
         return resp;
     }
 
@@ -92,7 +72,6 @@ export const authSignupDemoGuestUseCase = async (
     });
 
     if (!defaultBranch) {
-        console.log("DEBUG: Sucursal demo no encontrada para companyId:", companyId);
         resp.message = "Sucursal demo no configurada.";
         return resp;
     }
@@ -100,20 +79,17 @@ export const authSignupDemoGuestUseCase = async (
     const generatedPassword = randomUUID();
     const hashedPassword = await bcrypt.hash(generatedPassword, 10);
 
-    // Obtener rol GUEST para asegurar ID
     const guestRole = await prisma.roleModel.findFirst({
         where: { companyId, cod: UserRole.GUEST },
         select: { id: true }
     });
     
     if (!guestRole) {
-        console.log("DEBUG: Rol GUEST no encontrado para companyId:", companyId);
         resp.message = "No existe rol GUEST configurado.";
         return resp;
     }
 
-    console.log("DEBUG: Creando usuario invitado:", guestEmail, "con rol:", guestRole.id);
-    const createdUser = await prisma.userModel.create({
+    await prisma.userModel.create({
       data: {
         email: guestEmail,
         password: hashedPassword,
@@ -121,37 +97,18 @@ export const authSignupDemoGuestUseCase = async (
         roleId: guestRole.id,
         authType: "credentials",
         authId: guestEmail,
-      },
-    });
-
-    console.log("DEBUG: Usuario creado con ID:", createdUser.id);
-    await prisma.branchUserModel.create({
-      data: {
-        branchId: defaultBranch.id,
-        userId: createdUser.id,
-        cashRegisterId: defaultBranch.CashRegister[0]?.id ?? null,
-      },
-    });
-
-    console.log("DEBUG: Intentando signIn...");
-    try {
-        await signIn("credentials", {
-          email: guestEmail,
-          password: generatedPassword,
-          redirectTo: callbackUrl,
-        });
-    } catch (error) {
-        if (isRedirectError(error)) {
-            console.log("DEBUG: Redirección de NextAuth capturada correctamente.");
-            throw error;
+        BranchUser: {
+            create: {
+                branchId: defaultBranch.id,
+                cashRegisterId: defaultBranch.CashRegister[0]?.id ?? null
+            }
         }
-        console.error("DEBUG: Error inesperado en signIn:", error);
-        throw error;
-    }
-    
+      },
+    });
+
     resp.success = true;
+    resp.data = { email: guestEmail, generatedPassword, isExisting: false };
   } catch (error) {
-    console.error("Error en registro:", error);
     resp.message = "Error en el registro de invitado.";
   }
 

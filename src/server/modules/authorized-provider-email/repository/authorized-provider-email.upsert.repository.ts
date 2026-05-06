@@ -7,17 +7,24 @@ export const authorizedProviderEmailUpsertRepository = async (
   payload: AuthorizedProviderEmailInput
 ) => {
   const { id, ...data } = payload;
+  const normalizedData = {
+    email: data.email,
+    clientName: data.clientName,
+    expirationDate: data.expirationDate,
+    isActive: data.isActive,
+    isSuperAdmin: data.isSuperAdmin,
+  };
 
   if (id) {
     return prisma.authorizedProviderEmailModel.update({
       where: { id },
-      data,
+      data: normalizedData,
     });
   }
 
   return prisma.authorizedProviderEmailModel.upsert({
-    where: { email: data.email },
-    update: data,
-    create: data,
+    where: { email: normalizedData.email },
+    update: normalizedData,
+    create: normalizedData,
   });
 };

@@ -1,8 +1,34 @@
 import { z } from "zod";
 
+const normalizeExpirationDateText = (value: unknown): unknown => {
+  if (typeof value !== "string") {
+    return value;
+  }
+
+  const trimmed = value.trim();
+  if (!trimmed) {
+    return trimmed;
+  }
+
+  const isoDateMatch = trimmed.match(/^(\d{4}-\d{2}-\d{2})/);
+  if (isoDateMatch) {
+    return isoDateMatch[1];
+  }
+
+  const legacyDateMatch = trimmed.match(/^(\d{4})[/-](\d{2})[/-](\d{2})$/);
+  if (legacyDateMatch) {
+    const [, year, month, day] = legacyDateMatch;
+    return `${year}-${month}-${day}`;
+  }
+
+  return trimmed;
+};
+
 export const AuthorizedProviderEmailExpirationDateSchema = z
-  .string()
-  .regex(/^\d{4}-\d{2}-\d{2}$/, "La fecha debe tener el formato yyyy-MM-dd.");
+  .preprocess(
+    normalizeExpirationDateText,
+    z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "La fecha debe tener el formato yyyy-MM-dd.")
+  );
 
 export const AuthorizedProviderEmailBaseSchema = z.object({
   id: z.string().uuid(),

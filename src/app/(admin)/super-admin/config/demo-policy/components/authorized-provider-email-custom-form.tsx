@@ -27,6 +27,11 @@ const getInitialFormState = (): FormState => ({
   isSuperAdmin: false,
 });
 
+const normalizeDateForInput = (value: string): string => {
+  const normalized = value.trim().slice(0, 10).replaceAll("/", "-");
+  return /^\d{4}-\d{2}-\d{2}$/.test(normalized) ? normalized : "";
+};
+
 const getFormStateFromRow = (
   currentRow: AuthorizedProviderEmail | null
 ): FormState => {
@@ -36,7 +41,7 @@ const getFormStateFromRow = (
     id: currentRow.id,
     email: currentRow.email,
     clientName: currentRow.clientName,
-    expirationDate: currentRow.expirationDate,
+    expirationDate: normalizeDateForInput(currentRow.expirationDate),
     isActive: currentRow.isActive,
     isSuperAdmin: currentRow.isSuperAdmin,
   };
@@ -103,7 +108,7 @@ export const AuthorizedProviderEmailCustomForm = ({
         <label className="space-y-1 text-sm">
           <span>Fecha Expiración (yyyy-MM-dd)</span>
           <input
-            type="text"
+            type="date"
             value={formState.expirationDate}
             onChange={(event) =>
               setFormState((prev) => ({
@@ -111,7 +116,6 @@ export const AuthorizedProviderEmailCustomForm = ({
                 expirationDate: event.target.value,
               }))
             }
-            placeholder="2026-12-31"
             className="h-10 w-full rounded-xl border border-slate-300 bg-white px-3 text-sm dark:border-slate-700 dark:bg-slate-900"
           />
         </label>

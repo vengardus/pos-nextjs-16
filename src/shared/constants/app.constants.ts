@@ -87,6 +87,11 @@ export class AppConstants {
           name: "super-admin-users",
           label: 'Usuarios Registrados',
           href: '/super-admin/users',
+        },
+        {
+          name: "super-admin-demo-policy",
+          label: 'Configuración Demo',
+          href: '/super-admin/config/demo-policy',
         }
       ]
     }

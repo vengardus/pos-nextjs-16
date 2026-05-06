@@ -48,7 +48,7 @@ export const authSignupDemoGuestUseCase = async (
     const continueExisting = formData.get("continueExisting") === "1";
 
     const normalizedNickname = parsed.nickname.trim().toLowerCase();
-    const guestEmail = `${normalizedNickname}@pulse.local`;
+    const guestEmail = `${normalizedNickname}@pos.local`;
     const callbackUrl = parsed.callbackUrl || AppConstants.URL_HOME;
 
     const superAdminEmail = process.env.DEMO_SUPERADMIN_EMAIL ?? "";

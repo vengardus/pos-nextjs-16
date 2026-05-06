@@ -92,6 +92,7 @@ export const authSignupDemoGuestUseCase = async (
     });
 
     if (!defaultBranch) {
+        console.log("DEBUG: Sucursal demo no encontrada para companyId:", companyId);
         resp.message = "Sucursal demo no configurada.";
         return resp;
     }
@@ -106,21 +107,24 @@ export const authSignupDemoGuestUseCase = async (
     });
     
     if (!guestRole) {
+        console.log("DEBUG: Rol GUEST no encontrado para companyId:", companyId);
         resp.message = "No existe rol GUEST configurado.";
         return resp;
     }
 
+    console.log("DEBUG: Creando usuario invitado:", guestEmail, "con rol:", guestRole.id);
     const createdUser = await prisma.userModel.create({
       data: {
         email: guestEmail,
         password: hashedPassword,
         name: normalizedNickname,
-        roleId: guestRole.id, // Usar ID real del rol
+        roleId: guestRole.id,
         authType: "credentials",
         authId: guestEmail,
       },
     });
 
+    console.log("DEBUG: Usuario creado con ID:", createdUser.id);
     await prisma.branchUserModel.create({
       data: {
         branchId: defaultBranch.id,
@@ -129,6 +133,7 @@ export const authSignupDemoGuestUseCase = async (
       },
     });
 
+    console.log("DEBUG: Intentando signIn...");
     try {
         await signIn("credentials", {
           email: guestEmail,
@@ -136,7 +141,11 @@ export const authSignupDemoGuestUseCase = async (
           redirectTo: callbackUrl,
         });
     } catch (error) {
-        if (isRedirectError(error)) throw error;
+        if (isRedirectError(error)) {
+            console.log("DEBUG: Redirección de NextAuth capturada correctamente.");
+            throw error;
+        }
+        console.error("DEBUG: Error inesperado en signIn:", error);
         throw error;
     }
     

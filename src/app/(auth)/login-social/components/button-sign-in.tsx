@@ -24,10 +24,10 @@ export const ButtonSignIn= ({
     <Button
       variant={variant}
       className={cn(
-        "rounded-full p-2 size-12 bg-white hover:bg-gray-100 w-full",
+        "h-12 w-full justify-center gap-3 rounded-full border border-slate-200/70 bg-white/90 text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:bg-white dark:border-slate-700/70 dark:bg-slate-900/70 dark:text-slate-100 dark:hover:bg-slate-900",
         className,
         {
-          "bg-gray-300" : isDisabled
+          "pointer-events-none opacity-60" : isDisabled
         }
       )}
       type="submit"
@@ -36,9 +36,9 @@ export const ButtonSignIn= ({
       disabled={isDisabled}
     >
       {
-        Icon && <Icon className="" style={{ height: height, width: width }} />
+        Icon && <Icon className="shrink-0" style={{ height: height, width: width }} />
       }
-      <span className="text-black">Google</span>
+      <span className="text-sm font-semibold">Continuar con Google</span>
       <span className="sr-only">{`Iniciar sesión con ${provider}`}</span>
     </Button>
   );

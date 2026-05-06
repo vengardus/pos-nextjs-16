@@ -1,0 +1,1 @@
+export const AUTH_USE_PROVIDER_SELECTOR_FOR_ADMIN = false

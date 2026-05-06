@@ -62,11 +62,15 @@ export const authSignupDemoGuestUseCase = async (
         });
 
         await signIn("credentials", {
-            email: guestEmail,
-            password: generatedPassword,
-            redirectTo: callbackUrl,
+          email: guestEmail,
+          password: generatedPassword,
+          redirectTo: callbackUrl,
         });
+
+        // Si llegamos aquí, el signIn no redirigió (debería lanzar error de redirección)
         resp.success = true;
+        return resp;
+
         return resp;
     }
 

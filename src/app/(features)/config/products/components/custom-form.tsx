@@ -53,15 +53,31 @@ export const CustomForm = ({
 
   const handleSubmit = async (values: ProductFormSchemaType) => {
     setMessageGeneralError(null);
-    if (
-      isNewRecord &&
-      form.getValues("isInventoryControl") &&
-      !productStocks.length
-    ) {
-      setMessageGeneralError("Debe agregar stock en al menos una sucursal");
-      return;
+
+    let currentProductStocks = [...productStocks];
+
+    if (isNewRecord && values.isInventoryControl) {
+      const branchId = values.branchId;
+      if (branchId && !currentProductStocks.some((ps) => ps.branchId === branchId)) {
+        const branch = branches.find((b) => b.id === branchId);
+        if (branch) {
+          currentProductStocks.push({
+            productId: "",
+            branchId: branchId,
+            branchLabel: branch.name,
+            stock: values.stock ?? 0,
+            minimunStock: values.minimunStock ?? 0,
+          });
+        }
+      }
+
+      if (!currentProductStocks.length) {
+        setMessageGeneralError("Debe agregar stock en al menos una sucursal");
+        return;
+      }
     }
-    const resp = await handleProductSave(values, productStocks);
+
+    const resp = await handleProductSave(values, currentProductStocks);
     if (resp.success) handleCloseForm();
   };
 

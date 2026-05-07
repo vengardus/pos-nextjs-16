@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import type { Product } from "@/server/modules/product/domain/product.interface";
@@ -51,19 +51,21 @@ export const CustomForm = ({
 
   const slideOver = useCustomSlideOver();
 
-  const handleSubmit = async (values: ProductFormSchemaType) => {
+  const handleSubmit = useCallback(async (values: ProductFormSchemaType) => {
     setMessageGeneralError(null);
+
     if (
       isNewRecord &&
-      form.getValues("isInventoryControl") &&
+      values.isInventoryControl &&
       !productStocks.length
     ) {
       setMessageGeneralError("Debe agregar stock en al menos una sucursal");
       return;
     }
+
     const resp = await handleProductSave(values, productStocks);
     if (resp.success) handleCloseForm();
-  };
+  }, [isNewRecord, productStocks, handleProductSave, handleCloseForm, setMessageGeneralError]);
 
   useEffect(() => {
     if (!slideOver) return;
@@ -76,7 +78,7 @@ export const CustomForm = ({
     );
 
     return () => slideOver.setFooterContent(null);
-  }, [slideOver, handleCloseForm, isPending, form]);
+  }, [slideOver, handleCloseForm, isPending, form, handleSubmit]);
 
   return (
     <Form {...form}>

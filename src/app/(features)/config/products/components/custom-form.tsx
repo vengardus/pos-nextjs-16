@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import type { Product } from "@/server/modules/product/domain/product.interface";
@@ -51,35 +51,21 @@ export const CustomForm = ({
 
   const slideOver = useCustomSlideOver();
 
-  const handleSubmit = async (values: ProductFormSchemaType) => {
+  const handleSubmit = useCallback(async (values: ProductFormSchemaType) => {
     setMessageGeneralError(null);
 
-    let currentProductStocks = [...productStocks];
-
-    if (isNewRecord && values.isInventoryControl) {
-      const branchId = values.branchId;
-      if (branchId && !currentProductStocks.some((ps) => ps.branchId === branchId)) {
-        const branch = branches.find((b) => b.id === branchId);
-        if (branch) {
-          currentProductStocks.push({
-            productId: "",
-            branchId: branchId,
-            branchLabel: branch.name,
-            stock: values.stock ?? 0,
-            minimunStock: values.minimunStock ?? 0,
-          });
-        }
-      }
-
-      if (!currentProductStocks.length) {
-        setMessageGeneralError("Debe agregar stock en al menos una sucursal");
-        return;
-      }
+    if (
+      isNewRecord &&
+      values.isInventoryControl &&
+      !productStocks.length
+    ) {
+      setMessageGeneralError("Debe agregar stock en al menos una sucursal");
+      return;
     }
 
-    const resp = await handleProductSave(values, currentProductStocks);
+    const resp = await handleProductSave(values, productStocks);
     if (resp.success) handleCloseForm();
-  };
+  }, [isNewRecord, productStocks, handleProductSave, handleCloseForm, setMessageGeneralError]);
 
   useEffect(() => {
     if (!slideOver) return;
@@ -92,7 +78,7 @@ export const CustomForm = ({
     );
 
     return () => slideOver.setFooterContent(null);
-  }, [slideOver, handleCloseForm, isPending, form]);
+  }, [slideOver, handleCloseForm, isPending, form, handleSubmit]);
 
   return (
     <Form {...form}>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
@@ -98,9 +98,41 @@ export const useProductForm = ({
     };
 
     fetchData();
-  }, [isNewRecord, currentProduct]);
+  }, [isNewRecord, currentProduct, warehouseMetadata.singularName]);
 
-  const handleSave = async (
+  const saveStockInWarehouse = useCallback(async (
+    productId: string,
+    productStocks: ProductStock[]
+  ): Promise<boolean> => {
+    const warehouses: Warehouse[] = productStocks.map((stock) => {
+      return {
+        id: "",
+        stock: stock.stock,
+        minimumStock: stock.minimunStock,
+        branchId: stock.branchId,
+        productId: productId,
+      };
+    });
+
+    const respWarehouse = await warehouseInsertManyAction(warehouses);
+
+    if (!respWarehouse.success) {
+      toast.error(
+        `Error: No se pudo grabar stock ${warehouseMetadata.singularName}`,
+        {
+          description: respWarehouse.message,
+        }
+      );
+    } else {
+      toast.success(
+        `Stock en ${warehouseMetadata.singularName} se creó exitósamente.`
+      );
+    }
+
+    return respWarehouse.success;
+  }, [warehouseMetadata.singularName]);
+
+  const handleSave = useCallback(async (
     values: ProductFormSchemaType,
     productStocks: ProductStock[]
   ) => {
@@ -139,8 +171,8 @@ export const useProductForm = ({
 
     if (resp.success) {
       if (isNewRecord && values.isInventoryControl && productStocks.length > 0) {
-        currentProduct = resp.data;
-        await saveStockInWarehouse(currentProduct!.id, productStocks);
+        const createdProduct = resp.data as Product;
+        await saveStockInWarehouse(createdProduct.id, productStocks);
       }
       toast.success(
         `${productMetadata.singularName} ${
@@ -158,39 +190,7 @@ export const useProductForm = ({
 
     setIsPending(false);
     return resp;
-  };
-
-  const saveStockInWarehouse = async (
-    productId: string,
-    productStocks: ProductStock[]
-  ): Promise<boolean> => {
-    const warehouses: Warehouse[] = productStocks.map((stock) => {
-      return {
-        id: "",
-        stock: stock.stock,
-        minimumStock: stock.minimunStock,
-        branchId: stock.branchId,
-        productId: productId,
-      };
-    });
-
-    const respWarehouse = await warehouseInsertManyAction(warehouses);
-
-    if (!respWarehouse.success) {
-      toast.error(
-        `Error: No se pudo grabar stock ${warehouseMetadata.singularName}`,
-        {
-          description: respWarehouse.message,
-        }
-      );
-    } else {
-      toast.success(
-        `Stock en ${warehouseMetadata.singularName} se creó exitósamente.`
-      );
-    }
-
-    return respWarehouse.success;
-  };
+  }, [isNewRecord, companyId, currentProduct, productMetadata.singularName, saveStockInWarehouse]);
 
   return {
     form,

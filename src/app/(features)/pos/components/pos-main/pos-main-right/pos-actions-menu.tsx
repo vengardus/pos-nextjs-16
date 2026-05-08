@@ -48,22 +48,22 @@ export const PosActionsMenu = () => {
     <AlertDialog open={showConfirm} onOpenChange={setShowConfirm}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline" className="h-8 gap-2 border-white/10 text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800">
+          <Button variant="outline" className="h-8 gap-2 border-white/10 text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800 dark:bg-white/90 dark:text-zinc-900">
             <MoreVertical className="h-4 w-4 md:hidden" />
-            <span className="hidden md:inline text-xs">Acciones</span>
+            <span className="hidden md:inline p-2">ACCIONES</span>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-56 bg-zinc-900 border-white/10 z-[100]">
-          <DropdownMenuItem onClick={() => setShowConfirm(true)} className="text-zinc-300 hover:text-red-400 cursor-pointer">
+          <DropdownMenuItem onClick={() => setShowConfirm(true)} className="text-zinc-300 hover:text-red-400 cursor-pointer text-md">
             <Trash2 className="w-4 h-4 mr-2" /> Limpiar Carrito
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => handleRegisterMovement(CashRegisterMovementTypeEnum.INCOME)} className="text-zinc-300 hover:text-emerald-400 cursor-pointer">
+          <DropdownMenuItem onClick={() => handleRegisterMovement(CashRegisterMovementTypeEnum.INCOME)} className="text-zinc-300 hover:text-emerald-400 cursor-pointer text-md">
             <ArrowUpCircle className="w-4 h-4 mr-2 text-emerald-400" /> Ingresar Dinero
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => handleRegisterMovement(CashRegisterMovementTypeEnum.EXPENSE)} className="text-zinc-300 hover:text-amber-400 cursor-pointer">
+          <DropdownMenuItem onClick={() => handleRegisterMovement(CashRegisterMovementTypeEnum.EXPENSE)} className="text-zinc-300 hover:text-amber-400 cursor-pointer text-md">
             <ArrowDownCircle className="w-4 h-4 mr-2 text-amber-400" /> Retirar Dinero
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={handleRegisterClosure} className="text-zinc-300 hover:text-red-400 cursor-pointer">
+          <DropdownMenuItem onClick={handleRegisterClosure} className="text-zinc-300 hover:text-red-400 cursor-pointer text-md">
             <Power className="w-4 h-4 mr-2 text-red-400" /> Cerrar Caja
           </DropdownMenuItem>
         </DropdownMenuContent>

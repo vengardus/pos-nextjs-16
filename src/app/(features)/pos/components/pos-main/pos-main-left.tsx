@@ -4,7 +4,7 @@ import { Trash2 } from "lucide-react";
 import { useCartStore } from "@/stores/cart/cart.store";
 import { CartProduct } from "@/server/modules/sale/domain/cart-product.interface";
 import { ButtonAddSubCartItem } from "@/components/common/buttons/buitton-add-sub-cart-item";
-import { cn } from "@/utils/tailwind/cn";
+//import { cn } from "@/utils/tailwind/cn";
 
 export const PosMainLeft = () => {
   const cart = useCartStore((state) => state.cart);

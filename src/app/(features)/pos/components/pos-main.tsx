@@ -9,8 +9,7 @@ interface PosMainProps {
 }
 export const PosMain = ({ data }: PosMainProps) => {
   return (
-    <div className="flex flex-col lg:flex-row w-full flex-1 gap-4 items-stretch min-h-0">
-      {/* Cart - Takes up most space, scrolls internally */}
+    <div className="h-full min-h-0 flex flex-col lg:flex-row gap-4 items-stretch overflow-hidden">      {/* Cart - Takes up most space, scrolls internally */}
       <div className="flex-[2] bg-zinc-900/50 border border-white/5 rounded-2xl shadow-sm backdrop-blur-sm overflow-hidden flex flex-col min-h-0 py-4">
         <PosMainLeft />
       </div>

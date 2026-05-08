@@ -69,7 +69,7 @@ export const PosActionsMenu = () => {
       </DropdownMenu>
 
       <AlertDialog open={showConfirm} onOpenChange={setShowConfirm}>
-        <AlertDialogContent className="bg-zinc-900 border-white/10">
+        <AlertDialogContent className="bg-zinc-900 border-white/10" onPointerDownOutside={(e) => e.preventDefault()}>
           <AlertDialogHeader>
             <AlertDialogTitle className="text-zinc-100">¿Estás seguro?</AlertDialogTitle>
             <AlertDialogDescription className="text-zinc-400">
@@ -78,7 +78,10 @@ export const PosActionsMenu = () => {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel className="bg-zinc-800 border-white/10 text-zinc-300 hover:bg-zinc-700">Cancelar</AlertDialogCancel>
-            <AlertDialogAction onClick={() => clearCart()} className="bg-red-600 hover:bg-red-700 text-white">Limpiar Carrito</AlertDialogAction>
+            <AlertDialogAction onClick={() => {
+              clearCart();
+              setShowConfirm(false);
+            }} className="bg-red-600 hover:bg-red-700 text-white">Limpiar Carrito</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

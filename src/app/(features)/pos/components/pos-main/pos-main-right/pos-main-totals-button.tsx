@@ -4,7 +4,6 @@ import { CreditCard } from "lucide-react";
 import { PaymentMethodEnum } from "@/server/modules/payment-method/domain/payment-method.enum";
 import { useCartStore } from "@/stores/cart/cart.store";
 import { Button } from "@/components/ui/button";
-import { PosActionsMenu } from "./pos-actions-menu";
 
 interface PosMainTotalsButtonProps {
   total: number;

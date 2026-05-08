@@ -5,14 +5,11 @@ import { Barcode, Keyboard } from "lucide-react";
 import type { Product } from "@/server/modules/product/domain/product.interface";
 import { useCartProdut } from "@/app/(features)/pos/hooks/use-cart-product";
 import { useCartStore } from "@/stores/cart/cart.store";
-import { ButtonIcon } from "@/components/common/buttons/button-icon";
 import { ComboboxSearch } from "@/components/common/combobox/combobox-search";
 import { PosSearch } from "./pos-header/pos-search";
 import { useProductStore } from "@/stores/product/product.store";
 import { useRouter } from "next/navigation";
 import { productSearchAction } from "@/server/modules/product/next/actions/product.search.action";
-
-const classNameInputMode = "bg-brand text-white hover:bg-indigo-700";
 
 interface PosProductUIProps {
   products: Product[];

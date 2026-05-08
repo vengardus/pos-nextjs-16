@@ -23,7 +23,7 @@ export const PosPageClient = (data: PosPageClientProps) => {
   const { branchId, company, currentUser, cashRegisterDecision } = data;
 
   return (
-    <div className="flex flex-col h-[calc(100vh-72px)] w-full gap-3 px-2">
+    <div className="flex flex-col h-[calc(100vh-80px)] w-full gap-4 px-4 py-2 bg-zinc-950 overflow-hidden">
       <PosTemplate
         data={{
           branchId: branchId,
@@ -33,18 +33,21 @@ export const PosPageClient = (data: PosPageClientProps) => {
         }}
       />
 
-      <div className="h-auto flex flex-col gap-3">
+      {/* Header Section - Entry Mode & Search */}
+      <div className="bg-zinc-900/50 border border-white/5 rounded-2xl p-4 shadow-sm backdrop-blur-sm">
         <PosHeader />
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div className="h-20 flex items-center justify-center text-zinc-500">Cargando productos...</div>}>
           <PosProduct companyId={company.id} />
         </Suspense>
       </div>
 
-      <div className="flex-1 overflow-y-auto">
+      {/* Main Section - Cart & Totals */}
+      <div className="flex-1 overflow-hidden">
         <PosMain data={{ companyId: company.id }} />
       </div>
 
-      <div className="hidden lg:flex lg:h-auto py-5 border-t  border-gray-500">
+      {/* Footer Section - Actions */}
+      <div className="hidden lg:block bg-zinc-900/50 border border-white/5 rounded-2xl p-4 shadow-sm backdrop-blur-sm">
         <PosFooter />
       </div>
     </div>

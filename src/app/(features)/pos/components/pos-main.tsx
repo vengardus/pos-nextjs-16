@@ -9,12 +9,12 @@ interface PosMainProps {
 }
 export const PosMain = ({ data }: PosMainProps) => {
   return (
-    <div className="flex flex-col lg:flex-row  w-full h-full border-t border-gray-500 pt-2">
-      <div className="w-full lg:w-[70%]">
+    <div className="flex flex-col lg:flex-row w-full h-full gap-4">
+      <div className="w-full lg:w-[70%] bg-zinc-900/50 border border-white/5 rounded-2xl shadow-sm backdrop-blur-sm overflow-hidden flex flex-col">
         <PosMainLeft />
       </div>
-      <div className="w-full lg:w-[30%]">
-        <Suspense fallback={<div>Loading...</div>}>
+      <div className="w-full lg:w-[30%] bg-zinc-900/50 border border-white/5 rounded-2xl shadow-sm backdrop-blur-sm overflow-hidden">
+        <Suspense fallback={<div className="h-full flex items-center justify-center text-zinc-500">Cargando totales...</div>}>
           <PosMainRight companyId={data.companyId} />
         </Suspense>
       </div>

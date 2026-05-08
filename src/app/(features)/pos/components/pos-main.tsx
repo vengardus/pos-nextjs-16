@@ -9,8 +9,8 @@ interface PosMainProps {
 }
 export const PosMain = ({ data }: PosMainProps) => {
   return (
-    <div className="flex flex-col lg:flex-row w-full h-full gap-4">
-      <div className="w-full lg:w-[70%] bg-zinc-900/50 border border-white/5 rounded-2xl shadow-sm backdrop-blur-sm overflow-hidden flex flex-col">
+    <div className="flex flex-col lg:flex-row w-full h-[65vh] gap-4 items-stretch">
+      <div className="flex-1 bg-zinc-900/50 border border-white/5 rounded-2xl shadow-sm backdrop-blur-sm overflow-hidden flex flex-col min-h-0">
         <PosMainLeft />
       </div>
       <div className="w-full lg:w-[30%] bg-zinc-900/50 border border-white/5 rounded-2xl shadow-sm backdrop-blur-sm overflow-hidden">

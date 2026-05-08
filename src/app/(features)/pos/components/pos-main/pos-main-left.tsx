@@ -18,7 +18,7 @@ export const PosMainLeft = () => {
   };
 
   return (
-    <section className="flex flex-col h-full max-h-[60vh] lg:max-h-[70vh]">
+    <section className="flex flex-col h-full">
       {/* Header */}
       <div className="grid grid-cols-5 text-xs font-semibold uppercase tracking-wider text-zinc-500 bg-zinc-900/50 py-3 px-4 border-b border-white/5 shrink-0">
         <span>Producto</span>

@@ -30,13 +30,13 @@ export const PosActionsMenu = () => {
   };
 
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="h-8 w-8 p-0 text-zinc-400 hover:text-zinc-100">
           <MoreVertical className="h-5 w-5" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-56 bg-zinc-900 border-white/10">
+      <DropdownMenuContent align="end" className="w-56 bg-zinc-900 border-white/10 z-[100]">
         <DropdownMenuItem onClick={() => handleRegisterMovement(CashRegisterMovementTypeEnum.INCOME)} className="text-zinc-300 hover:text-emerald-400 cursor-pointer">
           <ArrowUpCircle className="w-4 h-4 mr-2 text-emerald-400" /> Ingresar Dinero
         </DropdownMenuItem>

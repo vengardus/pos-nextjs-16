@@ -19,8 +19,8 @@ export const ProductFormSchema = z.object({
     message: "Selecciona una categoría.",
   }),
   branchId: z.string().optional(),
-  stock: z.preprocess((val) => (val === "" ? undefined : Number(val)), z.number().optional()),
-  minimunStock: z.preprocess((val) => (val === "" ? undefined : Number(val)), z.number().optional()),
+  stock: z.preprocess((val) => (val === "" || val === undefined || val === null ? undefined : Number(val)), z.number().optional()),
+  minimunStock: z.preprocess((val) => (val === "" || val === undefined || val === null ? undefined : Number(val)), z.number().optional()),
 });
 
 

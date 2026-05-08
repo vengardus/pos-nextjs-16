@@ -62,7 +62,7 @@ export const PosProductUI = ({ products, companyId }: PosProductUIProps) => {
 
   return (
     <>
-      <div className="flex flex-col-reverse md:flex-row md:items-center gap-2 md:gap-7">
+      <div className="flex flex-col-reverse md:flex-row md:items-center gap-4">
         <div className="w-full md:w-1/2">
           <PosSearch
             handleOnChange={() => {}}
@@ -70,32 +70,35 @@ export const PosProductUI = ({ products, companyId }: PosProductUIProps) => {
             searchRef={searchRef}
           />
         </div>
-        <div className="flex gap-3">
-          <ButtonIcon
-            label={"Lectora"}
-            handleClick={() => {
+        
+        {/* Modern Segmented Control */}
+        <div className="flex bg-zinc-900 border border-white/5 p-1 rounded-xl w-full md:w-auto">
+          <button
+            onClick={() => {
                 setIsKeyboardMode(false);
                 setIsBarcode(!isBarcode)
             }}
-            className={cn("w-1/3 md:w-auto md:px-10", {
-              [classNameInputMode]: !isKeyboardMode,
-            })}
+            className={cn(
+              "flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-2 text-sm font-medium rounded-lg transition-all duration-200",
+              !isKeyboardMode ? "bg-indigo-600 text-white shadow-lg" : "text-zinc-400 hover:text-zinc-100"
+            )}
           >
-            <Barcode />
-          </ButtonIcon>
-
-          <ButtonIcon
-            label={"Teclado"}
-            handleClick={() => {
+            <Barcode className="w-4 h-4" />
+            Lectora
+          </button>
+          <button
+            onClick={() => {
               setIsKeyboardMode(true);
               setIsOpenCombobox(!isOpenCombobox);
             }}
-            className={cn("w-1/3 md:w-auto md:px-10 ", {
-              [classNameInputMode]: isKeyboardMode,
-            })}
+            className={cn(
+              "flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-2 text-sm font-medium rounded-lg transition-all duration-200",
+              isKeyboardMode ? "bg-indigo-600 text-white shadow-lg" : "text-zinc-400 hover:text-zinc-100"
+            )}
           >
-            <Keyboard />
-          </ButtonIcon>
+            <Keyboard className="w-4 h-4" />
+            Teclado
+          </button>
         </div>
       </div>
 
@@ -107,11 +110,13 @@ export const PosProductUI = ({ products, companyId }: PosProductUIProps) => {
           labelSelect="Seleccione un producto"
           isOpen={isOpenCombobox}
           setIsOpen={setIsOpenCombobox}
+          classNameButton="w-full bg-zinc-900 border-white/10 text-zinc-100"
+          classNameList="w-full bg-zinc-900 border-white/10"
           notFound={
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 p-4 text-zinc-400">
               <p>Producto no encontrado</p>
               <button
-                className="underline underline-offset-4 hover:cursor-pointer   hover:text-blue-300"
+                className="underline underline-offset-4 hover:cursor-pointer hover:text-indigo-400"
                 onClick={() => router.push("/config/products")}
               >
                 Ir a crear productos

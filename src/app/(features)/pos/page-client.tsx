@@ -47,7 +47,7 @@ export const PosPageClient = (data: PosPageClientProps) => {
       </div>
 
       {/* Footer Section - Actions */}
-      <div className="hidden lg:block bg-zinc-900/50 border border-white/5 rounded-2xl p-4 shadow-sm backdrop-blur-sm shrink-0">
+      <div className="bg-zinc-900/50 border border-white/5 rounded-2xl p-4 shadow-sm backdrop-blur-sm shrink-0">
         <PosFooter />
       </div>
     </div>

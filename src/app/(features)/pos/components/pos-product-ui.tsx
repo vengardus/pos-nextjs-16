@@ -101,6 +101,7 @@ export const PosProductUI = ({ products, companyId }: PosProductUIProps) => {
 
       {isKeyboardMode && (
         <ComboboxSearch
+          initialData={products.map((p) => ({ label: p.name, value: p.id }))}
           onSearch={handleSearch}
           handleSelect={(value) => handleSelectProduct(value)}
           labelSelect="Seleccione un producto"

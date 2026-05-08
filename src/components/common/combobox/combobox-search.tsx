@@ -34,6 +34,7 @@ interface ComboboxSearchProps {
   flexDirection?: "row" | "column";
   notFound?: ReactNode;
   placeholder?: string;
+  initialData?: { label: string; value: string }[];
 }
 
 export const ComboboxSearch = ({
@@ -49,17 +50,18 @@ export const ComboboxSearch = ({
   label,
   notFound,
   placeholder = "Buscar...",
+  initialData = [],
 }: ComboboxSearchProps): React.JSX.Element => {
   const [value, setValue] = useState<string>(currentValue);
   const [searchQuery, setSearchQuery] = useState("");
-  const [data, setData] = useState<{ label: string; value: string }[]>([]);
+  const [data, setData] = useState<{ label: string; value: string }[]>(initialData);
   const [isLoading, setIsLoading] = useState(false);
   const debouncedSearchQuery = useDebounce(searchQuery, 500);
 
   useEffect(() => {
     const fetchData = async () => {
       if (debouncedSearchQuery.length < 2) {
-        setData([]);
+        setData(initialData);
         return;
       }
 
@@ -78,13 +80,19 @@ export const ComboboxSearch = ({
     if (isOpen) {
         fetchData();
     }
-  }, [debouncedSearchQuery, onSearch, isOpen]);
+  }, [debouncedSearchQuery, onSearch, isOpen, initialData]);
+
+  // Sync with initialData if it changes
+  useEffect(() => {
+    if (searchQuery.length < 2) {
+      setData(initialData);
+    }
+  }, [initialData, searchQuery.length]);
 
   // Reset search when closing
   useEffect(() => {
     if (!isOpen) {
       setSearchQuery("");
-      // No reseteamos data inmediatamente para evitar saltos visuales si se cierra/abre rápido
     }
   }, [isOpen]);
 
@@ -133,16 +141,7 @@ export const ComboboxSearch = ({
                   <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
                 </div>
               )}
-              {!isLoading && searchQuery.length < 2 && (
-                <div className="py-6 text-center text-sm text-muted-foreground">
-                  Escriba al menos 2 caracteres para buscar...
-                </div>
-              )}
-              {!isLoading && searchQuery.length >= 2 && data.length === 0 && (
-                <CommandEmpty>
-                  {notFound ? notFound : "No se encontraron resultados."}
-                </CommandEmpty>
-              )}
+              
               <CommandGroup>
                 {data.map((item) => (
                   <CommandItem
@@ -153,7 +152,7 @@ export const ComboboxSearch = ({
                       handleSelect(item.value, item.label);
                       setIsOpen(false);
                     }}
-                    className="bg-foreground/5"
+                    className="bg-foreground/5 cursor-pointer"
                   >
                     {item.label}
                     {item.value === value && (
@@ -162,6 +161,20 @@ export const ComboboxSearch = ({
                   </CommandItem>
                 ))}
               </CommandGroup>
+
+              {!isLoading && data.length > 0 && (
+                <div className="py-2 px-4 text-xs text-muted-foreground border-t bg-muted/30">
+                  {searchQuery.length < 2 
+                    ? "Mostrando items recientes. Escriba para buscar más..." 
+                    : `Mostrando ${data.length} resultados para "${searchQuery}"`}
+                </div>
+              )}
+
+              {!isLoading && searchQuery.length >= 2 && data.length === 0 && (
+                <CommandEmpty>
+                  {notFound ? notFound : "No se encontraron resultados."}
+                </CommandEmpty>
+              )}
             </CommandList>
           </Command>
         </PopoverContent>

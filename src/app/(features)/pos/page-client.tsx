@@ -24,14 +24,17 @@ export const PosPageClient = (data: PosPageClientProps) => {
 
   return (
     <div className="grid grid-rows-[auto_1fr_auto] h-screen w-full gap-4 px-4 py-2 bg-zinc-950 overflow-hidden">
-      <PosTemplate
-        data={{
-          branchId: branchId,
-          company: company,
-          cashRegisterDecision: cashRegisterDecision,
-          currentUser: currentUser,
-        }}
-      />
+      {/* Hidden container for Template logic */}
+      <div className="hidden">
+        <PosTemplate
+          data={{
+            branchId: branchId,
+            company: company,
+            cashRegisterDecision: cashRegisterDecision,
+            currentUser: currentUser,
+          }}
+        />
+      </div>
 
       {/* Header Section */}
       <div className="bg-zinc-900/50 border border-white/5 rounded-2xl p-4 shadow-sm backdrop-blur-sm shrink-0">
@@ -42,7 +45,7 @@ export const PosPageClient = (data: PosPageClientProps) => {
       </div>
 
       {/* Main Section - Cart & Totals */}
-      <div className="overflow-hidden min-h-0">
+      <div className="overflow-hidden min-h-0 flex flex-col">
         <PosMain data={{ companyId: company.id }} />
       </div>
 

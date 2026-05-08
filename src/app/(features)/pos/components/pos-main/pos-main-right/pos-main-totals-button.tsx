@@ -1,104 +1,45 @@
 "use client";
 
 import { useState } from "react";
-import { DollarSign } from "lucide-react";
+import { CreditCard } from "lucide-react";
 import { PaymentMethodEnum } from "@/server/modules/payment-method/domain/payment-method.enum";
 import { useCartStore } from "@/stores/cart/cart.store";
-import { ButtonSave } from "@/components/common/buttons/button-save";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import { redirect } from "next/navigation";
-import { CashRegisterMovementTypeEnum } from "@/server/modules/cash-register-movement/domain/cash-register-movement-type.enum";
-
-const className = "h-14 w-32 text-md font-bold uppercase rounded-xl";
+import { cn } from "@/utils/tailwind/cn";
 
 interface PosMainTotalsButtonProps {
   total: number;
 }
+
 export const PosMainTotalsButton = ({ total }: PosMainTotalsButtonProps) => {
-  const [isPending] = useState(false);
   const setIsOpenModalSalePayment = useCartStore(
     (state) => state.setIsOpenModalSalePayment
   );
-  const setPaymentMethod = useCartStore((set) => set.setPaymentMethod);
-  const cashRegisterOpen = useCartStore(
-    (state) => state.cashRegisterOpen
-  );
+  const setPaymentMethod = useCartStore((state) => state.setPaymentMethod);
   const getSummaryCart = useCartStore((state) => state.getSummaryCart);
 
   const handleSaveSale = async () => {
     if (getSummaryCart().totalItems <= 0) return;
-
-    console.log("handleSaveSale");
     setPaymentMethod(PaymentMethodEnum.CASH);
     setIsOpenModalSalePayment(true);
   };
 
   return (
-    <div className="flex flex-col gap-2 py-2 bg-success text-black mt-5 px-2 rounded-xl">
-      <div
-        onSubmit={handleSaveSale}
-        className="flex gap-5 w-full justify-end lg:hidden"
+    <div className="pt-2">
+      <div className="flex items-center justify-between mb-4">
+        <span className="text-sm text-zinc-400">Total a pagar</span>
+        <div className="text-3xl font-black font-mono text-indigo-400">
+           S/. {total.toFixed(2) ?? "0.00"}
+        </div>
+      </div>
+      
+      <Button 
+        onClick={handleSaveSale}
+        className="w-full h-14 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-lg rounded-xl shadow-lg shadow-indigo-900/20 transition-all hover:scale-[1.02]"
       >
-        <ButtonOptions cashRegisterClosureId={cashRegisterOpen.cashRegisterClosureId} />
-        <ButtonSave
-          isPending={isPending}
-          label="Cobrar"
-          handleOnClick={handleSaveSale}
-          className={className}
-        />
-      </div>
-      <div className="flex w-full gap-2  justify-between items-center">
-        <DollarSign className="text-green-800 bg-success rounded-full size-20 " />
-        <div className="flex gap-4">
-          <span className="text-3xl">S/.</span>
-          <span className="text-3xl ">{total.toFixed(2) ?? "0.00"}</span>
-        </div>
-      </div>
+        <CreditCard className="w-5 h-5 mr-2" />
+        PROCEDER AL COBRO
+      </Button>
     </div>
-  );
-};
-
-interface ButtonOptionsProps {
-  cashRegisterClosureId: string;
-}
-
-const ButtonOptions = ({ cashRegisterClosureId }: ButtonOptionsProps) => {
-  const handleRegisterMovement = (type: CashRegisterMovementTypeEnum) => {
-    redirect(`/cash-register/movement/${type}`);
-  };
-  const handleRegisterClosure = () => {
-    redirect(`/cash-register/closure/${cashRegisterClosureId}`);
-  };
-
-  return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button className={className}>...</Button>
-      </PopoverTrigger>
-      <PopoverContent align="center" side={"top"} className="p-2  w-auto">
-        <div className="grid gap-2 bg-slate-900">
-          <Button
-            onClick={() =>
-              handleRegisterMovement(CashRegisterMovementTypeEnum.INCOME)
-            }
-          >
-            Ingresar dinero
-          </Button>
-          <Button
-            onClick={() =>
-              handleRegisterMovement(CashRegisterMovementTypeEnum.EXPENSE)
-            }
-          >
-            Retirar dinero
-          </Button>
-          <Button onClick={() => handleRegisterClosure()}>Cerrar Caja</Button>
-        </div>
-      </PopoverContent>
-    </Popover>
   );
 };

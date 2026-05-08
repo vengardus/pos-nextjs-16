@@ -8,7 +8,8 @@ import {
   ArrowDownCircle, 
   ArrowUpCircle, 
   Power, 
-  MoreVertical 
+  MoreVertical,
+  Trash2
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -16,37 +17,70 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { useState } from "react";
 
 export const PosActionsMenu = () => {
   const router = useRouter();
   const cashRegisterOpen = useCartStore((state) => state.cashRegisterOpen);
+  const clearCart = useCartStore((state) => state.clearCart);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const handleRegisterMovement = (type: CashRegisterMovementTypeEnum) => {
     router.push(`/cash-register/movement/${type}`);
   };
-  
+
   const handleRegisterClosure = () => {
     router.push(`/cash-register/closure/${cashRegisterOpen?.cashRegisterClosureId}`);
   };
 
   return (
-    <DropdownMenu modal={false}>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="h-8 w-8 p-0 text-zinc-400 hover:text-zinc-100">
-          <MoreVertical className="h-5 w-5" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-56 bg-zinc-900 border-white/10 z-[100]">
-        <DropdownMenuItem onClick={() => handleRegisterMovement(CashRegisterMovementTypeEnum.INCOME)} className="text-zinc-300 hover:text-emerald-400 cursor-pointer">
-          <ArrowUpCircle className="w-4 h-4 mr-2 text-emerald-400" /> Ingresar Dinero
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => handleRegisterMovement(CashRegisterMovementTypeEnum.EXPENSE)} className="text-zinc-300 hover:text-amber-400 cursor-pointer">
-          <ArrowDownCircle className="w-4 h-4 mr-2 text-amber-400" /> Retirar Dinero
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={handleRegisterClosure} className="text-zinc-300 hover:text-red-400 cursor-pointer">
-          <Power className="w-4 h-4 mr-2 text-red-400" /> Cerrar Caja
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <AlertDialog open={showConfirm} onOpenChange={setShowConfirm}>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline" className="h-8 gap-2 border-white/10 text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800">
+            <MoreVertical className="h-4 w-4 md:hidden" />
+            <span className="hidden md:inline text-xs">Acciones</span>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-56 bg-zinc-900 border-white/10 z-[100]">
+          <DropdownMenuItem onClick={() => setShowConfirm(true)} className="text-zinc-300 hover:text-red-400 cursor-pointer">
+            <Trash2 className="w-4 h-4 mr-2" /> Limpiar Carrito
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => handleRegisterMovement(CashRegisterMovementTypeEnum.INCOME)} className="text-zinc-300 hover:text-emerald-400 cursor-pointer">
+            <ArrowUpCircle className="w-4 h-4 mr-2 text-emerald-400" /> Ingresar Dinero
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => handleRegisterMovement(CashRegisterMovementTypeEnum.EXPENSE)} className="text-zinc-300 hover:text-amber-400 cursor-pointer">
+            <ArrowDownCircle className="w-4 h-4 mr-2 text-amber-400" /> Retirar Dinero
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={handleRegisterClosure} className="text-zinc-300 hover:text-red-400 cursor-pointer">
+            <Power className="w-4 h-4 mr-2 text-red-400" /> Cerrar Caja
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+
+      <AlertDialogContent className="bg-zinc-900 border-white/10">
+        <AlertDialogHeader>
+          <AlertDialogTitle className="text-zinc-100">¿Estás seguro?</AlertDialogTitle>
+          <AlertDialogDescription className="text-zinc-400">
+            Esta acción eliminará todos los productos del carrito de forma irreversible.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel className="bg-zinc-800 border-white/10 text-zinc-300 hover:bg-zinc-700">Cancelar</AlertDialogCancel>
+          <AlertDialogAction onClick={() => clearCart()} className="bg-red-600 hover:bg-red-700 text-white">Limpiar Carrito</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 };

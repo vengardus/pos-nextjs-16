@@ -26,7 +26,7 @@ export const PosMainTotalsButton = ({ total }: PosMainTotalsButtonProps) => {
   return (
     <div className="pt-2">
       <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 border border-red-500 bg-red-900/20">
            <span className="text-sm text-zinc-400">Total a pagar</span>
            <PosActionsMenu />
         </div>

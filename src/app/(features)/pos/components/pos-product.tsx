@@ -14,5 +14,5 @@ export const PosProduct = async ({ companyId }: PosProductProps) => {
   );
 
   if (!resp.success) return <div>Error al obtener productos</div>;
-  return <PosProductUI products={resp.data} />;
+  return <PosProductUI products={resp.data} companyId={companyId} />;
 };

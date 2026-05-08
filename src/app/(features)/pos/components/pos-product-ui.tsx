@@ -6,17 +6,19 @@ import type { Product } from "@/server/modules/product/domain/product.interface"
 import { useCartProdut } from "@/app/(features)/pos/hooks/use-cart-product";
 import { useCartStore } from "@/stores/cart/cart.store";
 import { ButtonIcon } from "@/components/common/buttons/button-icon";
-import { Combobox } from "@/components/common/combobox/combobox";
+import { ComboboxSearch } from "@/components/common/combobox/combobox-search";
 import { PosSearch } from "./pos-header/pos-search";
 import { useProductStore } from "@/stores/product/product.store";
 import { useRouter } from "next/navigation";
+import { productSearchAction } from "@/server/modules/product/next/actions/product.search.action";
 
 const classNameInputMode = "bg-brand text-white hover:bg-indigo-700";
 
 interface PosProductUIProps {
   products: Product[];
+  companyId: string;
 }
-export const PosProductUI = ({ products }: PosProductUIProps) => {
+export const PosProductUI = ({ products, companyId }: PosProductUIProps) => {
   //const [products, setProducts] = useState<Product[]>([]);
   const [isOpenCombobox, setIsOpenCombobox] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
@@ -36,6 +38,17 @@ export const PosProductUI = ({ products }: PosProductUIProps) => {
   useEffect(() => {
     if (products) setProducts(products);
   }, [products, setProducts]);
+
+  const handleSearch = async (query: string) => {
+    const resp = await productSearchAction(companyId, query);
+    if (resp.success && resp.data) {
+      return (resp.data as Product[]).map((product) => ({
+        label: product.name,
+        value: product.id,
+      }));
+    }
+    return [];
+  };
 
   return (
     <>
@@ -77,11 +90,8 @@ export const PosProductUI = ({ products }: PosProductUIProps) => {
       </div>
 
       {isKeyboardMode && (
-        <Combobox
-          data={products.map((product) => ({
-            label: product.name,
-            value: product.id,
-          }))}
+        <ComboboxSearch
+          onSearch={handleSearch}
           handleSelect={(value) => handleSelectProduct(value)}
           labelSelect="Seleccione un producto"
           isOpen={isOpenCombobox}

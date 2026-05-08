@@ -42,7 +42,17 @@ export const PosProductUI = ({ products, companyId }: PosProductUIProps) => {
   const handleSearch = async (query: string) => {
     const resp = await productSearchAction(companyId, query);
     if (resp.success && resp.data) {
-      return (resp.data as Product[]).map((product) => ({
+      const foundProducts = resp.data as Product[];
+      
+      // Merge found products into the store to make them selectable
+      const existingProducts = useProductStore.getState().products;
+      const allProductsMap = new Map();
+      existingProducts.forEach(p => allProductsMap.set(p.id, p));
+      foundProducts.forEach(p => allProductsMap.set(p.id, p));
+      
+      setProducts(Array.from(allProductsMap.values()));
+
+      return foundProducts.map((product) => ({
         label: product.name,
         value: product.id,
       }));

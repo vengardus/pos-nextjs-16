@@ -78,7 +78,9 @@ export const CustomForm = ({
             isPending={isPending} 
             handleOnClick={form.handleSubmit(handleSubmit, (errors) => {
                 console.log("Validation Errors:", errors);
-                toast.error("Por favor, revise los campos del formulario.");
+                Object.values(errors).forEach((error) => {
+                  if (error?.message) toast.error(error.message as string);
+                });
             })} 
         />
       </div>

@@ -23,7 +23,7 @@ export const PosPageClient = (data: PosPageClientProps) => {
   const { branchId, company, currentUser, cashRegisterDecision } = data;
 
   return (
-    <div className="flex flex-col h-screen w-full gap-4 px-4 py-2 bg-zinc-950 overflow-hidden">
+    <div className="grid grid-rows-[auto_1fr_auto] h-screen w-full gap-4 px-4 py-2 bg-zinc-950 overflow-hidden">
       <PosTemplate
         data={{
           branchId: branchId,
@@ -33,7 +33,7 @@ export const PosPageClient = (data: PosPageClientProps) => {
         }}
       />
 
-      {/* Header Section - Entry Mode & Search */}
+      {/* Header Section */}
       <div className="bg-zinc-900/50 border border-white/5 rounded-2xl p-4 shadow-sm backdrop-blur-sm shrink-0">
         <PosHeader />
         <Suspense fallback={<div className="h-20 flex items-center justify-center text-zinc-500">Cargando productos...</div>}>
@@ -41,16 +41,14 @@ export const PosPageClient = (data: PosPageClientProps) => {
         </Suspense>
       </div>
 
-      {/* Main Section - Cart & Totals - Allow this to grow and scroll */}
-      <div className="flex-1 overflow-hidden min-h-0 pb-2">
+      {/* Main Section - Cart & Totals */}
+      <div className="overflow-hidden min-h-0">
         <PosMain data={{ companyId: company.id }} />
       </div>
 
-      {/* Footer Section - Actions - Sticky at bottom */}
-      <div className="shrink-0 z-10 bg-zinc-950 pt-1 pb-4">
-        <div className="bg-zinc-900/80 border border-white/5 rounded-2xl p-4 shadow-sm backdrop-blur-md">
-           <PosFooter />
-        </div>
+      {/* Footer Section */}
+      <div className="bg-zinc-900/50 border border-white/5 rounded-2xl p-4 shadow-sm backdrop-blur-sm shrink-0">
+        <PosFooter />
       </div>
     </div>
   );

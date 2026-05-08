@@ -23,7 +23,7 @@ export const PosPageClient = (data: PosPageClientProps) => {
   const { branchId, company, currentUser, cashRegisterDecision } = data;
 
   return (
-    <div className="flex flex-col h-screen w-full gap-4 px-4 py-2 bg-zinc-950">
+    <div className="flex flex-col h-screen w-full gap-4 px-4 py-2 bg-zinc-950 overflow-hidden">
       <PosTemplate
         data={{
           branchId: branchId,
@@ -42,12 +42,12 @@ export const PosPageClient = (data: PosPageClientProps) => {
       </div>
 
       {/* Main Section - Cart & Totals - Allow this to grow and scroll */}
-      <div className="flex-1 overflow-hidden min-h-0">
+      <div className="flex-1 overflow-hidden min-h-0 pb-2">
         <PosMain data={{ companyId: company.id }} />
       </div>
 
       {/* Footer Section - Actions - Sticky at bottom */}
-      <div className="sticky bottom-0 z-10 bg-zinc-950 pt-2 pb-2">
+      <div className="shrink-0 z-10 bg-zinc-950 pt-1 pb-4">
         <div className="bg-zinc-900/80 border border-white/5 rounded-2xl p-4 shadow-sm backdrop-blur-md">
            <PosFooter />
         </div>

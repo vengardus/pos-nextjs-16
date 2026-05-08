@@ -9,15 +9,15 @@ export const PosMainTotals = () => {
   const { subTotal, tax, total } = getSummaryCart();
 
   return (
-    <div className="flex flex-col h-full justify-between p-4 bg-zinc-900/30">
-      <div className="space-y-3">
-        <div className="flex justify-between items-center text-sm">
+    <div className="flex flex-col h-full justify-between p-3 bg-zinc-900/30">
+      <div className="space-y-1">
+        <div className="flex justify-between items-center text-xs">
           <span className="text-zinc-500">SubTotal</span>
-          <span className="font-mono text-zinc-300">S/. {subTotal.toFixed(2)}</span>
+          <span className="font-mono text-zinc-400">S/. {subTotal.toFixed(2)}</span>
         </div>
-        <div className="flex justify-between items-center text-sm">
+        <div className="flex justify-between items-center text-xs">
           <span className="text-zinc-500">IGV (18%)</span>
-          <span className="font-mono text-zinc-300">S/. {tax.toFixed(2)}</span>
+          <span className="font-mono text-zinc-400">S/. {tax.toFixed(2)}</span>
         </div>
         <div className="h-px bg-white/5 my-2" />
       </div>

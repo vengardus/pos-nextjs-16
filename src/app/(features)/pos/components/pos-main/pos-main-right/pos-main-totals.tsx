@@ -9,17 +9,26 @@ export const PosMainTotals = () => {
   const { subTotal, tax, total } = getSummaryCart();
 
   return (
-    <div className="flex flex-col h-full justify-between p-3 bg-zinc-900/30">
-      <div className="space-y-1">
-        <div className="flex justify-between items-center text-xs">
-          <span className="text-zinc-500">SubTotal</span>
-          <span className="font-mono text-zinc-400">S/. {subTotal.toFixed(2)}</span>
+    <div className="flex flex-col h-full justify-between p-4 bg-zinc-900/30">
+      <div className="space-y-4">
+        {/* Header con Acciones */}
+        <div className="flex justify-between items-center">
+            <span className="text-sm font-semibold text-zinc-100">Resumen</span>
+            <PosActionsMenu />
         </div>
-        <div className="flex justify-between items-center text-xs">
-          <span className="text-zinc-500">IGV (18%)</span>
-          <span className="font-mono text-zinc-400">S/. {tax.toFixed(2)}</span>
+        
+        {/* Detalles */}
+        <div className="space-y-2">
+            <div className="flex justify-between items-center text-xs">
+            <span className="text-zinc-500">SubTotal</span>
+            <span className="font-mono text-zinc-400">S/. {subTotal.toFixed(2)}</span>
+            </div>
+            <div className="flex justify-between items-center text-xs">
+            <span className="text-zinc-500">IGV (18%)</span>
+            <span className="font-mono text-zinc-400">S/. {tax.toFixed(2)}</span>
+            </div>
         </div>
-        <div className="h-px bg-white/5 my-2" />
+        <div className="h-px bg-white/5" />
       </div>
       
       <PosMainTotalsButton total={total} />

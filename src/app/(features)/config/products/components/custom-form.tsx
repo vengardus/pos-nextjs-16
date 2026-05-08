@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect } from "react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import type { Product } from "@/server/modules/product/domain/product.interface";
@@ -73,7 +74,13 @@ export const CustomForm = ({
     slideOver.setFooterContent(
       <div className="flex w-full justify-end gap-2">
         <ButtonCancel handleCloseForm={handleCloseForm} isPending={isPending} />
-        <ButtonSave isPending={isPending} handleOnClick={form.handleSubmit(handleSubmit)} />
+        <ButtonSave 
+            isPending={isPending} 
+            handleOnClick={form.handleSubmit(handleSubmit, (errors) => {
+                console.log("Validation Errors:", errors);
+                toast.error("Por favor, revise los campos del formulario.");
+            })} 
+        />
       </div>
     );
 

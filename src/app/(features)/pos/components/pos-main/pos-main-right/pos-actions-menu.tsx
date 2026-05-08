@@ -44,7 +44,7 @@ export const PosActionsMenu = () => {
   };
 
   return (
-    <AlertDialog open={showConfirm} onOpenChange={setShowConfirm}>
+    <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="outline" className="h-8 gap-2 border-white/10 text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800 dark:bg-white/90 dark:text-zinc-900">
@@ -68,18 +68,20 @@ export const PosActionsMenu = () => {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <AlertDialogContent className="bg-zinc-900 border-white/10">
-        <AlertDialogHeader>
-          <AlertDialogTitle className="text-zinc-100">¿Estás seguro?</AlertDialogTitle>
-          <AlertDialogDescription className="text-zinc-400">
-            Esta acción eliminará todos los productos del carrito de forma irreversible.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel className="bg-zinc-800 border-white/10 text-zinc-300 hover:bg-zinc-700">Cancelar</AlertDialogCancel>
-          <AlertDialogAction onClick={() => clearCart()} className="bg-red-600 hover:bg-red-700 text-white">Limpiar Carrito</AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+      <AlertDialog open={showConfirm} onOpenChange={setShowConfirm}>
+        <AlertDialogContent className="bg-zinc-900 border-white/10">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-zinc-100">¿Estás seguro?</AlertDialogTitle>
+            <AlertDialogDescription className="text-zinc-400">
+              Esta acción eliminará todos los productos del carrito de forma irreversible.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel className="bg-zinc-800 border-white/10 text-zinc-300 hover:bg-zinc-700">Cancelar</AlertDialogCancel>
+            <AlertDialogAction onClick={() => clearCart()} className="bg-red-600 hover:bg-red-700 text-white">Limpiar Carrito</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   );
 };

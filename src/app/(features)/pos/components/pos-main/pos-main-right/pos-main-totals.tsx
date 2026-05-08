@@ -2,6 +2,7 @@
 
 import { useCartStore } from "@/stores/cart/cart.store";
 import { PosMainTotalsButton } from "./pos-main-totals-button";
+import { PosActionsMenu } from "./pos-actions-menu";
 import { cn } from "@/utils/tailwind/cn";
 
 export const PosMainTotals = () => {

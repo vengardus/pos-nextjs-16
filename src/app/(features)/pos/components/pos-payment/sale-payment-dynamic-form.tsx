@@ -183,7 +183,7 @@ export default function SalePaymentDynamicForm({
       <Card className="card">
         <Form {...form}>
           <form id={formId} onSubmit={handleSubmit(handleSave)} className="space-y-4">
-            <CardHeader className="flex flex-col gap-4 border-b bg-gray-800 py-4">
+            <CardHeader className="flex flex-col gap-3 border-b bg-gray-800 p-3 md:p-4 space-y-0">
               <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:items-center">
                 <div className="flex items-baseline gap-2">
                   <CardTitle className="text-lg md:text-xl">
@@ -214,8 +214,8 @@ export default function SalePaymentDynamicForm({
                 </div>
               </div>
             </CardHeader>
-            <CardContent className="flex flex-col gap-3 mt-2">
-              <section className="border p-2 grid grid-cols-1 md:grid-cols-2 gap-5">
+            <CardContent className="flex flex-col gap-3 p-3 pt-0 md:p-4 md:pt-0">
+              <section className="border p-2 grid grid-cols-1 md:grid-cols-2 gap-3">
                 <ComboboxForm
                   data={clientsSuppliers.map(
                     (clientSupplier: ClientSupplier) => ({

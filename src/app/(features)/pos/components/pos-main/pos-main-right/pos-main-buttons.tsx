@@ -20,11 +20,11 @@ export const PosMainButtons = ({
   clientsSuppliers,
 }: PosMainButtonsProps) => {
   const setIsOpenModalSalePayment = useCartStore(
-    (set) => set.setIsOpenModalSalePayment
+    (state) => state.setIsOpenModalSalePayment
   );
-  const setPaymentMethod = useCartStore((set) => set.setPaymentMethod);
+  const setPaymentMethod = useCartStore((state) => state.setPaymentMethod);
   const setPaymentMethods = usePaymentMethodStore(
-    (set) => set.setPaymentMethods
+    (state) => state.setPaymentMethods
   );
   const setClientSupplier = useClientSupplierStore(
     (state) => state.setClientSupplier

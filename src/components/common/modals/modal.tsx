@@ -8,10 +8,10 @@ interface ModalProps {
 }
 export const Modal = ({ className = "w-[85%] h-[80%]", handleCloseForm, children }: ModalProps) => {
   return (
-    <div className="fixed inset-0 bg-slate-50 dark:bg-background/90 opacity-100 z-20 flex justify-center items-center top-16">
+    <div className="fixed inset-0 bg-slate-50 dark:bg-background/90 opacity-100 z-[150] flex justify-center items-center">
       <div
         className={cn(
-          "fixed bg-background  shadow-lg rounded-lg z-30 w-[80%] h-[80%] overflow-y-auto",
+          "fixed bg-background  shadow-lg rounded-lg z-[160] w-[80%] h-[80%] overflow-y-auto",
           className
         )}
       >

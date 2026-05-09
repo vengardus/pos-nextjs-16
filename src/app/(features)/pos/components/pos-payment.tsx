@@ -10,8 +10,8 @@ export const PosPayment = ({ handleCloseModal }: PosPaymentProps) => {
     <Modal
       className="w-[95%] md:w-[60%] h-[88%] "
       handleCloseForm={() => handleCloseModal(false)}
+      showCloseIcon={false}
     >
-      |{" "}
       <SalePaymentDynamicForm handleCloseForm={() => handleCloseModal(false)} />
     </Modal>
   );

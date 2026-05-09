@@ -19,6 +19,7 @@ export const PosMainButtons = ({
   paymentMethods,
   clientsSuppliers,
 }: PosMainButtonsProps) => {
+  const getSummaryCart = useCartStore((state) => state.getSummaryCart);
   const setIsOpenModalSalePayment = useCartStore(
     (set) => set.setIsOpenModalSalePayment
   );
@@ -53,6 +54,7 @@ export const PosMainButtons = ({
             label={paymentMethod.name}
             className={`${className}`}
             handleClick={() => {
+              if (getSummaryCart().totalItems <= 0) return;
               console.log("paymentMethod", paymentMethod);
               setPaymentMethod(paymentMethod.cod as PaymentMethodEnum);
               setIsOpenModalSalePayment(true);

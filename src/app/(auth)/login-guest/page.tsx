@@ -49,22 +49,22 @@ export default function LoginGuestPage({ searchParams }: { searchParams: Promise
               </p>
             </div>
 
-            <LoginGuestForm
-              callbackUrl={callbackUrl}
-              defaultNickname={nickname}
-              action={authSignupDemoGuestAction}
-              error={params?.error}
-              state={state}
-              isPending={isPending}
-            />
-
             {canResume ? (
               <LoginGuestResumeActions
                 callbackUrl={callbackUrl}
                 nickname={nickname}
                 action={authSignupDemoGuestAction}
               />
-            ) : null}
+            ) : (
+              <LoginGuestForm
+                callbackUrl={callbackUrl}
+                defaultNickname={nickname}
+                action={authSignupDemoGuestAction}
+                error={params?.error}
+                state={state}
+                isPending={isPending}
+              />
+            )}
           </div>
         </div>
 

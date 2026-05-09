@@ -89,6 +89,7 @@ export const authSignupDemoGuestUseCase = async (
           "Este nick ya existe. ¿Deseas continuar con esta sesión demo o cambiar de nick?";
         resp.data = {
           requiresGuestResumeDecision: true,
+          nickname: normalizedNickname,
         };
         return resp;
       }

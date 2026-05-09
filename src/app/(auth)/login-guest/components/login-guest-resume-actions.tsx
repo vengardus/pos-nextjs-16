@@ -1,18 +1,17 @@
 "use client";
 
-import { useEffect, useRef, useActionState } from "react";
+import { useEffect, useRef } from "react";
 import Link from "next/link";
-import { signIn } from "next-auth/react";
 
 interface LoginGuestResumeActionsProps {
   callbackUrl: string;
   nickname: string;
-  action: (state: any, formData: FormData) => Promise<any>;
+  action: (formData: FormData) => void;
+  isPending?: boolean;
 }
 
-export function LoginGuestResumeActions({ callbackUrl, nickname, action }: LoginGuestResumeActionsProps) {
+export function LoginGuestResumeActions({ callbackUrl, nickname, action, isPending }: LoginGuestResumeActionsProps) {
   const timezoneRef = useRef<HTMLInputElement>(null);
-  const [state, formAction, isPending] = useActionState(action, null);
 
   useEffect(() => {
     if (timezoneRef.current) {
@@ -20,19 +19,9 @@ export function LoginGuestResumeActions({ callbackUrl, nickname, action }: Login
     }
   }, []);
 
-  useEffect(() => {
-    if (state?.success && state?.data?.email && state?.data?.password) {
-      signIn("credentials", {
-        email: state.data.email,
-        password: state.data.password,
-        redirectTo: callbackUrl,
-      });
-    }
-  }, [state, callbackUrl]);
-
   return (
-    <div className="mt-4 grid gap-2 sm:grid-cols-2">
-      <form action={formAction}>
+    <div className="grid gap-2 sm:grid-cols-2">
+      <form action={action}>
         <input type="hidden" name="callbackUrl" value={callbackUrl} />
         <input type="hidden" name="nickname" value={nickname} />
         <input type="hidden" name="continueExisting" value="1" />

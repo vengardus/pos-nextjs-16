@@ -7,17 +7,29 @@ import { Footer } from "@/components/layout/footer/footer";
 import { authSignupDemoGuestAction } from "@/server/modules/auth/next/actions/auth.signup-demo-guest.action";
 import { LoginGuestForm } from "@/app/(auth)/login-guest/components/login-guest-form";
 import { LoginGuestResumeActions } from "@/app/(auth)/login-guest/components/login-guest-resume-actions";
-import { useActionState, use } from "react";
+import { useActionState, use, useEffect } from "react";
+import { AlertTriangle } from "lucide-react";
+import { signIn } from "next-auth/react";
 
 export default function LoginGuestPage({ searchParams }: { searchParams: Promise<any> }) {
   const params = use(searchParams);
   const callbackUrl = params?.callbackUrl || "";
   const backHref = callbackUrl ? `/login?callbackUrl=${encodeURIComponent(callbackUrl)}` : "/login";
 
-  const [state, , isPending] = useActionState(authSignupDemoGuestAction, null);
+  const [state, formAction, isPending] = useActionState(authSignupDemoGuestAction, null);
 
   const nickname = state?.data?.nickname ?? params?.nickname ?? "";
   const canResume = state?.data?.requiresGuestResumeDecision === true;
+
+  useEffect(() => {
+    if (state?.success && state?.data?.email && state?.data?.password) {
+      signIn("credentials", {
+        email: state.data.email,
+        password: state.data.password,
+        redirectTo: callbackUrl,
+      });
+    }
+  }, [state, callbackUrl]);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -49,22 +61,30 @@ export default function LoginGuestPage({ searchParams }: { searchParams: Promise
               </p>
             </div>
 
-            {canResume ? (
-              <LoginGuestResumeActions
-                callbackUrl={callbackUrl}
-                nickname={nickname}
-                action={authSignupDemoGuestAction}
-              />
-            ) : (
-              <LoginGuestForm
-                callbackUrl={callbackUrl}
-                defaultNickname={nickname}
-                action={authSignupDemoGuestAction}
-                error={params?.error}
-                state={state}
-                isPending={isPending}
-              />
-            )}
+            <div className="mt-6">
+              {(params?.error || state?.message) ? (
+                <div className="mb-4 flex items-start gap-2 rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-800 dark:border-red-500/40 dark:bg-red-500/10 dark:text-red-100">
+                  <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
+                  <span>{decodeURIComponent(params?.error || "") || state?.message}</span>
+                </div>
+              ) : null}
+
+              {canResume ? (
+                <LoginGuestResumeActions
+                  callbackUrl={callbackUrl}
+                  nickname={nickname}
+                  action={formAction}
+                  isPending={isPending}
+                />
+              ) : (
+                <LoginGuestForm
+                  callbackUrl={callbackUrl}
+                  defaultNickname={nickname}
+                  action={formAction}
+                  isPending={isPending}
+                />
+              )}
+            </div>
           </div>
         </div>
 

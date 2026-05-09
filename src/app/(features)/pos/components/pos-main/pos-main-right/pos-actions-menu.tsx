@@ -25,13 +25,22 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const PosActionsMenu = () => {
   const router = useRouter();
   const cashRegisterOpen = useCartStore((state) => state.cashRegisterOpen);
   const clearCart = useCartStore((state) => state.clearCart);
+  const [isActionsMenuOpen, setIsActionsMenuOpen] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [pendingClearCartConfirm, setPendingClearCartConfirm] = useState(false);
+
+  useEffect(() => {
+    if (!isActionsMenuOpen && pendingClearCartConfirm) {
+      setShowConfirm(true);
+      setPendingClearCartConfirm(false);
+    }
+  }, [isActionsMenuOpen, pendingClearCartConfirm]);
 
   const handleRegisterMovement = (type: CashRegisterMovementTypeEnum) => {
     router.push(`/cash-register/movement/${type}`);
@@ -43,7 +52,7 @@ export const PosActionsMenu = () => {
 
   return (
     <>
-      <DropdownMenu>
+      <DropdownMenu open={isActionsMenuOpen} onOpenChange={setIsActionsMenuOpen}>
         <DropdownMenuTrigger asChild>
           <Button variant="outline" className="h-8 gap-2 border-white/10 text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800 dark:bg-white/90 dark:text-zinc-900">
             <MoreVertical className="h-4 w-4 md:hidden" />
@@ -52,9 +61,9 @@ export const PosActionsMenu = () => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-56 bg-zinc-900 border-white/10 z-[100]">
           <DropdownMenuItem 
-            onSelect={(e) => {
-              e.preventDefault();
-              setShowConfirm(true);
+            onSelect={() => {
+              setIsActionsMenuOpen(false);
+              setPendingClearCartConfirm(true);
             }} 
             className="text-zinc-300 hover:text-red-400 cursor-pointer text-md"
           >

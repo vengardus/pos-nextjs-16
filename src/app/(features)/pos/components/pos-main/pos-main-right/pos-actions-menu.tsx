@@ -51,13 +51,7 @@ export const PosActionsMenu = () => {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-56 bg-zinc-900 border-white/10 z-[100]">
-          <DropdownMenuItem 
-            onSelect={(e) => {
-              e.preventDefault();
-              setShowConfirm(true);
-            }} 
-            className="text-zinc-300 hover:text-red-400 cursor-pointer text-md"
-          >
+          <DropdownMenuItem onClick={() => setShowConfirm(true)} className="text-zinc-300 hover:text-red-400 cursor-pointer text-md">
             <Trash2 className="w-4 h-4 mr-2" /> Limpiar Carrito
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => handleRegisterMovement(CashRegisterMovementTypeEnum.INCOME)} className="text-zinc-300 hover:text-emerald-400 cursor-pointer text-md">
@@ -72,7 +66,7 @@ export const PosActionsMenu = () => {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <Dialog open={showConfirm} onOpenChange={setShowConfirm}>
+      <Dialog open={showConfirm} onOpenChange={setShowConfirm} modal={false}>
         <DialogContent className="bg-zinc-900 border-white/10" onPointerDownOutside={(e) => e.preventDefault()}>
           <DialogHeader>
             <DialogTitle className="text-zinc-100">¿Estás seguro?</DialogTitle>

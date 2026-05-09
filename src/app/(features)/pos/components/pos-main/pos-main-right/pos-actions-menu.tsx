@@ -45,7 +45,7 @@ export const PosActionsMenu = () => {
 
   return (
     <>
-      <DropdownMenu>
+      <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>
           <Button variant="outline" className="h-8 gap-2 border-white/10 text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800 dark:bg-white/90 dark:text-zinc-900">
             <MoreVertical className="h-4 w-4 md:hidden" />
@@ -68,7 +68,7 @@ export const PosActionsMenu = () => {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <AlertDialog open={showConfirm} onOpenChange={setShowConfirm}>
+      <AlertDialog open={showConfirm} onOpenChange={setShowConfirm} modal={false}>
         <AlertDialogContent className="bg-zinc-900 border-white/10" onPointerDownOutside={(e) => e.preventDefault()}>
           <AlertDialogHeader>
             <AlertDialogTitle className="text-zinc-100">¿Estás seguro?</AlertDialogTitle>

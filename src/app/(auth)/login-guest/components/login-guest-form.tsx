@@ -46,6 +46,7 @@ export function LoginGuestForm({ callbackUrl, defaultNickname, action, error }: 
         <input
           id="nickname"
           name="nickname"
+          key={defaultNickname}
           defaultValue={defaultNickname || ""}
           maxLength={10}
           required

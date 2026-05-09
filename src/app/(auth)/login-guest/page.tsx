@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import { redirect } from "next/navigation";
 import { LoginHeader } from "@/app/(auth)/login/components/login-header";
 import { Footer } from "@/components/layout/footer/footer";
 import { authSignupDemoGuestAction } from "@/server/modules/auth/next/actions/auth.signup-demo-guest.action";
@@ -16,28 +15,14 @@ type LoginGuestPageProps = {
   }>;
 };
 
-async function handleGuestSignup(formData: FormData): Promise<void> {
+async function handleGuestSignup(prevState: any, formData: FormData): Promise<any> {
   "use server";
 
-  const resp = await authSignupDemoGuestAction(formData);
+  const resp = await authSignupDemoGuestAction(prevState, formData);
   if (!resp.success) {
-    const callbackUrl = (formData.get("callbackUrl") as string | null) || "";
-    const nickname = (formData.get("nickname") as string | null) || "";
-    const requiresResumeDecision = Boolean(
-      (resp.data as { requiresGuestResumeDecision?: boolean } | undefined)
-        ?.requiresGuestResumeDecision
-    );
-    const error = encodeURIComponent(resp.message ?? "No se pudo crear invitado.");
-    const callbackQuery = callbackUrl
-      ? `&callbackUrl=${encodeURIComponent(callbackUrl)}`
-      : "";
-    const resumeQuery = requiresResumeDecision ? "&resume=1" : "";
-    redirect(
-      `/login-guest?error=${error}&nickname=${encodeURIComponent(
-        nickname
-      )}${resumeQuery}${callbackQuery}`
-    );
+    return resp;
   }
+  return resp;
 }
 
 export default async function LoginGuestPage({ searchParams }: LoginGuestPageProps) {

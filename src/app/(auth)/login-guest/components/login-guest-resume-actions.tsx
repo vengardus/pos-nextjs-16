@@ -1,16 +1,18 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useActionState } from "react";
 import Link from "next/link";
+import { signIn } from "next-auth/react";
 
 interface LoginGuestResumeActionsProps {
   callbackUrl: string;
   nickname: string;
-  action: (formData: FormData) => Promise<void>;
+  action: (state: any, formData: FormData) => Promise<any>;
 }
 
 export function LoginGuestResumeActions({ callbackUrl, nickname, action }: LoginGuestResumeActionsProps) {
   const timezoneRef = useRef<HTMLInputElement>(null);
+  const [state, formAction, isPending] = useActionState(action, null);
 
   useEffect(() => {
     if (timezoneRef.current) {
@@ -18,18 +20,29 @@ export function LoginGuestResumeActions({ callbackUrl, nickname, action }: Login
     }
   }, []);
 
+  useEffect(() => {
+    if (state?.success && state?.data?.email && state?.data?.password) {
+      signIn("credentials", {
+        email: state.data.email,
+        password: state.data.password,
+        redirectTo: callbackUrl,
+      });
+    }
+  }, [state, callbackUrl]);
+
   return (
     <div className="mt-4 grid gap-2 sm:grid-cols-2">
-      <form action={action}>
+      <form action={formAction}>
         <input type="hidden" name="callbackUrl" value={callbackUrl} />
         <input type="hidden" name="nickname" value={nickname} />
         <input type="hidden" name="continueExisting" value="1" />
         <input type="hidden" name="timezone" ref={timezoneRef} />
         <button
           type="submit"
-          className="w-full rounded-full bg-emerald-600 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-emerald-700"
+          disabled={isPending}
+          className="w-full rounded-full bg-emerald-600 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-emerald-700 disabled:opacity-50"
         >
-          Continuar sesión demo
+          {isPending ? "Procesando..." : "Continuar sesión demo"}
         </button>
       </form>
 

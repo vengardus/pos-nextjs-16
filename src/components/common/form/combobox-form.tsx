@@ -86,7 +86,7 @@ export const ComboboxForm = <T extends FieldValues>({
               <FormLabel>
                 {label}{" "}
                 {isImportant && (
-                  <span className="text-lg text-red-500">(*)</span>
+                  <span className="text-md text-red-500">(*)</span>
                 )}
               </FormLabel>
               

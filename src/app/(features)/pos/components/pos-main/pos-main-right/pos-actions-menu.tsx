@@ -18,15 +18,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { useState } from "react";
 
 export const PosActionsMenu = () => {
@@ -45,7 +43,7 @@ export const PosActionsMenu = () => {
 
   return (
     <>
-      <DropdownMenu modal={false}>
+      <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="outline" className="h-8 gap-2 border-white/10 text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800 dark:bg-white/90 dark:text-zinc-900">
             <MoreVertical className="h-4 w-4 md:hidden" />
@@ -68,23 +66,23 @@ export const PosActionsMenu = () => {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <AlertDialog open={showConfirm} onOpenChange={setShowConfirm} modal={false}>
-        <AlertDialogContent className="bg-zinc-900 border-white/10" onPointerDownOutside={(e) => e.preventDefault()}>
-          <AlertDialogHeader>
-            <AlertDialogTitle className="text-zinc-100">¿Estás seguro?</AlertDialogTitle>
-            <AlertDialogDescription className="text-zinc-400">
+      <Dialog open={showConfirm} onOpenChange={setShowConfirm} modal={false}>
+        <DialogContent className="bg-zinc-900 border-white/10" onPointerDownOutside={(e) => e.preventDefault()}>
+          <DialogHeader>
+            <DialogTitle className="text-zinc-100">¿Estás seguro?</DialogTitle>
+            <DialogDescription className="text-zinc-400">
               Esta acción eliminará todos los productos del carrito de forma irreversible.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel className="bg-zinc-800 border-white/10 text-zinc-300 hover:bg-zinc-700">Cancelar</AlertDialogCancel>
-            <AlertDialogAction onClick={() => {
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowConfirm(false)} className="bg-zinc-800 border-white/10 text-zinc-300 hover:bg-zinc-700">Cancelar</Button>
+            <Button onClick={() => {
               clearCart();
               setShowConfirm(false);
-            }} className="bg-red-600 hover:bg-red-700 text-white">Limpiar Carrito</AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+            }} className="bg-red-600 hover:bg-red-700 text-white">Limpiar Carrito</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </>
   );
 };

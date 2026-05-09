@@ -9,11 +9,16 @@ interface LoginGuestFormProps {
   defaultNickname?: string;
   action: (state: any, formData: FormData) => Promise<any>;
   error?: string;
+  state?: any;
+  isPending?: boolean;
 }
 
-export function LoginGuestForm({ callbackUrl, defaultNickname, action, error }: LoginGuestFormProps) {
+export function LoginGuestForm({ callbackUrl, defaultNickname, action, error, state: externalState, isPending: externalIsPending }: LoginGuestFormProps) {
   const timezoneRef = useRef<HTMLInputElement>(null);
   const [state, formAction, isPending] = useActionState(action, null);
+
+  const finalState = externalState ?? state;
+  const finalIsPending = externalIsPending ?? isPending;
 
   useEffect(() => {
     if (timezoneRef.current) {
@@ -22,14 +27,14 @@ export function LoginGuestForm({ callbackUrl, defaultNickname, action, error }: 
   }, []);
 
   useEffect(() => {
-    if (state?.success && state?.data?.email && state?.data?.password) {
+    if (finalState?.success && finalState?.data?.email && finalState?.data?.password) {
       signIn("credentials", {
-        email: state.data.email,
-        password: state.data.password,
+        email: finalState.data.email,
+        password: finalState.data.password,
         redirectTo: callbackUrl,
       });
     }
-  }, [state, callbackUrl]);
+  }, [finalState, callbackUrl]);
 
   return (
     <form action={formAction} className="mt-8 space-y-4">
@@ -55,19 +60,19 @@ export function LoginGuestForm({ callbackUrl, defaultNickname, action, error }: 
         />
       </div>
 
-      {(error || state?.message) ? (
+      {(error || finalState?.message) ? (
         <div className="flex items-start gap-2 rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-800 dark:border-red-500/40 dark:bg-red-500/10 dark:text-red-100">
           <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
-          <span>{error || state?.message}</span>
+          <span>{error || finalState?.message}</span>
         </div>
       ) : null}
 
       <button
         type="submit"
-        disabled={isPending}
+        disabled={finalIsPending}
         className="w-full rounded-full bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground shadow-sm transition hover:-translate-y-0.5 hover:bg-primary/90 disabled:opacity-50"
       >
-        {isPending ? "Procesando..." : "Entrar como invitado"}
+        {finalIsPending ? "Procesando..." : "Entrar como invitado"}
       </button>
     </form>
   );

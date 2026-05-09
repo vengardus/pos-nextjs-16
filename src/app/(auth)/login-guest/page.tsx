@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { LoginHeader } from "@/app/(auth)/login/components/login-header";
@@ -5,33 +7,17 @@ import { Footer } from "@/components/layout/footer/footer";
 import { authSignupDemoGuestAction } from "@/server/modules/auth/next/actions/auth.signup-demo-guest.action";
 import { LoginGuestForm } from "@/app/(auth)/login-guest/components/login-guest-form";
 import { LoginGuestResumeActions } from "@/app/(auth)/login-guest/components/login-guest-resume-actions";
+import { useActionState, use } from "react";
 
-type LoginGuestPageProps = {
-  searchParams?: Promise<{
-    callbackUrl?: string;
-    error?: string;
-    nickname?: string;
-    resume?: string;
-  }>;
-};
-
-async function handleGuestSignup(prevState: any, formData: FormData): Promise<any> {
-  "use server";
-
-  const resp = await authSignupDemoGuestAction(prevState, formData);
-  if (!resp.success) {
-    return resp;
-  }
-  return resp;
-}
-
-export default async function LoginGuestPage({ searchParams }: LoginGuestPageProps) {
-  const params = await searchParams;
+export default function LoginGuestPage({ searchParams }: { searchParams: Promise<any> }) {
+  const params = use(searchParams);
   const callbackUrl = params?.callbackUrl || "";
-  const canResume = params?.resume === "1";
-  const backHref = callbackUrl
-    ? `/login?callbackUrl=${encodeURIComponent(callbackUrl)}`
-    : "/login";
+  const backHref = callbackUrl ? `/login?callbackUrl=${encodeURIComponent(callbackUrl)}` : "/login";
+
+  const [state, , isPending] = useActionState(authSignupDemoGuestAction, null);
+
+  const nickname = state?.data?.nickname ?? params?.nickname ?? "";
+  const canResume = state?.data?.requiresGuestResumeDecision === true;
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -65,16 +51,18 @@ export default async function LoginGuestPage({ searchParams }: LoginGuestPagePro
 
             <LoginGuestForm
               callbackUrl={callbackUrl}
-              defaultNickname={params?.nickname || ""}
-              action={handleGuestSignup}
+              defaultNickname={nickname}
+              action={authSignupDemoGuestAction}
               error={params?.error}
+              state={state}
+              isPending={isPending}
             />
 
             {canResume ? (
               <LoginGuestResumeActions
                 callbackUrl={callbackUrl}
-                nickname={params?.nickname || ""}
-                action={handleGuestSignup}
+                nickname={nickname}
+                action={authSignupDemoGuestAction}
               />
             ) : null}
           </div>

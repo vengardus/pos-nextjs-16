@@ -3,12 +3,10 @@ import "server-only";
 import { randomUUID } from "crypto";
 import bcrypt from "bcryptjs";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
-import { signIn } from "@/auth";
 import prisma from "@/server/db/prisma";
 import { UserRole } from "@/server/modules/role/domain/role.user-role.enum";
 import { ModuleEnum } from "@/server/modules/permission/domain/permission.module.enum";
 import type { ResponseAction } from "@/shared/types/common/response-action.interface";
-import { AppConstants } from "@/shared/constants/app.constants";
 import { getActionError } from "@/utils/errors/get-action-error";
 import { initResponseAction } from "@/utils/response/init-response-action";
 import { AuthGuestSignupSchema } from "../domain/auth.guest-signup.schema";
@@ -49,7 +47,6 @@ export const authSignupDemoGuestUseCase = async (
 
     const normalizedNickname = parsed.nickname.trim().toLowerCase();
     const guestEmail = `${normalizedNickname}@pos.local`;
-    const callbackUrl = parsed.callbackUrl || AppConstants.URL_HOME;
 
     const superAdminEmail = process.env.DEMO_SUPERADMIN_EMAIL ?? "";
     const policyResp = await demoPolicyResolveBySuperAdminEmailUseCase(
@@ -92,6 +89,7 @@ export const authSignupDemoGuestUseCase = async (
           "Este nick ya existe. ¿Deseas continuar con esta sesión demo o cambiar de nick?";
         resp.data = {
           requiresGuestResumeDecision: true,
+          nickname: normalizedNickname,
         };
         return resp;
       }
@@ -123,13 +121,8 @@ export const authSignupDemoGuestUseCase = async (
         },
       });
 
-      await signIn("credentials", {
-        email: guestEmail,
-        password: generatedPassword,
-        redirectTo: callbackUrl,
-      });
-
       resp.success = true;
+      resp.data = { email: guestEmail, password: generatedPassword };
       return resp;
     }
 
@@ -278,13 +271,8 @@ export const authSignupDemoGuestUseCase = async (
       },
     });
 
-    await signIn("credentials", {
-      email: guestEmail,
-      password: generatedPassword,
-      redirectTo: callbackUrl,
-    });
-
     resp.success = true;
+    resp.data = { email: guestEmail, password: generatedPassword };
   } catch (error) {
     if (isRedirectError(error)) {
       throw error;

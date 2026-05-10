@@ -6,10 +6,11 @@ import Link from "next/link";
 interface LoginGuestResumeActionsProps {
   callbackUrl: string;
   nickname: string;
-  action: (formData: FormData) => Promise<void>;
+  action: (formData: FormData) => void;
+  isPending?: boolean;
 }
 
-export function LoginGuestResumeActions({ callbackUrl, nickname, action }: LoginGuestResumeActionsProps) {
+export function LoginGuestResumeActions({ callbackUrl, nickname, action, isPending }: LoginGuestResumeActionsProps) {
   const timezoneRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -19,7 +20,7 @@ export function LoginGuestResumeActions({ callbackUrl, nickname, action }: Login
   }, []);
 
   return (
-    <div className="mt-4 grid gap-2 sm:grid-cols-2">
+    <div className="grid gap-2 sm:grid-cols-2">
       <form action={action}>
         <input type="hidden" name="callbackUrl" value={callbackUrl} />
         <input type="hidden" name="nickname" value={nickname} />
@@ -27,9 +28,10 @@ export function LoginGuestResumeActions({ callbackUrl, nickname, action }: Login
         <input type="hidden" name="timezone" ref={timezoneRef} />
         <button
           type="submit"
-          className="w-full rounded-full bg-emerald-600 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-emerald-700"
+          disabled={isPending}
+          className="w-full rounded-full bg-emerald-600 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-emerald-700 disabled:opacity-50"
         >
-          Continuar sesión demo
+          {isPending ? "Procesando..." : "Continuar sesión demo"}
         </button>
       </form>
 

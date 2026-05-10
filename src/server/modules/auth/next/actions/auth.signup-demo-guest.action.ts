@@ -9,7 +9,7 @@ const resolveClientIp = (forwardedForHeader: string | null): string => {
   return forwardedForHeader.split(",")[0]?.trim() || "unknown";
 };
 
-export const authSignupDemoGuestAction = async (formData: FormData): Promise<ResponseAction> => {
+export const authSignupDemoGuestAction = async (_prevState: any, formData: FormData): Promise<ResponseAction> => {
   const headerStore = await headers();
   const ipAddress = resolveClientIp(headerStore.get("x-forwarded-for"));
   const userAgent = headerStore.get("user-agent") || "unknown";

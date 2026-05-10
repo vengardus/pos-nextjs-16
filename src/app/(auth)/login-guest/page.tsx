@@ -1,52 +1,35 @@
+"use client";
+
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import { redirect } from "next/navigation";
 import { LoginHeader } from "@/app/(auth)/login/components/login-header";
 import { Footer } from "@/components/layout/footer/footer";
 import { authSignupDemoGuestAction } from "@/server/modules/auth/next/actions/auth.signup-demo-guest.action";
 import { LoginGuestForm } from "@/app/(auth)/login-guest/components/login-guest-form";
 import { LoginGuestResumeActions } from "@/app/(auth)/login-guest/components/login-guest-resume-actions";
+import { useActionState, use, useEffect } from "react";
+import { AlertTriangle } from "lucide-react";
+import { signIn } from "next-auth/react";
 
-type LoginGuestPageProps = {
-  searchParams?: Promise<{
-    callbackUrl?: string;
-    error?: string;
-    nickname?: string;
-    resume?: string;
-  }>;
-};
-
-async function handleGuestSignup(formData: FormData): Promise<void> {
-  "use server";
-
-  const resp = await authSignupDemoGuestAction(formData);
-  if (!resp.success) {
-    const callbackUrl = (formData.get("callbackUrl") as string | null) || "";
-    const nickname = (formData.get("nickname") as string | null) || "";
-    const requiresResumeDecision = Boolean(
-      (resp.data as { requiresGuestResumeDecision?: boolean } | undefined)
-        ?.requiresGuestResumeDecision
-    );
-    const error = encodeURIComponent(resp.message ?? "No se pudo crear invitado.");
-    const callbackQuery = callbackUrl
-      ? `&callbackUrl=${encodeURIComponent(callbackUrl)}`
-      : "";
-    const resumeQuery = requiresResumeDecision ? "&resume=1" : "";
-    redirect(
-      `/login-guest?error=${error}&nickname=${encodeURIComponent(
-        nickname
-      )}${resumeQuery}${callbackQuery}`
-    );
-  }
-}
-
-export default async function LoginGuestPage({ searchParams }: LoginGuestPageProps) {
-  const params = await searchParams;
+export default function LoginGuestPage({ searchParams }: { searchParams: Promise<any> }) {
+  const params = use(searchParams);
   const callbackUrl = params?.callbackUrl || "";
-  const canResume = params?.resume === "1";
-  const backHref = callbackUrl
-    ? `/login?callbackUrl=${encodeURIComponent(callbackUrl)}`
-    : "/login";
+  const backHref = callbackUrl ? `/login?callbackUrl=${encodeURIComponent(callbackUrl)}` : "/login";
+
+  const [state, formAction, isPending] = useActionState(authSignupDemoGuestAction, null);
+
+  const nickname = state?.data?.nickname ?? params?.nickname ?? "";
+  const canResume = state?.data?.requiresGuestResumeDecision === true;
+
+  useEffect(() => {
+    if (state?.success && state?.data?.email && state?.data?.password) {
+      signIn("credentials", {
+        email: state.data.email,
+        password: state.data.password,
+        redirectTo: callbackUrl,
+      });
+    }
+  }, [state, callbackUrl]);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -78,20 +61,30 @@ export default async function LoginGuestPage({ searchParams }: LoginGuestPagePro
               </p>
             </div>
 
-            <LoginGuestForm
-              callbackUrl={callbackUrl}
-              defaultNickname={params?.nickname || ""}
-              action={handleGuestSignup}
-              error={params?.error}
-            />
+            <div className="mt-6">
+              {(params?.error || state?.message) ? (
+                <div className="mb-4 flex items-start gap-2 rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-800 dark:border-red-500/40 dark:bg-red-500/10 dark:text-red-100">
+                  <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
+                  <span>{decodeURIComponent(params?.error || "") || state?.message}</span>
+                </div>
+              ) : null}
 
-            {canResume ? (
-              <LoginGuestResumeActions
-                callbackUrl={callbackUrl}
-                nickname={params?.nickname || ""}
-                action={handleGuestSignup}
-              />
-            ) : null}
+              {canResume ? (
+                <LoginGuestResumeActions
+                  callbackUrl={callbackUrl}
+                  nickname={nickname}
+                  action={formAction}
+                  isPending={isPending}
+                />
+              ) : (
+                <LoginGuestForm
+                  callbackUrl={callbackUrl}
+                  defaultNickname={nickname}
+                  action={formAction}
+                  isPending={isPending}
+                />
+              )}
+            </div>
           </div>
         </div>
 

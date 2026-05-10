@@ -1,16 +1,15 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { AlertTriangle } from "lucide-react";
 
 interface LoginGuestFormProps {
   callbackUrl: string;
   defaultNickname?: string;
-  action: (formData: FormData) => Promise<void>;
-  error?: string;
+  action: (formData: FormData) => void;
+  isPending?: boolean;
 }
 
-export function LoginGuestForm({ callbackUrl, defaultNickname, action, error }: LoginGuestFormProps) {
+export function LoginGuestForm({ callbackUrl, defaultNickname, action, isPending }: LoginGuestFormProps) {
   const timezoneRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -20,7 +19,7 @@ export function LoginGuestForm({ callbackUrl, defaultNickname, action, error }: 
   }, []);
 
   return (
-    <form action={action} className="mt-8 space-y-4">
+    <form action={action} className="space-y-4">
       <input type="hidden" name="callbackUrl" value={callbackUrl} />
       <input type="hidden" name="timezone" ref={timezoneRef} />
 
@@ -34,6 +33,7 @@ export function LoginGuestForm({ callbackUrl, defaultNickname, action, error }: 
         <input
           id="nickname"
           name="nickname"
+          key={defaultNickname}
           defaultValue={defaultNickname || ""}
           maxLength={10}
           required
@@ -42,18 +42,12 @@ export function LoginGuestForm({ callbackUrl, defaultNickname, action, error }: 
         />
       </div>
 
-      {error ? (
-        <div className="flex items-start gap-2 rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-800 dark:border-red-500/40 dark:bg-red-500/10 dark:text-red-100">
-          <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
-          <span>{error}</span>
-        </div>
-      ) : null}
-
       <button
         type="submit"
-        className="w-full rounded-full bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground shadow-sm transition hover:-translate-y-0.5 hover:bg-primary/90"
+        disabled={isPending}
+        className="w-full rounded-full bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground shadow-sm transition hover:-translate-y-0.5 hover:bg-primary/90 disabled:opacity-50"
       >
-        Entrar como invitado
+        {isPending ? "Procesando..." : "Entrar como invitado"}
       </button>
     </form>
   );

@@ -37,9 +37,9 @@ export function PageHeader({
   }
 
   return (
-    <div className="z-50 mb-3 border-b border-muted/20 bg-background/80 py-2 backdrop-blur-md">
-      <div className="flex items-center justify-between gap-4">
-        <div className="flex items-center gap-2 min-w-0">
+    <div className="z-50 mb-1 border-b border-muted/20 bg-background/80 py-2 backdrop-blur-md">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 ">
+        <div className="flex items-center gap-2 min-w-0 w-1/3">
           {backRoute ? (
             <Link
               href={backRoute}
@@ -75,7 +75,7 @@ export function PageHeader({
             })}
           </div>
         </div>
-        {actions ? <div className="flex items-center gap-2">{actions}</div> : null}
+        {actions ? <div className="flex items-center gap-2 w-2/3">{actions}</div> : null}
         <span className="sr-only">{title}</span>
       </div>
     </div>

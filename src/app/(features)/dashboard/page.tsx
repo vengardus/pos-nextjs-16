@@ -29,8 +29,8 @@ export default async function DashboardPage() {
   }
 
   return (
-    <div className="flex min-h-full flex-col p-6 pb-8 bg-[fondocuadros.svg] bg-[length:60%] bg-center [background-repeat:no-repeat]">
-      <div className="mb-8">
+    <div className="flex min-h-full flex-col py-3 px-4 bg-[length:60%] bg-center [background-repeat:no-repeat]">
+      <div className="mb-8 ">
         <PageHeader 
           title="Dashboard" 
           breadcrumb={[
@@ -38,7 +38,7 @@ export default async function DashboardPage() {
             { label: "Dashboard" }
           ]} 
           actions={
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 w-full">
               <div className="hidden md:flex items-center gap-2 px-3 py-1.5 bg-background/50 backdrop-blur-sm rounded-full border border-border/50 text-xs font-medium text-muted-foreground shadow-sm">
                 <Clock size={14} className="text-primary" />
                 <span>Actualizado en tiempo real</span>

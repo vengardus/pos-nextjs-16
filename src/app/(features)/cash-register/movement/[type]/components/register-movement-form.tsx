@@ -62,7 +62,7 @@ export const RegisterMovementForm = ({
         className="flex flex-col gap-8"
       >
         <div className="space-y-6">
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-row    gap-2">
             <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground mb-1">
               <LayoutList size={14} />
               <span>Tipo de Pago</span>
@@ -96,7 +96,7 @@ export const RegisterMovementForm = ({
                 placeholder="0.00"
                 autoFocus
                 inputRef={amountRef}
-                className="text-2xl font-semibold h-14"
+                className="text-2xl font-semibold h-14 text-right"
                 type="number"
               />
             </div>

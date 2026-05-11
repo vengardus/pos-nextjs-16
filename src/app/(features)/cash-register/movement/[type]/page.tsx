@@ -31,7 +31,7 @@ export default async function CashRegisterMovementPage({
   const title = isIncome ? "Ingreso de Efectivo" : "Retiro de Efectivo";
 
   return (
-    <div className="flex min-h-full flex-col p-6 pb-8 bg-[fondocuadros.svg] bg-[length:60%] bg-center [background-repeat:no-repeat]">
+    <div className="flex min-h-full flex-col p-3 pb-8 bg-[fondocuadros.svg] bg-[length:60%] bg-center [background-repeat:no-repeat]">
       <div className="mb-8">
         <PageHeader 
           title={title} 

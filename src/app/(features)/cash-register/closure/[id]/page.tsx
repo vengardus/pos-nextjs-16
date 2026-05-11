@@ -97,7 +97,7 @@ export default async function CashRegisterClosurePage({ params }: { params: Para
             { label: "Cierre de Caja" }
           ]} 
           actions={
-            <div className="flex items-center gap-2 bg-background/50 backdrop-blur-sm px-3 py-1.5 rounded-full border border-border/50 text-xs font-medium text-muted-foreground shadow-sm">
+            <div className="flex items-center gap-2 bg-background/50 backdrop-blur-sm px-3 py-1.5 rounded-full border border-border/50 text-lg font-medium text-muted-foreground shadow-sm">
               <Calendar size={14} className="text-primary" />
               <span>{format(data.dateStart, "dd/MM/yyyy HH:mm")}</span>
               <span className="opacity-40 px-1">→</span>

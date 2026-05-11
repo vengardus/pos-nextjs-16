@@ -19,13 +19,13 @@ export const PosMainTotals = () => {
         
         {/* Detalles */}
         <div className="space-y-2">
-            <div className="flex justify-between items-center text-xs">
-            <span className="text-slate-500 dark:text-zinc-500">SubTotal</span>
-            <span className="font-mono text-slate-700 dark:text-zinc-400">S/. {subTotal.toFixed(2)}</span>
+            <div className="flex justify-between items-center ">
+            <span className="text-slate-700 dark:text-zinc-300">SubTotal</span>
+            <span className="font-mono text-slate-900 dark:text-zinc-200">S/. {subTotal.toFixed(2)}</span>
             </div>
-            <div className="flex justify-between items-center text-xs">
-            <span className="text-slate-500 dark:text-zinc-500">IGV (18%)</span>
-            <span className="font-mono text-slate-700 dark:text-zinc-400">S/. {tax.toFixed(2)}</span>
+            <div className="flex justify-between items-center ">
+            <span className="text-slate-700 dark:text-zinc-300">IGV (18%)</span>
+            <span className="font-mono text-slate-900 dark:text-zinc-200">S/. {tax.toFixed(2)}</span>
             </div>
         </div>
         <div className="h-px bg-slate-200 dark:bg-white/5" />

@@ -54,7 +54,7 @@ export const PosActionsMenu = () => {
     <>
       <DropdownMenu open={isActionsMenuOpen} onOpenChange={setIsActionsMenuOpen}>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline" className="h-8 gap-2 border-slate-200 dark:border-white/10 text-slate-500 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-zinc-100 hover:bg-slate-100 dark:hover:bg-zinc-800">
+          <Button variant="outline" className="h-8 gap-2 bg-slate-800 dark:bg-slate-50 border-slate-200 dark:border-white/10 text-slate-100 dark:text-zinc-900 hover:text-slate-900 dark:hover:text-zinc-100 hover:bg-slate-100 dark:hover:bg-zinc-800">
             <MoreVertical className="h-4 w-4 md:hidden" />
             <span className="hidden md:inline p-2">ACCIONES</span>
           </Button>

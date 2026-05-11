@@ -28,7 +28,7 @@ export const PosSearch = ({
           setValue("");
         }
       }}
-      className=" border border-gray-300 rounded-xl px-3 h-12"
+      className="border-slate-200 dark:border-white/10 bg-white dark:bg-zinc-900 rounded-xl px-3 h-12 text-slate-900 dark:text-zinc-100 placeholder:text-slate-400 dark:placeholder:text-zinc-500"
       ref={searchRef}
     />
   );

@@ -39,6 +39,7 @@ export const RegisterClosureUI = ({
   }, [amountInRegister]);
 
   const handleCloseRegister = async () => {
+    console.log("handleCloseRegister called, opening form");
     setIsPending(false);
     setIsOpenForm(true);
   };

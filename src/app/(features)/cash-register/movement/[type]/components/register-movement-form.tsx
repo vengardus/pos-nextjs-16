@@ -84,20 +84,22 @@ export const RegisterMovementForm = ({
             />
           </div>
 
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground mb-1">
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground whitespace-nowrap min-w-20">
               <DollarSign size={14} />
-              <span>Monto a Registrar</span>
+              <span>Monto:</span>
             </div>
-            <InputFieldForm
-              control={form.control}
-              name="amount"
-              placeholder="0.00"
-              autoFocus
-              inputRef={amountRef}
-              className="text-2xl font-semibold h-14"
-              type="number"
-            />
+            <div className="flex-1">
+              <InputFieldForm
+                control={form.control}
+                name="amount"
+                placeholder="0.00"
+                autoFocus
+                inputRef={amountRef}
+                className="text-2xl font-semibold h-14"
+                type="number"
+              />
+            </div>
           </div>
 
           <div className="flex flex-col gap-2">

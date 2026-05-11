@@ -12,6 +12,8 @@ import { ComboboxForm } from "@/components/common/form/combobox-form";
 import { ButtonSave } from "@/components/common/buttons/button-save";
 import { PaymentMethodEnum } from "@/server/modules/payment-method/domain/payment-method.enum";
 
+import { DollarSign, FileText, LayoutList } from "lucide-react";
+
 interface RegisterMovementPageProps {
   movementType: string;
 }
@@ -57,55 +59,73 @@ export const RegisterMovementForm = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleSave)}
-        className="flex flex-col gap-7"
+        className="flex flex-col gap-8"
       >
-        <section className="grid w-full items-center gap-4">
-          <ComboboxForm
-            data={paymentMethods.filter((method) => method.cod === PaymentMethodEnum.CASH).map((method) => ({
-              label: method.name,
-              value: method.cod,
-            }))}
-            labelSelect="seleccione un tipo"
-            handleSelect={(value) => {
-              form.setValue("paymentMethod", value);
-              form.trigger("paymentMethod");
-            }}
-            label="Tipo"
-            control={form.control}
-            name="paymentMethod"
-            flexDirection="column"
-            widthButton="w-[300px]"
-          />
-          <InputFieldForm
-            control={form.control}
-            name="amount"
-            label="Monto"
-            placeholder="Ingrese monto"
-            autoFocus
-            inputRef={amountRef}
-            className="text-right"
-            type="number"
-          />
-          <InputFieldForm
-            control={form.control}
-            name="motive"
-            label="Motivo"
-            placeholder="Ingrese motivo"
-            autoFocus
-          />
-        </section>
-        <section className="flex flex-col items-end gap-2">
+        <div className="space-y-6">
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground mb-1">
+              <LayoutList size={14} />
+              <span>Tipo de Pago</span>
+            </div>
+            <ComboboxForm
+              data={paymentMethods.filter((method) => method.cod === PaymentMethodEnum.CASH).map((method) => ({
+                label: method.name,
+                value: method.cod,
+              }))}
+              labelSelect="Seleccione tipo"
+              handleSelect={(value) => {
+                form.setValue("paymentMethod", value);
+                form.trigger("paymentMethod");
+              }}
+              control={form.control}
+              name="paymentMethod"
+              flexDirection="column"
+              widthButton="w-full"
+            />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground mb-1">
+              <DollarSign size={14} />
+              <span>Monto a Registrar</span>
+            </div>
+            <InputFieldForm
+              control={form.control}
+              name="amount"
+              placeholder="0.00"
+              autoFocus
+              inputRef={amountRef}
+              className="text-2xl font-semibold h-14"
+              type="number"
+            />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground mb-1">
+              <FileText size={14} />
+              <span>Motivo o Descripción</span>
+            </div>
+            <InputFieldForm
+              control={form.control}
+              name="motive"
+              placeholder="Describa el motivo del movimiento..."
+            />
+          </div>
+        </div>
+
+        <div className="flex flex-col pt-4">
           {messageGeneralError && (
-            <p className="text-sm text-destructive mb-2">
+            <p className="text-sm text-destructive mb-4 text-center font-medium bg-destructive/10 p-2 rounded-md">
               {messageGeneralError}
             </p>
           )}
           {!isLoading && (
-            <div className="flex justify-end gap-7">
-              <ButtonSave isPending={isPending} />
-            </div>
+            <ButtonSave 
+              isPending={isPending} 
+              className="w-full h-12 text-base font-semibold shadow-lg shadow-primary/20 transition-all hover:scale-[1.02] active:scale-[0.98]"
+            />
           )}
-        </section>
+        </div>
       </form>
     </Form>
   );

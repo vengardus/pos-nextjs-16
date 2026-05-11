@@ -20,7 +20,7 @@ export const PosMainLeft = () => {
   return (
     <section className="flex flex-col h-full">
       {/* Header */}
-      <div className="grid grid-cols-5 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-zinc-500 bg-slate-50 dark:bg-zinc-900/50 py-3 px-4 border-b border-slate-200 dark:border-white/5 shrink-0">
+      <div className="grid grid-cols-5 text-xs font-semibold uppercase tracking-wider text-slate-700 dark:text-zinc-300 bg-slate-100 dark:bg-zinc-800/50 py-3 px-4 border-b border-slate-200 dark:border-white/5 shrink-0">
         <span>Producto</span>
         <span className="text-center">Cant.</span>
         <span className="text-center">Precio</span>

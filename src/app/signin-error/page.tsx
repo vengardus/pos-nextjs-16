@@ -3,12 +3,12 @@ import { Button } from "@/components/ui/button";
 import { AlertCircle } from "lucide-react";
 import Link from "next/link";
 
-export default function SignInErrorPage({
+export default async function SignInErrorPage({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  const error = searchParams.error;
+  const { error } = await searchParams;
   
   const getErrorMessage = () => {
     if (error === "provider_email_not_authorized") {

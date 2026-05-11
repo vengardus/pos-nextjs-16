@@ -9,15 +9,17 @@ interface PosMainProps {
 }
 export const PosMain = ({ data }: PosMainProps) => {
   return (
-    <div className="flex flex-col lg:flex-row  w-full h-full border-t border-gray-500 pt-2">
-      <div className="w-full lg:w-[70%]">
+    <div className="h-full min-h-0 flex flex-col lg:flex-row gap-4 items-stretch overflow-hidden">      {/* Cart - Takes up most space, scrolls internally */}
+      <div className="flex-[2] bg-white dark:bg-zinc-900/50 border border-slate-200 dark:border-white/5 rounded-2xl shadow-sm backdrop-blur-sm overflow-hidden flex flex-col min-h-0 py-4">
         <PosMainLeft />
       </div>
-      <div className="w-full lg:w-[30%]">
-        <Suspense fallback={<div>Loading...</div>}>
+
+      {/* Totals - Aligned with cart height */}
+      <div className="flex-1 lg:max-w-[320px] bg-white dark:bg-zinc-900/50 border border-slate-200 dark:border-white/5 rounded-2xl shadow-sm backdrop-blur-sm overflow-hidden flex flex-col min-h-0 py-4">
+        <Suspense fallback={<div className="h-full flex items-center justify-center text-slate-400 dark:text-zinc-500">Cargando totales...</div>}>
           <PosMainRight companyId={data.companyId} />
         </Suspense>
       </div>
     </div>
   );
-};
+  };

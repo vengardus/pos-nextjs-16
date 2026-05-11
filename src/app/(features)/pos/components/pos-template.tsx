@@ -10,7 +10,7 @@ import { useUserStore } from "@/stores/user/user.store";
 import { useCashRegisterDecisionStore } from "@/stores/cash-register/cash-register-decision.store";
 import { PosPayment } from "./pos-payment";
 import { PosTicketModal } from "./pos-ticket-modal";
-import { Modal } from "@/components/common/modals/modal";
+import { CustomSlideOver } from "@/components/common/slide-over/custom-slide-over";
 import { OpenCashRegister } from "./open-cash-register/open-cash-register";
 
 interface PosTemplateProps {
@@ -30,7 +30,7 @@ export const PosTemplate = ({ data }: PosTemplateProps) => {
   const { branchId, company, currentUser, cashRegisterDecision } = data;
   const setBranchId = useCartStore((state) => state.setBranchId);
   const setCompany = useCompanyStore((state) => state.setCompany);
-  const getSummaryCart = useCartStore((state) => state.getSummaryCart);
+  const totalSale = useCartStore((state) => state.getSummaryCart().total);
   const [isLoading, setIsLoading] = useState(true);
   const isOpenModalSalePayment = useCartStore((state) => state.isOpenModalSalePayment);
   const setIsOpenModalSalePayment = useCartStore((state) => state.setIsOpenModalSalePayment);
@@ -78,6 +78,12 @@ export const PosTemplate = ({ data }: PosTemplateProps) => {
     } else setIsOpenedCashRegister(false);
   }, [cashRegisterDecision, setCashRegisterOpen, setIsOpenedCashRegister]);
 
+  useEffect(() => {
+    if (totalSale <= 0 && isOpenModalSalePayment) {
+      setIsOpenModalSalePayment(false);
+    }
+  }, [totalSale, isOpenModalSalePayment, setIsOpenModalSalePayment]);
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -88,18 +94,16 @@ export const PosTemplate = ({ data }: PosTemplateProps) => {
 
   return (
     <>
-      {isOpenModalSalePayment && getSummaryCart().total > 0 && (
+      {isOpenModalSalePayment && totalSale > 0 && (
         <PosPayment handleCloseModal={setIsOpenModalSalePayment} />
       )}
 
       {isOpenTicketModal && <PosTicketModal handleCloseModal={setIsOpenTicketModal} />}
 
       {!isOpenedCashRegister && (
-        <Modal >
-          <OpenCashRegister
-            isOpenOpenRegisterModal={!isOpenedCashRegister}
-          />
-        </Modal>
+        <CustomSlideOver title="Apertura de Caja" onClose={() => window.location.href = "/"}>
+          <OpenCashRegister isOpenOpenRegisterModal={!isOpenedCashRegister} />
+        </CustomSlideOver>
       )}
     </>
   );

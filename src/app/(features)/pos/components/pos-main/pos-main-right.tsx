@@ -20,7 +20,7 @@ export const PosMainRight = async ({ companyId }: PosMainRightProps) => {
     return <div>Error al obtener clientes</div>;
 
   return (
-    <div className="flex flex-col h-full w-full p-2 gap-5 border rounded-xl  border-gray-500">
+    <div className="flex flex-col h-full w-full p-2 gap-5 rounded-xl">
       <PosMainButtons
         paymentMethods={respPaymentMethoss.data}
         clientsSuppliers={respClientsSuppliers.data}

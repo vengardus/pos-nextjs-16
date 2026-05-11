@@ -1,5 +1,5 @@
 import { useState, type JSX } from "react";
-import { Control, FieldValues, Path } from "react-hook-form";
+import { Control, FieldValues, Path, useFormContext } from "react-hook-form";
 import { DeleteIcon } from "lucide-react";
 import type { Branch } from "@/server/modules/branch/domain/branch.types";
 import type { ProductStock } from "@/server/modules/product/domain/product-stock.interface";
@@ -32,23 +32,19 @@ export const ProductStockForm = <T extends FieldValues>({
   setProductStocks,
   isNewRecord,
 }: ProductStockFormProps<T>): JSX.Element => {
-  const [branchId, setBranchId] = useState(defaultValues.branchId);
+  const { setValue, getValues } = useFormContext<T>();
   const [branchLabel, setBranchLabel] = useState(defaultValues.branchLabel);
-  const [stockValue, setStockValue] = useState(defaultValues.stock.toString());
-  const [minimunStockValue, setMinimunStockValue] = useState(
-    defaultValues.minimunStock.toString()
-  );
   const [message, setMessage] = useState("");
 
   const initData = () => {
-    setBranchId(defaultValues.branchId);
     setBranchLabel(defaultValues.branchLabel);
-    setStockValue(defaultValues.stock.toString());
-    setMinimunStockValue(defaultValues.minimunStock.toString());
-
     setMessage("");
   };
   const handleAddProductStock = () => {
+    const branchId = getValues("branchId" as Path<T>);
+    const stockValue = getValues("stock" as Path<T>);
+    const minimunStockValue = getValues("minimunStock" as Path<T>);
+
     if (!branchId) {
       setMessage("Seleccione una Sucursal");
       return;
@@ -90,13 +86,12 @@ export const ProductStockForm = <T extends FieldValues>({
           label="Sucursal"
           flexDirection="row"
           handleSelect={(value: string, label?: string) => {
-            setBranchId(value);
             setBranchLabel(label ?? "");
             setMessage("");
             const item = productStocks.find((p) => p.branchId === value);
             if (item) {
-              setStockValue(item.stock.toString());
-              setMinimunStockValue(item.minimunStock.toString());
+              setValue("stock" as Path<T>, item.stock.toString() as any);
+              setValue("minimunStock" as Path<T>, item.minimunStock.toString() as any);
             }
             handleSelect(value);
           }}
@@ -108,8 +103,6 @@ export const ProductStockForm = <T extends FieldValues>({
           type="number"
           label="Stock"
           flexDirection="row"
-          value={stockValue}
-          onChange={(e) => setStockValue(e.target.value)}
         />
 
         <InputFieldForm
@@ -118,8 +111,6 @@ export const ProductStockForm = <T extends FieldValues>({
           type="number"
           label="Stock Minimo"
           flexDirection="row"
-          value={minimunStockValue}
-          onChange={(e) => setMinimunStockValue(e.target.value)}
         />
 
         <div className="text-danger">{message}</div>

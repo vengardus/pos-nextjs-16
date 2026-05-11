@@ -47,6 +47,7 @@ model UserModel {
   Kardex      KardexModel[]
   CashRegisterClosure CashRegisterClosureModel[]
   CashRegisterMovement CashRegisterMovementModel[]
+  Logs        LogModel[]
 
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime? @map("updated_at")
@@ -84,6 +85,7 @@ model CompanyModel {
   PaymentMethod   PaymentMethodModel[]
   Permission      PermissionModel[]
   Role            RoleModel[]
+  DemoPolicy      DemoPolicyModel?
 
   createdAt       DateTime @default(now()) @map("created_at")
   updatedAt       DateTime? @updatedAt @map("updated_at")
@@ -483,4 +485,58 @@ model RoleModel {
   @@unique([cod, companyId ])
   @@unique([description, companyId ])
   @@index([companyId])
+}
+
+model LogModel {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  action      String
+  description String
+  ipAddress   String?  @map("ip_address")
+  userAgent   String?  @map("user_agent")
+  requestPath String?  @map("request_path")
+  countryCode String?  @map("country_code")
+  deviceType  String?  @map("device_type")
+  timezone    String?
+  
+  // Relations
+  User        UserModel? @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userId      String?    @db.Uuid @map("user_id")
+
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@map("logs")
+}
+
+model AuthorizedProviderEmailModel {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email        String   @unique
+  clientName   String   @map("client_name")
+  expirationDate String @map("expiration_date")
+  isActive     Boolean  @default(true) @map("is_active")
+  isSuperAdmin Boolean  @default(false) @map("is_super_admin")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime? @updatedAt @map("updated_at")
+  demoPolicy   DemoPolicyModel?
+
+  @@index([email])
+  @@map("authorized_provider_emails")
+}
+
+model DemoPolicyModel {
+  id                         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  companyId                  String   @unique @db.Uuid @map("company_id")
+  authorizedProviderEmailId  String?  @unique @db.Uuid @map("authorized_provider_email_id")
+  isEnabled                  Boolean  @default(false) @map("is_enabled")
+  maxUsers                   Int      @default(10) @map("max_users")
+  maxRecordsPerEntity        Int      @default(20) @map("max_records_per_entity")
+  maxGuestSignupsPerIpPerDay Int      @default(5) @map("max_guest_signups_per_ip_per_day")
+  guestTtlDays               Int      @default(15) @map("guest_ttl_days")
+  allowCsvImportForGuest     Boolean  @default(false) @map("allow_csv_import_for_guest")
+
+  Company                    CompanyModel @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  authorizedProviderEmail   AuthorizedProviderEmailModel? @relation(fields: [authorizedProviderEmailId], references: [id], onDelete: SetNull)
+  createdAt                  DateTime @default(now()) @map("created_at")
+  updatedAt                  DateTime @updatedAt @map("updated_at")
+
+  @@map("demo_policies")
 }

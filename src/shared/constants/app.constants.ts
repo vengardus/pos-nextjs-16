@@ -7,7 +7,7 @@ export class AppConstants {
   static URL_HOME = "/";
   static PROFILE_NAME_NAV = "profile";
   static LOGIN_NAME_NAV = "login";
-  static DEFAULT_PAGE_SIZE = 5;
+  static DEFAULT_PAGE_SIZE = 7;
 
   static DEFAULT_VALUES = {
     currencySymbol: "S/.",
@@ -65,6 +65,7 @@ export class AppConstants {
     {
       name: ModuleEnum.ai,
       label: "IA",
+      role: UserRole.SUPER_ADMIN,
       children: [
         {
           name: ModuleEnum.aiChat,
@@ -87,6 +88,11 @@ export class AppConstants {
           name: "super-admin-users",
           label: 'Usuarios Registrados',
           href: '/super-admin/users',
+        },
+        {
+          name: "super-admin-demo-policy",
+          label: 'Configuración Demo',
+          href: '/super-admin/config/demo-policy',
         }
       ]
     }

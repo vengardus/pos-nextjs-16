@@ -1,33 +1,52 @@
-import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
-import { Footer } from "@/components/layout/footer/footer";
-import { LoginHeader } from "@/app/(auth)/login/components/login-header";
-import { LoginSocial } from "./components/login-social";
+import Link from "next/link"
+import { ArrowLeft } from "lucide-react"
+
+import { Footer } from "@/components/layout/footer/footer"
+import { LoginHeader } from "@/app/(auth)/login/components/login-header"
+
+import { LoginSocial } from "./components/login-social"
 
 export default function LoginSocialPage() {
   return (
-    <div className="bg-background text-white flex flex-col justify-between h-screen py-3 ">
-      <div className="flex flex-col items-center py-8 pt-20">
-        <LoginHeader />
+    <div className="min-h-screen bg-background text-foreground">
+      <div className="relative flex min-h-screen flex-col items-center justify-between px-4 py-10">
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="absolute -left-20 top-10 h-72 w-72 rounded-full bg-amber-200/30 blur-3xl dark:bg-amber-500/10" />
+          <div className="absolute right-0 top-24 h-80 w-80 rounded-full bg-orange-200/35 blur-3xl dark:bg-orange-500/10" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(15,23,42,0.08),transparent_55%)] dark:bg-[radial-gradient(circle_at_top,rgba(15,23,42,0.35),transparent_60%)]" />
+        </div>
 
-        {/* Main Content */}
-        <div className="w-full max-w-md flex flex-col items-center">
-          <Link href="/login" className="flex items-center text-white mb-10">
-            <ArrowLeft className="mr-2" />
-            <span>Volver</span>
-          </Link>
+        <div className="relative w-full max-w-lg space-y-6">
+          <LoginHeader />
 
-          <h2 className="text-2xl font-bold mb-12">
-            Ingresar modo Administrador como:
-          </h2>
+          <div className="rounded-3xl border border-slate-200/70 bg-white/90 p-8 shadow-xl backdrop-blur dark:border-slate-800/70 dark:bg-slate-950/60 sm:p-10">
+            <Link
+              href="/login"
+              className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 transition hover:text-slate-900 dark:text-slate-300 dark:hover:text-white"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Volver
+            </Link>
 
-          {/* <p className="text-lg mb-8">Modo super admin:</p> */}
+            <div className="mt-6 space-y-1 text-center">
+              <h2 className="text-2xl font-semibold text-slate-900 dark:text-white">
+                Modo Administrador
+              </h2>
+              <p className="text-sm text-slate-600 dark:text-slate-300">
+                Accede con tu cuenta de gestión o continúa como invitado.
+              </p>
+            </div>
 
-          <LoginSocial />
+            <div className="mt-8">
+              <LoginSocial />
+            </div>
+          </div>
+        </div>
 
+        <div className="relative w-full">
+          <Footer />
         </div>
       </div>
-      <Footer />
     </div>
-  );
+  )
 }

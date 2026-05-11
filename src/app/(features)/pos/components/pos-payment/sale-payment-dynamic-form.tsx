@@ -26,7 +26,6 @@ import {
 } from "@/components/ui/card";
 import { useCartStore } from "@/stores/cart/cart.store";
 import { SalePaymentDynamicFormSchemaType } from "@/server/modules/sale/domain/sale-payment-dynamic-form.input.schema";
-import { Button } from "@/components/ui/button";
 import { useSalePaymentDynamicForm } from "@/app/(features)/pos/hooks/use-sale-payment-dynamic-form";
 import { useCartProdut } from "@/app/(features)/pos/hooks/use-cart-product";
 import { toast } from "sonner";
@@ -38,6 +37,7 @@ import { PaymentMethodEnum } from "@/server/modules/payment-method/domain/paymen
 import { PosPaymentBusiness } from "@/server/modules/sale/utils/sale.pos-payment.business";
 import { PosPayment } from "@/server/modules/sale/domain/pos-payment.interface";
 import { ButtonSave } from "@/components/common/buttons/button-save";
+import { ButtonCancel } from "@/components/common/buttons/button-cancel";
 
 export default function SalePaymentDynamicForm({
   handleCloseForm,
@@ -65,6 +65,7 @@ export default function SalePaymentDynamicForm({
   );
   const paymentMethods = usePaymentMethodStore((state) => state.paymentMethods);
   const { control, handleSubmit } = form;
+  const formId = "sale-payment-dynamic-form";
   // useFieldArray para manejar el array de campos dinámicos.
   const { fields, append } = useFieldArray({
     control,
@@ -154,7 +155,7 @@ export default function SalePaymentDynamicForm({
           }
         });
         setFormValue(paymentMethod, totalSale.toFixed(2));
-        setFocus( paymentMethod);
+        setFocus(paymentMethod);
         break;
     }
   }, [paymentMethod, form, totalSale]);
@@ -181,16 +182,20 @@ export default function SalePaymentDynamicForm({
   return (
     <div>
       <Card className="card">
-        <CardHeader className="flex text-center w-full bg-gray-800">
-          <CardTitle>
-            Cobrar: <span className="pl-7 pr-5">S/.</span>{" "}
-            <span>{totalSale.toFixed(2)}</span>
-          </CardTitle>
-        </CardHeader>
         <Form {...form}>
-          <form onSubmit={handleSubmit(handleSave)} className="space-y-4">
-            <CardContent className="flex flex-col gap-3 mt-2">
-              <section className="border p-2 grid grid-cols-1 md:grid-cols-2 gap-5">
+          <form id={formId} onSubmit={handleSubmit(handleSave)} className="space-y-4">
+            <CardHeader className="flex flex-col items-center justify-center gap-3 border-b bg-gray-800 p-3 md:p-4 space-y-0">
+              <div className="flex items-baseline gap-2 text-center">
+                <CardTitle className="text-lg md:text-xl">
+                  COBRAR:
+                </CardTitle>
+                <p className="text-2xl font-black text-foreground">
+                  S/. {totalSale.toFixed(2)}
+                </p>
+              </div>
+            </CardHeader>
+            <CardContent className="flex flex-col gap-3 p-3 pt-0 md:p-4 md:pt-0">
+              <section className="border p-2 grid grid-cols-1 md:grid-cols-2 gap-3">
                 <ComboboxForm
                   data={clientsSuppliers.map(
                     (clientSupplier: ClientSupplier) => ({
@@ -312,29 +317,26 @@ export default function SalePaymentDynamicForm({
                 </section>
               </section>
             </CardContent>
-
-            <CardFooter className="flex flex-col items-end gap-2">
-              {messageGeneralError && (
-                <p className="text-sm text-destructive mb-2">
-                  {messageGeneralError}
-                </p>
-              )}
-              <div className="flex justify-end gap-7">
-                <Button
-                  type="button"
-                  variant={"secondary"}
-                  onClick={handleCloseForm}
-                  disabled={isPending}
-                >
-                  Cancelar
-                </Button>
-                {/* <Button type="submit" variant={"default"} disabled={isPending}>
-                  {isPending ? "Guardando..." : "Grabar"}
-                </Button> */}
-                <ButtonSave 
-                  isPending={isPending}
-                />
-              </div>
+            <CardFooter className="flex justify-end p-3 md:p-4 pt-0">
+              <div className="flex flex-col gap-3 items-end w-full">
+                  <div className="w-full flex flex-col-reverse items-stretch gap-3 sm:flex-row md:justify-end">
+                    <ButtonCancel
+                      handleCloseForm={handleCloseForm}
+                      isPending={isPending}
+                    />
+                    <ButtonSave
+                      isPending={isPending}
+                      label="Grabar"
+                      pendingLabel="Guardando..."
+                      form={formId}
+                    />
+                  </div>
+                  {messageGeneralError && (
+                    <p className="text-sm text-destructive text-right">
+                      {messageGeneralError}
+                    </p>
+                  )}
+                </div>
             </CardFooter>
           </form>
         </Form>

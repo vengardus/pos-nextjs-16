@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/utils/tailwind/cn";
@@ -25,8 +26,13 @@ export const RegisterClosureUI = ({
   const [isPending, setIsPending] = useState(false);
   const [isOpenForm, setIsOpenForm] = useState(false);
   const [difference, setDifference] = useState(0);
+  const [mounted, setMounted] = useState(false);
   const router = useRouter()
   const amountRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   
   useEffect(() => {
     if (isOpenForm) {
@@ -66,6 +72,7 @@ export const RegisterClosureUI = ({
   return (
     <>
       <ButtonSave
+        type="button"
         isPending={isPending}
         handleOnClick={handleCloseRegister}
         label="Proceder al Cierre"
@@ -73,9 +80,11 @@ export const RegisterClosureUI = ({
         className="w-full h-12 text-base font-semibold shadow-lg shadow-primary/20 transition-all hover:scale-[1.02] active:scale-[0.98]"
       />
 
-      {isOpenForm && (
-        <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-[2000] flex justify-center items-center p-4">
-          <div className="bg-background border border-border shadow-2xl rounded-2xl z-[2001] w-full max-w-lg overflow-hidden flex flex-col animate-in fade-in zoom-in duration-200">
+      {mounted && isOpenForm && createPortal(
+        <div className="fixed inset-0 z-[9999] flex justify-center items-center p-4">
+          <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" onClick={() => setIsOpenForm(false)} />
+          
+          <div className="relative bg-background border border-border shadow-2xl rounded-2xl w-full max-w-lg overflow-hidden flex flex-col animate-in fade-in zoom-in duration-200">
             <div className="p-6 border-b border-border/40 bg-muted/30 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-primary/10 rounded-lg text-primary">
@@ -161,7 +170,8 @@ export const RegisterClosureUI = ({
               />
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   );

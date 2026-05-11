@@ -66,6 +66,7 @@ export const RegisterClosureUI = ({
   return (
     <>
       <ButtonSave
+        type="button"
         isPending={isPending}
         handleOnClick={handleCloseRegister}
         label="Proceder al Cierre"

@@ -69,7 +69,7 @@ export const PosProductUI = ({ products, companyId }: PosProductUIProps) => {
         </div>
         
         {/* Modern Segmented Control */}
-        <div className="flex bg-zinc-900 border border-white/5 p-1 rounded-xl w-full md:w-auto">
+        <div className="flex bg-slate-100 dark:bg-zinc-900 border border-slate-200 dark:border-white/5 p-1 rounded-xl w-full md:w-auto">
           <button
             onClick={() => {
                 setIsKeyboardMode(false);
@@ -77,7 +77,7 @@ export const PosProductUI = ({ products, companyId }: PosProductUIProps) => {
             }}
             className={cn(
               "flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-2 text-sm font-medium rounded-lg transition-all duration-200",
-              !isKeyboardMode ? "bg-indigo-600 text-white shadow-lg" : "text-zinc-400 hover:text-zinc-100"
+              !isKeyboardMode ? "bg-indigo-600 text-white shadow-lg" : "text-slate-500 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-zinc-100"
             )}
           >
             <Barcode className="w-4 h-4" />
@@ -90,7 +90,7 @@ export const PosProductUI = ({ products, companyId }: PosProductUIProps) => {
             }}
             className={cn(
               "flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-2 text-sm font-medium rounded-lg transition-all duration-200",
-              isKeyboardMode ? "bg-indigo-600 text-white shadow-lg" : "text-zinc-400 hover:text-zinc-100"
+              isKeyboardMode ? "bg-indigo-600 text-white shadow-lg" : "text-slate-500 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-zinc-100"
             )}
           >
             <Keyboard className="w-4 h-4" />
@@ -107,13 +107,13 @@ export const PosProductUI = ({ products, companyId }: PosProductUIProps) => {
           labelSelect="Seleccione un producto"
           isOpen={isOpenCombobox}
           setIsOpen={setIsOpenCombobox}
-          classNameButton="w-full bg-zinc-900 border-white/10 text-zinc-100"
-          classNameList="w-full bg-zinc-900 border-white/10"
+          classNameButton="w-full bg-slate-100 dark:bg-zinc-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-zinc-100"
+          classNameList="w-full bg-white dark:bg-zinc-900 border-slate-200 dark:border-white/10"
           notFound={
-            <div className="flex flex-col gap-2 p-4 text-zinc-400">
+            <div className="flex flex-col gap-2 p-4 text-slate-500 dark:text-zinc-400">
               <p>Producto no encontrado</p>
               <button
-                className="underline underline-offset-4 hover:cursor-pointer hover:text-indigo-400"
+                className="underline underline-offset-4 hover:cursor-pointer hover:text-indigo-600 dark:hover:text-indigo-400"
                 onClick={() => router.push("/config/products")}
               >
                 Ir a crear productos

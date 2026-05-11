@@ -3,8 +3,19 @@ import Image from "next/image";
 import { AppConstants } from "@/shared/constants/app.constants";
 import { Card, CardContent } from "@/components/ui/card";
 import { PageHeader } from "@/components/common/typography/page-header";
+import { getAuthCached } from "@/server/modules/auth/next/cache/auth.get-session.cache";
+import { UserRole } from "@/server/modules/role/domain/role.user-role.enum";
+import { ModuleEnum } from "@/server/modules/permission/domain/permission.module.enum";
 
 export default async function ConfigPage() {
+  const session = await getAuthCached();
+  const userRole = session?.data?.sessionUser?.role;
+
+  const filteredModules = AppConstants.CONFIG_MODULES.filter(item => {
+    if (userRole === UserRole.GUEST && item.name === ModuleEnum.company) return false;
+    return true;
+  });
+
   return (
     <div className="flex min-h-full flex-col p-6 pb-8 bg-[length:60%] bg-center [background-repeat:no-repeat]">
       <div className="mb-8">
@@ -18,7 +29,7 @@ export default async function ConfigPage() {
       </div>
 
       <section className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-        {AppConstants.CONFIG_MODULES.map((item) => (
+        {filteredModules.map((item) => (
           <Link
             key={item.title}
             href={item.link}

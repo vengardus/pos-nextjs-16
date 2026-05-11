@@ -27,7 +27,8 @@ export async function cashRegisterGetByBranchCached(
 
 export async function cashRegisterDetermineActiveCashRegisterCached(
   userId: string,
-  branchId: string
+  branchId: string,
+  userRole: string
 ): Promise<ResponseAction> {
   // No se debe usar caché aquí porque las cajas abiertas cambian minuto a minuto
   // y el resultado depende tanto del usuario como de la sucursal.
@@ -35,5 +36,6 @@ export async function cashRegisterDetermineActiveCashRegisterCached(
   return cashRegisterDetermineActiveUseCase({
     userId,
     branchId,
+    userRole,
   });
 }

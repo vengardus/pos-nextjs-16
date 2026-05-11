@@ -31,7 +31,8 @@ export default async function PosPage() {
   // obtener cajas aperturadas
   const respDetermineActiveCashRegister = await cashRegisterDetermineActiveCashRegisterCached(
     currentUser.id,
-    branchId
+    branchId,
+    currentUser.role
   );
 
   if (!respDetermineActiveCashRegister.success) {

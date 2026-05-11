@@ -20,6 +20,7 @@ import { usePaymentMethodStore } from "@/stores/payment-method/payment-method.st
 import {
   Card,
   CardContent,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -183,35 +184,14 @@ export default function SalePaymentDynamicForm({
       <Card className="card">
         <Form {...form}>
           <form id={formId} onSubmit={handleSubmit(handleSave)} className="space-y-4">
-            <CardHeader className="flex flex-col gap-3 border-b bg-gray-800 p-3 md:p-4 space-y-0">
-              <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:items-center">
-                <div className="flex items-baseline gap-2">
-                  <CardTitle className="text-lg md:text-xl">
-                    COBRAR:
-                  </CardTitle>
-                  <p className="text-2xl font-black text-foreground">
-                    S/. {totalSale.toFixed(2)}
-                  </p>
-                </div>
-                <div className="flex flex-col gap-3 md:items-end">
-                  <div className="flex flex-col-reverse items-stretch gap-2 sm:flex-row md:justify-end">
-                    <ButtonCancel
-                      handleCloseForm={handleCloseForm}
-                      isPending={isPending}
-                    />
-                    <ButtonSave
-                      isPending={isPending}
-                      label="Grabar"
-                      pendingLabel="Guardando..."
-                      form={formId}
-                    />
-                  </div>
-                  {messageGeneralError && (
-                    <p className="text-sm text-destructive text-right">
-                      {messageGeneralError}
-                    </p>
-                  )}
-                </div>
+            <CardHeader className="flex flex-col items-center justify-center gap-3 border-b bg-gray-800 p-3 md:p-4 space-y-0">
+              <div className="flex items-baseline gap-2 text-center">
+                <CardTitle className="text-lg md:text-xl">
+                  COBRAR:
+                </CardTitle>
+                <p className="text-2xl font-black text-foreground">
+                  S/. {totalSale.toFixed(2)}
+                </p>
               </div>
             </CardHeader>
             <CardContent className="flex flex-col gap-3 p-3 pt-0 md:p-4 md:pt-0">
@@ -337,6 +317,27 @@ export default function SalePaymentDynamicForm({
                 </section>
               </section>
             </CardContent>
+            <CardFooter className="flex justify-end p-3 md:p-4 pt-0">
+              <div className="flex flex-col gap-3 items-end w-full">
+                  <div className="w-full flex flex-col-reverse items-stretch gap-3 sm:flex-row md:justify-end">
+                    <ButtonCancel
+                      handleCloseForm={handleCloseForm}
+                      isPending={isPending}
+                    />
+                    <ButtonSave
+                      isPending={isPending}
+                      label="Grabar"
+                      pendingLabel="Guardando..."
+                      form={formId}
+                    />
+                  </div>
+                  {messageGeneralError && (
+                    <p className="text-sm text-destructive text-right">
+                      {messageGeneralError}
+                    </p>
+                  )}
+                </div>
+            </CardFooter>
           </form>
         </Form>
       </Card>

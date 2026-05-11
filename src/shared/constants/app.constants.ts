@@ -65,6 +65,7 @@ export class AppConstants {
     {
       name: ModuleEnum.ai,
       label: "IA",
+      role: UserRole.SUPER_ADMIN,
       children: [
         {
           name: ModuleEnum.aiChat,

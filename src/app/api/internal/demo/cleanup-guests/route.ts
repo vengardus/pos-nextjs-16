@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/server/db/prisma";
 import { UserRole } from "@/server/modules/role/domain/role.user-role.enum";
+import { updateTagsAction } from "@/server/next/actions/updateTags.action";
 
 const parseBearerToken = (authorizationHeader: string | null): string => {
   if (!authorizationHeader?.startsWith("Bearer ")) {
@@ -32,7 +33,8 @@ export async function POST(request: NextRequest) {
   let totalDeleted = 0;
 
   for (const policy of policies) {
-    const cutoff = new Date(Date.now() - policy.guestTtlDays * 24 * 60 * 60 * 1000);
+    // const cutoff = new Date(Date.now() - policy.guestTtlDays * 24 * 60 * 60 * 1000);
+    const cutoff = new Date(); // Test: ahora mismo (borra todo)
 
     const candidates = await prisma.userModel.findMany({
       where: {
@@ -63,6 +65,8 @@ export async function POST(request: NextRequest) {
       });
 
       totalDeleted += deleted.count;
+      console.log(`Deleted ${deleted.count} guest users for company ${policy.companyId}`);
+      await updateTagsAction(["logs", "users", "pos", "dashboard"]);
     }
   }
 

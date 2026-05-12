@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "@/utils/tailwind/cn";
 
 interface LoginGuestResumeActionsProps {
@@ -12,6 +12,7 @@ interface LoginGuestResumeActionsProps {
 
 export function LoginGuestResumeActions({ callbackUrl, nickname, action, isPending }: LoginGuestResumeActionsProps) {
   const timezoneRef = useRef<HTMLInputElement>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (timezoneRef.current) {
@@ -19,23 +20,31 @@ export function LoginGuestResumeActions({ callbackUrl, nickname, action, isPendi
     }
   }, []);
 
+  const handleSubmit = (e: React.FormEvent) => {
+    if (isSubmitting || isPending) {
+      e.preventDefault();
+      return;
+    }
+    setIsSubmitting(true);
+  };
+
   return (
     <div className="grid gap-2 sm:grid-cols-2">
-      <form action={action}>
+      <form action={action} onSubmit={handleSubmit}>
         <input type="hidden" name="callbackUrl" value={callbackUrl} />
         <input type="hidden" name="nickname" value={nickname} />
         <input type="hidden" name="continueExisting" value="1" />
         <input type="hidden" name="timezone" ref={timezoneRef} />
         <button
           type="submit"
-          disabled={isPending}
+          disabled={isPending || isSubmitting}
           className="flex items-center justify-center gap-2 w-full rounded-full bg-emerald-600 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-emerald-700 disabled:bg-emerald-800 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:translate-y-0"
         >
-          {isPending && <div className="h-4 w-4 border-2 border-slate-200 border-t-white rounded-full animate-spin" />}
-          {isPending ? "Procesando..." : "Continuar sesión demo"}
+          {(isPending || isSubmitting) && <div className="h-4 w-4 border-2 border-slate-200 border-t-white rounded-full animate-spin" />}
+          {(isPending || isSubmitting) ? "Procesando..." : "Continuar sesión demo"}
         </button>
       </form>
-
+...
       <a
         href={!isPending ? (callbackUrl ? `/login-guest?callbackUrl=${encodeURIComponent(callbackUrl)}` : "/login-guest") : "#"}
         className={cn(

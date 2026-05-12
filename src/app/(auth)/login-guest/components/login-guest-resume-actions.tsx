@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { cn } from "@/utils/tailwind/cn";
 
 interface LoginGuestResumeActionsProps {
   callbackUrl: string;
@@ -28,7 +29,7 @@ export function LoginGuestResumeActions({ callbackUrl, nickname, action, isPendi
         <button
           type="submit"
           disabled={isPending}
-          className="flex items-center justify-center gap-2 w-full rounded-full bg-emerald-600 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-emerald-700 disabled:opacity-50"
+          className="flex items-center justify-center gap-2 w-full rounded-full bg-emerald-600 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isPending && <div className="h-4 w-4 border-2 border-slate-200 border-t-white rounded-full animate-spin" />}
           {isPending ? "Procesando..." : "Continuar sesión demo"}
@@ -36,8 +37,11 @@ export function LoginGuestResumeActions({ callbackUrl, nickname, action, isPendi
       </form>
 
       <a
-        href={callbackUrl ? `/login-guest?callbackUrl=${encodeURIComponent(callbackUrl)}` : "/login-guest"}
-        className="inline-flex items-center justify-center rounded-full border border-slate-300 px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800"
+        href={!isPending ? (callbackUrl ? `/login-guest?callbackUrl=${encodeURIComponent(callbackUrl)}` : "/login-guest") : "#"}
+        className={cn(
+            "inline-flex items-center justify-center rounded-full border border-slate-300 px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800",
+            isPending && "pointer-events-none opacity-50 cursor-not-allowed"
+        )}
       >
         Cambiar nick
       </a>

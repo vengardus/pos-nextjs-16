@@ -44,7 +44,7 @@ export const PosPageClient = (data: PosPageClientProps) => {
         {isGuest && (
           <div className="mb-4 flex items-center gap-2 px-4 py-2 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-300 rounded-xl border border-indigo-100 dark:border-indigo-900/30 text-sm font-medium">
             <Info size={16} />
-            Estás operando en modo DEMO. Varias personas comparten esta caja.
+            Estás operando en modo DEMO. Varias personas podrían compartir esta caja.
           </div>
         )}
         <PosHeader />

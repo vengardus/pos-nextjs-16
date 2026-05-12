@@ -89,6 +89,7 @@ export default function SalePaymentDynamicForm({
   const postSave = async (posPayment: PosPayment) => {
     form.reset();
     setMessageGeneralError(null);
+    toast.dismiss(); // Dismiss any pending toasts
     handleCloseForm();
     await handleGenerateTicketSale("b64", posPayment);
     clearCart();

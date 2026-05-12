@@ -1,7 +1,6 @@
 import { PageHeader } from "@/components/common/typography/page-header";
 import { logsGetAllCached } from "@/server/modules/logs/next/cache/logs.cache";
 import { ShowPageMessage } from "@/components/common/messages/show-page-message";
-import { Card, CardContent } from "@/components/ui/card";
 import { format } from "date-fns";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -26,15 +25,15 @@ export default async function LogsPage({
   const totalPages = resp.pagination?.totalPages ?? 1;
 
   return (
-    <div className="flex h-screen flex-col p-6 bg-[fondocuadros.svg] bg-[length:60%] bg-center [background-repeat:no-repeat] overflow-hidden">
-      <div className="mb-8 shrink-0">
+    <div className="flex flex-col h-full p-6">
+      <div className="mb-6">
         <PageHeader title="Logs del Sistema" breadcrumb={[{ label: "Super Admin" }, { label: "Logs" }]} />
       </div>
 
-      <Card className="flex-1 overflow-hidden shadow-lg border border-border/50 bg-background/80 backdrop-blur-sm flex flex-col min-h-0">
-        <CardContent className="p-0 flex-1 overflow-y-auto custom-scrollbar">
+      <div className="flex-1 overflow-hidden border border-border rounded-xl bg-card text-card-foreground shadow-sm flex flex-col">
+        <div className="flex-1 overflow-auto custom-scrollbar">
           <table className="w-full text-sm">
-            <thead className="bg-muted/50 sticky top-0">
+            <thead className="bg-muted/50 sticky top-0 z-10">
               <tr>
                 <th className="p-4 text-left font-semibold">Acción</th>
                 <th className="p-4 text-left font-semibold">Descripción</th>
@@ -45,9 +44,9 @@ export default async function LogsPage({
                 <th className="p-4 text-left font-semibold">Zona horaria</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-border/40">
+            <tbody className="divide-y divide-border">
               {logs.map((log: any) => (
-                <tr key={log.id} className="hover:bg-muted/20">
+                <tr key={log.id} className="hover:bg-muted/50">
                   <td className="p-4 font-mono text-primary">{log.action}</td>
                   <td className="p-4 text-muted-foreground">{log.description}</td>
                   <td className="p-4 text-muted-foreground">{log.User?.email ?? "N/A"}</td>
@@ -59,23 +58,23 @@ export default async function LogsPage({
               ))}
             </tbody>
           </table>
-        </CardContent>
-        <div className="p-4 border-t border-border/40 flex items-center justify-between shrink-0 bg-background">
+        </div>
+        <div className="p-4 border-t border-border flex items-center justify-between shrink-0 bg-muted/20">
           <Link
             href={`?page=${page - 1}`}
-            className={`flex items-center gap-2 text-sm ${page <= 1 ? "pointer-events-none opacity-50" : ""}`}
+            className={`flex items-center gap-2 text-sm font-medium ${page <= 1 ? "pointer-events-none opacity-50" : "hover:text-primary"}`}
           >
             <ChevronLeft size={16} /> Anterior
           </Link>
-          <span className="text-sm text-muted-foreground">Página {page} de {totalPages}</span>
+          <span className="text-sm font-medium text-muted-foreground">Página {page} de {totalPages}</span>
           <Link
             href={`?page=${page + 1}`}
-            className={`flex items-center gap-2 text-sm ${page >= totalPages ? "pointer-events-none opacity-50" : ""}`}
+            className={`flex items-center gap-2 text-sm font-medium ${page >= totalPages ? "pointer-events-none opacity-50" : "hover:text-primary"}`}
           >
             Siguiente <ChevronRight size={16} />
           </Link>
         </div>
-      </Card>
+      </div>
     </div>
   );
 }

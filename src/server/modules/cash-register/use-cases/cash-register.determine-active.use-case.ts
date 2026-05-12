@@ -7,6 +7,8 @@ import type { CashRegisterDecision, CashRegisterExtends } from "../domain/cash-r
 import { cashRegisterGetOpenClosuresByBranchRepository } from "../repository/cash-register.get-open-closures-by-branch.repository";
 import { cashRegisterGetFreeByBranchRepository } from "../repository/cash-register.get-free-by-branch.repository";
 
+import { UserRole } from "@/server/modules/role/domain/role.user-role.enum";
+
 /**
  * Determina la caja activa para ventas: usa una abierta si el usuario ya tiene una,
  * o devuelve las cajas libres para su selección.
@@ -14,6 +16,7 @@ import { cashRegisterGetFreeByBranchRepository } from "../repository/cash-regist
 export async function cashRegisterDetermineActiveUseCase(params: {
   userId: string;
   branchId: string;
+  userRole: string;
 }): Promise<ResponseAction> {
   const resp = initResponseAction();
 
@@ -40,6 +43,24 @@ export async function cashRegisterDetermineActiveUseCase(params: {
         ],
       } as CashRegisterDecision;
       return resp;
+    }
+
+    // 1.3 Si es GUEST y hay alguna caja abierta, permitir unirse (demo)
+    if (params.userRole === UserRole.GUEST && openClosures.length > 0) {
+        resp.success = true;
+        resp.data = {
+          type: "existing",
+          cashRegisterClosureId: openClosures[0].id,
+          cashRegisters: [
+            {
+              id: openClosures[0].CashRegister.id,
+              description: openClosures[0].CashRegister.description,
+              branchId: openClosures[0].CashRegister.Branch.id,
+              branchName: openClosures[0].CashRegister.Branch.name,
+            },
+          ],
+        } as CashRegisterDecision;
+        return resp;
     }
 
     // 2. Sin caja abierta: preparar IDs para filtrar libres

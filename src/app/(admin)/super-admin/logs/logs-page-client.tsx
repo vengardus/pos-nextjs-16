@@ -41,7 +41,7 @@ export default function LogsPageClient({
       <div className="shrink-0 px-4">
         <PageHeader title="Logs del Sistema" breadcrumb={[{ label: "Super Admin" }, { label: "Logs" }]} />
       </div>
-      <div className="flex-1 overflow-hidden">
+      <div className="flex-1 overflow-hidden p-4">
         <ListTable<any>
           data={data}
           manualPagination={true}
@@ -56,6 +56,8 @@ export default function LogsPageClient({
           isLoading={isPending}
           stickyHeader={true}
           handleAddRecord={() => {}}
+          withCard={false}
+          showAddButton={false}
         />
       </div>
     </div>

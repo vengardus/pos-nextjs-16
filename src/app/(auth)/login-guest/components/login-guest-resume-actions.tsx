@@ -29,7 +29,7 @@ export function LoginGuestResumeActions({ callbackUrl, nickname, action, isPendi
         <button
           type="submit"
           disabled={isPending}
-          className="flex items-center justify-center gap-2 w-full rounded-full bg-emerald-600 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex items-center justify-center gap-2 w-full rounded-full bg-emerald-600 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-emerald-700 disabled:bg-emerald-800 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:translate-y-0"
         >
           {isPending && <div className="h-4 w-4 border-2 border-slate-200 border-t-white rounded-full animate-spin" />}
           {isPending ? "Procesando..." : "Continuar sesión demo"}

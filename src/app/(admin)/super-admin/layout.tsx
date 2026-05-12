@@ -14,11 +14,12 @@ export default function FeaturesLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="">
+    <div className="flex h-dvh min-h-0 flex-col overflow-hidden">
       <Navbar />
-      <div className="relative top-16 h-[calc(100vh-64px)] bg-background text-foreground py-2 px-3 h-screen">
+      <main className="flex-1 min-h-0 overflow-x-hidden overflow-y-auto bg-background px-3 pt-16 text-foreground md:overflow-hidden">
         {children}
-      </div>
+      </main>
+
       <Toaster closeButton richColors  />
     </div>
   );

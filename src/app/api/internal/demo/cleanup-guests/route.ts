@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import prisma from "@/server/db/prisma";
 import { UserRole } from "@/server/modules/role/domain/role.user-role.enum";
-import { updateTagsAction } from "@/server/next/actions/updateTags.action";
 
 const parseBearerToken = (authorizationHeader: string | null): string => {
   if (!authorizationHeader?.startsWith("Bearer ")) {
@@ -66,7 +66,9 @@ export async function POST(request: NextRequest) {
 
       totalDeleted += deleted.count;
       console.log(`Deleted ${deleted.count} guest users for company ${policy.companyId}`);
-      await updateTagsAction(["logs", "users", "pos", "dashboard", `cash-register-movements-totals-${policy.companyId}`]);
+      
+      const tagsToInvalidate = ["logs", "users", "pos", "dashboard", `cash-register-movements-totals-${policy.companyId}`];
+      tagsToInvalidate.forEach(tag => revalidateTag(tag, "default"));
     }
   }
 

@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { format } from "date-fns";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { AppConstants } from "@/shared/constants/app.constants";
 
 export default async function LogsPage({
   searchParams,
@@ -13,7 +14,7 @@ export default async function LogsPage({
 }) {
   const params = await searchParams;
   const page = parseInt(params.page ?? "1");
-  const pageSize = 20;
+  const pageSize = AppConstants.DEFAULT_PAGE_SIZE;
 
   const resp = await logsGetAllCached(page, pageSize);
 
@@ -46,17 +47,16 @@ export default async function LogsPage({
             </thead>
             <tbody className="divide-y divide-border/40">
               {logs.map((log: any) => (
-                <tr key={log.id} className="hover:bg-muted/20">
-                  <td className="p-4 font-mono text-primary">{log.action}</td>
-                  <td className="p-4 text-muted-foreground">{log.description}</td>
-                  <td className="p-4 text-muted-foreground">{log.userId ?? "N/A"}</td>
-                  <td className="p-4 text-muted-foreground">{log.countryCode ?? "-"}</td>
-                  <td className="p-4 text-muted-foreground">{log.deviceType ?? "-"}</td>
-                  <td className="p-4 text-muted-foreground">{format(new Date(log.createdAt), "dd/MM/yyyy HH:mm:ss")}</td>
-                  <td className="p-4 text-muted-foreground">{log.timezone ?? "-"}</td>
-                </tr>
-              ))}
-            </tbody>
+              <tr key={log.id} className="hover:bg-muted/20">
+              <td className="p-4 font-mono text-primary">{log.action}</td>
+              <td className="p-4 text-muted-foreground">{log.description}</td>
+              <td className="p-4 text-muted-foreground">{log.User?.email ?? "N/A"}</td>
+              <td className="p-4 text-muted-foreground">{log.countryCode ?? "-"}</td>
+              <td className="p-4 text-muted-foreground">{log.deviceType ?? "-"}</td>
+              <td className="p-4 text-muted-foreground">{format(new Date(log.createdAt), "dd/MM/yyyy HH:mm:ss")}</td>
+              <td className="p-4 text-muted-foreground">{log.timezone ?? "-"}</td>
+              </tr>
+              ))}            </tbody>
           </table>
         </CardContent>
         <div className="p-4 border-t border-border/40 flex items-center justify-between">

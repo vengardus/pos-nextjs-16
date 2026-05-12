@@ -37,11 +37,11 @@ export default function LogsPageClient({
   };
 
   return (
-    <div className="flex h-screen flex-col overflow-hidden">
-      <div className="shrink-0 px-4 pt-6">
+    <div className="flex h-full flex-col overflow-hidden">
+      <div className="shrink-0 px-4">
         <PageHeader title="Logs del Sistema" breadcrumb={[{ label: "Super Admin" }, { label: "Logs" }]} />
       </div>
-      <div className="flex-1 overflow-hidden p-4 min-h-0">
+      <div className="flex-1 overflow-hidden p-4">
         <ListTable<any>
           data={data}
           manualPagination={true}

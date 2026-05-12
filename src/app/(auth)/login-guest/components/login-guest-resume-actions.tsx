@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Link from "next/link";
 
 interface LoginGuestResumeActionsProps {
   callbackUrl: string;
@@ -35,12 +34,12 @@ export function LoginGuestResumeActions({ callbackUrl, nickname, action, isPendi
         </button>
       </form>
 
-      <Link
+      <a
         href={callbackUrl ? `/login-guest?callbackUrl=${encodeURIComponent(callbackUrl)}` : "/login-guest"}
         className="inline-flex items-center justify-center rounded-full border border-slate-300 px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800"
       >
         Cambiar nick
-      </Link>
+      </a>
     </div>
   );
 }

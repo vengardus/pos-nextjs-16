@@ -44,7 +44,7 @@ export function LoginGuestResumeActions({ callbackUrl, nickname, action, isPendi
           {(isPending || isSubmitting) ? "Procesando..." : "Continuar sesión demo"}
         </button>
       </form>
-...
+
       <a
         href={!isPending ? (callbackUrl ? `/login-guest?callbackUrl=${encodeURIComponent(callbackUrl)}` : "/login-guest") : "#"}
         className={cn(

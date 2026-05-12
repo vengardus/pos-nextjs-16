@@ -26,12 +26,12 @@ export default async function LogsPage({
   const totalPages = resp.pagination?.totalPages ?? 1;
 
   return (
-    <div className="flex h-full flex-col p-6 bg-[fondocuadros.svg] bg-[length:60%] bg-center [background-repeat:no-repeat]">
-      <div className="mb-8">
+    <div className="flex h-screen flex-col p-6 bg-[fondocuadros.svg] bg-[length:60%] bg-center [background-repeat:no-repeat] overflow-hidden">
+      <div className="mb-8 shrink-0">
         <PageHeader title="Logs del Sistema" breadcrumb={[{ label: "Super Admin" }, { label: "Logs" }]} />
       </div>
 
-      <Card className="flex-1 overflow-hidden shadow-lg border border-border/50 bg-background/80 backdrop-blur-sm flex flex-col">
+      <Card className="flex-1 overflow-hidden shadow-lg border border-border/50 bg-background/80 backdrop-blur-sm flex flex-col min-h-0">
         <CardContent className="p-0 flex-1 overflow-y-auto custom-scrollbar">
           <table className="w-full text-sm">
             <thead className="bg-muted/50 sticky top-0">
@@ -47,19 +47,20 @@ export default async function LogsPage({
             </thead>
             <tbody className="divide-y divide-border/40">
               {logs.map((log: any) => (
-              <tr key={log.id} className="hover:bg-muted/20">
-              <td className="p-4 font-mono text-primary">{log.action}</td>
-              <td className="p-4 text-muted-foreground">{log.description}</td>
-              <td className="p-4 text-muted-foreground">{log.User?.email ?? "N/A"}</td>
-              <td className="p-4 text-muted-foreground">{log.countryCode ?? "-"}</td>
-              <td className="p-4 text-muted-foreground">{log.deviceType ?? "-"}</td>
-              <td className="p-4 text-muted-foreground">{format(new Date(log.createdAt), "dd/MM/yyyy HH:mm:ss")}</td>
-              <td className="p-4 text-muted-foreground">{log.timezone ?? "-"}</td>
-              </tr>
-              ))}            </tbody>
+                <tr key={log.id} className="hover:bg-muted/20">
+                  <td className="p-4 font-mono text-primary">{log.action}</td>
+                  <td className="p-4 text-muted-foreground">{log.description}</td>
+                  <td className="p-4 text-muted-foreground">{log.User?.email ?? "N/A"}</td>
+                  <td className="p-4 text-muted-foreground">{log.countryCode ?? "-"}</td>
+                  <td className="p-4 text-muted-foreground">{log.deviceType ?? "-"}</td>
+                  <td className="p-4 text-muted-foreground">{format(new Date(log.createdAt), "dd/MM/yyyy HH:mm:ss")}</td>
+                  <td className="p-4 text-muted-foreground">{log.timezone ?? "-"}</td>
+                </tr>
+              ))}
+            </tbody>
           </table>
         </CardContent>
-        <div className="p-4 border-t border-border/40 flex items-center justify-between">
+        <div className="p-4 border-t border-border/40 flex items-center justify-between shrink-0">
           <Link
             href={`?page=${page - 1}`}
             className={`flex items-center gap-2 text-sm ${page <= 1 ? "pointer-events-none opacity-50" : ""}`}

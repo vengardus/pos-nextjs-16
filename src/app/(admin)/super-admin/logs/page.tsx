@@ -60,7 +60,7 @@ export default async function LogsPage({
             </tbody>
           </table>
         </CardContent>
-        <div className="p-4 border-t border-border/40 flex items-center justify-between shrink-0">
+        <div className="p-4 border-t border-border/40 flex items-center justify-between shrink-0 bg-background">
           <Link
             href={`?page=${page - 1}`}
             className={`flex items-center gap-2 text-sm ${page <= 1 ? "pointer-events-none opacity-50" : ""}`}

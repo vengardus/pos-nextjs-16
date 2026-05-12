@@ -14,6 +14,7 @@ import {
   demoPolicyResolveBySuperAdminEmailUseCase,
   type DemoPolicyContext,
 } from "@/server/modules/demo-policy/use-cases/demo-policy.resolve-by-superadmin-email.use-case";
+import { updateTagsAction } from "@/server/next/actions/updateTags.action";
 
 interface GuestSignupRequestContext {
   ipAddress: string;
@@ -120,6 +121,8 @@ export const authSignupDemoGuestUseCase = async (
           userId: existingUser.id,
         },
       });
+
+      await updateTagsAction(["logs"]);
 
       resp.success = true;
       resp.data = { email: guestEmail, password: generatedPassword };
@@ -270,6 +273,8 @@ export const authSignupDemoGuestUseCase = async (
         userId: createdUser.id,
       },
     });
+
+    await updateTagsAction(["logs"]);
 
     resp.success = true;
     resp.data = { email: guestEmail, password: generatedPassword };

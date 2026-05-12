@@ -14,6 +14,7 @@ export const authSignupDemoGuestAction = async (_prevState: any, formData: FormD
   const ipAddress = resolveClientIp(headerStore.get("x-forwarded-for"));
   const userAgent = headerStore.get("user-agent") || "unknown";
   const requestPath = headerStore.get("x-pathname") || "/login-guest";
+  const countryCode = headerStore.get("x-vercel-ip-country") || undefined;
   const timezone = (formData.get("timezone") as string | null) || undefined;
 
   let deviceType = "Desktop";
@@ -24,6 +25,7 @@ export const authSignupDemoGuestAction = async (_prevState: any, formData: FormD
     ipAddress,
     userAgent,
     requestPath,
+    countryCode,
     deviceType,
     timezone,
   });

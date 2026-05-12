@@ -67,7 +67,7 @@ export async function POST(request: NextRequest) {
       totalDeleted += deleted.count;
       console.log(`Deleted ${deleted.count} guest users for company ${policy.companyId}`);
       
-      const tagsToInvalidate = ["logs", "users", "pos", "dashboard", "cash-register-movements", `cash-register-movements-totals-${policy.companyId}`, `top-selling-products-${policy.company}` ];
+      const tagsToInvalidate = ["logs", "users", "pos", "dashboard", "cash-register-movements", `cash-register-movements-totals-${policy.companyId}`, `top-selling-products-${policy.companyId}` ];
       tagsToInvalidate.forEach(tag => revalidateTag(tag, "default"));
     }
   }

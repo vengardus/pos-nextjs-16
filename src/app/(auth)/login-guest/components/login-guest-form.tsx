@@ -37,7 +37,8 @@ export function LoginGuestForm({ callbackUrl, defaultNickname, action, isPending
           defaultValue={defaultNickname || ""}
           maxLength={10}
           required
-          className="h-11 w-full rounded-xl border border-slate-300 bg-white px-3 text-sm text-slate-900 outline-none ring-emerald-500/40 transition focus:ring dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+          disabled={isPending}
+          className="h-11 w-full rounded-xl border border-slate-300 bg-white px-3 text-sm text-slate-900 outline-none ring-emerald-500/40 transition focus:ring disabled:opacity-50 disabled:cursor-not-allowed dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
           placeholder="demo_user"
         />
       </div>

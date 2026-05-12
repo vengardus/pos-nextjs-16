@@ -47,7 +47,7 @@ export function LoginGuestForm({ callbackUrl, defaultNickname, action, isPending
         disabled={isPending}
         className="flex items-center justify-center gap-2 w-full rounded-full bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground shadow-sm transition hover:-translate-y-0.5 hover:bg-primary/90 disabled:opacity-50"
       >
-        {isPending && <div className="h-4 w-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />}
+        {isPending && <div className="h-4 w-4 border-2 border-slate-200 border-t-white rounded-full animate-spin" />}
         {isPending ? "Procesando..." : "Entrar como invitado"}
       </button>
     </form>

@@ -1,20 +1,15 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import dynamic from "next/dynamic"
 import { useTheme } from "next-themes"
-import { Toaster as Sonner } from "sonner"
+import { ToasterProps } from "sonner"
 
-type ToasterProps = React.ComponentProps<typeof Sonner>
+const Sonner = dynamic(() => import("sonner").then((mod) => mod.Toaster), {
+  ssr: false,
+})
 
 const Toaster = ({ ...props }: ToasterProps) => {
-  const { theme } = useTheme()
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  if (!mounted) return null
+  const { theme = "system" } = useTheme()
 
   return (
     <Sonner

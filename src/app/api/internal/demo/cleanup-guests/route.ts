@@ -66,7 +66,7 @@ export async function POST(request: NextRequest) {
 
       totalDeleted += deleted.count;
       console.log(`Deleted ${deleted.count} guest users for company ${policy.companyId}`);
-      await updateTagsAction(["logs", "users", "pos", "dashboard"]);
+      await updateTagsAction(["logs", "users", "pos", "dashboard", `cash-register-movements-totals-${policy.companyId}`]);
     }
   }
 

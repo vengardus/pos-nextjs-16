@@ -86,8 +86,9 @@ export const PosTemplate = ({ data }: PosTemplateProps) => {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        <p>Cargando...{cashRegisterDecision.type}</p>
+      <div className="flex flex-col gap-4 justify-center items-center min-h-screen bg-slate-50 dark:bg-zinc-950">
+        <div className="w-12 h-12 border-4 border-indigo-600/20 border-t-indigo-600 rounded-full animate-spin" />
+        <p className="text-slate-600 dark:text-zinc-400 font-medium">Cargando POS...</p>
       </div>
     );
   }

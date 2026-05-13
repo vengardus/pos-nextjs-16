@@ -93,6 +93,11 @@ export class AppConstants {
           name: "super-admin-demo-policy",
           label: 'Configuración Demo',
           href: '/super-admin/config/demo-policy',
+        },
+        {
+          name: "super-admin-logs",
+          label: 'Logs del sistema',
+          href: '/super-admin/logs',
         }
       ]
     }

@@ -26,11 +26,11 @@
 - Toda tarea nueva debe seguir este protocolo:
   1. **Verificación de estado**: Ejecutar `git status`. Si hay archivos sin commitear, ramas sucias o commits pendientes, detener la operación.
   2. **Creación de rama**: Crear una nueva rama local a partir de `origin/codex/dev` con el formato `codex/[nombre-descriptivo-tarea]` y realizar un `git push -u origin [nombre-rama]` inmediatamente para sincronizarla con el remoto.
-  3. **Desarrollo**: Realizar commits atómicos según sea necesario (sin push).
+  3. **Desarrollo**: Realizar commits atómicos según sea necesario (NO HACER push).
   4. **Validación Técnica**: 
      - Para cambios de código: ejecutar obligatoriamente `bunx tsc --noEmit` después de cada subtarea o cambio de código finalizado y pruebas funcionales.
      - Para cambios de documentación/configuración: verificar cambios manualmente.
-  5. **Cierre de tarea**:
+  5. **Cierre de tarea**: (ES INDICADO EXPLICITAMENTE)
      - Ejecutar commit final (`git commit -a`).
      - Realizar `git push` al remoto (solo al cerrar).
      - Permanecer en la rama activa. No realizar cambios de rama ni borrados automáticos.

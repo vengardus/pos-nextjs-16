@@ -499,7 +499,7 @@ model LogModel {
   timezone    String?
   
   // Relations
-  User        UserModel? @relation(fields: [userId], references: [id], onDelete: SetNull)
+  User        UserModel? @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      String?    @db.Uuid @map("user_id")
 
   createdAt   DateTime @default(now()) @map("created_at")

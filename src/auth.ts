@@ -22,8 +22,8 @@ const providers: Provider[] = [
       password: { label: "Password", type: "password" },
     },
     authorize: async (c) => {
-      console.log("credentials", c);
-      let user = null;
+      console.log("authorize", c);
+      let user: User | null = null;
       try {
         const email = c.email as string;
         const password = c.password as string;

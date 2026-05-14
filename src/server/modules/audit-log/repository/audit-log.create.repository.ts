@@ -1,4 +1,4 @@
-import { db } from "@/server/db/prisma";
+import prisma from "@/server/db/prisma";
 import type { AuditLog } from "@prisma/client";
 
 export const auditLogCreateRepository = async (data: {
@@ -8,7 +8,7 @@ export const auditLogCreateRepository = async (data: {
   details?: any;
   userId?: string;
 }): Promise<AuditLog> => {
-  return await db.auditLog.create({
+  return await prisma.auditLog.create({
     data: {
       action: data.action,
       entity: data.entity,

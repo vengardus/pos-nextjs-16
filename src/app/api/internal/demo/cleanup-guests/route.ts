@@ -33,8 +33,7 @@ export async function POST(request: NextRequest) {
   let totalDeleted = 0;
 
   for (const policy of policies) {
-    // const cutoff = new Date(Date.now() - policy.guestTtlDays * 24 * 60 * 60 * 1000);
-    const cutoff = new Date(); // Test: ahora mismo (borra todo)
+    const cutoff = new Date(Date.now() - policy.guestTtlDays * 24 * 60 * 60 * 1000);
 
     const candidates = await prisma.userModel.findMany({
       where: {

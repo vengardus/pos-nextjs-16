@@ -14,7 +14,7 @@ export const Footer = () => {
           </p>
         </div>
         <div className="flex flex-col md:flex-row justify-center gap-7 items-center text-gray-500">
-          <p>{AppConstants.APP_NAME}</p>
+          <p>{AppConstants.APP_NAME} </p>
           <p>Todos los derechos reservados</p>
           <p>© 2026 ismytv@gmail.com</p>
         </div>

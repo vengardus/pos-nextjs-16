@@ -1,13 +1,11 @@
-import prisma from "@/server/db/prisma";
 import { ListTable } from "@/components/tables/list-table";
 import { columns } from "./components/audit-logs-columns-def";
 import { PageHeader } from "@/components/common/typography/page-header";
 import { format } from "date-fns";
+import { auditLogGetAllCached } from "@/server/modules/audit-log/next/cache/audit-log.get-all.cache";
 
 export default async function AuditLogsPage() {
-  const data = await prisma.auditLog.findMany({
-    orderBy: { createdAt: "desc" },
-  });
+  const data = await auditLogGetAllCached();
 
   const formattedData = data.map((log) => ({
     ...log,

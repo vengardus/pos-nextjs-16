@@ -1,12 +1,9 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { AuditLog } from "@prisma/client";
-import { format } from "date-fns";
 
-export const columns: ColumnDef<AuditLog>[] = [
+export const columns: ColumnDef<any>[] = [
   {
-    accessorKey: "createdAt",
+    accessorKey: "formattedDate",
     header: "Fecha",
-    cell: ({ row }) => format(new Date(row.getValue("createdAt")), "dd/MM/yyyy HH:mm:ss"),
   },
   {
     accessorKey: "action",
@@ -25,7 +22,7 @@ export const columns: ColumnDef<AuditLog>[] = [
     header: "Detalles",
     cell: ({ row }) => {
       const details = row.getValue("details");
-      return <pre className="text-xs">{JSON.stringify(details, null, 2)}</pre>;
+      return <div className="text-xs max-w-xs truncate">{JSON.stringify(details)}</div>;
     },
   },
 ];

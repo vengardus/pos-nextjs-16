@@ -32,7 +32,7 @@ export const userInsertSuperadminUseCase = async (
   try {
     const { password } = params;
 
-    let hashedPassword = null;
+    let hashedPassword: string | null = null;
     if (password.length) {
       hashedPassword = await bcrypt.hash(password, 10);
     }

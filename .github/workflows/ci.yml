@@ -21,6 +21,11 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
+      - name: Generate Prisma Client
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: bunx prisma generate
+
       - name: Type Check (TypeScript)
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}

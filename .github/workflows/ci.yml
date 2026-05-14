@@ -1,0 +1,28 @@
+name: CI (Validación de Código)
+
+on:
+  push:
+    branches: [ "codex/dev", "dev" ]
+  pull_request:
+    branches: [ "codex/dev", "dev" ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Type Check (TypeScript)
+        run: bunx tsc --noEmit
+
+      - name: Lint
+        run: bun run lint

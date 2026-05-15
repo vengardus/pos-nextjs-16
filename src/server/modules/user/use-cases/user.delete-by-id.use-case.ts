@@ -8,15 +8,26 @@ import { userGetByColumnRepository } from "../repository/user.get-by-column.repo
 import { userDeleteByIdRepository } from "../repository/user.delete-by-id.repository";
 
 export const userDeleteByIdUseCase = async (
-  id: string
+  id: string,
+  requesterId: string,
+  requesterRole: string
 ): Promise<ResponseAction> => {
   const resp = initResponseAction();
 
   try {
+    if (requesterRole === UserRole.GUEST) {
+      throw new Error("No tienes permisos para eliminar usuarios.");
+    }
+
+    if (id === requesterId) {
+      throw new Error("No puedes eliminarte a ti mismo.");
+    }
+
     const user = await userGetByColumnRepository("id", id);
-    if (!user) throw new Error("User not found");
-    if (user.roleId === UserRole.ADMIN) {
-      throw new Error("Usuario Admin no puede ser eliminada.");
+    if (!user) throw new Error("Usuario no encontrado.");
+    
+    if (user.roleId === UserRole.ADMIN || user.roleId === UserRole.SUPER_ADMIN) {
+      throw new Error(`Usuario con rol ${user.roleId} no puede ser eliminado.`);
     }
 
     const userDelete = await userDeleteByIdRepository(id);

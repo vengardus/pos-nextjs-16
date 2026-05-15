@@ -21,8 +21,10 @@ interface CustomCrudProps {
     users: UserWithRelations[];
     roles: Role[]
   };
+  currentUserId: string;
+  currentUserRole: string;
 }
-export const CustomCrud = ({ data }: CustomCrudProps) => {
+export const CustomCrud = ({ data, currentUserId, currentUserRole }: CustomCrudProps) => {
   const setCompany = useCompanyStore((state) => state.setCompany);
   const setDocumentTypes = useDocumentTypeStore(
     (state) => state.setDocumentTypes
@@ -56,5 +58,7 @@ export const CustomCrud = ({ data }: CustomCrudProps) => {
     branches={data.branches} 
     roles={data.roles} 
     documentTypes={data.documentTypes} 
+    currentUserId={currentUserId}
+    currentUserRole={currentUserRole}
   />;
 };

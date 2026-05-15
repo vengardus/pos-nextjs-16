@@ -28,6 +28,8 @@ interface ListDefProps {
     currentPage: number;
     totalPages: number;
   };
+  currentUserId: string;
+  currentUserRole: string;
 }
 
 export const ListDef = ({
@@ -37,6 +39,8 @@ export const ListDef = ({
   roles,
   documentTypes,
   pagination,
+  currentUserId,
+  currentUserRole,
 }: ListDefProps) => {
   const router = useRouter();
   const pathname = usePathname();
@@ -131,6 +135,8 @@ export const ListDef = ({
         columnsDef={ListColumnsDef({
           handleEditRecord,
           handleDeleteRecord,
+          currentUserId,
+          currentUserRole,
         })}
         handleAddRecord={handleAddRecord}
         columnsResponsiveDef={CustomListColumnsResponsiveDef}

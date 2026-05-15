@@ -11,6 +11,7 @@ import { useProductStore } from "@/stores/product/product.store";
 import { useRealTimeStore } from "@/stores/general/real-time.store";
 import { saleInsertAction } from "@/server/modules/sale/next/actions/sale.insert.action";
 import { generateSaleTicket } from "@/server/modules/sale/use-cases/sale-ticket.use-case";
+import { productGetByBarcodeAction } from "@/server/modules/product/next/actions/product.get-by-barcode.action";
 
 export const useCartProdut = () => {
   const audioContextRef = useRef<AudioContext | null>(null);
@@ -69,8 +70,16 @@ export const useCartProdut = () => {
     addOrUpdateCartProduct(product);
   };
 
-  const handleOnKeyDownEnterSearch = (value: string) => {
-    const product = products.find((product) => product.barcode === value);
+  const handleOnKeyDownEnterSearch = async (value: string) => {
+    let product = products.find((product) => product.barcode === value);
+
+    if (!product) {
+      const resp = await productGetByBarcodeAction(value, company.id);
+      if (resp.success) {
+        product = resp.data as Product;
+      }
+    }
+
     if (!product) {
       toast.error("Producto no encontrado");
       return;

@@ -51,6 +51,8 @@ export default async function UserConfigPage(props: {
           branches={respBranches.data ?? []}
           roles={respRoles.data ?? []}
           documentTypes={respDocumentTypes.data ?? []}
+          currentUserId={authenticatationAndPermissionResponse.userId ?? ""}
+          currentUserRole={authenticatationAndPermissionResponse.role ?? ""}
         />
       </div>
     </div>

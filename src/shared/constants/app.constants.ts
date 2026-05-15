@@ -98,6 +98,11 @@ export class AppConstants {
           name: "super-admin-logs",
           label: 'Logs del sistema',
           href: '/super-admin/logs',
+        },
+        {
+          name: "super-admin-audit-logs",
+          label: 'Logs de Auditoría',
+          href: '/super-admin/audit-logs',
         }
       ]
     }

@@ -1,0 +1,19 @@
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: postgres-pos
+    restart: "no"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234567
+      POSTGRES_DB: pos_db
+    ports:
+      - "5432:5432"
+    volumes:
+      # Usamos un volumen "nombrado" interno de Docker. 
+      # Esto guarda los datos EN Docker, no en tu carpeta de proyecto.
+      # Así evitas conflictos de archivos basura en tu carpeta local.
+      - postgres_data_pos:/var/lib/postgresql/data
+
+volumes:
+  postgres_data_pos:
